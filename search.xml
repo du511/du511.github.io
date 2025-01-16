@@ -338,4 +338,45 @@
         <tag>正则匹配</tag>
       </tags>
   </entry>
+  <entry>
+    <title>c语学习1</title>
+    <url>/2025/01/16/c%E8%AF%ADy%E8%A8%80%E5%AD%A6%E4%B9%A01/</url>
+    <content><![CDATA[<h3 id="c语言函数的调用"><a href="#c语言函数的调用" class="headerlink" title="c语言函数的调用"></a>c语言函数的调用</h3><h4 id="c语言函数调用的步奏"><a href="#c语言函数调用的步奏" class="headerlink" title="c语言函数调用的步奏"></a>c语言函数调用的步奏</h4><h5 id="首先-声明函数"><a href="#首先-声明函数" class="headerlink" title="首先,声明函数"></a>首先,声明函数</h5><p>声明函数在mian函数外进行完成.</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="其次调用函数"><a href="#其次调用函数" class="headerlink" title="其次调用函数"></a>其次调用函数</h5><p>调用直接在main函数内使用函数名称加小括号的方式完成。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	jolly();</span><br><span class="line">	deny();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="最后对函数进行定义"><a href="#最后对函数进行定义" class="headerlink" title="最后对函数进行定义"></a>最后对函数进行定义</h5><p>定义在main函数外进行完成</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Which is nobody can deny&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>1.首先声明函数</p>
+<p>2.其次在main内调用函数</p>
+<p>3.最后定义函数</p>
+<p>4.函数执行的位置取决于你在哪里调用函数而非定义</p>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>c语言函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>日程表</title>
+    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
+    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
+<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
+<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
+<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
+<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
+<p>另外别忘了干洗。</p>
+]]></content>
+      <categories>
+        <category>个人安排</category>
+      </categories>
+      <tags>
+        <tag>大一寒假安排</tag>
+      </tags>
+  </entry>
 </search>
