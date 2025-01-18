@@ -7,25 +7,6 @@
 ]]></content>
   </entry>
   <entry>
-    <title>bp爆破中的变量赋值</title>
-    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
-<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
-<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
-<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
-<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>HCTF2018 WarmUp1代码审计:include分割符</title>
     <url>/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/</url>
     <content><![CDATA[<h3 id="HCTF2018-Warmup1-代码审计"><a href="#HCTF2018-Warmup1-代码审计" class="headerlink" title="HCTF2018 Warmup1 代码审计"></a>HCTF2018 Warmup1 代码审计</h3><h4 id="第一步-查看源码"><a href="#第一步-查看源码" class="headerlink" title="第一步:查看源码"></a>第一步:查看源码</h4>
@@ -62,6 +43,66 @@
       </tags>
   </entry>
   <entry>
+    <title>c语言函数的调用</title>
+    <url>/2025/01/16/c%E8%AF%ADy%E8%A8%80%E5%AD%A6%E4%B9%A01/</url>
+    <content><![CDATA[<h3 id="c语言函数的调用"><a href="#c语言函数的调用" class="headerlink" title="c语言函数的调用"></a>c语言函数的调用</h3><h4 id="c语言函数调用的步奏"><a href="#c语言函数调用的步奏" class="headerlink" title="c语言函数调用的步奏"></a>c语言函数调用的步奏</h4><h5 id="首先-声明函数"><a href="#首先-声明函数" class="headerlink" title="首先,声明函数"></a>首先,声明函数</h5><p>声明函数在mian函数外进行完成.</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="其次调用函数"><a href="#其次调用函数" class="headerlink" title="其次调用函数"></a>其次调用函数</h5><p>调用直接在main函数内使用函数名称加小括号的方式完成。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	jolly();</span><br><span class="line">	deny();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="最后对函数进行定义"><a href="#最后对函数进行定义" class="headerlink" title="最后对函数进行定义"></a>最后对函数进行定义</h5><p>定义在main函数外进行完成</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Which is nobody can deny&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>1.首先声明函数</p>
+<p>2.其次在main内调用函数</p>
+<p>3.最后定义函数</p>
+<p>4.函数执行的位置取决于你在哪里调用函数而非定义</p>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>c语言函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言数值类型与字长的理解</title>
+    <url>/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="c语言数据类型"><a href="#c语言数据类型" class="headerlink" title="c语言数据类型"></a>c语言数据类型</h3><h4 id="数据声明与字长"><a href="#数据声明与字长" class="headerlink" title="数据声明与字长"></a>数据声明与字长</h4><p>1.首先字长是计算机可以处理的二进制数的位数,字节是基本单位,一字节等于8位,1位是0或1。</p>
+<p>2.关于int,short,long,long long , unsigned声明与可处理二进制数位数的关系:</p>
+<p><strong>首先提醒:</strong></p>
+<p>如-3：可以表示为,10000011,其中最左边的那个数所在的位置叫<strong>符号位</strong>,在没有声明为unsigned的情况下,符号位默认为最左边那位二进制数所占位置,若有unsigned,则不存在符号位。</p>
+<p>eg:以64位计算机为例,int处理数据并将其转化为二进制数,为32位的二进制数,而long long 为至少为64位二进制数表示的数字<br>我的意思就是，如果拿应该给long声明处理的超大数据,在printf时使用%d占位符,不用%ld占位符,就会使这个数据被截断,即截断前32位表示成10进制数后输出,不能通过完整的64位二进制数转化位十进制数后输出</p>
+<p>3.当然%d可以完整输出的数据,用%ld也可以完整输出,没问题的</p>
+<h4 id="源码反码和补码"><a href="#源码反码和补码" class="headerlink" title="源码反码和补码"></a>源码反码和补码</h4><p>1.首先,我们说说,int表示的最大正数数&#x2F;最小负数是多少,(64位操作系统的情况下)根据二进制和十进制的转换:</p>
+<p>正数的范围：最大的正数是符号位为0，其余位全为1的情况。对于 32 位的int，最大正数的二进制表示为01111111 11111111 11111111 11111111。</p>
+<p>如下图:</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117120319919-1737086604130-1.png" class="" title="image-20250117120319919">
+
+<p>对于有unsigned前缀声明的变量,没有符号位,32位都是二进制,所以直接2的32次幂。<br>所以最大整数就是:</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151232436.png" class="" title="image-20250117151232436">
+
+<p>2.有关源码反码和补码<br>为了计算的方便,诞生了这个概念:<br>计算:<br>5-3&#x3D;2,在计算机内被转化为:<br>5+(-3)&#x3D;2<br>可能有些抽象,我先来定义一下这几个概念:</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151607539.png" class="" title="image-20250117151607539">
+
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151620652.png" class="" title="image-20250117151620652">
+
+<p>在计算方面:</p>
+<p>5-3的计算,就相当于5的二进制数加上3的二进制数的补码,可以化减法为加法</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117152207888.png" class="" title="image-20250117152207888">
+
+
+
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>c语言数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>if代码执行机制</title>
     <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
@@ -90,38 +131,6 @@
       </tags>
   </entry>
   <entry>
-    <title>linux基础</title>
-    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>基本符号</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php命令执行函数详解</title>
-    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
-<ul>
-<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
-<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
-<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
-<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>命令执行函数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php包含代码机制</title>
     <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p>
@@ -147,6 +156,38 @@
       </categories>
       <tags>
         <tag>文件包含函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php命令执行函数详解</title>
+    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
+<ul>
+<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
+<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
+<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
+<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>命令执行函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>基本符号</tag>
       </tags>
   </entry>
   <entry>
@@ -213,6 +254,99 @@
       </tags>
   </entry>
   <entry>
+    <title>sql常规注入</title>
+    <url>/2025/01/11/sql%E5%B8%B8%E8%A7%84%E6%B3%A8%E5%85%A5/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码审计套路</title>
+    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
+    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
+<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>命令执行绕过符号总结</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
+<h4 id="空格"><a href="#空格" class="headerlink" title="空格:"></a>空格:</h4><p>%20<br>%09<br><strong>Linux知识拓展:</strong></p>
+<ul>
+<li>$IFS(Internal Field Separator),在shell环境里面,这个东西叫做内部字段分隔f符,它可以被设置为很多默认的字符,比如空格,制表符,换行符等。</li>
+<li>虽然它默认为空格,但是我们不可以在shell中直接用$IFS代表空格,我们需要用这些方法来设置:</li>
+<li>$IFS$1,我来解释一下:<br>在 shell 脚本和命令行中，$1 通常表示传递给脚本或函数的第一个位置参数<br>但是在内部字段分割符这个地方,它被用来调取内部字段分隔符的第一个字符,即空格,参数位置为$1的空格。所以我们在这里可以用$IFS$1来绕过空格。</li>
+</ul>
+<h4 id="换行符"><a href="#换行符" class="headerlink" title="换行符:"></a>换行符:</h4><p>%0a</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
+]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>一句话木马简单例题web80</title>
     <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
     <content><![CDATA[<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
@@ -247,78 +381,23 @@
       </tags>
   </entry>
   <entry>
-    <title>sql常规注入</title>
-    <url>/2025/01/11/sql%E5%B8%B8%E8%A7%84%E6%B3%A8%E5%85%A5/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码审计套路</title>
-    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
-    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
-<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
-<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
+    <title>日程表</title>
+    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
+    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
+<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
+<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
+<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
+<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
+<p>另外别忘了干洗。</p>
+<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
+<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
 ]]></content>
       <categories>
-        <category>web安全</category>
+        <category>个人安排</category>
       </categories>
       <tags>
-        <tag>代码审计</tag>
+        <tag>大一寒假安排</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>命令执行:使用文件包含绕过</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
-<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>命令执行绕过符号总结</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
-<h4 id="空格"><a href="#空格" class="headerlink" title="空格:"></a>空格:</h4><p>%20<br>%09<br><strong>Linux知识拓展:</strong></p>
-<ul>
-<li>$IFS(Internal Field Separator),在shell环境里面,这个东西叫做内部字段分隔f符,它可以被设置为很多默认的字符,比如空格,制表符,换行符等。</li>
-<li>虽然它默认为空格,但是我们不可以在shell中直接用$IFS代表空格,我们需要用这些方法来设置:</li>
-<li>$IFS$1,我来解释一下:<br>在 shell 脚本和命令行中，$1 通常表示传递给脚本或函数的第一个位置参数<br>但是在内部字段分割符这个地方,它被用来调取内部字段分隔符的第一个字符,即空格,参数位置为$1的空格。所以我们在这里可以用$IFS$1来绕过空格。</li>
-</ul>
-<h4 id="换行符"><a href="#换行符" class="headerlink" title="换行符:"></a>换行符:</h4><p>%0a</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php超全局变量</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>正则匹配注意点个人笔记</title>
@@ -339,44 +418,15 @@
       </tags>
   </entry>
   <entry>
-    <title>c语学习1</title>
-    <url>/2025/01/16/c%E8%AF%ADy%E8%A8%80%E5%AD%A6%E4%B9%A01/</url>
-    <content><![CDATA[<h3 id="c语言函数的调用"><a href="#c语言函数的调用" class="headerlink" title="c语言函数的调用"></a>c语言函数的调用</h3><h4 id="c语言函数调用的步奏"><a href="#c语言函数调用的步奏" class="headerlink" title="c语言函数调用的步奏"></a>c语言函数调用的步奏</h4><h5 id="首先-声明函数"><a href="#首先-声明函数" class="headerlink" title="首先,声明函数"></a>首先,声明函数</h5><p>声明函数在mian函数外进行完成.</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
-
-<h5 id="其次调用函数"><a href="#其次调用函数" class="headerlink" title="其次调用函数"></a>其次调用函数</h5><p>调用直接在main函数内使用函数名称加小括号的方式完成。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	jolly();</span><br><span class="line">	deny();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="最后对函数进行定义"><a href="#最后对函数进行定义" class="headerlink" title="最后对函数进行定义"></a>最后对函数进行定义</h5><p>定义在main函数外进行完成</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Which is nobody can deny&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>1.首先声明函数</p>
-<p>2.其次在main内调用函数</p>
-<p>3.最后定义函数</p>
-<p>4.函数执行的位置取决于你在哪里调用函数而非定义</p>
-]]></content>
+    <title>挑战杯入门ai</title>
+    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
+    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
+<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
       <categories>
-        <category>c语言</category>
+        <category>ai</category>
       </categories>
       <tags>
-        <tag>c语言函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>日程表</title>
-    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
-    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
-<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
-<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
-<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
-<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
-<p>另外别忘了干洗。</p>
-]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>大一寒假安排</tag>
+        <tag>初识ai模型</tag>
       </tags>
   </entry>
 </search>
