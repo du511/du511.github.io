@@ -321,6 +321,13 @@
 <li>$IFS$1,我来解释一下:<br>在 shell 脚本和命令行中，$1 通常表示传递给脚本或函数的第一个位置参数<br>但是在内部字段分割符这个地方,它被用来调取内部字段分隔符的第一个字符,即空格,参数位置为$1的空格。所以我们在这里可以用$IFS$1来绕过空格。</li>
 </ul>
 <h4 id="换行符"><a href="#换行符" class="headerlink" title="换行符:"></a>换行符:</h4><p>%0a</p>
+<h4 id="php分隔符号”“"><a href="#php分隔符号”“" class="headerlink" title="php分隔符号”“"></a>php分隔符号”<?"以及"?>“</h4><p>1.使用js代码来编辑php代码:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script language=<span class="string">&quot;php&quot;</span>&gt;</span><br><span class="line">@<span class="built_in">eval</span>($_POST[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
 ]]></content>
       <categories>
         <category>web安全</category>
@@ -428,5 +435,84 @@
       <tags>
         <tag>初识ai模型</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>初见文件上传:[极客大挑战 2019]Upload</title>
+    <url>/2025/01/19/2019-Upload/</url>
+    <content><![CDATA[<h3 id="初见文件上传-极客大挑战-2019-Upload"><a href="#初见文件上传-极客大挑战-2019-Upload" class="headerlink" title="初见文件上传:[极客大挑战 2019] Upload"></a>初见文件上传:[极客大挑战 2019] Upload</h3><h4 id="进入靶机"><a href="#进入靶机" class="headerlink" title="进入靶机"></a>进入靶机</h4>
+
+<p>这里说明是在提示我们要进行文件上传的方式来解答题目,并且文件的格式要为图片格式。</p>
+<h4 id="常规思路"><a href="#常规思路" class="headerlink" title="常规思路:"></a>常规思路:</h4><p>1.基本概念:<br>文件包含,就是指的,将我们的病毒源代码文件,通过改后缀名文件头,等绕过方式上传到网站中,并且利用网站对这个文件错误的解析方式,比如在url中解析png后缀文件为后缀为phtml的文件,执行这段代码,造成后门漏洞,从而让攻击者可以利用中国蚁剑等工具连接这个网站,调出WebShell,从而让我们可以遍历这个网站目录,窃取网站信息的一种攻击方式</p>
+<p>2.编写代码:<br>我们首先可以编写一段常规的php一句话木马代码,代码如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>**注意:**为什么使用post呢,post相对于get更具有隐蔽性,并且可以发送更长的参数,所以1我们使用POST的超全局变量传递参数。</p>
+<p>3.尝试上传文件<br>根据网页提示,我们需要图片文件,所以我们可以将php木马文件后缀改成图片文件形式,试图绕过:</p>
+
+<p>但是我们却发现网页这样显示:</p>
+
+
+<p>说明该web对php的&lt;? ,?&gt;这两个符号进行了过滤,我们需要绕过。</p>
+<p><strong>常规绕过方法:</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script language=<span class="string">&quot;php&quot;</span>&gt;</span><br><span class="line">@<span class="built_in">eval</span>($_POST[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>这个原理就是利用在js代码里写其他语言的language属性<br>详细的细节我已经写在《命令执行绕过符号总结》这篇文章里面了</p>
+<p>4.再次尝试上传:</p>
+
+
+<p>看来还是不行,仍然不是image文件难绷</p>
+<p>5.加上文件头</p>
+<p>web有些时候只会识别文件头,而不识别文件具体内容,所以我们可以加上图片文件头来绕过<br>在这里我们加入gif默认文件头:<br>GIF89a<br>就直接在刚刚代码的&lt;script&gt;上面一行加就可以了<br>发现成功了:</p>
+
+
+<h4 id="关于利用后门的远程控制"><a href="#关于利用后门的远程控制" class="headerlink" title="关于利用后门的远程控制"></a>关于利用后门的远程控制</h4><p>1.首先我们要明白浏览器是怎么解析文件的:<br>两种方式:<br>a.首先我们可以在URL中直接写入:DNS&#x2F;upload&#x2F;filename.xxx<br>的形式,此时服务器会按照xxx所写的方式来解析这个文件的数据,<br>例如:<br>我们上传的这个png后缀的源码为php的木马文件,虽然它绕过服务器被上传到网站后端还是png格式的文件,但是我们在url中写入:&#x2F;upload&#x2F;filename.phtml的形式,服务器就会以phtml的方式(就是php文件)解析它,并执行里面的代码,即使文件本身还是png后缀的文件。<br>b.或者在抓包的时候,在报文的:<br>Content-Disposition: form-data; name&#x3D;”file”; filename&#x3D;”demo.png”<br>这一行中,把filename中文件后缀改为demo.phtml,也是可以的，道理相同。</p>
+<p>2.剑蚁是怎么连接文件的<br>中国剑蚁本质就是一个连接目标网站打开目标网站可视化WebShell的渗透测试软件<br><strong>连接原理:</strong><br>它的功能包括连接目标网站的Web Shell，执行命令，上传&#x2F;下载文件等。在蚁剑中，连接的过程主要是通过发送HTTP请求到Web Shell，利用Web Shell的漏洞进行命令执行、获取数据等操作。<br><strong>参数连接原理:</strong><br>在蚁剑的界面上，URL字段指定了Web Shell的路径，这个路径是您之前上传木马文件的位置，例如DNS&#x2F;upload&#x2F;demo.phtml。蚁剑会通过此路径尝试与目标服务器建立连接。<br>我指向这个路径就是代表让web执行这个文件的代码,以phtml的方式执行。<br>连接密码（cmd）： 在蚁剑的界面中，”连接密码”实际上是Web Shell界面中用来执行PHP命令的接口参数。在这个例子中，cmd作为连接密码是为了触发Web Shell的eval()函数，这个函数在Web Shell的PHP脚本中会执行通过POST请求传递的命令。<br>相当于写cmd,就是为了触发木马字段里的eval函数,函数被触发,蚁剑就和这个网站产生联系,就会调出这个网站的详细后端文件信息:</p>
+
+
+<p>连接成功后遍历文件:</p>
+
+
+<p>最后在文件根目录下找到flag:</p>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>buuctf</category>
+      </categories>
+      <tags>
+        <tag>文件上传</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Arch_linux入门</title>
+    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
+<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
+<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
+<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
+]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>test</title>
+    <url>/2025/01/19/test/</url>
+    <content><![CDATA[]]></content>
   </entry>
 </search>
