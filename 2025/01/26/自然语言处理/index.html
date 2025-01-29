@@ -1,0 +1,418 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>自然语言处理 | Dedsec的博客</title><meta name="author" content="Dedsec"><meta name="copyright" content="Dedsec"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="自然语言处理有关Word2Vec 模型详细见这篇文章: Word2Vec 模型 我只说两个点:  该模型采用创新的两种CBOW和Skip-gram训练方式  前者是前后文推该词  后者是该词推前后文    使用检查上下文相关性的方法来解决多义词问题   Transformer模型和LSTM模型的比较主要来看前者的优势: Transformer 编码器相较于 LSTM 模型的进步:  并行计算能力">
+<meta property="og:type" content="article">
+<meta property="og:title" content="自然语言处理">
+<meta property="og:url" content="https://www.th-dedsec.top/2025/01/26/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/index.html">
+<meta property="og:site_name" content="Dedsec的博客">
+<meta property="og:description" content="自然语言处理有关Word2Vec 模型详细见这篇文章: Word2Vec 模型 我只说两个点:  该模型采用创新的两种CBOW和Skip-gram训练方式  前者是前后文推该词  后者是该词推前后文    使用检查上下文相关性的方法来解决多义词问题   Transformer模型和LSTM模型的比较主要来看前者的优势: Transformer 编码器相较于 LSTM 模型的进步:  并行计算能力">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.th-dedsec.top/img/cp1.png">
+<meta property="article:published_time" content="2025-01-26T08:29:37.000Z">
+<meta property="article:modified_time" content="2025-01-27T13:57:34.682Z">
+<meta property="article:author" content="Dedsec">
+<meta property="article:tag" content="transformer模型入门">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.th-dedsec.top/img/cp1.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.th-dedsec.top/2025/01/26/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '自然语言处理',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  isShuoshuo: false
+}</script><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/cat.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://img.th-dedsec.top/background/IMG_1560.JPG);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/php.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://img.th-dedsec.top/img/cp1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Dedsec的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">自然语言处理</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">自然语言处理</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-01-26T08:29:37.000Z" title="发表于 2025-01-26 16:29:37">2025-01-26</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-01-27T13:57:34.682Z" title="更新于 2025-01-27 21:57:34">2025-01-27</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ai/">ai</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="自然语言处理"><a href="#自然语言处理" class="headerlink" title="自然语言处理"></a>自然语言处理</h1><h2 id="有关Word2Vec-模型"><a href="#有关Word2Vec-模型" class="headerlink" title="有关Word2Vec 模型"></a>有关Word2Vec 模型</h2><p>详细见这篇文章: <a target="_blank" rel="noopener" href="https://transformers.run/c1/nlp/#12-%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B%E5%8F%91%E5%B1%95%E5%8F%B2">Word2Vec 模型</a></p>
+<p>我只说两个点:</p>
+<ul>
+<li><p>该模型采用创新的两种CBOW和Skip-gram训练方式</p>
+<ul>
+<li><p>前者是前后文推该词</p>
+</li>
+<li><p>后者是该词推前后文</p>
+</li>
+</ul>
+</li>
+<li><p>使用检查上下文相关性的方法来解决多义词问题</p>
+</li>
+</ul>
+<h2 id="Transformer模型和LSTM模型的比较"><a href="#Transformer模型和LSTM模型的比较" class="headerlink" title="Transformer模型和LSTM模型的比较"></a>Transformer模型和LSTM模型的比较</h2><p>主要来看前者的优势:</p>
+<p>Transformer 编码器相较于 LSTM 模型的进步:</p>
+<ul>
+<li><p>并行计算能力</p>
+<ul>
+<li><strong>LSTM 的局限</strong>：LSTM 是基于序列顺序进行计算的，每个时间步的计算都依赖于前一个时间步的状态，这使得它难以进行并行计算，在处理长序列数据时计算速度较慢。例如在处理长篇小说这样的长文本时，LSTM 需要逐个时间步地处理每个词，无法同时对多个时间步进行计算。</li>
+<li><strong>Transformer 的优势</strong>：Transformer 编码器采用了自注意力机制，它可以并行地计算每个位置与其他位置之间的依赖关系，无需按照顺序依次处理。这使得 Transformer 能够在大规模数据上进行高效的训练和推理，大大提高了计算效率，能够快速处理长序列数据，比如可以同时对一个很长的句子中的所有词进行并行计算，确定每个词与其他词的关联程度。</li>
+</ul>
+</li>
+<li><p>长距离依赖建模能力</p>
+<ul>
+<li><strong>LSTM 的不足</strong>：LSTM 虽然能够在一定程度上捕捉长距离依赖关系，但随着序列长度的增加，其性能会逐渐下降。因为 LSTM 通过记忆单元来传递信息，在长序列中信息的传递会出现衰减或丢失的问题。例如在处理具有复杂嵌套结构或长距离指代关系的句子时，LSTM 可能难以准确地捕捉到远距离的依赖关系。</li>
+<li><strong>Transformer 的突破</strong>：Transformer 编码器的自注意力机制可以直接计算序列中任意两个位置之间的关联，无论它们之间的距离有多远。它能够为每个位置分配一个权重，来表示该位置与其他位置的重要性程度，从而更有效地捕捉长距离依赖关系。比如在处理 “在遥远的古代，人们 [MASK] 一种特殊的方式来记录信息，这种方式对后来的文化发展产生了深远的影响” 这样的句子时，Transformer 可以很容易地将 “人们” 和 “方式” 以及 “文化发展” 等长距离的词之间的关系建模出来。</li>
+</ul>
+</li>
+<li><p>模型灵活性和可解释性</p>
+<ul>
+<li><p><strong>LSTM 的问题</strong>：LSTM 的结构相对固定，其记忆单元和门控机制的功能较为特定，在面对不同类型的任务和数据时，可能需要进行大量的调整和优化才能取得较好的效果。而且 LSTM 的内部机制相对复杂，难以直观地解释模型是如何做出决策的。</p>
+</li>
+<li><p><strong>Transformer 的优势</strong>：Transformer 编码器的结构更加灵活，自注意力机制可以根据不同的任务和数据自适应地学习不同的特征表示。同时，自注意力机制的计算过程相对透明，通过可视化注意力权重等方式，可以更直观地解释模型是如何关注文本中的不同部分来进行决策的，提高了模型的可解释性</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="权重的通俗理解"><a href="#权重的通俗理解" class="headerlink" title="权重的通俗理解"></a>权重的通俗理解</h2><p><strong>模型权重</strong>（Model Weights）是机器学习和深度学习中非常重要的概念，尤其是在神经网络中。为了更好地理解，我们可以通过通俗的比喻来解释。</p>
+<h3 id="1-什么是权重？"><a href="#1-什么是权重？" class="headerlink" title="1. 什么是权重？"></a>1. <strong>什么是权重？</strong></h3><p>在机器学习模型（尤其是神经网络）中，<strong>权重</strong>指的是模型中每个输入特征（如图片的像素值、文本的单词等）对最终预测结果的影响程度。每个输入特征与其对应的权重共同作用，最终决定模型的输出。</p>
+<p>可以把权重理解为**“影响力”**：越大的权重，意味着对应的特征对结果的影响越大。</p>
+<h3 id="2-比喻：老师在课堂上打分"><a href="#2-比喻：老师在课堂上打分" class="headerlink" title="2. 比喻：老师在课堂上打分"></a>2. <strong>比喻：老师在课堂上打分</strong></h3><p>假设你正在给一位学生打分，学生的最终成绩由不同科目的分数决定。每一门科目对最终成绩的影响力不同：</p>
+<ul>
+<li>数学分数可能会影响成绩 50%。</li>
+<li>语文可能只影响 30%。</li>
+<li>英语可能只影响 20%。</li>
+</ul>
+<p>在这里，**数学、语文、英语的“权重”**分别是 50%、30% 和 20%。这些权重告诉我们不同科目对最终成绩的贡献度。</p>
+<ul>
+<li>如果数学分数的权重大，你就需要给数学更多的关注，影响最终成绩的程度更高。</li>
+<li>如果某门科目的权重较小，那它对最终成绩的影响较低。</li>
+</ul>
+<h3 id="3-在模型中的作用"><a href="#3-在模型中的作用" class="headerlink" title="3. 在模型中的作用"></a>3. <strong>在模型中的作用</strong></h3><p>在机器学习模型中，<strong>输入特征</strong>（如图像的像素、文本的单词等）被传入模型，然后模型用一组<strong>权重</strong>对它们进行处理。模型通过学习调整这些权重，以使预测结果尽可能接近实际目标（例如图像分类、价格预测等）。</p>
+<h4 id="例如："><a href="#例如：" class="headerlink" title="例如："></a>例如：</h4><p>假设你正在做一个<strong>房价预测模型</strong>，输入特征包括：</p>
+<ul>
+<li>房子的面积（如 120 平方米）</li>
+<li>距离市中心的距离（如 5 公里）</li>
+<li>房龄（如 10 年）</li>
+</ul>
+<p>每个特征都有一个对应的权重：</p>
+<ul>
+<li>面积的权重可能是 0.5（影响较大）</li>
+<li>距离市中心的权重可能是 0.3（影响较小）</li>
+<li>房龄的权重可能是 0.2（影响最小）</li>
+</ul>
+<p>这些权重决定了每个特征对预测结果的贡献。通过调整这些权重，模型可以<strong>逐步学习</strong>，使得它对不同特征的重视程度更加合适，从而更准确地预测房价。</p>
+<h3 id="4-训练过程中的权重调整"><a href="#4-训练过程中的权重调整" class="headerlink" title="4. 训练过程中的权重调整"></a>4. <strong>训练过程中的权重调整</strong></h3><p>在模型的训练过程中，模型会根据输入数据和实际结果之间的差异（也就是误差）来不断调整权重。这个过程叫做<strong>训练</strong>，模型通过多次训练逐步优化权重，直到预测结果达到尽可能准确。</p>
+<h3 id="5-简单的例子：神经网络中的权重"><a href="#5-简单的例子：神经网络中的权重" class="headerlink" title="5. 简单的例子：神经网络中的权重"></a>5. <strong>简单的例子：神经网络中的权重</strong></h3><p>在神经网络中，每一层的神经元会接收前一层神经元的输出，并根据权重调整这些输出，然后传递到下一层。</p>
+<p>假设你有一个简单的神经网络，它有 3 个输入、1 个隐藏层和 1 个输出层。输入的 3 个特征分别是 x1x_1、x2x_2、和 x3x_3，它们分别有权重 w1w_1、w2w_2、和 w3w_3。每个输入特征都会乘上它相对应的权重，然后加起来，最后通过激活函数得到输出。</p>
+<p>简单的数学公式是：</p>
+<p>output&#x3D;σ(w1⋅x1+w2⋅x2+w3⋅x3)\text{output} &#x3D; \sigma(w_1 \cdot x_1 + w_2 \cdot x_2 + w_3 \cdot x_3)</p>
+<p>其中，σ\sigma 是激活函数，它决定了输出的非线性特性。</p>
+<h3 id="6-权重如何影响模型的结果？"><a href="#6-权重如何影响模型的结果？" class="headerlink" title="6. 权重如何影响模型的结果？"></a>6. <strong>权重如何影响模型的结果？</strong></h3><ul>
+<li><strong>权重大的特征</strong>：如果某个输入特征的权重大，它就对模型的输出有更大的影响。例如，在房价预测中，如果面积的权重大，那么面积会对房价的预测影响更大。</li>
+<li><strong>权重小的特征</strong>：如果某个特征的权重小，那么即使这个特征值很大，它对输出的影响也很小。</li>
+</ul>
+<h3 id="7-总结"><a href="#7-总结" class="headerlink" title="7. 总结"></a>7. <strong>总结</strong></h3><ul>
+<li><strong>模型权重</strong>：是模型中用来衡量每个输入特征对输出结果影响的参数。</li>
+<li><strong>权重的调整</strong>：通过训练，模型会根据输入数据和实际结果之间的误差来调整这些权重，使得模型的预测变得越来越准确。</li>
+<li><strong>比喻</strong>：可以把权重理解为“影响力”，在打分的场景中，权重决定了每一门课（特征）对最终成绩（预测结果）的影响程度。</li>
+</ul>
+<p>希望这个解释能够帮助你理解“权重”在机器学习中的含义！    </p>
+<h2 id="模型预训练-Transformer模型"><a href="#模型预训练-Transformer模型" class="headerlink" title="模型预训练:Transformer模型"></a>模型预训练:Transformer模型</h2><p>像 <strong>Transformer</strong> 这样的预训练模型，尤其是像 <strong>BERT</strong>、<strong>GPT</strong> 这样的模型，通常会经历一个预训练阶段。在这个阶段，模型会进行大规模的无监督学习，目的是让它能够理解语言的结构和规律，为后续的具体任务（如文本分类、翻译、问答等）提供强大的基础。</p>
+<p>你提到的 <strong>遮盖语言建模</strong>（Masked Language Modeling, MLM）和 <strong>因果语言建模</strong>（Causal Language Modeling）正是其中的两种主要的预训练方式。它们分别是不同模型（如 BERT 和 GPT）在预训练阶段的核心任务。</p>
+<h3 id="1-预训练的概念"><a href="#1-预训练的概念" class="headerlink" title="1. 预训练的概念"></a>1. <strong>预训练的概念</strong></h3><p><strong>预训练</strong>指的是在一个非常大的语料库上进行训练，以便让模型学习语言的统计规律和结构。这些模型的目标是在没有标注数据的情况下，通过无监督的方式学习到语言的知识。在预训练后，模型就能够对文本有一个初步的理解，然后再通过<strong>微调</strong>（fine-tuning）来完成特定任务。</p>
+<h3 id="2-遮盖语言建模（MLM）"><a href="#2-遮盖语言建模（MLM）" class="headerlink" title="2. 遮盖语言建模（MLM）"></a>2. <strong>遮盖语言建模（MLM）</strong></h3><ul>
+<li><p><strong>应用模型</strong>：BERT（Bidirectional Encoder Representations from Transformers）</p>
+</li>
+<li><p><strong>核心思想</strong>：在训练过程中，随机遮盖输入句子中的一部分单词（通常是 15%），然后让模型预测这些被遮盖的单词。这个任务本质上是让模型学会如何理解上下文，以便能填补缺失的单词。</p>
+<p><strong>例子</strong>： 假设输入的句子是：“The cat sat on the ____.”（”The cat sat on the ____.”） 模型会看到的是：“The cat sat on the [MASK]”，然后模型的任务是预测 [MASK] 应该是什么单词（如 “mat”）。</p>
+<p><strong>为什么使用这种方法？</strong></p>
+<ul>
+<li>遮盖语言建模的目的是让模型理解单词与上下文之间的关系，并且通过双向上下文来获取更多的语义信息。因此，BERT 使用的是双向训练，即它不仅使用当前单词的前文，也会考虑后文的信息。</li>
+<li>这种方式让模型能理解整个句子的上下文，提高其对语言的理解能力。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3-因果语言建模（CLM）"><a href="#3-因果语言建模（CLM）" class="headerlink" title="3. 因果语言建模（CLM）"></a>3. <strong>因果语言建模（CLM）</strong></h3><ul>
+<li><p><strong>应用模型</strong>：GPT（Generative Pre-trained Transformer）及类似的自回归模型。</p>
+</li>
+<li><p><strong>核心思想</strong>：在训练过程中，模型会一次性预测序列中的每个单词，且每次预测都只考虑该单词之前的词（即单向的上下文）。这意味着，模型只能利用已生成的单词来预测下一个单词，不会使用未来的单词。这个过程本质上是让模型学习如何生成流畅的文本。</p>
+<p><strong>例子</strong>： 假设输入的句子是：“The cat sat on the ____.” 在因果语言建模中，模型会按照顺序逐个单词生成：</p>
+<ul>
+<li>首先，模型看到“The”并预测下一个词。</li>
+<li>接下来，模型根据已经生成的“the cat”来预测下一个词，依此类推。</li>
+</ul>
+<p>这种方式让模型理解如何根据已有的上下文生成合理的文本。</p>
+</li>
+</ul>
+<h3 id="4-预训练与微调"><a href="#4-预训练与微调" class="headerlink" title="4. 预训练与微调"></a>4. <strong>预训练与微调</strong></h3><p>预训练模型的优势之一就是它们的 <strong>迁移学习</strong> 能力。经过大规模语料的预训练后，模型已经有了丰富的语言知识，可以对不同的下游任务进行微调：</p>
+<ul>
+<li><strong>微调（Fine-tuning）</strong>：预训练模型在完成预训练后，会通过少量的有标签数据（比如带标签的问答数据集、情感分析数据集等）进行微调，以适应特定的任务。这种微调通常所需的数据量远小于从头训练一个模型所需的数据量。</li>
+</ul>
+<h3 id="5-总结"><a href="#5-总结" class="headerlink" title="5. 总结"></a>5. <strong>总结</strong></h3><ul>
+<li><strong>预训练</strong>：是通过无监督学习让模型从大量的文本数据中学习语言的知识和结构。</li>
+<li><strong>遮盖语言建模（MLM）</strong>：用于训练模型理解上下文中的隐藏单词，BERT 使用这种方法。</li>
+<li><strong>因果语言建模（CLM）</strong>：模型预测序列中的下一个单词，只依赖当前和之前的单词，GPT 使用这种方法。</li>
+<li><strong>微调</strong>：预训练后，模型可以通过少量有标签数据微调，适应特定的任务。</li>
+</ul>
+<p>所以，<strong>Transformer 这样的预训练模型确实在预训练阶段就已经进行过一次“预训练”</strong>，并且这次预训练通常通过遮盖语言建模和因果语言建模等任务进行，让模型具备强大的语言理解能力。</p>
+<h2 id="BERT-和-ELMo比较"><a href="#BERT-和-ELMo比较" class="headerlink" title="BERT 和 ELMo比较:"></a>BERT 和 ELMo比较:</h2><p>好的，让我们通透地结合 <strong>Transformer</strong> 和 <strong>LSTM</strong>，对比 <strong>ELMo</strong> 和 <strong>BERT</strong> 在自然语言建模（NLM）中的工作流程，帮助你更好地理解它们的异同点以及它们是如何处理语言任务的。</p>
+<h3 id="1-LSTM-与-Transformer-比较"><a href="#1-LSTM-与-Transformer-比较" class="headerlink" title="1. LSTM 与 Transformer 比较"></a>1. <strong>LSTM 与 Transformer 比较</strong></h3><p>首先，我们需要明确 <strong>LSTM</strong> 和 <strong>Transformer</strong> 这两种模型的基本差异，以及它们各自的优势。</p>
+<h4 id="LSTM（长短期记忆网络）"><a href="#LSTM（长短期记忆网络）" class="headerlink" title="LSTM（长短期记忆网络）"></a><strong>LSTM（长短期记忆网络）</strong></h4><p>LSTM 是一种 <strong>递归神经网络（RNN）</strong>，它通过对时间序列的逐步处理来捕捉语言中的顺序关系。LSTM 在处理序列数据时逐个时间步地更新其状态（即每个词），并保持一个内存单元，记忆对当前时刻有重要影响的信息。LSTM 的优点是能够很好地捕捉<strong>局部依赖关系</strong>，但是对于<strong>长距离依赖</strong>（即跨越多个时间步的关系）可能存在梯度消失或梯度爆炸的问题。</p>
+<ul>
+<li><strong>局限</strong>：LSTM 是逐步计算的，这使得它在处理长序列时速度较慢，难以并行化。</li>
+<li><strong>优势</strong>：适合处理顺序依赖性较强的任务，如生成文本时的一字一句生成。</li>
+</ul>
+<h4 id="Transformer"><a href="#Transformer" class="headerlink" title="Transformer"></a><strong>Transformer</strong></h4><p>Transformer 是基于 <strong>自注意力机制（Self-Attention）</strong> 的架构，它完全摒弃了递归结构，所有的词在每个时刻都能并行处理。自注意力机制使得每个词可以与序列中其他所有词直接建立联系，从而能够捕捉到<strong>长距离依赖</strong>。因此，Transformer 在处理长序列时非常高效，并且能够捕获更复杂的上下文信息。</p>
+<ul>
+<li><strong>优势</strong>：通过自注意力机制，Transformer 能够捕捉长距离依赖关系，并且计算可以并行化，大大提高了训练效率。</li>
+<li><strong>局限</strong>：需要较大的计算资源，尤其是在处理非常长的序列时。</li>
+</ul>
+<h3 id="2-ELMo（Embedding-from-Language-Models）"><a href="#2-ELMo（Embedding-from-Language-Models）" class="headerlink" title="2. ELMo（Embedding from Language Models）"></a>2. <strong>ELMo（Embedding from Language Models）</strong></h3><p>ELMo 是一种基于 <strong>双向 LSTM</strong> 的词嵌入方法，它的核心思想是为每个词生成一个能够根据上下文变化的词向量。ELMo 使用 <strong>双向 LSTM</strong>，即同时从左到右和从右到左处理输入文本。通过这种双向的 LSTM，ELMo 能够更好地捕捉每个词的上下文信息，生成动态的词向量。</p>
+<h4 id="ELMo-的工作流程"><a href="#ELMo-的工作流程" class="headerlink" title="ELMo 的工作流程"></a><strong>ELMo 的工作流程</strong></h4><ol>
+<li><strong>训练阶段</strong>：ELMo 的预训练是基于一个 <strong>双向 LSTM</strong>，即对于一个输入序列（如一段文本），模型会同时从 <strong>左到右</strong> 和 <strong>右到左</strong> 两个方向处理文本。</li>
+<li><strong>双向 LSTM</strong>：通过这种双向的 LSTM，ELMo 可以为每个词生成一个根据上下文变化的词向量。例如，词“<strong>银行</strong>”在不同上下文中的含义不同，ELMo 会根据上下文动态调整“银行”的词向量，使其能够表示“金融机构”或“河岸”的含义。</li>
+<li><strong>输出</strong>：ELMo 输出的是每个词的上下文相关词向量，这些词向量可以用于下游任务，如文本分类、命名实体识别（NER）等。</li>
+</ol>
+<h4 id="ELMo-与-LSTM-的结合"><a href="#ELMo-与-LSTM-的结合" class="headerlink" title="ELMo 与 LSTM 的结合"></a><strong>ELMo 与 LSTM 的结合</strong></h4><ul>
+<li><strong>LSTM 的作用</strong>：在 ELMo 中，LSTM 用于建模序列中的上下文关系（即上下文依赖），生成每个词的上下文感知词向量。</li>
+<li><strong>双向 LSTM</strong>：双向 LSTM 能够充分利用文本中的前后信息，因此在捕捉语义时，ELMo 比传统的单向 LSTM 更加有效。</li>
+</ul>
+<h3 id="3-BERT（Bidirectional-Encoder-Representations-from-Transformers）"><a href="#3-BERT（Bidirectional-Encoder-Representations-from-Transformers）" class="headerlink" title="3. BERT（Bidirectional Encoder Representations from Transformers）"></a>3. <strong>BERT（Bidirectional Encoder Representations from Transformers）</strong></h3><p>BERT 是一个基于 <strong>Transformer 编码器（Encoder）</strong> 的预训练模型，它采用了 <strong>双向自注意力</strong> 来处理上下文信息。BERT 的核心思想是，模型通过 <strong>双向</strong>（而非单向）自注意力机制来理解文本，从而生成上下文感知的词向量。</p>
+<h4 id="BERT-的工作流程"><a href="#BERT-的工作流程" class="headerlink" title="BERT 的工作流程"></a><strong>BERT 的工作流程</strong></h4><ol>
+<li><p>预训练阶段</p>
+<p>：</p>
+<ul>
+<li><strong>输入</strong>：BERT 的输入是一个句子对（或者单个句子），在训练过程中，BERT 使用 <strong>遮盖语言建模（MLM）</strong> 任务，即随机遮盖输入中的一些词（15%），然后训练模型预测这些被遮盖的词。</li>
+<li><strong>训练目标</strong>：BERT 使用 Transformer 编码器来处理输入，利用 <strong>双向自注意力机制</strong> 来捕捉上下文信息。每个词的表示不仅依赖于前面的词，也依赖于后面的词，这样可以更好地捕捉上下文中的语法和语义关系。</li>
+</ul>
+</li>
+<li><p>微调阶段</p>
+<p>：</p>
+<ul>
+<li>在预训练完成后，BERT 会根据具体任务（如情感分析、命名实体识别等）进行微调。通过少量的标注数据，BERT 可以适应不同的下游任务，生成更精确的词向量用于具体任务。</li>
+</ul>
+</li>
+</ol>
+<h4 id="BERT-的自注意力机制"><a href="#BERT-的自注意力机制" class="headerlink" title="BERT 的自注意力机制"></a><strong>BERT 的自注意力机制</strong></h4><ul>
+<li><strong>双向自注意力</strong>：BERT 不像传统的 LSTM 或单向 Transformer 那样仅利用前文或后文的信息，而是通过双向自注意力机制同时考虑前后文，从而更好地理解词的上下文含义。</li>
+</ul>
+<h4 id="BERT-与-Transformer-的结合"><a href="#BERT-与-Transformer-的结合" class="headerlink" title="BERT 与 Transformer 的结合"></a><strong>BERT 与 Transformer 的结合</strong></h4><ul>
+<li><strong>Transformer 编码器</strong>：BERT 通过 Transformer 编码器来处理输入文本。通过自注意力机制，它能够高效地捕捉句子中的长距离依赖，生成每个词的上下文感知向量。</li>
+<li><strong>双向性</strong>：BERT 是双向的，不像传统的语言模型那样只从左到右或从右到左生成序列，而是同时考虑上下文中的所有信息。</li>
+</ul>
+<h3 id="4-ELMo-和-BERT-在-NLM-中的比较"><a href="#4-ELMo-和-BERT-在-NLM-中的比较" class="headerlink" title="4. ELMo 和 BERT 在 NLM 中的比较"></a>4. <strong>ELMo 和 BERT 在 NLM 中的比较</strong></h3><ul>
+<li><strong>ELMo</strong>：<ul>
+<li>使用 <strong>双向 LSTM</strong>，适合生成上下文相关的词向量。</li>
+<li>利用 <strong>LSTM</strong> 逐步处理输入序列，通过双向计算来捕捉上下文关系。</li>
+<li>生成的词向量可以根据上下文动态调整，但其 <strong>计算过程是逐步的</strong>，并且 <strong>并行计算</strong> 的效率不如 Transformer。</li>
+</ul>
+</li>
+<li><strong>BERT</strong>：<ul>
+<li>使用 <strong>Transformer 编码器</strong>，通过 <strong>双向自注意力</strong> 同时考虑上下文中的所有信息。</li>
+<li>BERT 能够 <strong>并行处理</strong> 输入序列，并且能够捕捉长距离依赖关系。</li>
+<li>BERT 的 <strong>预训练目标</strong> 采用了 <strong>遮盖语言建模（MLM）</strong>，生成上下文感知的词向量，可以适应各种 NLP 任务。</li>
+</ul>
+</li>
+</ul>
+<h3 id="5-总结-1"><a href="#5-总结-1" class="headerlink" title="5. 总结"></a>5. <strong>总结</strong></h3><ul>
+<li><strong>LSTM</strong>（在 ELMo 中）逐步处理序列，捕捉上下文信息，但效率较低，无法有效处理长距离依赖。</li>
+<li><strong>Transformer</strong>（在 BERT 中）通过自注意力机制同时捕捉序列中所有词之间的关系，能够并行处理并高效捕捉长距离依赖。</li>
+</ul>
+<p>在 <strong>NLM（自然语言建模）</strong> 中：</p>
+<ul>
+<li><strong>ELMo</strong> 生成基于上下文的动态词向量，通过双向 LSTM 捕捉上下文，但计算效率较低。</li>
+<li><strong>BERT</strong> 通过 <strong>Transformer 编码器</strong> 和 <strong>双向自注意力机制</strong>，生成上下文感知的词向量，并且计算效率更高，适应性更强，能够广泛应用于各种下游任务。</li>
+</ul>
+<p>是的，你提到的 <strong>ELMo</strong> 和 <strong>BERT</strong> 这两个模型在处理文本时的底层逻辑确实是相通的，二者都属于 <strong>统计语言模型</strong>，而且它们的预处理过程也有很多相似之处，都是通过将关键词分析并转化为向量（即“词向量”或“语义向量”）来表示词汇的语义和上下文信息。</p>
+<p>我会从 <strong>底层原理</strong> 和 <strong>处理过程</strong> 这两个角度详细对比一下 ELMo 和 BERT 的相似性。</p>
+<h2 id="BER和ELMo预处理的底层逻辑其实相通"><a href="#BER和ELMo预处理的底层逻辑其实相通" class="headerlink" title="BER和ELMo预处理的底层逻辑其实相通"></a>BER和ELMo预处理的底层逻辑其实相通</h2><h3 id="1-底层原理：统计语言模型"><a href="#1-底层原理：统计语言模型" class="headerlink" title="1. 底层原理：统计语言模型"></a>1. <strong>底层原理：统计语言模型</strong></h3><p>统计语言模型（Statistical Language Models）是通过计算词语之间的概率关系来表示和生成语言的模型。这种模型的目标是理解<strong>词汇之间的统计关系</strong>和<strong>上下文依赖</strong>，并通过概率来推测下一个词或理解当前词的意义。</p>
+<h4 id="ELMo-和-BERT-的底层逻辑"><a href="#ELMo-和-BERT-的底层逻辑" class="headerlink" title="ELMo 和 BERT 的底层逻辑"></a><strong>ELMo</strong> 和 <strong>BERT</strong> 的底层逻辑</h4><ul>
+<li><p>ELMo</p>
+<p> 和 </p>
+<p>BERT</p>
+<p> 都依赖于统计语言模型的原理，但它们使用的架构不同：</p>
+<ul>
+<li><strong>ELMo</strong> 使用的是 <strong>双向 LSTM</strong>（双向递归神经网络），通过前向和后向的循环网络计算每个词在上下文中的表示。</li>
+<li><strong>BERT</strong> 使用的是 <strong>Transformer 编码器</strong>，通过自注意力机制来同时处理上下文中的所有信息，从而捕捉词语之间的复杂关系。</li>
+</ul>
+</li>
+</ul>
+<p>虽然它们的架构不同，但它们都在<strong>理解上下文</strong>和<strong>捕捉词语之间的关系</strong>上有相似的目标，即通过学习输入文本的<strong>概率分布</strong>来生成对词的语义理解。</p>
+<h3 id="2-预处理过程：关键词分析与向量投影"><a href="#2-预处理过程：关键词分析与向量投影" class="headerlink" title="2. 预处理过程：关键词分析与向量投影"></a>2. <strong>预处理过程：关键词分析与向量投影</strong></h3><p>无论是 <strong>ELMo</strong> 还是 <strong>BERT</strong>，它们的预处理过程中都会将词汇映射到<strong>向量空间</strong>，即将每个词（或子词）转化为一个高维向量表示（词向量），这些向量捕捉了词的语义、上下文和语法信息。</p>
+<h4 id="ELMo-的预处理"><a href="#ELMo-的预处理" class="headerlink" title="ELMo 的预处理"></a><strong>ELMo 的预处理</strong></h4><ul>
+<li><strong>ELMo</strong> 基于双向 LSTM，因此它通过从文本中学习<strong>上下文依赖关系</strong>来创建每个词的上下文相关词向量。</li>
+<li>在 ELMo 中，词向量的生成是<strong>动态的</strong>，即词的向量会根据它在句子中的位置和上下文的不同而变化。例如，“银行”在“我去了银行”中和在“河边的银行”中可能会有不同的词向量。</li>
+</ul>
+<h4 id="BERT-的预处理"><a href="#BERT-的预处理" class="headerlink" title="BERT 的预处理"></a><strong>BERT 的预处理</strong></h4><ul>
+<li><strong>BERT</strong> 采用的是 <strong>Transformer</strong> 编码器，它通过<strong>遮盖语言模型</strong>（Masked Language Model, MLM）进行预训练。在训练过程中，BERT 随机遮盖句子中的部分词，并要求模型根据上下文预测这些遮盖的词。</li>
+<li>与 ELMo 类似，BERT 也通过 <strong>上下文相关的向量</strong> 来表示每个词。在 BERT 中，由于 Transformer 使用了 <strong>双向自注意力机制</strong>，它能够同时考虑一个词的前后文，因此生成的词向量会更全面地捕捉到词汇的语法和语义信息。</li>
+</ul>
+<h3 id="3-共同点与差异"><a href="#3-共同点与差异" class="headerlink" title="3. 共同点与差异"></a>3. <strong>共同点与差异</strong></h3><ul>
+<li><strong>共同点</strong>：<ul>
+<li><strong>统计语言模型</strong>：ELMo 和 BERT 都依赖于统计语言模型的原理，目标是理解语言中词汇的关系和上下文信息。</li>
+<li><strong>词向量表示</strong>：两者都将每个词转化为一个向量，这些向量表示了词语的语义和上下文信息。词向量的生成依赖于模型在大量文本上训练得到的概率分布。</li>
+<li><strong>上下文感知</strong>：无论是 ELMo 的双向 LSTM 还是 BERT 的 Transformer 编码器，都是通过上下文信息来动态生成词向量，解决了传统词嵌入（如 Word2Vec）中无法表示上下文变化的问题。</li>
+</ul>
+</li>
+<li><strong>差异点</strong>：<ul>
+<li><strong>架构不同</strong>：ELMo 使用双向 LSTM，BERT 使用 Transformer 编码器。Transformer 由于并行计算的优势，处理长序列的效率比 LSTM 高。</li>
+<li><strong>训练方式</strong>：ELMo 是基于语言模型来生成词向量，而 BERT 则是通过 <strong>遮盖语言建模</strong> 和 <strong>下一句预测</strong> 的任务来进行预训练。BERT 通过双向自注意力机制对整个句子进行建模，更加强调上下文的综合理解。</li>
+</ul>
+</li>
+</ul>
+<h3 id="4-总结：共同的底层逻辑"><a href="#4-总结：共同的底层逻辑" class="headerlink" title="4. 总结：共同的底层逻辑"></a>4. <strong>总结：共同的底层逻辑</strong></h3><ul>
+<li><strong>ELMo</strong> 和 <strong>BERT</strong> 都依赖于 <strong>统计语言模型</strong> 的原理，旨在通过学习语言中词汇之间的依赖关系和上下文信息来生成词向量。它们都解决了传统方法（如 Word2Vec）的静态词向量问题，通过上下文相关的词向量表示，使得每个词在不同上下文中的含义可以动态变化。</li>
+<li>它们的预处理过程都是将每个词转化为向量表示，通过分析关键词的上下文，将其转化为更具语义的信息。</li>
+<li><strong>主要区别</strong>：ELMo 使用 <strong>双向 LSTM</strong>，生成基于上下文的词向量；而 BERT 使用 <strong>Transformer 编码器</strong> 和 <strong>双向自注意力机制</strong>，能够更高效地捕捉长距离依赖关系，并且训练方式有所不同（BERT 通过遮盖语言建模进行预训练）。</li>
+</ul>
+<p>希望这个比较能够帮助你更清晰地理解 <strong>ELMo</strong> 和 <strong>BERT</strong> 的预处理过程，它们的底层逻辑确实是相通的，都是通过语言模型分析和生成上下文相关的词向量。</p>
+<h2 id="深度理解NNLM底层逻辑"><a href="#深度理解NNLM底层逻辑" class="headerlink" title="深度理解NNLM底层逻辑"></a>深度理解NNLM底层逻辑</h2><h3 id="首先说明"><a href="#首先说明" class="headerlink" title="首先说明:"></a>首先说明:</h3><p>BERT是基于transformer拓展研制的</p>
+<p>详细信息可以自己去看我收藏的transformer文档:</p>
+<h3 id="彻底理解"><a href="#彻底理解" class="headerlink" title="彻底理解:"></a>彻底理解:</h3><ul>
+<li>从分词器(tokenizer)：这里就是一个预处理过程,也是输入层,对语句中的词语进行切分，与对应编码相映射,比如:</li>
+</ul>
+<p>​      <code> 全体目光向我看齐,我是傻逼</code></p>
+<p>​     可以把’傻逼’拆分出来,与之前预训练里面的词语编码相匹配:傻逼可能对应[233]编号</p>
+<ul>
+<li><p>输入层就是:把原始文本变成模型能懂的 “Input IDs” 。在 Transformer 里，输入层还会把这些 “Input IDs” 进一步通过词嵌入和位置编码变成适合模型处理的向量形式。</p>
+</li>
+<li><p>然后就是隐藏层,对这些向量进行处理,比如处理为向量坐标,一直处理成为logits.</p>
+</li>
+<li><p>然后就是输出层:把对应人可以看懂的数据输出出来,比如pipeline里面的情感分析系统,就会输出:</p>
+<p><code>NEGATIVE: 0.0402, POSITIVE: 0.9598</code></p>
+<p>这样的句子，每个句子都会有一个情感分析结果</p>
+</li>
+<li><p>另外:对于encode和decode的分析:</p>
+</li>
+<li><h3 id="关于-Decoder-的使用"><a href="#关于-Decoder-的使用" class="headerlink" title="关于 Decoder 的使用"></a>关于 Decoder 的使用</h3><p>在情感分析这类任务中，模型的主要目标是判断给定文本的情感倾向（积极、消极或中性等），属于文本分类任务。它只需要对输入文本进行理解和特征提取，以做出分类决策，不需要生成新的文本内容，所以通常不需要 Transformer 架构中的 Decoder 部分。但在机器翻译、文本生成（如写故事、诗歌创作）等任务中，模型需要根据输入生成新的文本序列，这时 Decoder 就发挥关键作用，它会基于 Encoder 提取的特征信息，逐步生成目标文本。</p>
+<h3 id="输入-隐藏-输出过程的必要性"><a href="#输入-隐藏-输出过程的必要性" class="headerlink" title="输入 - 隐藏 - 输出过程的必要性"></a>输入 - 隐藏 - 输出过程的必要性</h3><p>无论何种自然语言处理任务，输入 - 隐藏 - 输出这个基本过程都是需要的：</p>
+<ul>
+<li><strong>输入层</strong>：负责接收原始数据，并将其转换为模型能够处理的格式。例如在前面提到的文本处理中，Tokenizer 将原始文本转换为模型可识别的 Input IDs（词的数字编号），这是模型处理的基础。</li>
+<li><strong>隐藏层</strong>：对输入数据进行一系列复杂的计算和特征提取操作。以 Transformer 模型为例，Encoder 中的多头注意力层和前馈神经网络层作为隐藏层，会对输入的词向量进行处理，挖掘文本的语义、语法以及上下文等信息，将输入数据转换为更有价值的特征表示。</li>
+<li><strong>输出层</strong>：根据任务类型，将隐藏层处理后的结果转换为最终的输出。在情感分析中，可能通过 SoftMax 层将隐藏层输出的 Logits 转换为情感类别的概率分布；在文本生成任务中，输出层会根据 Decoder 的处理结果生成最终的目标文本。</li>
+</ul>
+<p>这个过程是模型实现各种功能的基础框架，不同任务只是在具体的模型结构和处理细节上有所差异。</p>
+</li>
+</ul>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.th-dedsec.top">Dedsec</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.th-dedsec.top/2025/01/26/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/">https://www.th-dedsec.top/2025/01/26/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.th-dedsec.top" target="_blank">Dedsec的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/transformer%E6%A8%A1%E5%9E%8B%E5%85%A5%E9%97%A8/">transformer模型入门</a></div><div class="post-share"><div class="social-share" data-image="https://img.th-dedsec.top/img/cp1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/" title="新加入的token的初始化相关说明"><img class="cover" src="https://img.th-dedsec.top/img/gbc1.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">新加入的token的初始化相关说明</div></div><div class="info-2"><div class="info-item-1">模型嵌入层和权重矩阵关系的理解模型的词嵌入层与权重矩阵在基于 Transformer 架构的预训练模型（如 BERT、GPT 等）中，词嵌入层（Embedding Layer）是模型处理输入文本的重要组件。它的主要作用是将离散的 token（例如单词、子词等）转换为连续的向量表示，以便模型能够对其进行数值计算。 词嵌入层有一个权重矩阵（weight），这个矩阵的形状通常是 (V, D)，其中 V 是词汇表的大小，即分词器所能识别的所有 token 的数量；D 是嵌入向量的维度，也就是每个 token 对应的向量的长度。这个权重矩阵的每一行都对应着词汇表中一个特定 token 的嵌入向量。 通俗理解:每个词嵌入,即word_embedding,都是一个向量,从表现形式来看本质就是向量的坐标表示:如:[0.1, 0.3,...</div></div></div></a><a class="pagination-related" href="/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/" title="python程序运行启动代码"><img class="cover" src="https://img.th-dedsec.top/img/MyGO3.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">python程序运行启动代码</div></div><div class="info-2"><div class="info-item-1">常规程序启动入口__name__启动程序123if __name__ = &#x27;__main__&#x27; :    data : dict = load_toml()    pprint(data,sort_dics=False)  代码逐行解释if __name__ == &#39;__main__&#39;: __name__ 变量：  在 Python 中，每个模块（即.py文件）都有一个内置的__name__变量。这个变量的值取决于模块是如何被使用的。  当一个 Python 脚本作为主程序直接运行时，例如在命令行中使用 python script.py 来执行脚本，该脚本的 __name__ 变量会被自动设置为 &#39;__main__&#39;。 当一个 Python 脚本作为模块被其他脚本导入时，例如在 another_script.py 中使用 import script，那么 script.py 模块的 __name__ 变量会被设置为该模块的名称（即 &#39;script&#39;）。   条件判断：if __name__ ==...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/php.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Dedsec</div><div class="author-info-description">车万木柜子的日常。成分:车万,网安人,音乐爱好者</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">34</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">29</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/u511"><i class="fab fa-github"></i><span>github仓库</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/du511" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2665790854@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">苦逼学习web中。温馨提示,放大页面背景更自然(</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86"><span class="toc-number">1.</span> <span class="toc-text">自然语言处理</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9C%89%E5%85%B3Word2Vec-%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.1.</span> <span class="toc-text">有关Word2Vec 模型</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#Transformer%E6%A8%A1%E5%9E%8B%E5%92%8CLSTM%E6%A8%A1%E5%9E%8B%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">1.2.</span> <span class="toc-text">Transformer模型和LSTM模型的比较</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%9D%83%E9%87%8D%E7%9A%84%E9%80%9A%E4%BF%97%E7%90%86%E8%A7%A3"><span class="toc-number">1.3.</span> <span class="toc-text">权重的通俗理解</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E4%BB%80%E4%B9%88%E6%98%AF%E6%9D%83%E9%87%8D%EF%BC%9F"><span class="toc-number">1.3.1.</span> <span class="toc-text">1. 什么是权重？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E6%AF%94%E5%96%BB%EF%BC%9A%E8%80%81%E5%B8%88%E5%9C%A8%E8%AF%BE%E5%A0%82%E4%B8%8A%E6%89%93%E5%88%86"><span class="toc-number">1.3.2.</span> <span class="toc-text">2. 比喻：老师在课堂上打分</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%9C%A8%E6%A8%A1%E5%9E%8B%E4%B8%AD%E7%9A%84%E4%BD%9C%E7%94%A8"><span class="toc-number">1.3.3.</span> <span class="toc-text">3. 在模型中的作用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#%E4%BE%8B%E5%A6%82%EF%BC%9A"><span class="toc-number">1.3.3.1.</span> <span class="toc-text">例如：</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E8%AE%AD%E7%BB%83%E8%BF%87%E7%A8%8B%E4%B8%AD%E7%9A%84%E6%9D%83%E9%87%8D%E8%B0%83%E6%95%B4"><span class="toc-number">1.3.4.</span> <span class="toc-text">4. 训练过程中的权重调整</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E7%AE%80%E5%8D%95%E7%9A%84%E4%BE%8B%E5%AD%90%EF%BC%9A%E7%A5%9E%E7%BB%8F%E7%BD%91%E7%BB%9C%E4%B8%AD%E7%9A%84%E6%9D%83%E9%87%8D"><span class="toc-number">1.3.5.</span> <span class="toc-text">5. 简单的例子：神经网络中的权重</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#6-%E6%9D%83%E9%87%8D%E5%A6%82%E4%BD%95%E5%BD%B1%E5%93%8D%E6%A8%A1%E5%9E%8B%E7%9A%84%E7%BB%93%E6%9E%9C%EF%BC%9F"><span class="toc-number">1.3.6.</span> <span class="toc-text">6. 权重如何影响模型的结果？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#7-%E6%80%BB%E7%BB%93"><span class="toc-number">1.3.7.</span> <span class="toc-text">7. 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%A8%A1%E5%9E%8B%E9%A2%84%E8%AE%AD%E7%BB%83-Transformer%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.4.</span> <span class="toc-text">模型预训练:Transformer模型</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E9%A2%84%E8%AE%AD%E7%BB%83%E7%9A%84%E6%A6%82%E5%BF%B5"><span class="toc-number">1.4.1.</span> <span class="toc-text">1. 预训练的概念</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%81%AE%E7%9B%96%E8%AF%AD%E8%A8%80%E5%BB%BA%E6%A8%A1%EF%BC%88MLM%EF%BC%89"><span class="toc-number">1.4.2.</span> <span class="toc-text">2. 遮盖语言建模（MLM）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%9B%A0%E6%9E%9C%E8%AF%AD%E8%A8%80%E5%BB%BA%E6%A8%A1%EF%BC%88CLM%EF%BC%89"><span class="toc-number">1.4.3.</span> <span class="toc-text">3. 因果语言建模（CLM）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E9%A2%84%E8%AE%AD%E7%BB%83%E4%B8%8E%E5%BE%AE%E8%B0%83"><span class="toc-number">1.4.4.</span> <span class="toc-text">4. 预训练与微调</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93"><span class="toc-number">1.4.5.</span> <span class="toc-text">5. 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BERT-%E5%92%8C-ELMo%E6%AF%94%E8%BE%83"><span class="toc-number">1.5.</span> <span class="toc-text">BERT 和 ELMo比较:</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-LSTM-%E4%B8%8E-Transformer-%E6%AF%94%E8%BE%83"><span class="toc-number">1.5.1.</span> <span class="toc-text">1. LSTM 与 Transformer 比较</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#LSTM%EF%BC%88%E9%95%BF%E7%9F%AD%E6%9C%9F%E8%AE%B0%E5%BF%86%E7%BD%91%E7%BB%9C%EF%BC%89"><span class="toc-number">1.5.1.1.</span> <span class="toc-text">LSTM（长短期记忆网络）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#Transformer"><span class="toc-number">1.5.1.2.</span> <span class="toc-text">Transformer</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-ELMo%EF%BC%88Embedding-from-Language-Models%EF%BC%89"><span class="toc-number">1.5.2.</span> <span class="toc-text">2. ELMo（Embedding from Language Models）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ELMo-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.5.2.1.</span> <span class="toc-text">ELMo 的工作流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#ELMo-%E4%B8%8E-LSTM-%E7%9A%84%E7%BB%93%E5%90%88"><span class="toc-number">1.5.2.2.</span> <span class="toc-text">ELMo 与 LSTM 的结合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-BERT%EF%BC%88Bidirectional-Encoder-Representations-from-Transformers%EF%BC%89"><span class="toc-number">1.5.3.</span> <span class="toc-text">3. BERT（Bidirectional Encoder Representations from Transformers）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#BERT-%E7%9A%84%E5%B7%A5%E4%BD%9C%E6%B5%81%E7%A8%8B"><span class="toc-number">1.5.3.1.</span> <span class="toc-text">BERT 的工作流程</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BERT-%E7%9A%84%E8%87%AA%E6%B3%A8%E6%84%8F%E5%8A%9B%E6%9C%BA%E5%88%B6"><span class="toc-number">1.5.3.2.</span> <span class="toc-text">BERT 的自注意力机制</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BERT-%E4%B8%8E-Transformer-%E7%9A%84%E7%BB%93%E5%90%88"><span class="toc-number">1.5.3.3.</span> <span class="toc-text">BERT 与 Transformer 的结合</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-ELMo-%E5%92%8C-BERT-%E5%9C%A8-NLM-%E4%B8%AD%E7%9A%84%E6%AF%94%E8%BE%83"><span class="toc-number">1.5.4.</span> <span class="toc-text">4. ELMo 和 BERT 在 NLM 中的比较</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#5-%E6%80%BB%E7%BB%93-1"><span class="toc-number">1.5.5.</span> <span class="toc-text">5. 总结</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#BER%E5%92%8CELMo%E9%A2%84%E5%A4%84%E7%90%86%E7%9A%84%E5%BA%95%E5%B1%82%E9%80%BB%E8%BE%91%E5%85%B6%E5%AE%9E%E7%9B%B8%E9%80%9A"><span class="toc-number">1.6.</span> <span class="toc-text">BER和ELMo预处理的底层逻辑其实相通</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#1-%E5%BA%95%E5%B1%82%E5%8E%9F%E7%90%86%EF%BC%9A%E7%BB%9F%E8%AE%A1%E8%AF%AD%E8%A8%80%E6%A8%A1%E5%9E%8B"><span class="toc-number">1.6.1.</span> <span class="toc-text">1. 底层原理：统计语言模型</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ELMo-%E5%92%8C-BERT-%E7%9A%84%E5%BA%95%E5%B1%82%E9%80%BB%E8%BE%91"><span class="toc-number">1.6.1.1.</span> <span class="toc-text">ELMo 和 BERT 的底层逻辑</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#2-%E9%A2%84%E5%A4%84%E7%90%86%E8%BF%87%E7%A8%8B%EF%BC%9A%E5%85%B3%E9%94%AE%E8%AF%8D%E5%88%86%E6%9E%90%E4%B8%8E%E5%90%91%E9%87%8F%E6%8A%95%E5%BD%B1"><span class="toc-number">1.6.2.</span> <span class="toc-text">2. 预处理过程：关键词分析与向量投影</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#ELMo-%E7%9A%84%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-number">1.6.2.1.</span> <span class="toc-text">ELMo 的预处理</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#BERT-%E7%9A%84%E9%A2%84%E5%A4%84%E7%90%86"><span class="toc-number">1.6.2.2.</span> <span class="toc-text">BERT 的预处理</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#3-%E5%85%B1%E5%90%8C%E7%82%B9%E4%B8%8E%E5%B7%AE%E5%BC%82"><span class="toc-number">1.6.3.</span> <span class="toc-text">3. 共同点与差异</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#4-%E6%80%BB%E7%BB%93%EF%BC%9A%E5%85%B1%E5%90%8C%E7%9A%84%E5%BA%95%E5%B1%82%E9%80%BB%E8%BE%91"><span class="toc-number">1.6.4.</span> <span class="toc-text">4. 总结：共同的底层逻辑</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%B7%B1%E5%BA%A6%E7%90%86%E8%A7%A3NNLM%E5%BA%95%E5%B1%82%E9%80%BB%E8%BE%91"><span class="toc-number">1.7.</span> <span class="toc-text">深度理解NNLM底层逻辑</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E9%A6%96%E5%85%88%E8%AF%B4%E6%98%8E"><span class="toc-number">1.7.1.</span> <span class="toc-text">首先说明:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BD%BB%E5%BA%95%E7%90%86%E8%A7%A3"><span class="toc-number">1.7.2.</span> <span class="toc-text">彻底理解:</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%85%B3%E4%BA%8E-Decoder-%E7%9A%84%E4%BD%BF%E7%94%A8"><span class="toc-number">1.7.3.</span> <span class="toc-text">关于 Decoder 的使用</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E8%BE%93%E5%85%A5-%E9%9A%90%E8%97%8F-%E8%BE%93%E5%87%BA%E8%BF%87%E7%A8%8B%E7%9A%84%E5%BF%85%E8%A6%81%E6%80%A7"><span class="toc-number">1.7.4.</span> <span class="toc-text">输入 - 隐藏 - 输出过程的必要性</span></a></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/01/29/python%E6%9D%82%E9%A1%B9%E5%87%BD%E6%95%B0-%E7%94%A8%E6%B3%95%E7%A7%AF%E7%B4%AF/" title="python杂项函数/用法积累"><img src="https://img.th-dedsec.top/background/1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python杂项函数/用法积累"/></a><div class="content"><a class="title" href="/2025/01/29/python%E6%9D%82%E9%A1%B9%E5%87%BD%E6%95%B0-%E7%94%A8%E6%B3%95%E7%A7%AF%E7%B4%AF/" title="python杂项函数/用法积累">python杂项函数/用法积累</a><time datetime="2025-01-29T02:24:28.000Z" title="发表于 2025-01-29 10:24:28">2025-01-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/" title="新加入的token的初始化相关说明"><img src="https://img.th-dedsec.top/img/gbc1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新加入的token的初始化相关说明"/></a><div class="content"><a class="title" href="/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/" title="新加入的token的初始化相关说明">新加入的token的初始化相关说明</a><time datetime="2025-01-28T09:28:28.000Z" title="发表于 2025-01-28 17:28:28">2025-01-28</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/26/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" title="自然语言处理"><img src="https://img.th-dedsec.top/img/cp1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="自然语言处理"/></a><div class="content"><a class="title" href="/2025/01/26/%E8%87%AA%E7%84%B6%E8%AF%AD%E8%A8%80%E5%A4%84%E7%90%86/" title="自然语言处理">自然语言处理</a><time datetime="2025-01-26T08:29:37.000Z" title="发表于 2025-01-26 16:29:37">2025-01-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/" title="python程序运行启动代码"><img src="https://img.th-dedsec.top/img/MyGO3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python程序运行启动代码"/></a><div class="content"><a class="title" href="/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/" title="python程序运行启动代码">python程序运行启动代码</a><time datetime="2025-01-26T06:22:21.000Z" title="发表于 2025-01-26 14:22:21">2025-01-26</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/" title="python中对模块的引入"><img src="https://img.th-dedsec.top/img/MyGO3.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python中对模块的引入"/></a><div class="content"><a class="title" href="/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/" title="python中对模块的引入">python中对模块的引入</a><time datetime="2025-01-26T06:14:10.000Z" title="发表于 2025-01-26 14:14:10">2025-01-26</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(true - https://img.th-dedsec.top/background/footer.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Dedsec</div><div class="footer_custom_text">I wish everyone can have a goal to chase !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover1.webp);"> <a class="categoryBar-list-link" href="categories/buuctf/">buuctf</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">Linux</span></li><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover2.webp);"> <a class="categoryBar-list-link" href="categories/Linux/">Linux</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">php语言</span></li><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover6.webp);"> <a class="categoryBar-list-link" href="categories/c语言/">c语言</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">web安全</span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/ai/">ai</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/web安全/">web安全</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/php/">php</a><span class="categoryBar-list-count">8</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/python/">python</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/ctfshow-web/">ctfshow web</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/个人安排/">个人安排</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><!-- hexo injector body_end end --></body></html>
