@@ -1,0 +1,246 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>朴素贝叶斯分类算法 | Dedsec的博客</title><meta name="author" content="Dedsec"><meta name="copyright" content="Dedsec"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="朴素贝叶斯分类理解步奏一:准备数据集 收集数据:收集与分类任务相关的数据集,比如网安数据,日常生活对话数据 数据标注:以我的aichat bot为例,为网安的数据标注为”1”,日常生活数据标注为”0” 划分数据(可选):将数据集划分为训练集和测试集。训练集用于训练模型，测试集用于评估模型的性能。通常，可按照 70% - 30% 或 80% - 20% 的比例进行划分。  步奏二:获取离散矩阵 即使">
+<meta property="og:type" content="article">
+<meta property="og:title" content="朴素贝叶斯分类算法">
+<meta property="og:url" content="https://www.th-dedsec.top/2025/02/07/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/index.html">
+<meta property="og:site_name" content="Dedsec的博客">
+<meta property="og:description" content="朴素贝叶斯分类理解步奏一:准备数据集 收集数据:收集与分类任务相关的数据集,比如网安数据,日常生活对话数据 数据标注:以我的aichat bot为例,为网安的数据标注为”1”,日常生活数据标注为”0” 划分数据(可选):将数据集划分为训练集和测试集。训练集用于训练模型，测试集用于评估模型的性能。通常，可按照 70% - 30% 或 80% - 20% 的比例进行划分。  步奏二:获取离散矩阵 即使">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.th-dedsec.top/img/cp1.png">
+<meta property="article:published_time" content="2025-02-07T13:54:47.000Z">
+<meta property="article:modified_time" content="2025-02-07T16:13:30.053Z">
+<meta property="article:author" content="Dedsec">
+<meta property="article:tag" content="朴素贝叶斯分类">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.th-dedsec.top/img/cp1.png"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.th-dedsec.top/2025/02/07/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '朴素贝叶斯分类算法',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  isShuoshuo: false
+}</script><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/cat.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://img.th-dedsec.top/background/IMG_1560.JPG);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/php.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://img.th-dedsec.top/img/cp1.png);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Dedsec的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">朴素贝叶斯分类算法</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">朴素贝叶斯分类算法</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-02-07T13:54:47.000Z" title="发表于 2025-02-07 21:54:47">2025-02-07</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-02-07T16:13:30.053Z" title="更新于 2025-02-08 00:13:30">2025-02-08</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/ai/">ai</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="朴素贝叶斯分类理解"><a href="#朴素贝叶斯分类理解" class="headerlink" title="朴素贝叶斯分类理解"></a>朴素贝叶斯分类理解</h1><h2 id="步奏一-准备数据集"><a href="#步奏一-准备数据集" class="headerlink" title="步奏一:准备数据集"></a>步奏一:准备数据集</h2><ul>
+<li><strong>收集数据</strong>:收集与分类任务相关的数据集,比如网安数据,日常生活对话数据</li>
+<li><strong>数据标注</strong>:以我的aichat bot为例,为网安的数据标注为”1”,日常生活数据标注为”0”</li>
+<li><strong>划分数据(可选)</strong>:将数据集划分为训练集和测试集。训练集用于训练模型，测试集用于评估模型的性能。通常，可按照 70% - 30% 或 80% - 20% 的比例进行划分。</li>
+</ul>
+<h2 id="步奏二-获取离散矩阵"><a href="#步奏二-获取离散矩阵" class="headerlink" title="步奏二:获取离散矩阵"></a>步奏二:获取离散矩阵</h2><ul>
+<li>即使用如:<br><code>self.vectorizer = CountVectorizer()</code>：创建一个 CountVectorizer 对象，用于将文本数据转换为数值特征矩阵。</li>
+<li><strong>关于这个数字序列矩阵:</strong><br><code>X = self.vectorizer.fit_transform(texts)</code>：<br><code>fit_transform </code>是 <code>CountVectorizer</code> 的一个方法，它完成两个操作：<br><code>fit</code>：统计文本中出现的所有词语，构建词汇表。<br>简单地说:就是使用<code>fit</code>方法求得该文本每个词语的<code>TF-IDF</code>权重,<br>然后,采取transformer将每个句子的每个词语的权重标注出来,获得以下的离散矩阵:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">t_matrix: </span><br><span class="line">array([[0.70710678, 0.        , 0.        , 0.        , 0.        ,</span><br><span class="line">        0.        , 0.        , 0.        , 0.        , 0.70710678],</span><br><span class="line">       [0.        , 0.        , 0.57735027, 0.        , 0.57735027,</span><br><span class="line">        0.        , 0.57735027, 0.        , 0.        , 0.        ],</span><br><span class="line">       [0.        , 0.        , 0.        , 0.70710678, 0.        ,</span><br><span class="line">        0.        , 0.        , 0.70710678, 0.        , 0.        ],</span><br><span class="line">       [0.        , 0.57735027, 0.        , 0.        , 0.        ,</span><br><span class="line">        0.57735027, 0.        , 0.        , 0.57735027, 0.        ]])</span><br></pre></td></tr></table></figure>
+<p><code>transform</code>：将每个文本转换为一个向量，向量的每个元素表示对应词语在该文本中出现的次数。最终得到的 X 是一个稀疏矩阵，每一行代表一个文本，每一列代表一个词语。如上图。<br>最后获得数字矩阵<code>X</code>每一行代表一个文本，每一列代表一个词语。</p>
+<h2 id="步奏三-训练方法"><a href="#步奏三-训练方法" class="headerlink" title="步奏三:训练方法"></a>步奏三:训练方法</h2><ul>
+<li>首先初始化方法:<br><code>self.clf = MultinomialNB()</code>：创建一个 MultinomialNB 对象，即多项式朴素贝叶斯分类器。</li>
+<li>这里展开说说<code>skleran</code>库的几种贝叶斯算法:</li>
+</ul>
+<h3 id="各类的特点和适用场景"><a href="#各类的特点和适用场景" class="headerlink" title="各类的特点和适用场景"></a>各类的特点和适用场景</h3><h4 id="1-naive-bayes-BernoulliNB"><a href="#1-naive-bayes-BernoulliNB" class="headerlink" title="1. naive_bayes.BernoulliNB"></a>1. <code>naive_bayes.BernoulliNB</code></h4><ul>
+<li><strong>特点</strong>：<ul>
+<li>基于伯努利分布，适用于特征为二元（布尔）变量的情况，即特征只有两种取值，通常表示为 0 和 1。</li>
+<li>在文档分类中，它只关注单词是否出现，而不考虑单词出现的次数。</li>
+<li>假设特征之间相互独立，这是朴素贝叶斯算法的基本假设。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：<ul>
+<li>文本分类任务中，当只关心某个特征词是否在文档中出现，而不关心其出现频率时，例如垃圾邮件过滤，只需要知道某些特定的关键词是否在邮件中出现来判断是否为垃圾邮件。</li>
+<li>特征是二元属性的场景，如疾病诊断中某些症状是否存在。</li>
+</ul>
+</li>
+</ul>
+<h4 id="2-naive-bayes-CategoricalNB"><a href="#2-naive-bayes-CategoricalNB" class="headerlink" title="2. naive_bayes.CategoricalNB"></a>2. <code>naive_bayes.CategoricalNB</code></h4><ul>
+<li><strong>特点</strong>：<ul>
+<li>用于处理分类特征，即特征可以取多个离散值。</li>
+<li>它会根据每个特征的不同取值来计算条件概率。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：<ul>
+<li>当特征是分类变量时适用，例如在预测天气时，特征可以是“晴天”“多云”“雨天”等分类值；在用户行为分析中，特征可以是用户的不同操作类型（点击、浏览、购买等）。</li>
+</ul>
+</li>
+</ul>
+<h4 id="3-naive-bayes-GaussianNB"><a href="#3-naive-bayes-GaussianNB" class="headerlink" title="3. naive_bayes.GaussianNB"></a>3. <code>naive_bayes.GaussianNB</code></h4><ul>
+<li><strong>特点</strong>：<ul>
+<li>假设特征变量服从高斯（正态）分布。</li>
+<li>对于连续型特征，它通过计算特征的均值和方差来估计条件概率。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：<ul>
+<li>当特征是连续型数值且大致符合正态分布时使用，例如人的身高、体重、血压等生理指标；在金融领域，股票价格的波动等连续型数据也可能符合高斯分布。</li>
+</ul>
+</li>
+</ul>
+<h4 id="4-naive-bayes-MultinomialNB"><a href="#4-naive-bayes-MultinomialNB" class="headerlink" title="4. naive_bayes.MultinomialNB"></a>4. <code>naive_bayes.MultinomialNB</code></h4><ul>
+<li><strong>特点</strong>：<ul>
+<li>适用于特征变量是离散型数据且符合多项分布的情况。</li>
+<li>在文档分类中，它考虑单词出现的次数或 TF - IDF 值等，比伯努利朴素贝叶斯更能捕捉文本的细节信息。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：<ul>
+<li>文本分类任务，如新闻分类、情感分析等，通过统计单词出现的频率或 TF - IDF 值来判断文档的类别。</li>
+<li>计数数据的分类问题，例如商品销售记录中不同商品的销售数量。</li>
+</ul>
+</li>
+</ul>
+<h4 id="5-naive-bayes-ComplementNB"><a href="#5-naive-bayes-ComplementNB" class="headerlink" title="5. naive_bayes.ComplementNB"></a>5. <code>naive_bayes.ComplementNB</code></h4><ul>
+<li><strong>特点</strong>：<ul>
+<li>是多项式朴素贝叶斯的改进版本，尤其适用于处理不平衡数据集。</li>
+<li>它通过考虑每个类别的“反类”信息来进行分类，减少了对训练集中主导类别的依赖。</li>
+</ul>
+</li>
+<li><strong>适用场景</strong>：<ul>
+<li>当数据集存在类别不平衡问题时，如在医疗诊断中，患病样本和健康样本数量差异较大；在网络安全检测中，正常流量和攻击流量的比例不均衡。</li>
+</ul>
+</li>
+</ul>
+<h3 id="在-AI-聊天机器人中分类用户问题的选择"><a href="#在-AI-聊天机器人中分类用户问题的选择" class="headerlink" title="在 AI 聊天机器人中分类用户问题的选择"></a>在 AI 聊天机器人中分类用户问题的选择</h3><p>如果想在 AI 聊天机器人中把用户的问题分成网安问题和寒暄问题，建议使用 <code>naive_bayes.MultinomialNB</code>，原因如下：</p>
+<ul>
+<li><strong>文本信息利用充分</strong>：用户的问题是以文本形式呈现的，<code>MultinomialNB</code> 可以考虑单词出现的次数或 TF - IDF 值等，能够更全面地利用文本中的信息。例如，在网安问题中，可能会多次出现“黑客”“漏洞”等关键词，这些关键词的出现频率对于分类有重要意义，而 <code>MultinomialNB</code> 可以很好地捕捉到这些信息。</li>
+<li><strong>适合文本分类场景</strong>：文本分类是 <code>MultinomialNB</code> 的典型应用场景，它在处理这种基于文本特征进行分类的任务上有较好的表现。相比之下，<code>BernoulliNB</code> 只考虑单词是否出现，会丢失部分信息；<code>GaussianNB</code> 适用于连续型数据，不符合文本特征的离散性质；<code>CategoricalNB</code> 更侧重于处理分类特征，对于文本中丰富的词汇信息利用不够充分；<code>ComplementNB</code> 主要用于处理类别不平衡问题，如果数据集没有明显的类别不平衡，<code>MultinomialNB</code> 通常是更好的选择。</li>
+</ul>
+<ul>
+<li>然后<code>self.clf.fit(X, labels)</code>：使用特征矩阵 X 和对应的类别标签 labels 对分类器进行训练。</li>
+</ul>
+<h2 id="步奏四-保存模型方法-save-model"><a href="#步奏四-保存模型方法-save-model" class="headerlink" title="步奏四: 保存模型方法 save_model"></a>步奏四: 保存模型方法 save_model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">save_model</span>(<span class="params">self, model_path=<span class="string">&#x27;naive_bayes_model.pkl&#x27;</span>, vectorizer_path=<span class="string">&#x27;count_vectorizer.pkl&#x27;</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    保存训练好的模型和特征提取器</span></span><br><span class="line"><span class="string">    :param model_path: 模型保存路径</span></span><br><span class="line"><span class="string">    :param vectorizer_path: 特征提取器保存路径</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    joblib.dump(<span class="variable language_">self</span>.clf, model_path)</span><br><span class="line">    joblib.dump(<span class="variable language_">self</span>.vectorizer, vectorizer_path)</span><br></pre></td></tr></table></figure>
+<p><code>save_model </code>方法用于将训练好的分类器和特征提取器保存到指定的文件中。<br><code>joblib.dump(self.clf, model_path)</code>：将分类器 self.clf 保存到 model_path 指定的文件中。<br><code>joblib.dump(self.vectorizer, vectorizer_path)</code>：将特征提取器<code> self.vectorizer</code> 保存到 <code>vectorizer_path</code> 指定的文件中。</p>
+<h2 id="步奏五-加载模型方法-load-model"><a href="#步奏五-加载模型方法-load-model" class="headerlink" title="步奏五: 加载模型方法 load_model"></a>步奏五: 加载模型方法 load_model</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">load_model</span>(<span class="params">self, model_path=<span class="string">&#x27;naive_bayes_model.pkl&#x27;</span>, vectorizer_path=<span class="string">&#x27;count_vectorizer.pkl&#x27;</span></span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    加载训练好的模型和特征提取器</span></span><br><span class="line"><span class="string">    :param model_path: 模型保存路径</span></span><br><span class="line"><span class="string">    :param vectorizer_path: 特征提取器保存路径</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="variable language_">self</span>.clf = joblib.load(model_path)</span><br><span class="line">    <span class="variable language_">self</span>.vectorizer = joblib.load(vectorizer_path)</span><br></pre></td></tr></table></figure>
+<p><code>load_model</code> 方法用于从指定的文件中加载之前保存的分类器和特征提取器。<br><code>self.clf = joblib.load(model_path)</code>：从<code> model_path</code> 指定的文件中加载分类器并赋值给 <code>self.clf</code>。<br><code>self.vectorizer = joblib.load(vectorizer_path)</code>：从<code> vectorizer_path</code> 指定的文件中加载特征提取器并赋值给 <code>self.vectorizer</code>。</p>
+<h2 id="不走六-分类方法-classify-question"><a href="#不走六-分类方法-classify-question" class="headerlink" title="不走六:分类方法 classify_question"></a>不走六:分类方法 classify_question</h2><figure class="highlight python"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">classify_question</span>(<span class="params">self, question</span>):</span><br><span class="line">    <span class="string">&quot;&quot;&quot;</span></span><br><span class="line"><span class="string">    对问题进行分类</span></span><br><span class="line"><span class="string">    :param question: 待分类的问题文本</span></span><br><span class="line"><span class="string">    :return: 分类结果，0 表示寒暄日常问题，1 表示网络安全类问题</span></span><br><span class="line"><span class="string">    &quot;&quot;&quot;</span></span><br><span class="line">    <span class="keyword">if</span> <span class="variable language_">self</span>.clf <span class="keyword">is</span> <span class="literal">None</span> <span class="keyword">or</span> <span class="variable language_">self</span>.vectorizer <span class="keyword">is</span> <span class="literal">None</span>:</span><br><span class="line">        <span class="keyword">raise</span> ValueError(<span class="string">&quot;模型或特征提取器未加载，请先调用 load_model 方法。&quot;</span>)</span><br><span class="line">    question_vector = <span class="variable language_">self</span>.vectorizer.transform([question])</span><br><span class="line">    predicted_label = <span class="variable language_">self</span>.clf.predict(question_vector)[<span class="number">0</span>]</span><br><span class="line">    <span class="keyword">return</span> predicted_label</span><br></pre></td></tr></table></figure>
+<p><code>classify_question</code> 方法用于对输入的问题文本进行分类。<br><code>if self.clf is None or self.vectorizer is None</code>:：检查分类器和特征提取器是否已经加载，如果没有加载则抛出 <code>ValueError</code> 异常。<br><code>question_vector = self.vectorizer.transform([question])：</code>使用已加载的特征提取器将输入的问题文本转换为向量表示。<br><code>predicted_label = self.clf.predict(question_vector)[0]</code>：使用已加载的分类器对转换后的向量进行预测，得到分类结果。predict 方法返回一个包含预测标签的数组，这里取第一个元素作为最终的分类结果。<br><code>return predicted_label</code>：返回分类结果。<br>综上所述，这个类提供了一个完整的基于朴素贝叶斯算法的文本分类解决方案，包括训练、保存、加载和分类功能。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.th-dedsec.top">Dedsec</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.th-dedsec.top/2025/02/07/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/">https://www.th-dedsec.top/2025/02/07/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.th-dedsec.top" target="_blank">Dedsec的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB/">朴素贝叶斯分类</a></div><div class="post-share"><div class="social-share" data-image="https://img.th-dedsec.top/img/cp1.png" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related full-width" href="/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/" title="numpy库学习(持续更新)"><img class="cover" src="https://img.th-dedsec.top/img/gbc2.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">numpy库学习(持续更新)</div></div><div class="info-2"><div class="info-item-1">numpy库学习(持续更新array多维数组概念定义多维数组是一种包含多个维度的数据集合，每个维度可以看作是一个方向，类似于数学中的坐标轴。一维数组可以想象成一条直线上的点的集合，二维数组类似一个平面上的网格，三维数组则像是一个立体空间中的立方体网格，以此类推，可以有更高维度的数组。 特点 同质性：多维数组中的所有元素必须是相同的数据类型，例如 int、float 等。这使得 NumPy 数组在内存中存储更高效，也方便进行统一的数值计算。 固定大小：数组创建后，其形状（即各维度的大小）通常是固定的，不像 Python 列表可以动态改变大小。  创建方式使用 np.array() 函数12345678910111213import numpy as np# 创建一维数组one_d_array = np.array([1, 2, 3, 4, 5])print(&quot;一维数组:&quot;, one_d_array)# 创建二维数组two_d_array = np.array([[1, 2, 3], [4, 5, 6]])print(&quot;二维数组:\n&quot;,...</div></div></div></a></nav></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/php.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Dedsec</div><div class="author-info-description">车万木柜子的日常。成分:车万,网安人,音乐爱好者</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">37</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">32</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">9</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/u511"><i class="fab fa-github"></i><span>github仓库</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/du511" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2665790854@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">苦逼学习web中。温馨提示,放大页面背景更自然(</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E7%90%86%E8%A7%A3"><span class="toc-number">1.</span> <span class="toc-text">朴素贝叶斯分类理解</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E5%A5%8F%E4%B8%80-%E5%87%86%E5%A4%87%E6%95%B0%E6%8D%AE%E9%9B%86"><span class="toc-number">1.1.</span> <span class="toc-text">步奏一:准备数据集</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E5%A5%8F%E4%BA%8C-%E8%8E%B7%E5%8F%96%E7%A6%BB%E6%95%A3%E7%9F%A9%E9%98%B5"><span class="toc-number">1.2.</span> <span class="toc-text">步奏二:获取离散矩阵</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E5%A5%8F%E4%B8%89-%E8%AE%AD%E7%BB%83%E6%96%B9%E6%B3%95"><span class="toc-number">1.3.</span> <span class="toc-text">步奏三:训练方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%90%84%E7%B1%BB%E7%9A%84%E7%89%B9%E7%82%B9%E5%92%8C%E9%80%82%E7%94%A8%E5%9C%BA%E6%99%AF"><span class="toc-number">1.3.1.</span> <span class="toc-text">各类的特点和适用场景</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-naive-bayes-BernoulliNB"><span class="toc-number">1.3.1.1.</span> <span class="toc-text">1. naive_bayes.BernoulliNB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-naive-bayes-CategoricalNB"><span class="toc-number">1.3.1.2.</span> <span class="toc-text">2. naive_bayes.CategoricalNB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-naive-bayes-GaussianNB"><span class="toc-number">1.3.1.3.</span> <span class="toc-text">3. naive_bayes.GaussianNB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#4-naive-bayes-MultinomialNB"><span class="toc-number">1.3.1.4.</span> <span class="toc-text">4. naive_bayes.MultinomialNB</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#5-naive-bayes-ComplementNB"><span class="toc-number">1.3.1.5.</span> <span class="toc-text">5. naive_bayes.ComplementNB</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%9C%A8-AI-%E8%81%8A%E5%A4%A9%E6%9C%BA%E5%99%A8%E4%BA%BA%E4%B8%AD%E5%88%86%E7%B1%BB%E7%94%A8%E6%88%B7%E9%97%AE%E9%A2%98%E7%9A%84%E9%80%89%E6%8B%A9"><span class="toc-number">1.3.2.</span> <span class="toc-text">在 AI 聊天机器人中分类用户问题的选择</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E5%A5%8F%E5%9B%9B-%E4%BF%9D%E5%AD%98%E6%A8%A1%E5%9E%8B%E6%96%B9%E6%B3%95-save-model"><span class="toc-number">1.4.</span> <span class="toc-text">步奏四: 保存模型方法 save_model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%AD%A5%E5%A5%8F%E4%BA%94-%E5%8A%A0%E8%BD%BD%E6%A8%A1%E5%9E%8B%E6%96%B9%E6%B3%95-load-model"><span class="toc-number">1.5.</span> <span class="toc-text">步奏五: 加载模型方法 load_model</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8D%E8%B5%B0%E5%85%AD-%E5%88%86%E7%B1%BB%E6%96%B9%E6%B3%95-classify-question"><span class="toc-number">1.6.</span> <span class="toc-text">不走六:分类方法 classify_question</span></a></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/02/07/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/" title="朴素贝叶斯分类算法"><img src="https://img.th-dedsec.top/img/cp1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="朴素贝叶斯分类算法"/></a><div class="content"><a class="title" href="/2025/02/07/%E6%9C%B4%E7%B4%A0%E8%B4%9D%E5%8F%B6%E6%96%AF%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95/" title="朴素贝叶斯分类算法">朴素贝叶斯分类算法</a><time datetime="2025-02-07T13:54:47.000Z" title="发表于 2025-02-07 21:54:47">2025-02-07</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/" title="numpy库学习(持续更新)"><img src="https://img.th-dedsec.top/img/gbc2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="numpy库学习(持续更新)"/></a><div class="content"><a class="title" href="/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/" title="numpy库学习(持续更新)">numpy库学习(持续更新)</a><time datetime="2025-02-02T13:29:22.000Z" title="发表于 2025-02-02 21:29:22">2025-02-02</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/" title="python异常捕获及处理"><img src="https://img.th-dedsec.top/img/cp1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python异常捕获及处理"/></a><div class="content"><a class="title" href="/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/" title="python异常捕获及处理">python异常捕获及处理</a><time datetime="2025-01-29T03:41:31.000Z" title="发表于 2025-01-29 11:41:31">2025-01-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/29/python%E6%9D%82%E9%A1%B9%E5%87%BD%E6%95%B0-%E7%94%A8%E6%B3%95%E7%A7%AF%E7%B4%AF/" title="python杂项函数/用法积累(持续更新)"><img src="https://img.th-dedsec.top/img/cp2.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python杂项函数/用法积累(持续更新)"/></a><div class="content"><a class="title" href="/2025/01/29/python%E6%9D%82%E9%A1%B9%E5%87%BD%E6%95%B0-%E7%94%A8%E6%B3%95%E7%A7%AF%E7%B4%AF/" title="python杂项函数/用法积累(持续更新)">python杂项函数/用法积累(持续更新)</a><time datetime="2025-01-29T02:24:28.000Z" title="发表于 2025-01-29 10:24:28">2025-01-29</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/" title="新加入的token的初始化相关说明"><img src="https://img.th-dedsec.top/img/gbc1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="新加入的token的初始化相关说明"/></a><div class="content"><a class="title" href="/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/" title="新加入的token的初始化相关说明">新加入的token的初始化相关说明</a><time datetime="2025-01-28T09:28:28.000Z" title="发表于 2025-01-28 17:28:28">2025-01-28</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(true - https://img.th-dedsec.top/background/footer.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Dedsec</div><div class="footer_custom_text">I wish everyone can have a goal to chase !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover1.webp);"> <a class="categoryBar-list-link" href="categories/buuctf/">buuctf</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">Linux</span></li><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover2.webp);"> <a class="categoryBar-list-link" href="categories/Linux/">Linux</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">php语言</span></li><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover6.webp);"> <a class="categoryBar-list-link" href="categories/c语言/">c语言</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr">web安全</span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/ai/">ai</a><span class="categoryBar-list-count">6</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/web安全/">web安全</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/php/">php</a><span class="categoryBar-list-count">8</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/python/">python</a><span class="categoryBar-list-count">7</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/ctfshow-web/">ctfshow web</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/个人安排/">个人安排</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><!-- hexo injector body_end end --></body></html>
