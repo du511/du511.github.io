@@ -4,6 +4,31 @@
   
     
     <entry>
+      <title>ai网安民警知识问答系统更新调试日志</title>
+      <link href="/2025/02/25/ai%E7%BD%91%E5%AE%89%E6%B0%91%E8%AD%A6%E7%9F%A5%E8%AF%86%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0%E8%B0%83%E8%AF%95%E6%97%A5%E5%BF%97/"/>
+      <url>/2025/02/25/ai%E7%BD%91%E5%AE%89%E6%B0%91%E8%AD%A6%E7%9F%A5%E8%AF%86%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0%E8%B0%83%E8%AF%95%E6%97%A5%E5%BF%97/</url>
+      
+        <content type="html"><![CDATA[<h1 id="ai网安民警知识问答系统更新调试日志"><a href="#ai网安民警知识问答系统更新调试日志" class="headerlink" title="ai网安民警知识问答系统更新调试日志"></a>ai网安民警知识问答系统更新调试日志</h1><h2 id="25-2-25"><a href="#25-2-25" class="headerlink" title="25.2.25"></a>25.2.25</h2><p><strong>状态:</strong></p><ul><li>已经对RAG数据源进行了调整，分层清晰</li><li>对历史记录的胡乱分析已经得到了解决(通过关键词)</li></ul><p><strong>目前效果:</strong></p><p>1.对案例的分析:</p><ul><li><p>优点:</p></li><li><ul><li>可以做到对法律条文有准确的输出</li><li>并且我们的faiss是起作用了的</li></ul></li><li><p>缺点:</p></li><li><ul><li><p><strong>法律依据不完整</strong></p></li><li><p><strong>司法解释引用错误</strong>：《关于办理利用信息网络实施诽谤等刑事案件适用法律若干问题的解释》与本案并无直接联系，不应在分析本案时引用。</p></li><li><p><strong>对法条的理解和应用不准确</strong>：仅依据《中华人民共和国网络安全法》第二十七条不能完整判定应受刑事处罚，该法更多是网络安全管理规范，对犯罪行为判定和刑事处罚需结合《刑法》。</p></li><li><p>朴素贝叶斯不能准确分类,会有判断错误的情况。</p></li><li><p>另外就是关于我的初始分析系统:我觉得，为了提高输出的准确性，我觉得提示词需要更改，就是最后的输出应该主要使用前面获得的相关RAG系统获得的{relevant_texts},不再使用前面的输出，<strong>相当于RAG系统作为一个过滤的作用</strong>,获取出更清晰的法律回答</p></li><li><p>还有就是,输出太慢了，不知道怎么解决。</p></li></ul></li><li><p>个人的想法:</p></li><li><ul><li>关于第一点，很多刑法的东西没装进去，导致数据库还不够庞大，降低了机器的准确性。</li><li>第二点，我不知道怎么回事，多半是提示词的问题。</li><li>第三点，和第一点类似，也是法律数据太少了，导致机器的判定不准确。</li><li>第四点，可能要换判断器了。或者说，怎么优化数据集呢,对法律的分析完全不对</li><li>第五点，可不可以挂云端,租算力，或者在win上部署ollama模型</li></ul></li></ul><p>2.对法律的分析:</p><ul><li>完全无法分析，因为判断器失灵的关系</li></ul><p><strong>还要做的工作:</strong></p><ul><li>对提示词地毯式检查，检查其正确性</li><li>学习streamlit,把对元数据的文本分段脚本装上去</li><li>加别的法律数据文案</li><li>判断器，要改，但是我也不知道改哪个</li></ul>]]></content>
+      
+      
+      <categories>
+          
+          <category> ai </category>
+          
+      </categories>
+      
+      
+        <tags>
+            
+            <tag> 25年1月公安部项目 </tag>
+            
+        </tags>
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>langchain历史记录管理</title>
       <link href="/2025/02/20/langchain%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86/"/>
       <url>/2025/02/20/langchain%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86/</url>
@@ -580,6 +605,19 @@
     
     
     <entry>
+      <title>php超全局变量</title>
+      <link href="/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/"/>
+      <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
+      
+        <content type="html"><![CDATA[]]></content>
+      
+      
+      
+    </entry>
+    
+    
+    
+    <entry>
       <title>php超全局变量特性注解</title>
       <link href="/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/"/>
       <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
@@ -599,19 +637,6 @@
             <tag> php超全局变量 </tag>
             
         </tags>
-      
-    </entry>
-    
-    
-    
-    <entry>
-      <title>php超全局变量</title>
-      <link href="/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/"/>
-      <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
-      
-        <content type="html"><![CDATA[]]></content>
-      
-      
       
     </entry>
     
