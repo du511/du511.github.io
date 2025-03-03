@@ -37,12 +37,6 @@
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客</title>
-    <url>/2025/01/11/25.1.9/</url>
-    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
-]]></content>
-  </entry>
-  <entry>
     <title>初见文件上传:[极客大挑战 2019]Upload</title>
     <url>/2025/01/19/2019-Upload/</url>
     <content><![CDATA[<h3 id="初见文件上传-极客大挑战-2019-Upload"><a href="#初见文件上传-极客大挑战-2019-Upload" class="headerlink" title="初见文件上传:[极客大挑战 2019] Upload"></a>初见文件上传:[极客大挑战 2019] Upload</h3><h4 id="进入靶机"><a href="#进入靶机" class="headerlink" title="进入靶机"></a>进入靶机</h4><img src="/2025/01/19/2019-Upload/image-20250119233053920.png" class="" title="image-20250119233053920">
@@ -97,6 +91,45 @@
       </categories>
       <tags>
         <tag>文件上传</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一篇博客</title>
+    <url>/2025/01/11/25.1.9/</url>
+    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Arch_linux入门</title>
+    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
+<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
+<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
+<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
+<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
+<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
+<p>添加如下内容启用systemd</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
+<p>为了使更改生效,在powershell中重启wsl:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
+<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
+<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
+<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
+<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
+<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
+<p>将指定系统版本设置为2:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
       </tags>
   </entry>
   <entry>
@@ -331,39 +364,6 @@
       </categories>
       <tags>
         <tag>ollama</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Arch_linux入门</title>
-    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
-<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
-<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
-<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
-<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
-<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
-<p>添加如下内容启用systemd</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
-<p>为了使更改生效,在powershell中重启wsl:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
-<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
-<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
-<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
-<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
-<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
-<p>将指定系统版本设置为2:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
       </tags>
   </entry>
   <entry>
@@ -810,7 +810,8 @@
 </ul>
 <p>此外，在函数的参数传递、返回值处理，以及单片机或 Linux 驱动开发中的寄存器地址使用等场景，也常需要进行强制类型转换。</p>
 <h4 id="双等号赋值"><a href="#双等号赋值" class="headerlink" title="双等号赋值:"></a>双等号赋值:</h4><p><code>sum = pad =5</code>，5同时给<code>sum</code>和<code>pad</code>两个值赋值。</p>
-<h3 id="自增运算"><a href="#自增运算" class="headerlink" title="自增运算"></a>自增运算</h3><ul>
+<h3 id="自增运算"><a href="#自增运算" class="headerlink" title="自增运算"></a>自增运算</h3><p>例题一:</p>
+<ul>
 <li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302145908381.png" class="" title="image-20250302145908381"></li>
 </ul>
 </li>
@@ -818,8 +819,12 @@
 <ul>
 <li><strong><code>pAd++（后置自增）</code></strong>：先使用<code>pAd</code>当前的值参与表达式运算，运算完成后，<code>pAd</code>的值再自增 1。例如<code>int a = pAd++;</code> ，会先把<code>pAd</code>原来的值赋给<code>a</code>，然后<code>pAd</code>自身加 1。</li>
 <li><strong><code>++pAd（前置自增）</code></strong>：<code>pAd</code>的值先自增 1，然后再使用自增后的值参与表达式运算。比如<code>int b = ++pAd;</code> ，<code>pAd</code>会先加 1，再把新的值赋给<code>b</code>。</li>
+<li>新提醒:<strong>这里的运算不止是对其他值赋值</strong></li>
+<li>如例题二:</li>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250304073933154.png" class="" title="image-20250304073933154"></li>
+<li>以例题二中的代码为例:第一个<code>i++</code>,在<code>printf</code>执行完毕以后，才进行赋值,所以第一个<code>printf</code>输出的值是1，未变。</li>
 </ul>
-<p>以题目中的代码为例，<code>pAd++</code>是先让<code>pAd</code>以原值参与逗号表达式运算，然后自身加 1；<code>++pAd</code>则是先让<code>pAd</code>加 1，再以新值参与后续运算。</p>
+<p>以例题一题目中的代码为例，<code>pAd++</code>是先让<code>pAd</code>以原值参与逗号表达式运算，然后自身加 1；<code>++pAd</code>则是先让<code>pAd</code>加 1，再以新值参与后续运算。</p>
 <ul>
 <li>在这题中:</li>
 <li>先让<code>pAd</code>的值被赋值为<code>sum</code>的值(5),然后<code>sum</code>自己再增加1,</li>
@@ -1056,12 +1061,45 @@ int main()&#123;
 <li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250303074823302.png" class="" title="image-20250303074823302"></li>
 <li>如解析所示,不多说</li>
 </ul>
+<h2 id="3-4"><a href="#3-4" class="headerlink" title="3.4"></a>3.4</h2><h3 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h3><ul>
+<li>如下例题:</li>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250304074758892.png" class="" title="image-20250304074758892"></li>
+<li>做到34题了</li>
+</ul>
 ]]></content>
       <categories>
         <category>c语言</category>
       </categories>
       <tags>
         <tag>备考二级选择题</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>if代码执行机制</title>
+    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
+<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
+<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
+<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再在另外一个文件中包含它:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只会输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
+<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
+<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php条件函数</tag>
       </tags>
   </entry>
   <entry>
@@ -1186,34 +1224,6 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
-    <title>if代码执行机制</title>
-    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
-<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
-<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
-<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
-<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>再在另外一个文件中包含它:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>只会输出:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
-<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
-<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php条件函数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php包含代码机制</title>
     <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p>
@@ -1285,6 +1295,17 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
+    <title>php比较字符1</title>
+    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php超全局变量特性注解</title>
     <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
     <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
@@ -1298,17 +1319,6 @@ int main()&#123;
       </categories>
       <tags>
         <tag>php超全局变量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php比较字符1</title>
-    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php比较字符</tag>
       </tags>
   </entry>
   <entry>
@@ -1509,38 +1519,6 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
-    <title>python读取文件</title>
-    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
-
-<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
-<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
-<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
-<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
-<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
-<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
-<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
-
-<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
-
-<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python读取文件</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python程序运行启动代码</title>
     <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
     <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
@@ -1574,6 +1552,43 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
+    <title>python读取文件</title>
+    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
+
+<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
+<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
+<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
+<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
+<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
+<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
+<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
+
+<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
+
+<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python读取文件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>re库</title>
+    <url>/2025/03/01/re%E5%BA%93/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>sql常规注入</title>
     <url>/2025/01/11/sql%E5%B8%B8%E8%A7%84%E6%B3%A8%E5%85%A5/</url>
     <content><![CDATA[]]></content>
@@ -1583,11 +1598,6 @@ int main()&#123;
       <tags>
         <tag>sql注入</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>re库</title>
-    <url>/2025/03/01/re%E5%BA%93/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>toml配置文件</title>
@@ -1762,11 +1772,6 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
-    <title>决策树分类算法学习</title>
-    <url>/2025/03/01/%E5%86%B3%E7%AD%96%E6%A0%91%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>代码审计套路</title>
     <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
     <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
@@ -1787,6 +1792,11 @@ int main()&#123;
       <tags>
         <tag>代码审计</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>决策树分类算法学习</title>
+    <url>/2025/03/01/%E5%86%B3%E7%AD%96%E6%A0%91%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>命令执行:使用文件包含绕过</title>
@@ -1907,6 +1917,24 @@ int main()&#123;
       </categories>
       <tags>
         <tag>大一寒假安排</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
       </tags>
   </entry>
   <entry>
@@ -2037,24 +2065,6 @@ int main()&#123;
       </categories>
       <tags>
         <tag>朴素贝叶斯分类</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>正则匹配</tag>
       </tags>
   </entry>
   <entry>
