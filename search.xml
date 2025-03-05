@@ -985,12 +985,12 @@ int main()&#123;
     printf(&quot;%d&quot;, c);
     
 &#125;
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
-<li><p>这里就是对类似于指针的数组<code>c</code>进行了解包,但是默认解包出来的数是数组的第一个数，即<code>1</code>,若要对下一位数进行解包,可以这样进行解包:<code>printf(&quot;%d&quot;, *(c+1))&#39;;</code>会输出:<code>2</code>。                                                 相当于:<code>+1</code>是为了移位,<code>*</code>是为了解包。</p>
+<li><p>这里就是对类似于指针的数组<code>c</code>进行了解包,但是默认解包出来的数是数组的第一个数，即<code>1</code>,若要对下一位数进行解包,可以这样进行解包:<code>printf(&quot;%d&quot;, *(c+1))&#39;;</code>会输出:<code>2</code> 相当于:<code>+1</code>是为了移位,<code>*</code>是为了解包。</p>
 </li>
-<li><p>这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中;                   对于数组<code>c</code>,<code>*(c+1)</code>和<code>c[1]</code>都是一个道理,为了保证形式上的相同，所以这样干。</p>
+<li><p>这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组<code>c</code>,<code>*(c+1)</code>和<code>c[1]</code>都是一个道理,为了保证形式上的相同，所以这样干。</p>
 </li>
 <li><p>我们这里可以继续说:</p>
 </li>
@@ -1006,55 +1006,33 @@ int main()&#123;
     printf(&quot;%d&quot;, p[1]);
     
 &#125;
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
-<li><p>这里一样可以把指针<code>p</code>当成数组进行索引分配。输出<code>2</code>。</p>
-</li>
-</ul>
-<h5 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组:"></a>指针数组:</h5><ul>
-<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302175735900.png" class="" title="image-20250302175735900"></li>
 </ul>
 </li>
-<li><p>这里我们出现了疑问:为什么我们使用int a &#x3D; 6;int * p &#x3D; a就会出错，而使用b &#x3D; {1,2,3};int * p &#x3D; b;就不会出错呢,数组就不出错?</p>
-</li>
-<li><p>原因如下:</p>
-</li>
-<li><p><code>int a = 6; int *p = a;</code> 出错原因</p>
-<ul>
-<li><code>int *p</code> 声明了一个指针变量<code>p</code>，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</li>
-<li>而<code>int a = 6;</code> 定义了一个整型变量<code>a</code>并初始化为<code>6</code>，<code>6</code>只是一个普通的整数值，并非内存地址，所以直接将<code>a</code>的值赋给指针变量<code>p</code>，会导致类型不匹配错误，编译器会报错。正确的做法应该是将<code>a</code>的地址赋给<code>p</code>，即<code>int *p = &amp;a;</code>，这里<code>&amp;</code>是取地址运算符，<code>&amp;a</code>表示获取变量<code>a</code>在内存中的地址。</li>
-</ul>
-</li>
-<li><p>数组情况不出错的原因。</p>
-<ul>
-<li>在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义<code>int b[] = &#123;1,2,3&#125;;</code> 时，<code>b</code> 代表数组<code>b</code>的首地址，它的类型本质上是<code>int *</code> （指向<code>int</code>类型的指针） 。</li>
-<li>所以<code>int *p = b;</code> 这种写法是将数组<code>b</code>的首地址赋值给指针变量<code>p</code>，两者类型匹配，因此不会出错，此时<code>p</code>就指向了数组<code>b</code>的第一个元素，可以通过<code>p</code>来操作数组元素，比如<code>p[0]</code> 等价于<code>b[0]</code> ，都表示访问数组的第一个元素<code>1</code>。</li>
-</ul>
-</li>
-<li><p><strong>这里我们可以进行一个总结：</strong></p>
+<li><p>首先对于<code>for(int i=0; i&lt;3; i++)</code>这行代码:</p>
 </li>
 <li><ul>
-<li><p>在 C 语言中对于数组<code>a[3]</code> ，在很多情况下数组名<code>a</code>会被隐式转换为指向数组首元素的地址：</p>
-<ul>
-<li><strong>赋值场景</strong>：当把数组名赋值给指针变量时，如<code>int *p = a;</code> ，这里数组名<code>a</code>就被当作指向数组首元素<code>a[0]</code>的地址，将该地址赋给指针<code>p</code> ，使<code>p</code>也指向数组首元素。</li>
-<li><strong>表达式场景</strong>：在涉及地址计算和操作的表达式中，例如<code>a + 1</code>，这里<code>a</code>同样被视为指向数组首元素的地址，<code>a + 1</code>表示指向数组第二个元素<code>a[1]</code>的地址 。</li>
-<li><strong>函数参数传递场景</strong>：当数组作为函数参数时，比如定义函数<code>void func(int arr[])</code> ，调用<code>func(a)</code> ，实际上传递给函数的是数组<code>a</code>首元素的地址，在函数内部<code>arr</code>就相当于一个指向传入数组首元素的指针。</li>
-</ul>
-<p>不过要注意，数组名在<code>sizeof</code>运算符中例外，<code>sizeof(a)</code>得到的是整个数组占用的字节数，此时<code>a</code>不被当作指针，而是代表整个数组 。</p>
-</li>
-</ul>
-</li>
-<li><p>对于指针与数组:</p>
-</li>
-<li><ul>
-<li>比如:<code>int *p = a </code>,这里也是把数组<code>a</code>首位元素地址赋值给了新定义的整型指针<code>p</code>,然后我们就可以用:<code>a[i]</code>以及<code>*(a+i)</code>、<code>*(p+i)</code>、<code>p[i]</code>这些方法对元素进行移动                                                                           要注意:没有<code>*a[i]</code>或<code>*p[i]</code>的写法。</li>
+<li>在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</li>
+<li>而ap[i]是一个指针,(类型:<code>*int</code>)在这里,就把就是第i行的第一个数字的<strong>地址</strong>赋值给了<code>ap[i]</code>,如果是字符串的话,比如:<code>str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;</code>，这种，要让指针数组(<code>strp</code>),指向数组:<code>strp[i] = str[i]</code>，那么这里指针代表的是蒂耶戈字符串所有的地址。</li>
+<li>而<code>ap</code>代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:<code>**int</code>,所以，要进行两次解包才行:<code>**(ap+1)</code></li>
+<li>所以ap[1]呈现出来的是一个地址而非具体值，因为数组<code>ap</code>的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用<code>*ap[1]</code>就会得到具体值</li>
 </ul>
 </li>
 </ul>
-<h4 id="指针数组以及指针的指针"><a href="#指针数组以及指针的指针" class="headerlink" title="指针数组以及指针的指针"></a>指针数组以及指针的指针</h4><h5 id="指针数组-1"><a href="#指针数组-1" class="headerlink" title="指针数组"></a>指针数组</h5><ul>
+<h4 id="指针数组以及指针的指针"><a href="#指针数组以及指针的指针" class="headerlink" title="指针数组以及指针的指针"></a>指针数组以及指针的指针</h4><h5 id="指针数组"><a href="#指针数组" class="headerlink" title="指针数组"></a>指针数组</h5><ul>
 <li>比如:</li>
 <li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250303075709855.png" class="" title="image-20250303075709855"></li>
 <li>使用语法<code>char *s[6]</code>就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</li>
+</ul>
+<h4 id="自定义数据结构里面的指针"><a href="#自定义数据结构里面的指针" class="headerlink" title="自定义数据结构里面的指针"></a>自定义数据结构里面的指针</h4><ul>
+<li>有以下例题:</li>
+<li><style>.ngmnbdcjwiog{zoom:150%;}</style></li>
+<li>要点一:对于<code>struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;</code>这里由于该结构在初始化的时候，需要两个值来初始化，所以<code>5,&amp;a[0]</code>就构成了数组<code>a</code>的第一个元素<code>a[0]</code>的初始化内容 ，<code>6,&amp;a[1]</code> 、<code>7,&amp;a[2]</code>分别对应<code>a[1]</code>和<code>a[2]</code>的初始化内容。</li>
+<li>要点二:这里对<code>st</code>数据结构数组的值的导入，比如:<code>5,&amp;a[0]</code>,这里第二个值为<code>&amp;a[0]</code>，就是对<code>st *next</code>的赋值，即指向的下一个元素是它本身。</li>
+<li>要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</li>
+<li>要点四:<code>p=&amp;a[0]</code>,这里就是指向数组a的第一个元素的的地址，包含：<code>(int n ,struct st *next)</code>,我们对指针进行移动:<code>(++p)</code>,再进行指向:<code>-&gt;</code>,<strong>其中:<code>-&gt;</code>这个方法就已经对数据结构其中的元素进行了解包</strong>,所以不需要<code>*p</code>对数据解包了。</li>
 </ul>
 <h2 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h2><h3 id="数组特性"><a href="#数组特性" class="headerlink" title="数组特性"></a>数组特性</h3><ul>
 <li>比如该题:</li>
@@ -1062,9 +1040,14 @@ int main()&#123;
 <li>如解析所示,不多说</li>
 </ul>
 <h2 id="3-4"><a href="#3-4" class="headerlink" title="3.4"></a>3.4</h2><h3 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h3><ul>
-<li>如下例题:</li>
+<li><p>如下例题:</p>
+</li>
 <li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250304074758892.png" class="" title="image-20250304074758892"></li>
-<li>做到34题了</li>
+</ul>
+<h2 id="3-5"><a href="#3-5" class="headerlink" title="3.5"></a>3.5</h2><h3 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h3><h4 id="就是一个简单的替换"><a href="#就是一个简单的替换" class="headerlink" title="就是一个简单的替换"></a>就是一个简单的替换</h4><ul>
+<li>我们可以看如下例题:</li>
+<li></li>
+<li>由题可知:<code>F(5)</code>会被替换为:<code>F(x) 2.84+x</code>,在这道例题里面,<code>F(x)</code>被替换之后，是直接单纯被替换:会变成:<code>2.84+x*2</code>,不会自己多加什么运算顺序,不会变成:<code>(2.84+x)*2</code>。</li>
 </ul>
 ]]></content>
       <categories>
@@ -1689,6 +1672,26 @@ int main()&#123;
 <li><code>__getitem__</code> 方法：用于根据索引获取数据集中的一个样本。<code>DataLoader</code> 在加载数据时，会通过这个方法逐批获取数据。</li>
 </ul>
 <p>通过实现这两个方法，<code>AFQMC</code> 类就符合了 <code>Dataset</code> 类的接口规范，可以与 PyTorch 提供的其他数据处理和模型训练工具无缝集成。</p>
+<h3 id="Dataset和Dataloader类之间的配合"><a href="#Dataset和Dataloader类之间的配合" class="headerlink" title="Dataset和Dataloader类之间的配合:"></a><code>Dataset</code>和<code>Dataloader</code>类之间的配合:</h3><p><code>DataLoader</code> 是 PyTorch 中用于批量加载数据的工具，它与自定义的 <code>Dataset</code> 类（如 <code>LawDataset</code>）紧密配合，以高效地为模型训练或推理提供数据。具体的配合过程如下：</p>
+<h4 id="1-初始化阶段"><a href="#1-初始化阶段" class="headerlink" title="1. 初始化阶段"></a>1. 初始化阶段</h4><p>当你创建 <code>DataLoader</code> 实例时，需要将 <code>Dataset</code> 实例作为参数传入，例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="comment"># 假设已经定义了 LawDataset 类并创建了 dataset 实例</span></span><br><span class="line">dataloader = DataLoader(dataset, batch_size=<span class="number">2</span>, shuffle=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>batch_size</code> 表示每个批次包含的样本数量，<code>shuffle</code> 表示是否在每个 epoch 开始时打乱数据集。</p>
+<h4 id="2-数据加载阶段"><a href="#2-数据加载阶段" class="headerlink" title="2. 数据加载阶段"></a>2. 数据加载阶段</h4><p>当你使用 <code>for</code> 循环遍历 <code>DataLoader</code> 时，<code>DataLoader</code> 会根据 <code>batch_size</code> 的设置，多次调用 <code>Dataset</code> 类的 <code>__getitem__</code> 方法来获取样本。具体步骤如下：</p>
+<ul>
+<li><code>DataLoader</code> 首先会确定当前批次需要获取的样本索引。</li>
+<li>对于每个索引，<code>DataLoader</code> 会调用 <code>Dataset</code> 实例的 <code>__getitem__</code> 方法，传入该索引，从而获取对应的样本。</li>
+<li>当获取到 <code>batch_size</code> 个样本后，<code>DataLoader</code> 会将这些样本组合成一个批次，并将其返回给循环。</li>
+</ul>
+<p>例如，当 <code>batch_size = 2</code> 时，<code>DataLoader</code> 会先调用 <code>__getitem__(0)</code> 得到第一个样本，再调用 <code>__getitem__(1)</code> 得到第二个样本，然后将这两个样本组合成一个批次。</p>
+<p><strong>补充几点:</strong></p>
+<h3 id="getitem-方法每次只处理一个文本的原因"><a href="#getitem-方法每次只处理一个文本的原因" class="headerlink" title="__getitem__ 方法每次只处理一个文本的原因"></a><code>__getitem__</code> 方法每次只处理一个文本的原因</h3><p><code>__getitem__</code> 方法设计为每次只处理一个索引对应的文本，这是为了保证代码的简洁性和灵活性。通过将数据处理逻辑封装在 <code>__getitem__</code> 方法中，<code>DataLoader</code> 可以根据需要多次调用该方法，从而实现批量数据的加载。如果 <code>__getitem__</code> 方法要处理多个文本，会增加方法的复杂度，并且不利于数据的随机访问和批量处理。</p>
+<h3 id="getitem-方法中-self-texts-idx-的调用逻辑"><a href="#getitem-方法中-self-texts-idx-的调用逻辑" class="headerlink" title="__getitem__ 方法中 self.texts[idx] 的调用逻辑"></a><code>__getitem__</code> 方法中 <code>self.texts[idx]</code> 的调用逻辑</h3><p>在 <code>__getitem__</code> 方法中，<code>self.texts[idx]</code> 只是获取 <code>self.texts</code> 列表中索引为 <code>idx</code> 的文本元素，它本身并不会触发整个 <code>__getitem__</code> 方法。<code>__getitem__</code> 方法是在 <code>DataLoader</code> 调用时被触发的，<code>DataLoader</code> 会传入一个索引 <code>idx</code>，然后执行 <code>__getitem__</code> 方法中的代码，<code>self.texts[idx]</code> 只是 <code>__getitem__</code> 方法中的一个操作步骤。</p>
+<p>以下是一个简单的示例代码，展示了 <code>DataLoader</code> 与 <code>Dataset</code> 类的配合过程：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset, DataLoader</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyDataset</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="variable language_">self</span>.data = data</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, idx</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Getting item at index <span class="subst">&#123;idx&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.data[idx]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例数据</span></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">dataset = MyDataset(data)</span><br><span class="line">dataloader = DataLoader(dataset, batch_size=<span class="number">2</span>, shuffle=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> batch <span class="keyword">in</span> dataloader:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Batch: <span class="subst">&#123;batch&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，<code>DataLoader</code> 每次会调用 <code>MyDataset</code> 的 <code>__getitem__</code> 方法两次（因为 <code>batch_size = 2</code>），获取两个样本并组合成一个批次，然后将批次返回给循环进行处理。</p>
+<p>综上所述，<code>DataLoader</code> 通过多次调用 <code>Dataset</code> 类的 <code>__getitem__</code> 方法来实现批量数据的加载，而 <code>__getitem__</code> 方法每次只处理一个索引对应的样本，保证了代码的简洁性和灵活性。</p>
 ]]></content>
       <categories>
         <category>ai</category>
