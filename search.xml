@@ -1,45 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>我的第一篇博客</title>
-    <url>/2025/01/11/25.1.9/</url>
-    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>Arch_linux入门</title>
-    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
-<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
-<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
-<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
-<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
-<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
-<p>添加如下内容启用systemd</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
-<p>为了使更改生效,在powershell中重启wsl:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
-<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
-<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
-<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
-<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
-<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
-<p>将指定系统版本设置为2:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>HCTF2018 WarmUp1代码审计:include分割符</title>
     <url>/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/</url>
     <content><![CDATA[<h3 id="HCTF2018-Warmup1-代码审计"><a href="#HCTF2018-Warmup1-代码审计" class="headerlink" title="HCTF2018 Warmup1 代码审计"></a>HCTF2018 Warmup1 代码审计</h3><h4 id="第一步-查看源码"><a href="#第一步-查看源码" class="headerlink" title="第一步:查看源码"></a>第一步:查看源码</h4>
@@ -130,6 +91,45 @@
       </categories>
       <tags>
         <tag>文件上传</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>我的第一篇博客</title>
+    <url>/2025/01/11/25.1.9/</url>
+    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
+]]></content>
+  </entry>
+  <entry>
+    <title>Arch_linux入门</title>
+    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
+<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
+<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
+<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
+<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
+<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
+<p>添加如下内容启用systemd</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
+<p>为了使更改生效,在powershell中重启wsl:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
+<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
+<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
+<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
+<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
+<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
+<p>将指定系统版本设置为2:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
       </tags>
   </entry>
   <entry>
@@ -364,6 +364,58 @@
       </categories>
       <tags>
         <tag>ollama</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言操作题</title>
+    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="大小写的转化"><a href="#大小写的转化" class="headerlink" title="大小写的转化"></a>大小写的转化</h1><h2 id="利用-ASCII-码值的差值进行转换"><a href="#利用-ASCII-码值的差值进行转换" class="headerlink" title="利用 ASCII 码值的差值进行转换"></a>利用 ASCII 码值的差值进行转换</h2><ul>
+<li><strong>原理</strong>：在 ASCII 码表中，大写字母和小写字母的编码是有规律的。<strong>小写字母比对应的大写字母的 ASCII 码值大 32</strong> 。例如，‘A’ 的 ASCII 码值是 65 ，‘a’ 的 ASCII 码值是 97 。所以可以通过对字符的 ASCII 码值进行加减操作来实现大小写转换。</li>
+<li><strong>代码示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">        ch = ch + <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    <span class="keyword">if</span> (ch2 &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch2 &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        ch2 = ch2 - <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用标准库函数-tolower-和-toupper"><a href="#使用标准库函数-tolower-和-toupper" class="headerlink" title="使用标准库函数 tolower() 和 toupper()"></a>使用标准库函数 <code>tolower()</code> 和 <code>toupper()</code></h2><ul>
+<li><strong>原理</strong>：C 语言的标准库 <code>&lt;ctype.h&gt;</code> 提供了 <code>tolower()</code> 和 <code>toupper()</code> 函数来进行字符大小写转换。<code>tolower()</code> 函数会将给定的字符转换为小写形式（如果该字符是大写字母 ），<code>toupper()</code> 函数会将给定的字符转换为大写形式（如果该字符是小写字母 ）。如果字符本身不是字母，函数会直接返回原字符。</li>
+<li><strong>代码示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    ch = <span class="built_in">tolower</span>(ch);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    ch2 = <span class="built_in">toupper</span>(ch2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="对字符串中的字符进行大小写转换"><a href="#对字符串中的字符进行大小写转换" class="headerlink" title="对字符串中的字符进行大小写转换"></a>对字符串中的字符进行大小写转换</h2><p>如果要对字符串中的所有字符进行大小写转换，可以结合循环和上述方法来实现。</p>
+<ul>
+<li><strong>利用 ASCII 码值差值的示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] + <span class="number">32</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] - <span class="number">32</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>利用标准库函数的示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isupper</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">tolower</span>(str[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">islower</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">toupper</span>(str[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>计算机二级</tag>
       </tags>
   </entry>
   <entry>
@@ -1047,25 +1099,6 @@
       </tags>
   </entry>
   <entry>
-    <title>bp爆破中的变量赋值</title>
-    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
-<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
-<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
-<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
-<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>c语言数值类型与字长的理解</title>
     <url>/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="c语言数据类型"><a href="#c语言数据类型" class="headerlink" title="c语言数据类型"></a>c语言数据类型</h2><h3 id="数据声明与字长"><a href="#数据声明与字长" class="headerlink" title="数据声明与字长"></a>数据声明与字长</h3><p>1.首先字长是计算机可以处理的二进制数的位数,字节是基本单位,一字节等于8位,1位是0或1。</p>
@@ -1333,81 +1366,9 @@ void main()
       </tags>
   </entry>
   <entry>
-    <title>c语言操作题</title>
-    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="大小写的转化"><a href="#大小写的转化" class="headerlink" title="大小写的转化"></a>大小写的转化</h1><h2 id="利用-ASCII-码值的差值进行转换"><a href="#利用-ASCII-码值的差值进行转换" class="headerlink" title="利用 ASCII 码值的差值进行转换"></a>利用 ASCII 码值的差值进行转换</h2><ul>
-<li><strong>原理</strong>：在 ASCII 码表中，大写字母和小写字母的编码是有规律的。<strong>小写字母比对应的大写字母的 ASCII 码值大 32</strong> 。例如，‘A’ 的 ASCII 码值是 65 ，‘a’ 的 ASCII 码值是 97 。所以可以通过对字符的 ASCII 码值进行加减操作来实现大小写转换。</li>
-<li><strong>代码示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">        ch = ch + <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    <span class="keyword">if</span> (ch2 &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch2 &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        ch2 = ch2 - <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用标准库函数-tolower-和-toupper"><a href="#使用标准库函数-tolower-和-toupper" class="headerlink" title="使用标准库函数 tolower() 和 toupper()"></a>使用标准库函数 <code>tolower()</code> 和 <code>toupper()</code></h2><ul>
-<li><strong>原理</strong>：C 语言的标准库 <code>&lt;ctype.h&gt;</code> 提供了 <code>tolower()</code> 和 <code>toupper()</code> 函数来进行字符大小写转换。<code>tolower()</code> 函数会将给定的字符转换为小写形式（如果该字符是大写字母 ），<code>toupper()</code> 函数会将给定的字符转换为大写形式（如果该字符是小写字母 ）。如果字符本身不是字母，函数会直接返回原字符。</li>
-<li><strong>代码示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    ch = <span class="built_in">tolower</span>(ch);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    ch2 = <span class="built_in">toupper</span>(ch2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="对字符串中的字符进行大小写转换"><a href="#对字符串中的字符进行大小写转换" class="headerlink" title="对字符串中的字符进行大小写转换"></a>对字符串中的字符进行大小写转换</h2><p>如果要对字符串中的所有字符进行大小写转换，可以结合循环和上述方法来实现。</p>
-<ul>
-<li><strong>利用 ASCII 码值差值的示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] + <span class="number">32</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] - <span class="number">32</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>利用标准库函数的示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isupper</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">tolower</span>(str[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">islower</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">toupper</span>(str[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>c语言</category>
-      </categories>
-      <tags>
-        <tag>计算机二级</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>c语言细节</title>
     <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>json学习</title>
-    <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
-<li>比如有以下python数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#综合数据集</span></span><br><span class="line">        decision_metadata = &#123;</span><br><span class="line">            <span class="string">&quot;model_version&quot;</span>: <span class="string">&quot;xgb_v3.1+bert_v2.4&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;xgb_pred&#x27;</span>: xgb_pred,</span><br><span class="line">            <span class="string">&#x27;bert_pred&#x27;</span>: bert_pred,</span><br><span class="line">            <span class="string">&#x27;xgb_proba&#x27;</span>: xgb_proda,</span><br><span class="line">            <span class="string">&#x27;bert_proba&#x27;</span>: bert_proda,</span><br><span class="line">            <span class="string">&#x27;xgb_detailed_proda&#x27;</span>: xgb_detailed_proda,</span><br><span class="line">            <span class="string">&#x27;bert_detailed_proda&#x27;</span>: bert_detailed_proda,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>进行json格式转码，即，讲该字典格式数据编码为<code>json</code>格式数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dc_metadata_json = json.dumps(decision_metadata)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>即采用，<code>json.dumps()</code>方法,当然，你要先使用<code>import json</code>的操作。</li>
-</ul>
-<h2 id="json格式数据写入txt文档"><a href="#json格式数据写入txt文档" class="headerlink" title="json格式数据写入txt文档"></a>json格式数据写入txt文档</h2><h3 id="步骤一：导入必要的模块"><a href="#步骤一：导入必要的模块" class="headerlink" title="步骤一：导入必要的模块"></a>步骤一：导入必要的模块</h3><p>需要导入<code>json</code>模块用于处理 JSON 数据。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤二：准备-JSON-格式的-Python-数据"><a href="#步骤二：准备-JSON-格式的-Python-数据" class="headerlink" title="步骤二：准备 JSON 格式的 Python 数据"></a>步骤二：准备 JSON 格式的 Python 数据</h3><p>JSON 数据在 Python 中通常以字典、列表等数据结构表示。例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">&quot;hobbies&quot;</span>: [<span class="string">&quot;阅读&quot;</span>, <span class="string">&quot;跑步&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤三：将-JSON-数据转换为字符串"><a href="#步骤三：将-JSON-数据转换为字符串" class="headerlink" title="步骤三：将 JSON 数据转换为字符串"></a>步骤三：将 JSON 数据转换为字符串</h3><p>使用<code>json.dumps()</code>方法将 Python 中的 JSON 数据转换为字符串格式，方便写入 txt 文件。<code>json.dumps()</code>方法还可以通过一些参数进行格式化输出，如<code>indent</code>参数指定缩进，<code>ensure_ascii</code>参数设置是否以 ASCII 编码显示字符（<code>False</code>表示按原字符显示，常用于处理中文等非 ASCII 字符）。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤四：打开-txt-文件并写入数据"><a href="#步骤四：打开-txt-文件并写入数据" class="headerlink" title="步骤四：打开 txt 文件并写入数据"></a>步骤四：打开 txt 文件并写入数据</h3><p>使用<code>open()</code>函数以写入（<code>&#39;w&#39;</code>）或追加（<code>&#39;a&#39;</code>）模式打开 txt 文件。<code>&#39;w&#39;</code>模式会覆盖原有文件内容；<code>&#39;a&#39;</code>模式则会在文件末尾添加新内容，若文件不存在会自动创建。使用<code>write()</code>方法将转换后的 JSON 字符串写入文件，操作完成后文件会在<code>with</code>语句块结束时自动关闭。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以写入模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str)</span><br><span class="line"><span class="comment"># 以追加模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>如果 JSON 数据原本存储在文件中，先读取该 JSON 文件再写入 txt 文件，示例如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取JSON文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;input.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将JSON数据转换为字符串</span></span><br><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入txt文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> txt_file:</span><br><span class="line">    txt_file.write(json_str) </span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>json库</tag>
-      </tags>
   </entry>
   <entry>
     <title>if代码执行机制</title>
@@ -1435,72 +1396,6 @@ void main()
       </categories>
       <tags>
         <tag>php条件函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>numpy库学习(持续更新)</title>
-    <url>/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="numpy库学习-持续更新"><a href="#numpy库学习-持续更新" class="headerlink" title="numpy库学习(持续更新"></a>numpy库学习(持续更新</h1><h2 id="array多维数组概念"><a href="#array多维数组概念" class="headerlink" title="array多维数组概念"></a>array多维数组概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>多维数组是一种包含多个维度的数据集合，每个维度可以看作是一个方向，类似于数学中的坐标轴。一维数组可以想象成一条直线上的点的集合，二维数组类似一个平面上的网格，三维数组则像是一个立体空间中的立方体网格，以此类推，可以有更高维度的数组。</p>
-<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
-<li><strong>同质性</strong>：多维数组中的所有元素必须是相同的数据类型，例如 <code>int</code>、<code>float</code> 等。这使得 NumPy 数组在内存中存储更高效，也方便进行统一的数值计算。</li>
-<li><strong>固定大小</strong>：数组创建后，其形状（即各维度的大小）通常是固定的，不像 Python 列表可以动态改变大小。</li>
-</ul>
-<h3 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h3><h4 id="使用-np-array-函数"><a href="#使用-np-array-函数" class="headerlink" title="使用 np.array() 函数"></a>使用 <code>np.array()</code> 函数</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一维数组</span></span><br><span class="line">one_d_array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>, one_d_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建二维数组</span></span><br><span class="line">two_d_array = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组:\n&quot;</span>, two_d_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建三维数组</span></span><br><span class="line">three_d_array = np.array([[[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]], [[<span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>]]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;三维数组:\n&quot;</span>, three_d_array)</span><br></pre></td></tr></table></figure>
-
-<h4 id="使用其他函数创建特殊数组"><a href="#使用其他函数创建特殊数组" class="headerlink" title="使用其他函数创建特殊数组"></a>使用其他函数创建特殊数组</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建全零二维数组，形状为 (2, 3)</span></span><br><span class="line">zeros_array = np.zeros((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全零二维数组:\n&quot;</span>, zeros_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建全一三维数组，形状为 (2, 2, 2)</span></span><br><span class="line">ones_array = np.ones((<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全一三维数组:\n&quot;</span>, ones_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建指定范围内的一维数组</span></span><br><span class="line">arange_array = np.arange(<span class="number">0</span>, <span class="number">10</span>, <span class="number">2</span>)  <span class="comment"># 从 0 到 10（不包含 10），步长为 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>, arange_array)</span><br></pre></td></tr></table></figure>
-
-<h3 id="维度与形状"><a href="#维度与形状" class="headerlink" title="维度与形状"></a>维度与形状</h3><ul>
-<li><strong>维度（ndim）</strong>：表示数组的维数，即数组有多少个方向。例如，一维数组的维度是 1，二维数组的维度是 2，以此类推。可以使用数组的 <code>ndim</code> 属性获取维度信息。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">one_d = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组的维度:&quot;</span>, one_d.ndim)  <span class="comment"># 输出: 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组的维度:&quot;</span>, two_d.ndim)  <span class="comment"># 输出: 2</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>详细概念(有关维度):</p>
-</li>
-<li><p>示例 1：创建一维数组，指定<code>ndmin=1</code>（默认情况，可不写）</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr1 = np.array(data, ndmin=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(arr1)</span><br><span class="line"><span class="built_in">print</span>(arr1.ndim)  <span class="comment"># 输出数组的维度</span></span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>data</code>本身是一个列表，是一维的数据结构。使用<code>np.array()</code>创建数组时，即使不指定<code>ndmin=1</code>，默认也是创建一维数组。输出结果如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1 2 3]</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
-
-<p> 示例 2：创建二维数组，指定<code>ndmin=2</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr2 = np.array(data, ndmin=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"><span class="built_in">print</span>(arr2.ndim)</span><br></pre></td></tr></table></figure>
-
-<p>这里<code>data</code>还是一维的列表，但通过设置<code>ndmin=2</code>，NumPy 会在前面添加一个维度，将其转换为二维数组。输出结果为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[1 2 3]]</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，原本的一维列表被包装成了一个只有一行的二维数组。</p>
-<p> 示例 3：创建三维数组，指定<code>ndmin=3</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr3 = np.array(data, ndmin=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(arr3)</span><br><span class="line"><span class="built_in">print</span>(arr3.ndim)</span><br></pre></td></tr></table></figure>
-
-<p>此时<code>data</code>依旧是一维列表，由于<code>ndmin=3</code>，NumPy 会添加两个维度，生成一个三维数组。输出如下：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[[1 2 3]]]</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
-
-<p>它变成了一个只有一个 “切片” 的三维数组。</p>
-<p>示例 4：已有高维数据，指定<code>ndmin</code>小于其维度</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]]  <span class="comment"># 二维列表</span></span><br><span class="line">arr4 = np.array(data, ndmin=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(arr4)</span><br><span class="line"><span class="built_in">print</span>(arr4.ndim)</span><br></pre></td></tr></table></figure>
-
-<p>这里<code>data</code>是二维列表，虽然指定<code>ndmin=1</code>，但因为原始数据已经是二维，所以<code>arr4</code>还是二维数组，<code>ndmin</code>不会改变高于它指定值的维度。输出为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[1 2]</span><br><span class="line"> [3 4]]</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
-
-<p>通过这些例子可以看出，<code>ndmin</code>参数在需要确保生成的 NumPy 数组具有特定最小维度时非常有用，常用于数据预处理等场景</p>
-</li>
-</ul>
-<ul>
-<li><strong>形状（shape）</strong>：表示数组在每个维度上的大小，是一个元组。例如，二维数组 <code>[[1, 2, 3], [4, 5, 6]]</code> 的形状是 <code>(2, 3)</code>，表示有 2 行 3 列。可以使用数组的 <code>shape</code> 属性获取形状信息。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组的形状:&quot;</span>, two_d.shape)  <span class="comment"># 输出: (2, 3)</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="索引与切片"><a href="#索引与切片" class="headerlink" title="索引与切片"></a>索引与切片</h3><p>多维数组的索引和切片操作与一维数组类似，但需要考虑多个维度</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问单个元素</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;访问第 1 行第 2 列的元素:&quot;</span>, two_d[<span class="number">0</span>, <span class="number">1</span>])  <span class="comment"># 输出: 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 切片操作</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;获取第一行的所有元素:&quot;</span>, two_d[<span class="number">0</span>, :])  <span class="comment"># 输出: [1 2 3]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;获取第一列的所有元素:&quot;</span>, two_d[:, <span class="number">0</span>])  <span class="comment"># 输出: [1 4]</span></span><br></pre></td></tr></table></figure>
-
-<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>多维数组在数据分析、机器学习、图像处理等领域有广泛应用。例如，在图像处理中，一张彩色图像可以用三维数组表示，其中前两个维度表示图像的高度和宽度，第三个维度表示颜色通道（如红、绿、蓝）。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>numpy库</tag>
       </tags>
   </entry>
   <entry>
@@ -1921,7 +1816,7 @@ int main()&#123;
 </ul>
 <h4 id="自定义数据结构里面的指针"><a href="#自定义数据结构里面的指针" class="headerlink" title="自定义数据结构里面的指针"></a>自定义数据结构里面的指针</h4><ul>
 <li>有以下例题:</li>
-<li><style>.tzlswrcpkzvd{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="tzlswrcpkzvd" alt="image-20250305135039466"></li>
+<li><style>.ltoaowqotvye{zoom:150%;}</style><img src="/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/image-20250305135039466.png" class="ltoaowqotvye" alt="image-20250305135039466"></li>
 <li>要点一:对于<code>struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;</code>这里由于该结构在初始化的时候，需要两个值来初始化，所以<code>5,&amp;a[0]</code>就构成了数组<code>a</code>的第一个元素<code>a[0]</code>的初始化内容 ，<code>6,&amp;a[1]</code> 、<code>7,&amp;a[2]</code>分别对应<code>a[1]</code>和<code>a[2]</code>的初始化内容。</li>
 <li>要点二:这里对<code>st</code>数据结构数组的值的导入，比如:<code>5,&amp;a[0]</code>,这里第二个值为<code>&amp;a[0]</code>，就是对<code>st *next</code>的赋值，即指向的下一个元素是它本身。</li>
 <li>要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</li>
@@ -2229,28 +2124,6 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>php字符串处理函数</title>
-    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
-<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
-<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
-<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
-<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
-<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php字符串处理函数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>linux基础</title>
     <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[]]></content>
@@ -2262,88 +2135,108 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>php命令执行函数详解</title>
-    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
+    <title>json学习</title>
+    <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
+<li>比如有以下python数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#综合数据集</span></span><br><span class="line">        decision_metadata = &#123;</span><br><span class="line">            <span class="string">&quot;model_version&quot;</span>: <span class="string">&quot;xgb_v3.1+bert_v2.4&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;xgb_pred&#x27;</span>: xgb_pred,</span><br><span class="line">            <span class="string">&#x27;bert_pred&#x27;</span>: bert_pred,</span><br><span class="line">            <span class="string">&#x27;xgb_proba&#x27;</span>: xgb_proda,</span><br><span class="line">            <span class="string">&#x27;bert_proba&#x27;</span>: bert_proda,</span><br><span class="line">            <span class="string">&#x27;xgb_detailed_proda&#x27;</span>: xgb_detailed_proda,</span><br><span class="line">            <span class="string">&#x27;bert_detailed_proda&#x27;</span>: bert_detailed_proda,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
 <ul>
-<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
-<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+<li>进行json格式转码，即，讲该字典格式数据编码为<code>json</code>格式数据</li>
 </ul>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
-<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
-<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dc_metadata_json = json.dumps(decision_metadata)</span><br></pre></td></tr></table></figure>
 
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>命令执行函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>pandas库学习(持续更新)</title>
-    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
-<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
-<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
-<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
-<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
-<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
-<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
-<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
-<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
-<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
-<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
-<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
-<li><p>我有如下图一个tsv格式文件:</p>
-</li>
-<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
-</li>
-<li><p>我该怎么把指定的列提取出来呢</p>
-</li>
-<li></li>
+<ul>
+<li>即采用，<code>json.dumps()</code>方法,当然，你要先使用<code>import json</code>的操作。</li>
 </ul>
+<h2 id="json格式数据写入txt文档"><a href="#json格式数据写入txt文档" class="headerlink" title="json格式数据写入txt文档"></a>json格式数据写入txt文档</h2><h3 id="步骤一：导入必要的模块"><a href="#步骤一：导入必要的模块" class="headerlink" title="步骤一：导入必要的模块"></a>步骤一：导入必要的模块</h3><p>需要导入<code>json</code>模块用于处理 JSON 数据。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤二：准备-JSON-格式的-Python-数据"><a href="#步骤二：准备-JSON-格式的-Python-数据" class="headerlink" title="步骤二：准备 JSON 格式的 Python 数据"></a>步骤二：准备 JSON 格式的 Python 数据</h3><p>JSON 数据在 Python 中通常以字典、列表等数据结构表示。例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">&quot;hobbies&quot;</span>: [<span class="string">&quot;阅读&quot;</span>, <span class="string">&quot;跑步&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤三：将-JSON-数据转换为字符串"><a href="#步骤三：将-JSON-数据转换为字符串" class="headerlink" title="步骤三：将 JSON 数据转换为字符串"></a>步骤三：将 JSON 数据转换为字符串</h3><p>使用<code>json.dumps()</code>方法将 Python 中的 JSON 数据转换为字符串格式，方便写入 txt 文件。<code>json.dumps()</code>方法还可以通过一些参数进行格式化输出，如<code>indent</code>参数指定缩进，<code>ensure_ascii</code>参数设置是否以 ASCII 编码显示字符（<code>False</code>表示按原字符显示，常用于处理中文等非 ASCII 字符）。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤四：打开-txt-文件并写入数据"><a href="#步骤四：打开-txt-文件并写入数据" class="headerlink" title="步骤四：打开 txt 文件并写入数据"></a>步骤四：打开 txt 文件并写入数据</h3><p>使用<code>open()</code>函数以写入（<code>&#39;w&#39;</code>）或追加（<code>&#39;a&#39;</code>）模式打开 txt 文件。<code>&#39;w&#39;</code>模式会覆盖原有文件内容；<code>&#39;a&#39;</code>模式则会在文件末尾添加新内容，若文件不存在会自动创建。使用<code>write()</code>方法将转换后的 JSON 字符串写入文件，操作完成后文件会在<code>with</code>语句块结束时自动关闭。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以写入模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str)</span><br><span class="line"><span class="comment"># 以追加模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果 JSON 数据原本存储在文件中，先读取该 JSON 文件再写入 txt 文件，示例如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取JSON文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;input.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将JSON数据转换为字符串</span></span><br><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入txt文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> txt_file:</span><br><span class="line">    txt_file.write(json_str) </span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>python</category>
       </categories>
       <tags>
-        <tag>pandas库</tag>
+        <tag>json库</tag>
       </tags>
   </entry>
   <entry>
-    <title>php超全局变量特性注解</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
-    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
-<p>我们直接在url里面加上:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
-<p>就可以让$_REQUEST变量接收到传递的参数。</p>
+    <title>numpy库学习(持续更新)</title>
+    <url>/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="numpy库学习-持续更新"><a href="#numpy库学习-持续更新" class="headerlink" title="numpy库学习(持续更新"></a>numpy库学习(持续更新</h1><h2 id="array多维数组概念"><a href="#array多维数组概念" class="headerlink" title="array多维数组概念"></a>array多维数组概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>多维数组是一种包含多个维度的数据集合，每个维度可以看作是一个方向，类似于数学中的坐标轴。一维数组可以想象成一条直线上的点的集合，二维数组类似一个平面上的网格，三维数组则像是一个立体空间中的立方体网格，以此类推，可以有更高维度的数组。</p>
+<h3 id="特点"><a href="#特点" class="headerlink" title="特点"></a>特点</h3><ul>
+<li><strong>同质性</strong>：多维数组中的所有元素必须是相同的数据类型，例如 <code>int</code>、<code>float</code> 等。这使得 NumPy 数组在内存中存储更高效，也方便进行统一的数值计算。</li>
+<li><strong>固定大小</strong>：数组创建后，其形状（即各维度的大小）通常是固定的，不像 Python 列表可以动态改变大小。</li>
+</ul>
+<h3 id="创建方式"><a href="#创建方式" class="headerlink" title="创建方式"></a>创建方式</h3><h4 id="使用-np-array-函数"><a href="#使用-np-array-函数" class="headerlink" title="使用 np.array() 函数"></a>使用 <code>np.array()</code> 函数</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一维数组</span></span><br><span class="line">one_d_array = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>, one_d_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建二维数组</span></span><br><span class="line">two_d_array = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组:\n&quot;</span>, two_d_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建三维数组</span></span><br><span class="line">three_d_array = np.array([[[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]], [[<span class="number">5</span>, <span class="number">6</span>], [<span class="number">7</span>, <span class="number">8</span>]]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;三维数组:\n&quot;</span>, three_d_array)</span><br></pre></td></tr></table></figure>
+
+<h4 id="使用其他函数创建特殊数组"><a href="#使用其他函数创建特殊数组" class="headerlink" title="使用其他函数创建特殊数组"></a>使用其他函数创建特殊数组</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 创建全零二维数组，形状为 (2, 3)</span></span><br><span class="line">zeros_array = np.zeros((<span class="number">2</span>, <span class="number">3</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全零二维数组:\n&quot;</span>, zeros_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建全一三维数组，形状为 (2, 2, 2)</span></span><br><span class="line">ones_array = np.ones((<span class="number">2</span>, <span class="number">2</span>, <span class="number">2</span>))</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;全一三维数组:\n&quot;</span>, ones_array)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建指定范围内的一维数组</span></span><br><span class="line">arange_array = np.arange(<span class="number">0</span>, <span class="number">10</span>, <span class="number">2</span>)  <span class="comment"># 从 0 到 10（不包含 10），步长为 2</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组:&quot;</span>, arange_array)</span><br></pre></td></tr></table></figure>
+
+<h3 id="维度与形状"><a href="#维度与形状" class="headerlink" title="维度与形状"></a>维度与形状</h3><ul>
+<li><strong>维度（ndim）</strong>：表示数组的维数，即数组有多少个方向。例如，一维数组的维度是 1，二维数组的维度是 2，以此类推。可以使用数组的 <code>ndim</code> 属性获取维度信息。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">one_d = np.array([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>])</span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]])</span><br><span class="line"></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;一维数组的维度:&quot;</span>, one_d.ndim)  <span class="comment"># 输出: 1</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组的维度:&quot;</span>, two_d.ndim)  <span class="comment"># 输出: 2</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>详细概念(有关维度):</p>
+</li>
+<li><p>示例 1：创建一维数组，指定<code>ndmin=1</code>（默认情况，可不写）</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr1 = np.array(data, ndmin=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(arr1)</span><br><span class="line"><span class="built_in">print</span>(arr1.ndim)  <span class="comment"># 输出数组的维度</span></span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>data</code>本身是一个列表，是一维的数据结构。使用<code>np.array()</code>创建数组时，即使不指定<code>ndmin=1</code>，默认也是创建一维数组。输出结果如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[1 2 3]</span><br><span class="line">1</span><br></pre></td></tr></table></figure>
+
+<p> 示例 2：创建二维数组，指定<code>ndmin=2</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr2 = np.array(data, ndmin=<span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(arr2)</span><br><span class="line"><span class="built_in">print</span>(arr2.ndim)</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>data</code>还是一维的列表，但通过设置<code>ndmin=2</code>，NumPy 会在前面添加一个维度，将其转换为二维数组。输出结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[1 2 3]]</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，原本的一维列表被包装成了一个只有一行的二维数组。</p>
+<p> 示例 3：创建三维数组，指定<code>ndmin=3</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>]</span><br><span class="line">arr3 = np.array(data, ndmin=<span class="number">3</span>)</span><br><span class="line"><span class="built_in">print</span>(arr3)</span><br><span class="line"><span class="built_in">print</span>(arr3.ndim)</span><br></pre></td></tr></table></figure>
+
+<p>此时<code>data</code>依旧是一维列表，由于<code>ndmin=3</code>，NumPy 会添加两个维度，生成一个三维数组。输出如下：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[[1 2 3]]]</span><br><span class="line">3</span><br></pre></td></tr></table></figure>
+
+<p>它变成了一个只有一个 “切片” 的三维数组。</p>
+<p>示例 4：已有高维数据，指定<code>ndmin</code>小于其维度</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">data = [[<span class="number">1</span>, <span class="number">2</span>], [<span class="number">3</span>, <span class="number">4</span>]]  <span class="comment"># 二维列表</span></span><br><span class="line">arr4 = np.array(data, ndmin=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(arr4)</span><br><span class="line"><span class="built_in">print</span>(arr4.ndim)</span><br></pre></td></tr></table></figure>
+
+<p>这里<code>data</code>是二维列表，虽然指定<code>ndmin=1</code>，但因为原始数据已经是二维，所以<code>arr4</code>还是二维数组，<code>ndmin</code>不会改变高于它指定值的维度。输出为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[[1 2]</span><br><span class="line"> [3 4]]</span><br><span class="line">2</span><br></pre></td></tr></table></figure>
+
+<p>通过这些例子可以看出，<code>ndmin</code>参数在需要确保生成的 NumPy 数组具有特定最小维度时非常有用，常用于数据预处理等场景</p>
+</li>
+</ul>
+<ul>
+<li><strong>形状（shape）</strong>：表示数组在每个维度上的大小，是一个元组。例如，二维数组 <code>[[1, 2, 3], [4, 5, 6]]</code> 的形状是 <code>(2, 3)</code>，表示有 2 行 3 列。可以使用数组的 <code>shape</code> 属性获取形状信息。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;二维数组的形状:&quot;</span>, two_d.shape)  <span class="comment"># 输出: (2, 3)</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="索引与切片"><a href="#索引与切片" class="headerlink" title="索引与切片"></a>索引与切片</h3><p>多维数组的索引和切片操作与一维数组类似，但需要考虑多个维度</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">two_d = np.array([[<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>], [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 访问单个元素</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;访问第 1 行第 2 列的元素:&quot;</span>, two_d[<span class="number">0</span>, <span class="number">1</span>])  <span class="comment"># 输出: 2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 切片操作</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;获取第一行的所有元素:&quot;</span>, two_d[<span class="number">0</span>, :])  <span class="comment"># 输出: [1 2 3]</span></span><br><span class="line"><span class="built_in">print</span>(<span class="string">&quot;获取第一列的所有元素:&quot;</span>, two_d[:, <span class="number">0</span>])  <span class="comment"># 输出: [1 4]</span></span><br></pre></td></tr></table></figure>
+
+<h3 id="应用场景"><a href="#应用场景" class="headerlink" title="应用场景"></a>应用场景</h3><p>多维数组在数据分析、机器学习、图像处理等领域有广泛应用。例如，在图像处理中，一张彩色图像可以用三维数组表示，其中前两个维度表示图像的高度和宽度，第三个维度表示颜色通道（如红、绿、蓝）。</p>
 ]]></content>
       <categories>
-        <category>php</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>php超全局变量</tag>
+        <tag>numpy库</tag>
       </tags>
   </entry>
   <entry>
@@ -2375,17 +2268,46 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>php随机数的解释</title>
-    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
-    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
-<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+    <title>php命令执行函数详解</title>
+    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
+<ul>
+<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
+<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
+<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
+<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
         <category>php</category>
       </categories>
       <tags>
-        <tag>php随机数函数</tag>
+        <tag>命令执行函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php字符串处理函数</title>
+    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
+<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
+<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
+<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
+<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
+<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php字符串处理函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2397,6 +2319,41 @@ sum += *s - &#39;0&#39;;
       </categories>
       <tags>
         <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量特性注解</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
+    <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">echo</span> <span class="variable">$_REQUEST</span>[<span class="string">&quot;file&quot;</span>];</span><br></pre></td></tr></table></figure>
+<p>我们直接在url里面加上:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=xxx</span><br></pre></td></tr></table></figure>
+<p>就可以让$_REQUEST变量接收到传递的参数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php超全局变量</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>php随机数的解释</title>
+    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
+    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
+<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php随机数函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2441,11 +2398,6 @@ sum += *s - &#39;0&#39;;
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>php超全局变量</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>python异常捕获及处理</title>
     <url>/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/</url>
     <content><![CDATA[<h1 id="Python异常捕获与处理"><a href="#Python异常捕获与处理" class="headerlink" title="Python异常捕获与处理"></a>Python异常捕获与处理</h1><h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>例如:</p>
@@ -2481,75 +2433,6 @@ sum += *s - &#39;0&#39;;
       </categories>
       <tags>
         <tag>python异常</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python装饰器</title>
-    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
-<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
-</li>
-<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
-</li>
-<li><p>比如:</p>
-</li>
-<li><pre><code class="language-python">class DateUtils:    
-    @classmethod
-    def get_time(cls):
-        import datetime
-        return datetime.datetime.now()
- 
-#类调用
-year1 = DateUtils.get_time
-print(year1)
-
-#实例化后调用
-date = DateUtils()
-year2 =n date.get_time
-print(year2)
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python装饰器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python程序运行启动代码</title>
-    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
-<li><p><code>__name__</code> 变量：</p>
-</li>
-<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
-<ul>
-<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
-<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
-</ul>
-</li>
-<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
-</li>
-</ul>
-<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
-<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
-<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
-</ul>
-<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
-<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
-<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>py程序启动</tag>
       </tags>
   </entry>
   <entry>
@@ -2669,6 +2552,123 @@ print(year2)
       </categories>
       <tags>
         <tag>python杂项函数/用法积累</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python程序运行启动代码</title>
+    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
+<li><p><code>__name__</code> 变量：</p>
+</li>
+<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
+<ul>
+<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
+<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
+</ul>
+</li>
+<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
+</li>
+</ul>
+<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
+<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
+<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
+</ul>
+<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
+<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
+<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>py程序启动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>pandas库学习(持续更新)</title>
+    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
+<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
+<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
+<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
+<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
+<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
+<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
+<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
+<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
+<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
+<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
+<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
+<li><p>我有如下图一个tsv格式文件:</p>
+</li>
+<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
+</li>
+<li><p>我该怎么把指定的列提取出来呢</p>
+</li>
+<li></li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>pandas库</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python装饰器</title>
+    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
+<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
+</li>
+<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
+</li>
+<li><p>比如:</p>
+</li>
+<li><pre><code class="language-python">class DateUtils:    
+    @classmethod
+    def get_time(cls):
+        import datetime
+        return datetime.datetime.now()
+ 
+#类调用
+year1 = DateUtils.get_time
+print(year1)
+
+#实例化后调用
+date = DateUtils()
+year2 =n date.get_time
+print(year2)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python装饰器</tag>
       </tags>
   </entry>
   <entry>
@@ -2817,6 +2817,217 @@ print(year2)
       </tags>
   </entry>
   <entry>
+    <title>代码审计套路</title>
+    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
+    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
+<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>二级通识</title>
+    <url>/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/</url>
+    <content><![CDATA[<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><ul>
+<li><strong>例题一</strong></li>
+</ul>
+<img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319131007896.png" class="" title="image-20250319131007896">
+
+<ul>
+<li><p>解析:</p>
+</li>
+<li><p>咱把循环队列想象成一个头尾相连的环形跑道，跑道上有一些位置能放东西。队头指针 <code>front</code> 就像是在跑道上标记从哪儿开始取东西，队尾指针 <code>rear</code> 标记着下一个能放东西的位置。</p>
+<p>一般来说，要是队头和队尾都在跑道的最后一个位置（也就是 <code>front = rear = m</code> ，这里 <code>m</code> 是跑道总共能放东西的位置数量 ），那就说明跑道上啥东西都没有，队列是空的。</p>
+<p>但要是队头和队尾在同一个位置，可又不是跑道最后那个位置（像这题里 <code>front = rear = 25</code> ，不是 50 ），这时候队列可能是空的，也可能是摆满东西了。</p>
+<p>这题说又成功放进去一个东西，要是队列已经摆满了，就没地方放新东西了，所以就说明之前队列是空的。那放进去一个东西后，队列里自然就只有这 1 个东西啦，答案就是 A 选项。</p>
+</li>
+<li><p><strong>例题二</strong></p>
+</li>
+</ul>
+<img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324121809198.png" class="" title="image-20250324121809198">
+
+<ul>
+<li><p>关于以上公式：</p>
+</li>
+<li><p><strong>当front&lt;rear时:</strong></p>
+</li>
+<li><p>在循环队列里，<code>front</code> 指向队头元素的前一个位置 ，这是一种约定的表示方式。这么设定主要是为了方便处理入队和出队操作时指针的移动逻辑 。</p>
+<p>我们再结合例子详细说。就像刚才那道题，<code>front = 24</code> ，<code>rear = 25</code> 。</p>
+<ul>
+<li>你可以把队列想象成一排座位（这里是循环的 ）。<code>front</code> 指向的 24 号位置，它前面没有元素（因为它是队头元素前一个位置 ） ，<code>rear</code> 指向的 25 号位置有一个元素（队尾元素 ）。</li>
+<li>从元素个数角度看，我们关注的是有元素的位置数量。<code>rear</code> 所指位置有元素，<code>front</code> 所指位置没有元素，那么从没有元素的<code>front</code> 位置（24 号 ）到有元素的<code>rear</code> 位置（25 号 ），中间就只有 1 个有元素的位置，所以元素个数就是<code>rear - front = 25 - 24 = 1</code> 。</li>
+</ul>
+<p>再举个例子，如果<code>front = 1</code> ，<code>rear = 3</code> ，<code>front</code> 指向的 1 号位置没有元素，从 1 号位置到 3 号位置，中间有 2 个有元素的位置（2 号和 3 号 ），元素个数就是<code>3 - 1 = 2</code> 。</p>
+</li>
+<li><p><strong>当front&gt;rear时</strong></p>
+</li>
+<li><p>当 <code>front &gt; rear</code> 时 ，我们还是以环形的视角来理解循环队列。</p>
+<p>假设循环队列存储空间为 <code>Q(1:50)</code> ，现在 <code>front = 45</code> ，<code>rear = 5</code> 。</p>
+<p>从实际的存储角度看，队尾元素在 5 号位置，队头元素前一个位置在 45 号位置。由于是循环队列，不能简单用 <code>rear - front</code> 计算元素个数，因为这样会得到负数。</p>
+<p>我们可以这样想：从 45 号位置开始，要数到 5 号位置有多少个元素。因为是环形，相当于从 45 号位置先走到 50 号位置，这走了 <code>50 - 45 = 5</code> 个位置 ，然后再从 1 号位置走到 5 号位置，又走了 5 个位置，总共走的位置数就是元素个数，也就是 <code>(50 - 45)+ 5 = 10</code> 。</p>
+<p>用公式表示就是元素个数为 <code>rear - front + m</code> （这里 <code>m</code> 是队列存储空间大小，本题中 <code>m = 50</code> ） ，代入数值就是 <code>5 - 45 + 50 = 10</code> 。</p>
+<p>本质上，<code>rear - front + m</code> 这个公式是考虑到了循环队列绕圈的特性，通过加上队列总长度 <code>m</code> ，来保证能正确计算出队头和队尾之间的元素个数 。<strong>个人更喜欢公式：<code>m-front+rear</code></strong>。</p>
+</li>
+</ul>
+<h1 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h1><h2 id="做题注意"><a href="#做题注意" class="headerlink" title="做题注意"></a>做题注意</h2><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319180642957.png" class="" title="image-20250319180642957">
+
+<ul>
+<li>这题玩文字游戏：这里说的是<strong>轮流</strong>进入&#x2F;出栈，<strong>轮流</strong>进入&#x2F;退队，所以逻辑是<code>A,C,E,G</code>入栈，<code>B,D,F,H</code>入队，出栈和出队也是这个顺序。</li>
+</ul>
+<h2 id="关于栈的top指针"><a href="#关于栈的top指针" class="headerlink" title="关于栈的top指针"></a>关于栈的<code>top</code>指针</h2><ul>
+<li>例题：</li>
+<li><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250323141256949.png" class="" title="image-20250323141256949"></li>
+<li><strong>入栈</strong>:top指针递减1，**出栈：**top指针增加1：</li>
+<li>原因：指针<code>top</code>始终指向栈顶的位置，<code>top</code>赋值为<code>51</code>,意味着刚开始指针在范围之外，栈为空，一个元素入栈后，<code>top</code>值会减一，一直到<code>top</code>值为<code>1</code>。</li>
+</ul>
+<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><ul>
+<li>排序比较数</li>
+<li><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324121528202.png" class="" title="image-20250324121528202"></li>
+<li>记住上面的公式</li>
+</ul>
+<h1 id="程序化结构"><a href="#程序化结构" class="headerlink" title="程序化结构"></a>程序化结构</h1><h2 id="结构化程序的基本控制结构"><a href="#结构化程序的基本控制结构" class="headerlink" title="结构化程序的基本控制结构"></a>结构化程序的基本控制结构</h2><ul>
+<li>顺序，选择和重复。</li>
+</ul>
+<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="关系数据库"><a href="#关系数据库" class="headerlink" title="关系数据库"></a>关系数据库</h2><ul>
+<li>关系模式是用来记录用户数据的<code>二维表</code>。</li>
+<li><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250323143035302.png" class="" title="image-20250323143035302"></li>
+</ul>
+<h2 id="数据库模型"><a href="#数据库模型" class="headerlink" title="数据库模型"></a>数据库模型</h2><ul>
+<li><strong>概念模型</strong>：它是对现实世界的抽象表示，不依赖于具体的计算机系统和数据库管理系统（DBMS），主要用于数据库设计阶段，帮助人们理解和分析数据以及数据之间的关系 。</li>
+<li><strong>逻辑模型</strong>：是从计算机角度对数据进行的抽象，依赖于 DBMS ，层次模型、网状模型、关系模型都属于逻辑模型 。</li>
+<li><strong>例子：</strong><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324133705077.png" class="" title="image-20250324133705077"></li>
+</ul>
+<ul>
+<li><strong>A. 层次模型</strong>：用树形结构来表示实体及实体间联系，是早期数据库采用的模型 ，属于逻辑模型。比如在企业组织架构中，可以用层次模型表示部门和员工的上下级关系。</li>
+<li><strong>B. 关系模型</strong>：以二维表格形式来组织数据，是目前应用最广泛的数据库模型 ，如常见的 MySQL 数据库就基于关系模型，属于逻辑模型。</li>
+<li><strong>C. 网状模型</strong>：用网络结构表示实体及实体间联系，比层次模型更具灵活性，但结构复杂 ，也属于逻辑模型。</li>
+<li><strong>D. 实体 - 联系模型（E - R 模型）</strong>：通过实体、联系、属性三个要素来描述现实世界的概念模型 。例如在学校管理系统中，学生是实体，课程是实体，学生选课就是两者之间的联系，学生的姓名、学号等就是属性。所以实体 - 联系模型是概念模型 ，本题答案为 D。</li>
+</ul>
+<h2 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h2><h3 id="1NF"><a href="#1NF" class="headerlink" title="1NF"></a>1NF</h3><ul>
+<li>基本介绍</li>
+<li><strong>定义</strong>：关系模式中的每个属性都不可再分，即属性是原子的。并且主属性（主键）不能为空且不重复 。例如学生选课关系模式中，每个属性如 “学号”“课程号” 等都不能再拆分成更小的子属性 ，这是关系型数据库最基本要求。</li>
+<li>比如:</li>
+</ul>
+<style>.lgquvdnwxhtj{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="lgquvdnwxhtj" alt="image-20250324145245672">
+
+<ul>
+<li>这里的歌手一列含有两个元素，不符合原子化的规范。比如学习成绩，这一栏就会有如:<code>&#123;&quot;英语&quot;:100,&quot;数学&quot;:100&#125;</code>的情况，这一栏就不符合原子化的原则，即不为1NF的规则。</li>
+</ul>
+<h3 id="2NF"><a href="#2NF" class="headerlink" title="2NF"></a>2NF</h3><ul>
+<li>基本介绍</li>
+<li><strong>定义:在满足 1NF 基础上</strong>，要求关系模式中的每个非主属性完全依赖于主键，而不能只依赖于主键的一部分。</li>
+<li><strong>举个例子：</strong></li>
+<li>假设存在一个电商的 “订单信息表” ，包含属性（订单号，商品编号，商品名称，单价，购买数量，客户编号，客户姓名 ）。<ul>
+<li><strong>确定主键</strong>：这里（订单号，商品编号）作为主键，因为一个订单可以包含多种商品，只有两者结合才能唯一确定一条记录。</li>
+<li><strong>判断函数依赖</strong>： “商品名称”“单价” 只依赖于 “商品编号” ，“客户姓名” 只依赖于 “客户编号” 。也就是说，它们只是依赖于主键（订单号，商品编号）中的一部分属性，存在部分函数依赖。比如知道商品编号就能确定商品名称，不需要订单号参与 ，所以这个表不满足 2NF。</li>
+<li><strong>优化方案</strong>：可以将这个表拆分为 “订单表”（订单号，商品编号，购买数量，客户编号 ）、“商品表”（商品编号，商品名称，单价 ）、“客户表”（客户编号，客户姓名 ），这样拆分后每个表中的非主属性都完全依赖于主键，满足 2NF。</li>
+</ul>
+</li>
+</ul>
+<h3 id="3NF"><a href="#3NF" class="headerlink" title="3NF"></a>3NF</h3><ul>
+<li>基本介绍</li>
+<li>**定义：**第三范式（3NF）要求关系模式在满足第二范式（2NF）的基础上，不存在非主属性对主键的传递函数依赖 。</li>
+<li>举例：</li>
+<li><style>.uqbrwquhxlwe{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="uqbrwquhxlwe" alt="image-20250324153727673"></li>
+<li>相当于横向有依赖。其解决方法也是把表拆开。</li>
+<li><style>.fbngowjhdymu{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="fbngowjhdymu" alt="image-20250324153908868"></li>
+<li>解决方法如图所示。</li>
+</ul>
+<h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="例题一"><a href="#例题一" class="headerlink" title="例题一"></a>例题一</h3><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324154755016.png" class="" title="image-20250324154755016">
+
+<ul>
+<li>对于这个题目，我们先判断主键是什么：</li>
+<li><ul>
+<li>在关系模式 <code>SC(S#,Sn,C#,Cn,G,Cr)</code> 中，要唯一确定一条学生选课记录，需要同时知道学生的学号（<code>S#</code>）和课程号（<code>C#</code>），所以主键是（<code>S#</code>，<code>C#</code>） 。</li>
+</ul>
+</li>
+<li>分析函数依赖关系<ul>
+<li>函数依赖 “<code>S# → Sn</code>”（学号决定姓名） ，即知道学号就能确定学生姓名；“<code>C# → Cn</code>”（课程号决定课程名） ，即知道课程号就能确定课程名。</li>
+<li>这里 “<code>Sn</code>”（姓名）只依赖于主键中的 “<code>S#</code>”（学号） ，“<code>Cn</code>”（课程名）只依赖于主键中的 “<code>C#</code>”（课程号） ，存在非主属性对主键的部分函数依赖。</li>
+<li><strong>第一范式（1NF）</strong>：该关系模式中每个属性（学号、姓名、课程号、课程名、成绩、学分）都是不可再分的原子值，满足 1NF。</li>
+<li><strong>第二范式（2NF）</strong>：由于存在非主属性（如 “<code>Sn</code>”“<code>Cn</code>” ）对主键的部分函数依赖，不满足 2NF。</li>
+<li>因为不满足 2NF，自然也不满足更高等级的 3NF 和 BCNF。</li>
+</ul>
+</li>
+</ul>
+<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><ul>
+<li>算法可以用各种方式来描述，<code>N-S</code>流程图把算法的每一步使用一个矩形框来表示，一个个矩形框按执行的次序来链接就是一个算法描述。</li>
+<li>使用三种基本算法:<strong>顺序、循环、选择结构</strong>就可以实现任何复杂的算法。</li>
+</ul>
+<h1 id="计算机数据"><a href="#计算机数据" class="headerlink" title="计算机数据"></a>计算机数据</h1><h2 id="计算机数据类型及其作用"><a href="#计算机数据类型及其作用" class="headerlink" title="计算机数据类型及其作用"></a>计算机数据类型及其作用</h2><p><strong>原码</strong></p>
+<p>简单数据表示：原码的表示方式简单直观，在一些对运算要求不高，仅用于数据展示或简单存储的场景中，原码可以方便人们直观地看出数据的正负和数值大小，比如在一些数据的输入输出阶段。</p>
+<p>特定乘法运算：原码在乘法运算中相对简便，进行乘法运算时，只需将尾数相乘，符号位单独处理 。</p>
+<p><strong>补码</strong>：</p>
+<p>在计算机中，整数的存储和运算通常采用补码形式。补码可以将减法运算转化为加法运算，简化计算机硬件的设计；同时，补码表示下0的表示唯一，利于计算机的运算和处理。</p>
+<p><strong>反码</strong></p>
+<p>早期计算机系统：在早期的一些计算机系统，如PDP-1和CDC 6600中，曾使用反码来表示负数。</p>
+<p>错误检测：在某些简单的错误检测机制，如奇偶校验中，反码可以用于快速检测数据在传输过程中是否出现错误 。</p>
+<p>特定硬件与教学：在教学领域，反码是计算机组成原理中重要的教学内容；在一些特定的嵌入式系统或专用硬件中，反码能在某些情况下简化加减法运算（两个反码相加，若最高位产生进位，则在结果上加1 ） 。</p>
+<p><strong>偏移码（移码</strong>）：</p>
+<p>常用于浮点数的阶码表示。在浮点数运算中，使用移码表示阶码，能方便地对阶码进行比较和运算，同时保证浮点数的机器零为全0，便于计算机对浮点数的处理和存储 。</p>
+<h1 id="软件工程"><a href="#软件工程" class="headerlink" title="软件工程"></a>软件工程</h1><h2 id="测试方式"><a href="#测试方式" class="headerlink" title="测试方式"></a>测试方式</h2><ul>
+<li>黑盒测试技术的依据：<strong>主要依据需求规格说明书里对软件功能的描述</strong>,强调功能</li>
+<li>比如：一个计算器软件，需求规格说明书会写明它能进行加、减、乘、除等运算。黑盒测试就根据这些功能描述，去验证输入不同数字和运算符号组合时，软件是否能正确输出结果 ，而不考虑计算器内部代码是如何实现这些运算的。</li>
+<li>白盒测试的技术依据：<strong>依据软件设计说明书、程序内部逻辑结构进行测试</strong>，强调内部逻辑</li>
+<li>比如：开发一个电商系统，在单元测试时用白盒测试检查每个商品模块的功能代码</li>
+</ul>
+<h2 id="软件的生存周期"><a href="#软件的生存周期" class="headerlink" title="软件的生存周期"></a>软件的生存周期</h2><ul>
+<li><strong>A. 可行性研究</strong>：判断软件项目是否值得做、能否做。如开发在线教育软件，评估技术上能否实现直播授课，经济上投入产出是否合理 </li>
+<li><strong>B. 需求分析</strong>：确定软件要做什么。如在线教育软件，明确要实现课程播放、作业布置、考试测评等功能 。</li>
+<li><strong>C. 软件设计</strong>：规划软件怎么做。如在线教育软件，设计课程播放模块架构、数据库表结构等 。</li>
+<li><strong>D. 软件实现</strong>：用代码实现软件功能。如在线教育软件，编写代码实现课程播放、用户登录等功能 。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>计算机基础</category>
+      </categories>
+      <tags>
+        <tag>计算机基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
+]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>挑战杯入门ai</title>
+    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
+    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
+<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>初识ai模型</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>transformer微调预训练模型</title>
     <url>/2025/03/03/transformer%E5%BE%AE%E8%B0%83%E9%A2%84%E8%AE%AD%E7%BB%83%E6%A8%A1%E5%9E%8B/</url>
     <content><![CDATA[<h1 id="transformer微调预训练模型"><a href="#transformer微调预训练模型" class="headerlink" title="transformer微调预训练模型"></a>transformer微调预训练模型</h1><p>先写到前面:</p>
@@ -2917,26 +3128,9 @@ print(year2)
       </tags>
   </entry>
   <entry>
-    <title>代码审计套路</title>
-    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
-    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
-<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
-<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>代码审计</tag>
-      </tags>
+    <title>数据库基本概念</title>
+    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>决策树分类算法学习</title>
@@ -2974,23 +3168,6 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>命令执行:使用文件包含绕过</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
-<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>命令执行绕过符号总结</title>
     <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
@@ -3014,202 +3191,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>数据库基本概念</title>
-    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>挑战杯入门ai</title>
-    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
-    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
-<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>初识ai模型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>二级通识</title>
-    <url>/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/</url>
-    <content><![CDATA[<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><ul>
-<li><strong>例题一</strong></li>
-</ul>
-<img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319131007896.png" class="" title="image-20250319131007896">
-
-<ul>
-<li><p>解析:</p>
-</li>
-<li><p>咱把循环队列想象成一个头尾相连的环形跑道，跑道上有一些位置能放东西。队头指针 <code>front</code> 就像是在跑道上标记从哪儿开始取东西，队尾指针 <code>rear</code> 标记着下一个能放东西的位置。</p>
-<p>一般来说，要是队头和队尾都在跑道的最后一个位置（也就是 <code>front = rear = m</code> ，这里 <code>m</code> 是跑道总共能放东西的位置数量 ），那就说明跑道上啥东西都没有，队列是空的。</p>
-<p>但要是队头和队尾在同一个位置，可又不是跑道最后那个位置（像这题里 <code>front = rear = 25</code> ，不是 50 ），这时候队列可能是空的，也可能是摆满东西了。</p>
-<p>这题说又成功放进去一个东西，要是队列已经摆满了，就没地方放新东西了，所以就说明之前队列是空的。那放进去一个东西后，队列里自然就只有这 1 个东西啦，答案就是 A 选项。</p>
-</li>
-<li><p><strong>例题二</strong></p>
-</li>
-</ul>
-<img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324121809198.png" class="" title="image-20250324121809198">
-
-<ul>
-<li><p>关于以上公式：</p>
-</li>
-<li><p><strong>当front&lt;rear时:</strong></p>
-</li>
-<li><p>在循环队列里，<code>front</code> 指向队头元素的前一个位置 ，这是一种约定的表示方式。这么设定主要是为了方便处理入队和出队操作时指针的移动逻辑 。</p>
-<p>我们再结合例子详细说。就像刚才那道题，<code>front = 24</code> ，<code>rear = 25</code> 。</p>
-<ul>
-<li>你可以把队列想象成一排座位（这里是循环的 ）。<code>front</code> 指向的 24 号位置，它前面没有元素（因为它是队头元素前一个位置 ） ，<code>rear</code> 指向的 25 号位置有一个元素（队尾元素 ）。</li>
-<li>从元素个数角度看，我们关注的是有元素的位置数量。<code>rear</code> 所指位置有元素，<code>front</code> 所指位置没有元素，那么从没有元素的<code>front</code> 位置（24 号 ）到有元素的<code>rear</code> 位置（25 号 ），中间就只有 1 个有元素的位置，所以元素个数就是<code>rear - front = 25 - 24 = 1</code> 。</li>
-</ul>
-<p>再举个例子，如果<code>front = 1</code> ，<code>rear = 3</code> ，<code>front</code> 指向的 1 号位置没有元素，从 1 号位置到 3 号位置，中间有 2 个有元素的位置（2 号和 3 号 ），元素个数就是<code>3 - 1 = 2</code> 。</p>
-</li>
-<li><p><strong>当front&gt;rear时</strong></p>
-</li>
-<li><p>当 <code>front &gt; rear</code> 时 ，我们还是以环形的视角来理解循环队列。</p>
-<p>假设循环队列存储空间为 <code>Q(1:50)</code> ，现在 <code>front = 45</code> ，<code>rear = 5</code> 。</p>
-<p>从实际的存储角度看，队尾元素在 5 号位置，队头元素前一个位置在 45 号位置。由于是循环队列，不能简单用 <code>rear - front</code> 计算元素个数，因为这样会得到负数。</p>
-<p>我们可以这样想：从 45 号位置开始，要数到 5 号位置有多少个元素。因为是环形，相当于从 45 号位置先走到 50 号位置，这走了 <code>50 - 45 = 5</code> 个位置 ，然后再从 1 号位置走到 5 号位置，又走了 5 个位置，总共走的位置数就是元素个数，也就是 <code>(50 - 45)+ 5 = 10</code> 。</p>
-<p>用公式表示就是元素个数为 <code>rear - front + m</code> （这里 <code>m</code> 是队列存储空间大小，本题中 <code>m = 50</code> ） ，代入数值就是 <code>5 - 45 + 50 = 10</code> 。</p>
-<p>本质上，<code>rear - front + m</code> 这个公式是考虑到了循环队列绕圈的特性，通过加上队列总长度 <code>m</code> ，来保证能正确计算出队头和队尾之间的元素个数 。<strong>个人更喜欢公式：<code>m-front+rear</code></strong>。</p>
-</li>
-</ul>
-<h1 id="栈和队列"><a href="#栈和队列" class="headerlink" title="栈和队列"></a>栈和队列</h1><h2 id="做题注意"><a href="#做题注意" class="headerlink" title="做题注意"></a>做题注意</h2><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250319180642957.png" class="" title="image-20250319180642957">
-
-<ul>
-<li>这题玩文字游戏：这里说的是<strong>轮流</strong>进入&#x2F;出栈，<strong>轮流</strong>进入&#x2F;退队，所以逻辑是<code>A,C,E,G</code>入栈，<code>B,D,F,H</code>入队，出栈和出队也是这个顺序。</li>
-</ul>
-<h2 id="关于栈的top指针"><a href="#关于栈的top指针" class="headerlink" title="关于栈的top指针"></a>关于栈的<code>top</code>指针</h2><ul>
-<li>例题：</li>
-<li><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250323141256949.png" class="" title="image-20250323141256949"></li>
-<li><strong>入栈</strong>:top指针递减1，**出栈：**top指针增加1：</li>
-<li>原因：指针<code>top</code>始终指向栈顶的位置，<code>top</code>赋值为<code>51</code>,意味着刚开始指针在范围之外，栈为空，一个元素入栈后，<code>top</code>值会减一，一直到<code>top</code>值为<code>1</code>。</li>
-</ul>
-<h1 id="数组"><a href="#数组" class="headerlink" title="数组"></a>数组</h1><h2 id="排序"><a href="#排序" class="headerlink" title="排序"></a>排序</h2><ul>
-<li>排序比较数</li>
-<li><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324121528202.png" class="" title="image-20250324121528202"></li>
-<li>记住上面的公式</li>
-</ul>
-<h1 id="程序化结构"><a href="#程序化结构" class="headerlink" title="程序化结构"></a>程序化结构</h1><h2 id="结构化程序的基本控制结构"><a href="#结构化程序的基本控制结构" class="headerlink" title="结构化程序的基本控制结构"></a>结构化程序的基本控制结构</h2><ul>
-<li>顺序，选择和重复。</li>
-</ul>
-<h1 id="数据库"><a href="#数据库" class="headerlink" title="数据库"></a>数据库</h1><h2 id="关系数据库"><a href="#关系数据库" class="headerlink" title="关系数据库"></a>关系数据库</h2><ul>
-<li>关系模式是用来记录用户数据的<code>二维表</code>。</li>
-<li><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250323143035302.png" class="" title="image-20250323143035302"></li>
-</ul>
-<h2 id="数据库模型"><a href="#数据库模型" class="headerlink" title="数据库模型"></a>数据库模型</h2><ul>
-<li><strong>概念模型</strong>：它是对现实世界的抽象表示，不依赖于具体的计算机系统和数据库管理系统（DBMS），主要用于数据库设计阶段，帮助人们理解和分析数据以及数据之间的关系 。</li>
-<li><strong>逻辑模型</strong>：是从计算机角度对数据进行的抽象，依赖于 DBMS ，层次模型、网状模型、关系模型都属于逻辑模型 。</li>
-<li><strong>例子：</strong><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324133705077.png" class="" title="image-20250324133705077"></li>
-</ul>
-<ul>
-<li><strong>A. 层次模型</strong>：用树形结构来表示实体及实体间联系，是早期数据库采用的模型 ，属于逻辑模型。比如在企业组织架构中，可以用层次模型表示部门和员工的上下级关系。</li>
-<li><strong>B. 关系模型</strong>：以二维表格形式来组织数据，是目前应用最广泛的数据库模型 ，如常见的 MySQL 数据库就基于关系模型，属于逻辑模型。</li>
-<li><strong>C. 网状模型</strong>：用网络结构表示实体及实体间联系，比层次模型更具灵活性，但结构复杂 ，也属于逻辑模型。</li>
-<li><strong>D. 实体 - 联系模型（E - R 模型）</strong>：通过实体、联系、属性三个要素来描述现实世界的概念模型 。例如在学校管理系统中，学生是实体，课程是实体，学生选课就是两者之间的联系，学生的姓名、学号等就是属性。所以实体 - 联系模型是概念模型 ，本题答案为 D。</li>
-</ul>
-<h2 id="范式"><a href="#范式" class="headerlink" title="范式"></a>范式</h2><h3 id="1NF"><a href="#1NF" class="headerlink" title="1NF"></a>1NF</h3><ul>
-<li>基本介绍</li>
-<li><strong>定义</strong>：关系模式中的每个属性都不可再分，即属性是原子的。并且主属性（主键）不能为空且不重复 。例如学生选课关系模式中，每个属性如 “学号”“课程号” 等都不能再拆分成更小的子属性 ，这是关系型数据库最基本要求。</li>
-<li>比如:</li>
-</ul>
-<style>.munndsnkplyr{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="munndsnkplyr" alt="image-20250324145245672">
-
-<ul>
-<li>这里的歌手一列含有两个元素，不符合原子化的规范。比如学习成绩，这一栏就会有如:<code>&#123;&quot;英语&quot;:100,&quot;数学&quot;:100&#125;</code>的情况，这一栏就不符合原子化的原则，即不为1NF的规则。</li>
-</ul>
-<h3 id="2NF"><a href="#2NF" class="headerlink" title="2NF"></a>2NF</h3><ul>
-<li>基本介绍</li>
-<li><strong>定义:在满足 1NF 基础上</strong>，要求关系模式中的每个非主属性完全依赖于主键，而不能只依赖于主键的一部分。</li>
-<li><strong>举个例子：</strong></li>
-<li>假设存在一个电商的 “订单信息表” ，包含属性（订单号，商品编号，商品名称，单价，购买数量，客户编号，客户姓名 ）。<ul>
-<li><strong>确定主键</strong>：这里（订单号，商品编号）作为主键，因为一个订单可以包含多种商品，只有两者结合才能唯一确定一条记录。</li>
-<li><strong>判断函数依赖</strong>： “商品名称”“单价” 只依赖于 “商品编号” ，“客户姓名” 只依赖于 “客户编号” 。也就是说，它们只是依赖于主键（订单号，商品编号）中的一部分属性，存在部分函数依赖。比如知道商品编号就能确定商品名称，不需要订单号参与 ，所以这个表不满足 2NF。</li>
-<li><strong>优化方案</strong>：可以将这个表拆分为 “订单表”（订单号，商品编号，购买数量，客户编号 ）、“商品表”（商品编号，商品名称，单价 ）、“客户表”（客户编号，客户姓名 ），这样拆分后每个表中的非主属性都完全依赖于主键，满足 2NF。</li>
-</ul>
-</li>
-</ul>
-<h3 id="3NF"><a href="#3NF" class="headerlink" title="3NF"></a>3NF</h3><ul>
-<li>基本介绍</li>
-<li>**定义：**第三范式（3NF）要求关系模式在满足第二范式（2NF）的基础上，不存在非主属性对主键的传递函数依赖 。</li>
-<li>举例：</li>
-<li><style>.vfxhnjokeprd{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="vfxhnjokeprd" alt="image-20250324153727673"></li>
-<li>相当于横向有依赖。其解决方法也是把表拆开。</li>
-<li><style>.vljvznvdcvmp{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="vljvznvdcvmp" alt="image-20250324153908868"></li>
-<li>解决方法如图所示。</li>
-</ul>
-<h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="例题一"><a href="#例题一" class="headerlink" title="例题一"></a>例题一</h3><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324154755016.png" class="" title="image-20250324154755016">
-
-<ul>
-<li>对于这个题目，我们先判断主键是什么：</li>
-<li><ul>
-<li>在关系模式 <code>SC(S#,Sn,C#,Cn,G,Cr)</code> 中，要唯一确定一条学生选课记录，需要同时知道学生的学号（<code>S#</code>）和课程号（<code>C#</code>），所以主键是（<code>S#</code>，<code>C#</code>） 。</li>
-</ul>
-</li>
-<li>分析函数依赖关系<ul>
-<li>函数依赖 “<code>S# → Sn</code>”（学号决定姓名） ，即知道学号就能确定学生姓名；“<code>C# → Cn</code>”（课程号决定课程名） ，即知道课程号就能确定课程名。</li>
-<li>这里 “<code>Sn</code>”（姓名）只依赖于主键中的 “<code>S#</code>”（学号） ，“<code>Cn</code>”（课程名）只依赖于主键中的 “<code>C#</code>”（课程号） ，存在非主属性对主键的部分函数依赖。</li>
-<li><strong>第一范式（1NF）</strong>：该关系模式中每个属性（学号、姓名、课程号、课程名、成绩、学分）都是不可再分的原子值，满足 1NF。</li>
-<li><strong>第二范式（2NF）</strong>：由于存在非主属性（如 “<code>Sn</code>”“<code>Cn</code>” ）对主键的部分函数依赖，不满足 2NF。</li>
-<li>因为不满足 2NF，自然也不满足更高等级的 3NF 和 BCNF。</li>
-</ul>
-</li>
-</ul>
-<h1 id="算法"><a href="#算法" class="headerlink" title="算法"></a>算法</h1><ul>
-<li>算法可以用各种方式来描述，<code>N-S</code>流程图把算法的每一步使用一个矩形框来表示，一个个矩形框按执行的次序来链接就是一个算法描述。</li>
-<li>使用三种基本算法:<strong>顺序、循环、选择结构</strong>就可以实现任何复杂的算法。</li>
-</ul>
-<h1 id="计算机数据"><a href="#计算机数据" class="headerlink" title="计算机数据"></a>计算机数据</h1><h2 id="计算机数据类型及其作用"><a href="#计算机数据类型及其作用" class="headerlink" title="计算机数据类型及其作用"></a>计算机数据类型及其作用</h2><p><strong>原码</strong></p>
-<p>简单数据表示：原码的表示方式简单直观，在一些对运算要求不高，仅用于数据展示或简单存储的场景中，原码可以方便人们直观地看出数据的正负和数值大小，比如在一些数据的输入输出阶段。</p>
-<p>特定乘法运算：原码在乘法运算中相对简便，进行乘法运算时，只需将尾数相乘，符号位单独处理 。</p>
-<p><strong>补码</strong>：</p>
-<p>在计算机中，整数的存储和运算通常采用补码形式。补码可以将减法运算转化为加法运算，简化计算机硬件的设计；同时，补码表示下0的表示唯一，利于计算机的运算和处理。</p>
-<p><strong>反码</strong></p>
-<p>早期计算机系统：在早期的一些计算机系统，如PDP-1和CDC 6600中，曾使用反码来表示负数。</p>
-<p>错误检测：在某些简单的错误检测机制，如奇偶校验中，反码可以用于快速检测数据在传输过程中是否出现错误 。</p>
-<p>特定硬件与教学：在教学领域，反码是计算机组成原理中重要的教学内容；在一些特定的嵌入式系统或专用硬件中，反码能在某些情况下简化加减法运算（两个反码相加，若最高位产生进位，则在结果上加1 ） 。</p>
-<p><strong>偏移码（移码</strong>）：</p>
-<p>常用于浮点数的阶码表示。在浮点数运算中，使用移码表示阶码，能方便地对阶码进行比较和运算，同时保证浮点数的机器零为全0，便于计算机对浮点数的处理和存储 。</p>
-<h1 id="软件工程"><a href="#软件工程" class="headerlink" title="软件工程"></a>软件工程</h1><h2 id="测试方式"><a href="#测试方式" class="headerlink" title="测试方式"></a>测试方式</h2><ul>
-<li>黑盒测试技术的依据：<strong>主要依据需求规格说明书里对软件功能的描述</strong>,强调功能</li>
-<li>比如：一个计算器软件，需求规格说明书会写明它能进行加、减、乘、除等运算。黑盒测试就根据这些功能描述，去验证输入不同数字和运算符号组合时，软件是否能正确输出结果 ，而不考虑计算器内部代码是如何实现这些运算的。</li>
-<li>白盒测试的技术依据：<strong>依据软件设计说明书、程序内部逻辑结构进行测试</strong>，强调内部逻辑</li>
-<li>比如：开发一个电商系统，在单元测试时用白盒测试检查每个商品模块的功能代码</li>
-</ul>
-<h2 id="软件的生存周期"><a href="#软件的生存周期" class="headerlink" title="软件的生存周期"></a>软件的生存周期</h2><ul>
-<li><strong>A. 可行性研究</strong>：判断软件项目是否值得做、能否做。如开发在线教育软件，评估技术上能否实现直播授课，经济上投入产出是否合理 </li>
-<li><strong>B. 需求分析</strong>：确定软件要做什么。如在线教育软件，明确要实现课程播放、作业布置、考试测评等功能 。</li>
-<li><strong>C. 软件设计</strong>：规划软件怎么做。如在线教育软件，设计课程播放模块架构、数据库表结构等 。</li>
-<li><strong>D. 软件实现</strong>：用代码实现软件功能。如在线教育软件，编写代码实现课程播放、用户登录等功能 。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>计算机基础</category>
-      </categories>
-      <tags>
-        <tag>计算机基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>日程表</title>
-    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
-    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
-<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
-<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
-<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
-<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
-<p>另外别忘了干洗。</p>
-<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
-<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
-]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>大一寒假安排</tag>
       </tags>
   </entry>
   <entry>
@@ -3252,6 +3233,85 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>transformer基本结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>日程表</title>
+    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
+    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
+<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
+<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
+<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
+<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
+<p>另外别忘了干洗。</p>
+<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
+<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
+]]></content>
+      <categories>
+        <category>个人安排</category>
+      </categories>
+      <tags>
+        <tag>大一寒假安排</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>滑动窗口数据清洗分区</title>
+    <url>/2025/03/18/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E5%88%86%E5%8C%BA/</url>
+    <content><![CDATA[<h1 id="基本元素"><a href="#基本元素" class="headerlink" title="基本元素"></a>基本元素</h1><ul>
+<li><p>三个基本元素:</p>
+</li>
+<li><ul>
+<li>可迭代数据</li>
+<li>单个动态窗口<code>window</code>大小</li>
+<li>步长<code>step_size</code></li>
+</ul>
+</li>
+<li><p>如下代码:</p>
+</li>
+<li><pre><code class="language-python">def sliding_windows(data, window_size, step_size):#data要是可迭代数据
+    &quot;&quot;&quot;
+    步长是对窗口的移动距离
+    窗口大小是窗口的长度
+    细看以下的说明
+    &quot;&quot;&quot;
+    windows = [] #定义窗口集
+    start = 0 #动态窗口的初始值
+    while start + window_size &lt;= len(data):#窗口大小不能直接超过迭代数据大小
+        window = data[start:start+window_size]#对窗口长度进行定义
+        windows.append(window)#将窗口加入到列表中
+        start += step_size#窗口的起始位置动态变化,即动态改变窗口位置
+    return windows
+
+if __name__ == &#39;__main__&#39;:
+    data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
+    print(sliding_windows(data, 5, 2))
+</code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>数据处理</tag>
       </tags>
   </entry>
   <entry>
@@ -3385,24 +3445,6 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<h3 id="正则匹配个人易忽略点记录"><a href="#正则匹配个人易忽略点记录" class="headerlink" title="正则匹配个人易忽略点记录"></a>正则匹配个人易忽略点记录</h3><h4 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h4><h5 id="1-多行修饰符-Multline"><a href="#1-多行修饰符-Multline" class="headerlink" title="1.多行修饰符(Multline)"></a>1.多行修饰符(Multline)</h5><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>正则匹配</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>汇编硬件基础</title>
     <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
     <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
@@ -3435,48 +3477,6 @@ class ContextAwareClassifier:
     <title>爬虫，寻找数据集入门</title>
     <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>滑动窗口数据清洗分区</title>
-    <url>/2025/03/18/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E5%88%86%E5%8C%BA/</url>
-    <content><![CDATA[<h1 id="基本元素"><a href="#基本元素" class="headerlink" title="基本元素"></a>基本元素</h1><ul>
-<li><p>三个基本元素:</p>
-</li>
-<li><ul>
-<li>可迭代数据</li>
-<li>单个动态窗口<code>window</code>大小</li>
-<li>步长<code>step_size</code></li>
-</ul>
-</li>
-<li><p>如下代码:</p>
-</li>
-<li><pre><code class="language-python">def sliding_windows(data, window_size, step_size):#data要是可迭代数据
-    &quot;&quot;&quot;
-    步长是对窗口的移动距离
-    窗口大小是窗口的长度
-    细看以下的说明
-    &quot;&quot;&quot;
-    windows = [] #定义窗口集
-    start = 0 #动态窗口的初始值
-    while start + window_size &lt;= len(data):#窗口大小不能直接超过迭代数据大小
-        window = data[start:start+window_size]#对窗口长度进行定义
-        windows.append(window)#将窗口加入到列表中
-        start += step_size#窗口的起始位置动态变化,即动态改变窗口位置
-    return windows
-
-if __name__ == &#39;__main__&#39;:
-    data = [1,2,3,4,5,6,7,8,9,10,11,12,13,14,15,16,17,18,19,20]
-    print(sliding_windows(data, 5, 2))
-</code></pre>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>数据处理</tag>
-      </tags>
   </entry>
   <entry>
     <title>特征工程一致性与持久化</title>
@@ -3575,20 +3575,6 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>ai数据流梳理</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>训练</title>
-    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
-    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
-<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
-
-<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>ai训练</tag>
       </tags>
   </entry>
   <entry>
@@ -3859,6 +3845,20 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>transformer模型入门</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>训练</title>
+    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
+    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
+<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
+
+<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>ai训练</tag>
       </tags>
   </entry>
 </search>
