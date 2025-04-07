@@ -37,12 +37,6 @@
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客</title>
-    <url>/2025/01/11/25.1.9/</url>
-    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
-]]></content>
-  </entry>
-  <entry>
     <title>初见文件上传:[极客大挑战 2019]Upload</title>
     <url>/2025/01/19/2019-Upload/</url>
     <content><![CDATA[<h3 id="初见文件上传-极客大挑战-2019-Upload"><a href="#初见文件上传-极客大挑战-2019-Upload" class="headerlink" title="初见文件上传:[极客大挑战 2019] Upload"></a>初见文件上传:[极客大挑战 2019] Upload</h3><h4 id="进入靶机"><a href="#进入靶机" class="headerlink" title="进入靶机"></a>进入靶机</h4><img src="/2025/01/19/2019-Upload/image-20250119233053920.png" class="" title="image-20250119233053920">
@@ -98,6 +92,12 @@
       <tags>
         <tag>文件上传</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>我的第一篇博客</title>
+    <url>/2025/01/11/25.1.9/</url>
+    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
+]]></content>
   </entry>
   <entry>
     <title>3.30有关川大ctf交流</title>
@@ -1141,6 +1141,39 @@
       </tags>
   </entry>
   <entry>
+    <title>c语言操作题</title>
+    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
+    <content><![CDATA[<h1 id="大小写的转化"><a href="#大小写的转化" class="headerlink" title="大小写的转化"></a>大小写的转化</h1><h2 id="利用-ASCII-码值的差值进行转换"><a href="#利用-ASCII-码值的差值进行转换" class="headerlink" title="利用 ASCII 码值的差值进行转换"></a>利用 ASCII 码值的差值进行转换</h2><ul>
+<li><strong>原理</strong>：在 ASCII 码表中，大写字母和小写字母的编码是有规律的。<strong>小写字母比对应的大写字母的 ASCII 码值大 32</strong> 。例如，‘A’ 的 ASCII 码值是 65 ，‘a’ 的 ASCII 码值是 97 。所以可以通过对字符的 ASCII 码值进行加减操作来实现大小写转换。</li>
+<li><strong>代码示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">        ch = ch + <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    <span class="keyword">if</span> (ch2 &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch2 &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        ch2 = ch2 - <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="使用标准库函数-tolower-和-toupper"><a href="#使用标准库函数-tolower-和-toupper" class="headerlink" title="使用标准库函数 tolower() 和 toupper()"></a>使用标准库函数 <code>tolower()</code> 和 <code>toupper()</code></h2><ul>
+<li><strong>原理</strong>：C 语言的标准库 <code>&lt;ctype.h&gt;</code> 提供了 <code>tolower()</code> 和 <code>toupper()</code> 函数来进行字符大小写转换。<code>tolower()</code> 函数会将给定的字符转换为小写形式（如果该字符是大写字母 ），<code>toupper()</code> 函数会将给定的字符转换为大写形式（如果该字符是小写字母 ）。如果字符本身不是字母，函数会直接返回原字符。</li>
+<li><strong>代码示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    ch = <span class="built_in">tolower</span>(ch);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    ch2 = <span class="built_in">toupper</span>(ch2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="对字符串中的字符进行大小写转换"><a href="#对字符串中的字符进行大小写转换" class="headerlink" title="对字符串中的字符进行大小写转换"></a>对字符串中的字符进行大小写转换</h2><p>如果要对字符串中的所有字符进行大小写转换，可以结合循环和上述方法来实现。</p>
+<ul>
+<li><strong>利用 ASCII 码值差值的示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] + <span class="number">32</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] - <span class="number">32</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>利用标准库函数的示例</strong>：</li>
+</ul>
+<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isupper</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">tolower</span>(str[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">islower</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">toupper</span>(str[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+]]></content>
+      <categories>
+        <category>c语言</category>
+      </categories>
+      <tags>
+        <tag>计算机二级</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>c语言数值类型与字长的理解</title>
     <url>/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="c语言数据类型"><a href="#c语言数据类型" class="headerlink" title="c语言数据类型"></a>c语言数据类型</h2><h3 id="数据声明与字长"><a href="#数据声明与字长" class="headerlink" title="数据声明与字长"></a>数据声明与字长</h3><p>1.首先字长是计算机可以处理的二进制数的位数,字节是基本单位,一字节等于8位,1位是0或1。</p>
@@ -1303,39 +1336,6 @@
       </categories>
       <tags>
         <tag>c语言数据类型</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c语言操作题</title>
-    <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
-    <content><![CDATA[<h1 id="大小写的转化"><a href="#大小写的转化" class="headerlink" title="大小写的转化"></a>大小写的转化</h1><h2 id="利用-ASCII-码值的差值进行转换"><a href="#利用-ASCII-码值的差值进行转换" class="headerlink" title="利用 ASCII 码值的差值进行转换"></a>利用 ASCII 码值的差值进行转换</h2><ul>
-<li><strong>原理</strong>：在 ASCII 码表中，大写字母和小写字母的编码是有规律的。<strong>小写字母比对应的大写字母的 ASCII 码值大 32</strong> 。例如，‘A’ 的 ASCII 码值是 65 ，‘a’ 的 ASCII 码值是 97 。所以可以通过对字符的 ASCII 码值进行加减操作来实现大小写转换。</li>
-<li><strong>代码示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    <span class="keyword">if</span> (ch &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; ch &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">        ch = ch + <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    <span class="keyword">if</span> (ch2 &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; ch2 &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">        ch2 = ch2 - <span class="number">32</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="使用标准库函数-tolower-和-toupper"><a href="#使用标准库函数-tolower-和-toupper" class="headerlink" title="使用标准库函数 tolower() 和 toupper()"></a>使用标准库函数 <code>tolower()</code> 和 <code>toupper()</code></h2><ul>
-<li><strong>原理</strong>：C 语言的标准库 <code>&lt;ctype.h&gt;</code> 提供了 <code>tolower()</code> 和 <code>toupper()</code> 函数来进行字符大小写转换。<code>tolower()</code> 函数会将给定的字符转换为小写形式（如果该字符是大写字母 ），<code>toupper()</code> 函数会将给定的字符转换为大写形式（如果该字符是小写字母 ）。如果字符本身不是字母，函数会直接返回原字符。</li>
-<li><strong>代码示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> ch = <span class="string">&#x27;A&#x27;</span>;</span><br><span class="line">    <span class="comment">// 大写转小写</span></span><br><span class="line">    ch = <span class="built_in">tolower</span>(ch);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch);</span><br><span class="line"></span><br><span class="line">    <span class="type">char</span> ch2 = <span class="string">&#x27;b&#x27;</span>;</span><br><span class="line">    <span class="comment">// 小写转大写</span></span><br><span class="line">    ch2 = <span class="built_in">toupper</span>(ch2);</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符: %c\n&quot;</span>, ch2);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="对字符串中的字符进行大小写转换"><a href="#对字符串中的字符进行大小写转换" class="headerlink" title="对字符串中的字符进行大小写转换"></a>对字符串中的字符进行大小写转换</h2><p>如果要对字符串中的所有字符进行大小写转换，可以结合循环和上述方法来实现。</p>
-<ul>
-<li><strong>利用 ASCII 码值差值的示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;A&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;Z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] + <span class="number">32</span>;</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (str[i] &gt;= <span class="string">&#x27;a&#x27;</span> &amp;&amp; str[i] &lt;= <span class="string">&#x27;z&#x27;</span>) &#123;</span><br><span class="line">            str[i] = str[i] - <span class="number">32</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>利用标准库函数的示例</strong>：</li>
-</ul>
-<figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;stdio.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;string.h&gt;</span></span></span><br><span class="line"><span class="meta">#<span class="keyword">include</span> <span class="string">&lt;ctype.h&gt;</span></span></span><br><span class="line"><span class="type">int</span> <span class="title function_">main</span><span class="params">()</span> &#123;</span><br><span class="line">    <span class="type">char</span> str[<span class="number">100</span>] = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line">    <span class="type">int</span> len = <span class="built_in">strlen</span>(str);</span><br><span class="line">    <span class="keyword">for</span> (<span class="type">int</span> i = <span class="number">0</span>; i &lt; len; i++) &#123;</span><br><span class="line">        <span class="keyword">if</span> (<span class="built_in">isupper</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">tolower</span>(str[i]);</span><br><span class="line">        &#125; <span class="keyword">else</span> <span class="keyword">if</span> (<span class="built_in">islower</span>(str[i])) &#123;</span><br><span class="line">            str[i] = <span class="built_in">toupper</span>(str[i]);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="built_in">printf</span>(<span class="string">&quot;转换后的字符串: %s\n&quot;</span>, str);</span><br><span class="line">    <span class="keyword">return</span> <span class="number">0</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-]]></content>
-      <categories>
-        <category>c语言</category>
-      </categories>
-      <tags>
-        <tag>计算机二级</tag>
       </tags>
   </entry>
   <entry>
@@ -1712,7 +1712,7 @@ void swap( int *p,int *q)
 *t=*p; *p=*q; *q=*t;
 &#125;
 //main()略..
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.yiwvpnmnttjy&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img yiwvpnmnttjy image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.mwtbecjcojgj&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img mwtbecjcojgj image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
 <li><p>问:最后输出的值是什么</p>
@@ -2130,17 +2130,6 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>linux基础</title>
-    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>基本符号</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>langchain的runnables相关学习</title>
     <url>/2025/03/31/langchain%E7%9A%84runnables%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="处理链-Pipeline-详细解释"><a href="#处理链-Pipeline-详细解释" class="headerlink" title="处理链(Pipeline)详细解释"></a>处理链(Pipeline)详细解释</h1><ul>
@@ -2188,51 +2177,14 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>pandas库学习(持续更新)</title>
-    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
-<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
-<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
-<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
-<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
-<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
-<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
-<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
-<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
-<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
-<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
-<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
-<li><p>我有如下图一个tsv格式文件:</p>
-</li>
-<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
-</li>
-<li><p>我该怎么把指定的列提取出来呢</p>
-</li>
-<li></li>
-</ul>
-]]></content>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
       <categories>
-        <category>python</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>pandas库</tag>
+        <tag>基本符号</tag>
       </tags>
   </entry>
   <entry>
@@ -2302,6 +2254,54 @@ print(new_data)
       </tags>
   </entry>
   <entry>
+    <title>pandas库学习(持续更新)</title>
+    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
+<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
+<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
+<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
+<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
+<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
+<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
+<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
+<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
+<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
+<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
+<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
+<li><p>我有如下图一个tsv格式文件:</p>
+</li>
+<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
+</li>
+<li><p>我该怎么把指定的列提取出来呢</p>
+</li>
+<li></li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>pandas库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php包含代码机制</title>
     <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
     <content><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p>
@@ -2351,17 +2351,6 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>php比较字符1</title>
-    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php比较字符</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php字符串处理函数</title>
     <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
@@ -2384,11 +2373,22 @@ print(new_data)
       </tags>
   </entry>
   <entry>
+    <title>php比较字符1</title>
+    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php特性入门</title>
     <url>/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h1 id="in-array函数漏洞"><a href="#in-array函数漏洞" class="headerlink" title="in_array函数漏洞"></a>in_array函数漏洞</h1><ul>
 <li>如题:(ctfshow web99)</li>
-<li><style>.vusurgstsfdv{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="vusurgstsfdv" alt="image-20250405202932475"></li>
+<li><style>.ofaxbqpukkyb{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="ofaxbqpukkyb" alt="image-20250405202932475"></li>
 <li>这里<code>rand(1,$i)</code>是在从<code>1</code>到<code>$i</code>之间随机选择一个数输出。</li>
 <li><strong>关于in_array</strong>函数的机制:<ul>
 <li>格式:<code>bool in_array ( mixed $needle , array $haystack [, bool $strict = FALSE ] )</code>,即首位参数为需查询的数值，第二个参数为目标数组，<strong>最后一个参数为是否为严格比较</strong>。</li>
@@ -2423,11 +2423,6 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>php超全局变量</title>
-    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>php超全局变量特性注解</title>
     <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F/</url>
     <content><![CDATA[<h3 id="php超全局变量特性注解"><a href="#php超全局变量特性注解" class="headerlink" title="php超全局变量特性注解"></a>php超全局变量特性注解</h3><h4 id="REQUEST"><a href="#REQUEST" class="headerlink" title="$_REQUEST"></a>$_REQUEST</h4><p>1.它最大的特点就是,$_REQUEST超全局变量为一个复合变量,它可以接受来自于$_GET、$_POST 和 $_COOKIE 传递过来的值。<br>2.它的设计初衷是为了方便开发者在处理用户输入时，无需关心数据是通过哪种方式提交的，都能统一获取。<br>3.所以如下:</p>
@@ -2442,6 +2437,11 @@ print(new_data)
       <tags>
         <tag>php超全局变量</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>php超全局变量</title>
+    <url>/2025/01/14/php%E8%B6%85%E5%85%A8%E5%B1%80%E5%8F%98%E9%87%8F%E7%89%B9%E6%80%A7%E6%B3%A8%E8%A7%A3/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>pydantic库学习</title>
@@ -2561,11 +2561,6 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>python常见bug</title>
-    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>python异常捕获及处理</title>
     <url>/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/</url>
     <content><![CDATA[<h1 id="Python异常捕获与处理"><a href="#Python异常捕获与处理" class="headerlink" title="Python异常捕获与处理"></a>Python异常捕获与处理</h1><h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>例如:</p>
@@ -2604,73 +2599,9 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>python程序运行启动代码</title>
-    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
-<li><p><code>__name__</code> 变量：</p>
-</li>
-<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
-<ul>
-<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
-<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
-</ul>
-</li>
-<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
-</li>
-</ul>
-<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
-<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
-<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
-</ul>
-<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
-<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
-<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>py程序启动</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python装饰器</title>
-    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
-<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
-</li>
-<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
-</li>
-<li><p>比如:</p>
-</li>
-<li><pre><code class="language-python">class DateUtils:    
-    @classmethod
-    def get_time(cls):
-        import datetime
-        return datetime.datetime.now()
- 
-#类调用
-year1 = DateUtils.get_time
-print(year1)
-
-#实例化后调用
-date = DateUtils()
-year2 =n date.get_time
-print(year2)
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python装饰器</tag>
-      </tags>
+    <title>python常见bug</title>
+    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>python杂项函数/用法积累(持续更新)</title>
@@ -2809,6 +2740,75 @@ for func in functions:
       </tags>
   </entry>
   <entry>
+    <title>python程序运行启动代码</title>
+    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
+<li><p><code>__name__</code> 变量：</p>
+</li>
+<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
+<ul>
+<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
+<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
+</ul>
+</li>
+<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
+</li>
+</ul>
+<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
+<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
+<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
+</ul>
+<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
+<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
+<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>py程序启动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python装饰器</title>
+    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
+<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
+</li>
+<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
+</li>
+<li><p>比如:</p>
+</li>
+<li><pre><code class="language-python">class DateUtils:    
+    @classmethod
+    def get_time(cls):
+        import datetime
+        return datetime.datetime.now()
+ 
+#类调用
+year1 = DateUtils.get_time
+print(year1)
+
+#实例化后调用
+date = DateUtils()
+year2 =n date.get_time
+print(year2)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python装饰器</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python读取文件</title>
     <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
     <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
@@ -2839,6 +2839,11 @@ for func in functions:
       <tags>
         <tag>python读取文件</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>sqlite库学习</title>
+    <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>re库</title>
@@ -2903,11 +2908,6 @@ print(result.group())
       <tags>
         <tag>sql注入</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>sqlite库学习</title>
-    <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>toml配置文件</title>
@@ -3116,6 +3116,28 @@ print(result.group())
       </tags>
   </entry>
   <entry>
+    <title>代码审计套路</title>
+    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
+    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
+<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>二级通识</title>
     <url>/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/</url>
     <content><![CDATA[<h1 id="循环结构"><a href="#循环结构" class="headerlink" title="循环结构"></a>循环结构</h1><h2 id="循环队列"><a href="#循环队列" class="headerlink" title="循环队列"></a>循环队列</h2><ul>
@@ -3198,7 +3220,7 @@ print(result.group())
 <li><strong>定义</strong>：关系模式中的每个属性都不可再分，即属性是原子的。并且主属性（主键）不能为空且不重复 。例如学生选课关系模式中，每个属性如 “学号”“课程号” 等都不能再拆分成更小的子属性 ，这是关系型数据库最基本要求。</li>
 <li>比如:</li>
 </ul>
-<style>.jxceqbtqcyre{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="jxceqbtqcyre" alt="image-20250324145245672">
+<style>.vshepltytsrn{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="vshepltytsrn" alt="image-20250324145245672">
 
 <ul>
 <li>这里的歌手一列含有两个元素，不符合原子化的规范。比如学习成绩，这一栏就会有如:<code>&#123;&quot;英语&quot;:100,&quot;数学&quot;:100&#125;</code>的情况，这一栏就不符合原子化的原则，即不为1NF的规则。</li>
@@ -3218,9 +3240,9 @@ print(result.group())
 <li>基本介绍</li>
 <li>**定义：**第三范式（3NF）要求关系模式在满足第二范式（2NF）的基础上，不存在非主属性对主键的传递函数依赖 。</li>
 <li>举例：</li>
-<li><style>.ibboopuccfpo{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="ibboopuccfpo" alt="image-20250324153727673"></li>
+<li><style>.wfgvrfyivtwh{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="wfgvrfyivtwh" alt="image-20250324153727673"></li>
 <li>相当于横向有依赖。其解决方法也是把表拆开。</li>
-<li><style>.eiwvhbgsrnxu{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="eiwvhbgsrnxu" alt="image-20250324153908868"></li>
+<li><style>.yzhkujffomtc{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="yzhkujffomtc" alt="image-20250324153908868"></li>
 <li>解决方法如图所示。</li>
 </ul>
 <h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="例题一"><a href="#例题一" class="headerlink" title="例题一"></a>例题一</h3><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324154755016.png" class="" title="image-20250324154755016">
@@ -3273,28 +3295,6 @@ print(result.group())
       </categories>
       <tags>
         <tag>计算机基础</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>代码审计套路</title>
-    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
-    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
-<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
-<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>代码审计</tag>
       </tags>
   </entry>
   <entry>
@@ -3415,18 +3415,6 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>挑战杯入门ai</title>
-    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
-    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
-<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>初识ai模型</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>命令执行绕过符号总结</title>
     <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
@@ -3450,6 +3438,18 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>挑战杯入门ai</title>
+    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
+    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
+<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>初识ai模型</tag>
       </tags>
   </entry>
   <entry>
@@ -3497,101 +3497,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>transformer基本结构</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>日程表</title>
-    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
-    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
-<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
-<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
-<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
-<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
-<p>另外别忘了干洗。</p>
-<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
-<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
-]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>大一寒假安排</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><strong>正则匹配个人易忽略点记录</strong></p>
-<h1 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h1><h2 id="多行修饰符-Multline"><a href="#多行修饰符-Multline" class="headerlink" title="多行修饰符(Multline)"></a>多行修饰符(Multline)</h2><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
-<h1 id="关于点运算符"><a href="#关于点运算符" class="headerlink" title="关于点运算符(.)"></a>关于点运算符(.)</h1><ul>
-<li><p><strong>本质:就是随意匹配一个字符，包括空格符但是不匹配换行符</strong>。</p>
-</li>
-<li><p>理解:以下例子:’</p>
-</li>
-<li><p>三者进行对比:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span></span><br><span class="line">result = re.findall(<span class="string">r&quot;.&quot;</span>, <span class="string">&quot;The car parked in the garage.&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;T&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;c&#39;, &#39;a&#39;, &#39;r&#39;, &#39; &#39;, &#39;p&#39;, &#39;a&#39;, &#39;r&#39;, &#39;k&#39;, &#39;e&#39;, &#39;d&#39;, &#39; &#39;, &#39;i&#39;, &#39;n&#39;, &#39; &#39;, &#39;t&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;g&#39;, &#39;a&#39;, &#39;r&#39;, &#39;a&#39;, &#39;g&#39;, &#39;e&#39;, &#39;.&#39;]
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即匹配所有字符，除了换行符。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.ar&quot;, &quot;The car parked in the garage.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;car&#39;, &#39;par&#39;, &#39;gar&#39;]
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即加权对字符进行匹配,匹配后面跟着`ar`字符的单词</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.*&quot;, &quot;The car parked in the garage ar.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;The car parked in the garage ar.&#39;, &#39;&#39;]
-</code></pre>
-</li>
-<li><p>这里我们就要提到<strong>贪婪匹配了!</strong></p>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="贪婪匹配和非贪婪匹配的区别"><a href="#贪婪匹配和非贪婪匹配的区别" class="headerlink" title="贪婪匹配和非贪婪匹配的区别"></a>贪婪匹配和非贪婪匹配的区别</h1><h2 id="入门-个人通俗理解"><a href="#入门-个人通俗理解" class="headerlink" title="入门:个人通俗理解"></a>入门:个人通俗理解</h2><ul>
-<li><p>其实贪婪匹配就是尽可能地多匹配字符,而非贪婪匹配就是匹配到第一个符合条件的字符后收手，计为一个匹配的对象，不再匹配。</p>
-</li>
-<li><p>参考网站:<a href="https://regex101.com/r/1paXsy/1">正则匹配模拟器</a></p>
-</li>
-<li><p>比如<code>.* </code>就是对字符进行贪婪匹配,将该表达式写作:<code>.*?</code>就是非贪婪匹配，即懒惰匹配</p>
-<p>详见如下的例子:</p>
-</li>
-<li><p><strong>例一:</strong></p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331003545166.png" class="" title="image-20250331003545166">
-</li>
-<li><p>贪婪匹配的格式就为,表达式<code>.+</code>首尾为匹配的表达式模板，比如这个例子，首位就是<code>a</code>,结尾就为<code>b[空格]a</code>,那就匹配首位格式为这样的字符传，如图所示，就算把中间数个<code>b</code>中该有<code>c</code>字符的话，一样可以匹配,比如:</p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004014691.png" class="" title="image-20250331004014691">
-</li>
-<li><p><strong>例二:</strong></p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004141053.png" class="" title="image-20250331004141053">
-</li>
-<li><p>这里可以发现，当我使用<code>?</code>将贪婪匹配转为懒惰匹配后，在第一个格式为<code>a</code>开头，<code>b</code>结尾的字符串处匹配就结束了</p>
-</li>
-<li><p>不会像如下这样:</p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004253303.png" class="" title="image-20250331004253303"></li>
-</ul>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>正则匹配</tag>
       </tags>
   </entry>
   <entry>
@@ -3725,6 +3630,130 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
+    <title>日程表</title>
+    <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
+    <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
+<h4 id="1-18"><a href="#1-18" class="headerlink" title="1.18"></a>1.18</h4><p>西湖论剑杯</p>
+<h3 id="日常安排"><a href="#日常安排" class="headerlink" title="日常安排"></a>日常安排</h3><h4 id="上午"><a href="#上午" class="headerlink" title="上午"></a>上午</h4><p>1.6:30起床，8:00开始学习C,先进行计算机二级常识基础的记忆。就半个小时</p>
+<h4 id="中午"><a href="#中午" class="headerlink" title="中午"></a>中午</h4><p>1.学到12:00停手,一直到13:30都是休息时间</p>
+<h4 id="下午"><a href="#下午" class="headerlink" title="下午"></a>下午</h4><p>1.java 2h<br>2.python 2h<br>3.mysql和php交互环境的配置(25.1.17)<br>4.做ctfshow和春秋杯的题,晚上听讲解<br>5.另外就是挑战杯:<br>先看材料,有什么要求,再联系老师交流我想制作一个网页安全的系统,可以怎么入手,<br>这样既把项目做了,又可以学习ctf知识。</p>
+<p>另外别忘了干洗。</p>
+<h3 id="挑战杯项目"><a href="#挑战杯项目" class="headerlink" title="挑战杯项目"></a>挑战杯项目</h3><h4 id="项目简述"><a href="#项目简述" class="headerlink" title="项目简述"></a>项目简述</h4><p>1.大概思路:用mistral作为基本模型,然后使用网安数据集进行训练,制作一个网安大模型,然后写一个网页推理对话程序,在这个LLM里配置RAG,RAG内内使用我自行编撰的网络安全知识库。<br>最后的理想呈现效果就是:可以利用这个网页ai(类似于chatgpt),搞漏洞poc,询问它如何sql注入。</p>
+<h4 id="难点"><a href="#难点" class="headerlink" title="难点"></a>难点</h4><p>1.首先对ai编程的基本逻辑不清楚,LLM,rag等基础概念需要深入了解<br>2.unsloth训练需要学习,以及我们项目的mistral模型,了解什么是模型,人工智能的基本运行逻辑是什么,师傅建议直接使用google colab上面的笔记本,不需要过多配置。<br>3.几个专业术语了解:ollama(管理我创建的模型) gguf(正常模型的量化格式) faiss()<br>4.VPN代理的部署,并非难点,只是需要去落实<br>5.以及chatgpt 4o的使用</p>
+]]></content>
+      <categories>
+        <category>个人安排</category>
+      </categories>
+      <tags>
+        <tag>大一寒假安排</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><strong>正则匹配个人易忽略点记录</strong></p>
+<h1 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h1><h2 id="多行修饰符-Multline"><a href="#多行修饰符-Multline" class="headerlink" title="多行修饰符(Multline)"></a>多行修饰符(Multline)</h2><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+<h1 id="关于点运算符"><a href="#关于点运算符" class="headerlink" title="关于点运算符(.)"></a>关于点运算符(.)</h1><ul>
+<li><p><strong>本质:就是随意匹配一个字符，包括空格符但是不匹配换行符</strong>。</p>
+</li>
+<li><p>理解:以下例子:’</p>
+</li>
+<li><p>三者进行对比:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span></span><br><span class="line">result = re.findall(<span class="string">r&quot;.&quot;</span>, <span class="string">&quot;The car parked in the garage.&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;T&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;c&#39;, &#39;a&#39;, &#39;r&#39;, &#39; &#39;, &#39;p&#39;, &#39;a&#39;, &#39;r&#39;, &#39;k&#39;, &#39;e&#39;, &#39;d&#39;, &#39; &#39;, &#39;i&#39;, &#39;n&#39;, &#39; &#39;, &#39;t&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;g&#39;, &#39;a&#39;, &#39;r&#39;, &#39;a&#39;, &#39;g&#39;, &#39;e&#39;, &#39;.&#39;]
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即匹配所有字符，除了换行符。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.ar&quot;, &quot;The car parked in the garage.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;car&#39;, &#39;par&#39;, &#39;gar&#39;]
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即加权对字符进行匹配,匹配后面跟着`ar`字符的单词</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.*&quot;, &quot;The car parked in the garage ar.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;The car parked in the garage ar.&#39;, &#39;&#39;]
+</code></pre>
+</li>
+<li><p>这里我们就要提到<strong>贪婪匹配了!</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="贪婪匹配和非贪婪匹配的区别"><a href="#贪婪匹配和非贪婪匹配的区别" class="headerlink" title="贪婪匹配和非贪婪匹配的区别"></a>贪婪匹配和非贪婪匹配的区别</h1><h2 id="入门-个人通俗理解"><a href="#入门-个人通俗理解" class="headerlink" title="入门:个人通俗理解"></a>入门:个人通俗理解</h2><ul>
+<li><p>其实贪婪匹配就是尽可能地多匹配字符,而非贪婪匹配就是匹配到第一个符合条件的字符后收手，计为一个匹配的对象，不再匹配。</p>
+</li>
+<li><p>参考网站:<a href="https://regex101.com/r/1paXsy/1">正则匹配模拟器</a></p>
+</li>
+<li><p>比如<code>.* </code>就是对字符进行贪婪匹配,将该表达式写作:<code>.*?</code>就是非贪婪匹配，即懒惰匹配</p>
+<p>详见如下的例子:</p>
+</li>
+<li><p><strong>例一:</strong></p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331003545166.png" class="" title="image-20250331003545166">
+</li>
+<li><p>贪婪匹配的格式就为,表达式<code>.+</code>首尾为匹配的表达式模板，比如这个例子，首位就是<code>a</code>,结尾就为<code>b[空格]a</code>,那就匹配首位格式为这样的字符传，如图所示，就算把中间数个<code>b</code>中该有<code>c</code>字符的话，一样可以匹配,比如:</p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004014691.png" class="" title="image-20250331004014691">
+</li>
+<li><p><strong>例二:</strong></p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004141053.png" class="" title="image-20250331004141053">
+</li>
+<li><p>这里可以发现，当我使用<code>?</code>将贪婪匹配转为懒惰匹配后，在第一个格式为<code>a</code>开头，<code>b</code>结尾的字符串处匹配就结束了</p>
+</li>
+<li><p>不会像如下这样:</p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004253303.png" class="" title="image-20250331004253303"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>汇编硬件基础</title>
+    <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
+<li><strong>地址</strong>总线的宽度:</li>
+<li><ul>
+<li><strong>原理</strong>：地址总线宽度决定 CPU 的寻址能力，寻址能力的计算公式为 (2^n) （n 为地址总线宽度），单位是字节（Byte）。8bit &#x3D; 1Byte。</li>
+</ul>
+</li>
+<li>储存单元:</li>
+<li><ul>
+<li>**原理：**单位为Byte,存储单元从0开始，n-1结束</li>
+<li><img src="/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/image-20250317185253083.png" class="" title="image-20250317185253083"></li>
+</ul>
+</li>
+<li><strong>数据</strong>总线宽度:</li>
+<li><ul>
+<li>原理:数据总线宽度决定了 CPU 一次能传送的数据位数，单位是位（bit），而 8 bit (&#x3D; 1) Byte ，直接根据数据总线宽度换算成字节（B）。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>汇编语言</category>
+      </categories>
+      <tags>
+        <tag>汇编硬件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>滑动窗口数据清洗分区</title>
     <url>/2025/03/18/%E6%BB%91%E5%8A%A8%E7%AA%97%E5%8F%A3%E6%95%B0%E6%8D%AE%E6%B8%85%E6%B4%97%E5%88%86%E5%8C%BA/</url>
     <content><![CDATA[<h1 id="基本元素"><a href="#基本元素" class="headerlink" title="基本元素"></a>基本元素</h1><ul>
@@ -3767,37 +3796,8 @@ if __name__ == &#39;__main__&#39;:
       </tags>
   </entry>
   <entry>
-    <title>汇编硬件基础</title>
-    <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
-<li><strong>地址</strong>总线的宽度:</li>
-<li><ul>
-<li><strong>原理</strong>：地址总线宽度决定 CPU 的寻址能力，寻址能力的计算公式为 (2^n) （n 为地址总线宽度），单位是字节（Byte）。8bit &#x3D; 1Byte。</li>
-</ul>
-</li>
-<li>储存单元:</li>
-<li><ul>
-<li>**原理：**单位为Byte,存储单元从0开始，n-1结束</li>
-<li><img src="/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/image-20250317185253083.png" class="" title="image-20250317185253083"></li>
-</ul>
-</li>
-<li><strong>数据</strong>总线宽度:</li>
-<li><ul>
-<li>原理:数据总线宽度决定了 CPU 一次能传送的数据位数，单位是位（bit），而 8 bit (&#x3D; 1) Byte ，直接根据数据总线宽度换算成字节（B）。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>汇编语言</category>
-      </categories>
-      <tags>
-        <tag>汇编硬件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>特征工程一致性与持久化</title>
-    <url>/2025/03/08/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%80%E8%87%B4%E6%80%A7%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/</url>
+    <title>爬虫，寻找数据集入门</title>
+    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
@@ -3895,8 +3895,8 @@ if __name__ == &#39;__main__&#39;:
       </tags>
   </entry>
   <entry>
-    <title>爬虫，寻找数据集入门</title>
-    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
+    <title>特征工程一致性与持久化</title>
+    <url>/2025/03/08/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%80%E8%87%B4%E6%80%A7%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
