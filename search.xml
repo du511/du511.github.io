@@ -175,39 +175,6 @@
       </tags>
   </entry>
   <entry>
-    <title>Arch_linux入门</title>
-    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
-<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
-<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
-<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
-<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
-<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
-<p>添加如下内容启用systemd</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
-<p>为了使更改生效,在powershell中重启wsl:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
-<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
-<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
-<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
-<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
-<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
-<p>将指定系统版本设置为2:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>Arch</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>wsl环境ollama运行ai</title>
     <url>/2025/01/20/ai/</url>
     <content><![CDATA[<h3 id="初见"><a href="#初见" class="headerlink" title="初见"></a>初见</h3><img src="/2025/01/20/ai/image-20250120232757713.png" class="" title="image-20250120232757713">
@@ -1446,6 +1413,106 @@ void main()
     <content><![CDATA[]]></content>
   </entry>
   <entry>
+    <title>Arch_linux入门</title>
+    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
+<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
+<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
+<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
+<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
+<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
+<p>添加如下内容启用systemd</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
+<p>为了使更改生效,在powershell中重启wsl:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
+<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
+<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
+<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
+<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
+<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
+<p>将指定系统版本设置为2:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>if代码执行机制</title>
+    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
+<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
+<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
+<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再在另外一个文件中包含它:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只会输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
+<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
+<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php条件函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>json学习</title>
+    <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
+<li>比如有以下python数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#综合数据集</span></span><br><span class="line">        decision_metadata = &#123;</span><br><span class="line">            <span class="string">&quot;model_version&quot;</span>: <span class="string">&quot;xgb_v3.1+bert_v2.4&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;xgb_pred&#x27;</span>: xgb_pred,</span><br><span class="line">            <span class="string">&#x27;bert_pred&#x27;</span>: bert_pred,</span><br><span class="line">            <span class="string">&#x27;xgb_proba&#x27;</span>: xgb_proda,</span><br><span class="line">            <span class="string">&#x27;bert_proba&#x27;</span>: bert_proda,</span><br><span class="line">            <span class="string">&#x27;xgb_detailed_proda&#x27;</span>: xgb_detailed_proda,</span><br><span class="line">            <span class="string">&#x27;bert_detailed_proda&#x27;</span>: bert_detailed_proda,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进行json格式转码，即，讲该字典格式数据编码为<code>json</code>格式数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dc_metadata_json = json.dumps(decision_metadata)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>即采用，<code>json.dumps()</code>方法,当然，你要先使用<code>import json</code>的操作。</li>
+</ul>
+<h2 id="json格式数据写入txt文档"><a href="#json格式数据写入txt文档" class="headerlink" title="json格式数据写入txt文档"></a>json格式数据写入txt文档</h2><h3 id="步骤一：导入必要的模块"><a href="#步骤一：导入必要的模块" class="headerlink" title="步骤一：导入必要的模块"></a>步骤一：导入必要的模块</h3><p>需要导入<code>json</code>模块用于处理 JSON 数据。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤二：准备-JSON-格式的-Python-数据"><a href="#步骤二：准备-JSON-格式的-Python-数据" class="headerlink" title="步骤二：准备 JSON 格式的 Python 数据"></a>步骤二：准备 JSON 格式的 Python 数据</h3><p>JSON 数据在 Python 中通常以字典、列表等数据结构表示。例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">&quot;hobbies&quot;</span>: [<span class="string">&quot;阅读&quot;</span>, <span class="string">&quot;跑步&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤三：将-JSON-数据转换为字符串"><a href="#步骤三：将-JSON-数据转换为字符串" class="headerlink" title="步骤三：将 JSON 数据转换为字符串"></a>步骤三：将 JSON 数据转换为字符串</h3><p>使用<code>json.dumps()</code>方法将 Python 中的 JSON 数据转换为字符串格式，方便写入 txt 文件。<code>json.dumps()</code>方法还可以通过一些参数进行格式化输出，如<code>indent</code>参数指定缩进，<code>ensure_ascii</code>参数设置是否以 ASCII 编码显示字符（<code>False</code>表示按原字符显示，常用于处理中文等非 ASCII 字符）。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤四：打开-txt-文件并写入数据"><a href="#步骤四：打开-txt-文件并写入数据" class="headerlink" title="步骤四：打开 txt 文件并写入数据"></a>步骤四：打开 txt 文件并写入数据</h3><p>使用<code>open()</code>函数以写入（<code>&#39;w&#39;</code>）或追加（<code>&#39;a&#39;</code>）模式打开 txt 文件。<code>&#39;w&#39;</code>模式会覆盖原有文件内容；<code>&#39;a&#39;</code>模式则会在文件末尾添加新内容，若文件不存在会自动创建。使用<code>write()</code>方法将转换后的 JSON 字符串写入文件，操作完成后文件会在<code>with</code>语句块结束时自动关闭。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以写入模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str)</span><br><span class="line"><span class="comment"># 以追加模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果 JSON 数据原本存储在文件中，先读取该 JSON 文件再写入 txt 文件，示例如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取JSON文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;input.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将JSON数据转换为字符串</span></span><br><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入txt文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> txt_file:</span><br><span class="line">    txt_file.write(json_str) </span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>json库</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>c语言选择题</title>
     <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E9%80%89%E6%8B%A9%E9%A2%98/</url>
     <content><![CDATA[<h1 id="备考c语言选择题-持续更新-25-3-2"><a href="#备考c语言选择题-持续更新-25-3-2" class="headerlink" title="备考c语言选择题(持续更新)25.3.2"></a>备考c语言选择题(持续更新)25.3.2</h1><h2 id="一些提醒"><a href="#一些提醒" class="headerlink" title="一些提醒"></a>一些提醒</h2><h3 id="一定要看清楚代码块的包含关系"><a href="#一定要看清楚代码块的包含关系" class="headerlink" title="一定要看清楚代码块的包含关系:"></a>一定要看清楚代码块的包含关系:</h3><figure class="highlight c"><table><tr><td class="code"><pre><span class="line"><span class="keyword">while</span>(*p++!=<span class="string">&#x27;\0&#x27;</span>);<span class="comment">//这里while循环已经结束了!!!!!!!!!</span></span><br><span class="line"> <span class="keyword">return</span>(p-s);</span><br></pre></td></tr></table></figure>
@@ -1712,7 +1779,7 @@ void swap( int *p,int *q)
 *t=*p; *p=*q; *q=*t;
 &#125;
 //main()略..
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.sumqexbqkqud&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img sumqexbqkqud image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.ugfcbnoszfcu&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img ugfcbnoszfcu image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
 <li><p>问:最后输出的值是什么</p>
@@ -2019,73 +2086,6 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>if代码执行机制</title>
-    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
-<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
-<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
-<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
-<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>再在另外一个文件中包含它:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>只会输出:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
-<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
-<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php条件函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>json学习</title>
-    <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
-<li>比如有以下python数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#综合数据集</span></span><br><span class="line">        decision_metadata = &#123;</span><br><span class="line">            <span class="string">&quot;model_version&quot;</span>: <span class="string">&quot;xgb_v3.1+bert_v2.4&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;xgb_pred&#x27;</span>: xgb_pred,</span><br><span class="line">            <span class="string">&#x27;bert_pred&#x27;</span>: bert_pred,</span><br><span class="line">            <span class="string">&#x27;xgb_proba&#x27;</span>: xgb_proda,</span><br><span class="line">            <span class="string">&#x27;bert_proba&#x27;</span>: bert_proda,</span><br><span class="line">            <span class="string">&#x27;xgb_detailed_proda&#x27;</span>: xgb_detailed_proda,</span><br><span class="line">            <span class="string">&#x27;bert_detailed_proda&#x27;</span>: bert_detailed_proda,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>进行json格式转码，即，讲该字典格式数据编码为<code>json</code>格式数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dc_metadata_json = json.dumps(decision_metadata)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>即采用，<code>json.dumps()</code>方法,当然，你要先使用<code>import json</code>的操作。</li>
-</ul>
-<h2 id="json格式数据写入txt文档"><a href="#json格式数据写入txt文档" class="headerlink" title="json格式数据写入txt文档"></a>json格式数据写入txt文档</h2><h3 id="步骤一：导入必要的模块"><a href="#步骤一：导入必要的模块" class="headerlink" title="步骤一：导入必要的模块"></a>步骤一：导入必要的模块</h3><p>需要导入<code>json</code>模块用于处理 JSON 数据。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤二：准备-JSON-格式的-Python-数据"><a href="#步骤二：准备-JSON-格式的-Python-数据" class="headerlink" title="步骤二：准备 JSON 格式的 Python 数据"></a>步骤二：准备 JSON 格式的 Python 数据</h3><p>JSON 数据在 Python 中通常以字典、列表等数据结构表示。例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">&quot;hobbies&quot;</span>: [<span class="string">&quot;阅读&quot;</span>, <span class="string">&quot;跑步&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤三：将-JSON-数据转换为字符串"><a href="#步骤三：将-JSON-数据转换为字符串" class="headerlink" title="步骤三：将 JSON 数据转换为字符串"></a>步骤三：将 JSON 数据转换为字符串</h3><p>使用<code>json.dumps()</code>方法将 Python 中的 JSON 数据转换为字符串格式，方便写入 txt 文件。<code>json.dumps()</code>方法还可以通过一些参数进行格式化输出，如<code>indent</code>参数指定缩进，<code>ensure_ascii</code>参数设置是否以 ASCII 编码显示字符（<code>False</code>表示按原字符显示，常用于处理中文等非 ASCII 字符）。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤四：打开-txt-文件并写入数据"><a href="#步骤四：打开-txt-文件并写入数据" class="headerlink" title="步骤四：打开 txt 文件并写入数据"></a>步骤四：打开 txt 文件并写入数据</h3><p>使用<code>open()</code>函数以写入（<code>&#39;w&#39;</code>）或追加（<code>&#39;a&#39;</code>）模式打开 txt 文件。<code>&#39;w&#39;</code>模式会覆盖原有文件内容；<code>&#39;a&#39;</code>模式则会在文件末尾添加新内容，若文件不存在会自动创建。使用<code>write()</code>方法将转换后的 JSON 字符串写入文件，操作完成后文件会在<code>with</code>语句块结束时自动关闭。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以写入模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str)</span><br><span class="line"><span class="comment"># 以追加模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>如果 JSON 数据原本存储在文件中，先读取该 JSON 文件再写入 txt 文件，示例如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取JSON文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;input.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将JSON数据转换为字符串</span></span><br><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入txt文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> txt_file:</span><br><span class="line">    txt_file.write(json_str) </span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>json库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>langchain历史记录管理</title>
     <url>/2025/02/20/langchain%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="langchain历史记录管理"><a href="#langchain历史记录管理" class="headerlink" title="langchain历史记录管理"></a>langchain历史记录管理</h1><h2 id="输入的消息类型"><a href="#输入的消息类型" class="headerlink" title="输入的消息类型:"></a>输入的消息类型:</h2><ul>
@@ -2177,17 +2177,6 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>linux基础</title>
-    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>基本符号</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>numpy库学习(持续更新)</title>
     <url>/2025/02/02/numpy%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="numpy库学习-持续更新"><a href="#numpy库学习-持续更新" class="headerlink" title="numpy库学习(持续更新"></a>numpy库学习(持续更新</h1><h2 id="array多维数组概念"><a href="#array多维数组概念" class="headerlink" title="array多维数组概念"></a>array多维数组概念</h2><h3 id="定义"><a href="#定义" class="headerlink" title="定义"></a>定义</h3><p>多维数组是一种包含多个维度的数据集合，每个维度可以看作是一个方向，类似于数学中的坐标轴。一维数组可以想象成一条直线上的点的集合，二维数组类似一个平面上的网格，三维数组则像是一个立体空间中的立方体网格，以此类推，可以有更高维度的数组。</p>
@@ -2254,51 +2243,14 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>pandas库学习(持续更新)</title>
-    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
-<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
-<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
-<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
-<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
-<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
-<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
-<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
-<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
-<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
-<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
-<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
-<li><p>我有如下图一个tsv格式文件:</p>
-</li>
-<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
-</li>
-<li><p>我该怎么把指定的列提取出来呢</p>
-</li>
-<li></li>
-</ul>
-]]></content>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
       <categories>
-        <category>python</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>pandas库</tag>
+        <tag>基本符号</tag>
       </tags>
   </entry>
   <entry>
@@ -2398,14 +2350,51 @@ fclose($file);
       </tags>
   </entry>
   <entry>
-    <title>php比较字符1</title>
-    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
-    <content><![CDATA[]]></content>
+    <title>pandas库学习(持续更新)</title>
+    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
+<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
+<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
+<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
+<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
+<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
+<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
+<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
+<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
+<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
+<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
+<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
+<li><p>我有如下图一个tsv格式文件:</p>
+</li>
+<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
+</li>
+<li><p>我该怎么把指定的列提取出来呢</p>
+</li>
+<li></li>
+</ul>
+]]></content>
       <categories>
-        <category>php</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>php比较字符</tag>
+        <tag>pandas库</tag>
       </tags>
   </entry>
   <entry>
@@ -2413,7 +2402,7 @@ fclose($file);
     <url>/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h1 id="in-array函数漏洞"><a href="#in-array函数漏洞" class="headerlink" title="in_array函数漏洞"></a>in_array函数漏洞</h1><ul>
 <li>如题:(ctfshow web99)</li>
-<li><style>.qgofgskgqbuc{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="qgofgskgqbuc" alt="image-20250405202932475"></li>
+<li><style>.osknnujnvptf{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="osknnujnvptf" alt="image-20250405202932475"></li>
 <li>这里<code>rand(1,$i)</code>是在从<code>1</code>到<code>$i</code>之间随机选择一个数输出。</li>
 <li><strong>关于in_array</strong>函数的机制:<ul>
 <li>格式:<code>bool in_array ( mixed $needle , array $haystack [, bool $strict = FALSE ] )</code>,即首位参数为需查询的数值，第二个参数为目标数组，<strong>最后一个参数为是否为严格比较</strong>。</li>
@@ -2445,6 +2434,31 @@ fclose($file);
       </categories>
       <tags>
         <tag>php特性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php比较字符1</title>
+    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php随机数的解释</title>
+    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
+    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
+<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php随机数函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2508,20 +2522,6 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       </categories>
       <tags>
         <tag>php超全局变量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php随机数的解释</title>
-    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
-    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
-<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php随机数函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2631,44 +2631,6 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
     <title>python常见bug</title>
     <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
     <content><![CDATA[]]></content>
-  </entry>
-  <entry>
-    <title>python异常捕获及处理</title>
-    <url>/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/</url>
-    <content><![CDATA[<h1 id="Python异常捕获与处理"><a href="#Python异常捕获与处理" class="headerlink" title="Python异常捕获与处理"></a>Python异常捕获与处理</h1><h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>例如:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> PyPDF2</span><br><span class="line"><span class="keyword">import</span> docx</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DocumentReader</span>:</span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">read_pdf</span>(<span class="params">file_path</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">                reader = PyPDF2.PdfReader(file)</span><br><span class="line">                text = <span class="string">&quot;&quot;</span></span><br><span class="line">                <span class="keyword">for</span> page <span class="keyword">in</span> reader.pages:</span><br><span class="line">                    text += page.extract_text()</span><br><span class="line">                <span class="keyword">return</span> text</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;读取PDF文件时出错: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在这里的<code>Exception</code>:<ul>
-<li><code>Exception</code> 是 Python 中所有内建异常的基类。当你使用 <code>except Exception as e</code> 时，它意味着捕获任何类型的异常，并将异常对象赋值给变量 <code>e</code>。</li>
-<li>在这个代码块中，<code>try</code> 块尝试打开 PDF文件并读取其段落文本。如果在这个过程中发生任何问题，比如文件不存在、文件损坏或者权限不足等，都会引发异常。<code>except</code> 块捕获这些异常后，会执行其中的代码。</li>
-</ul>
-</li>
-</ul>
-<h2 id="return"><a href="#return" class="headerlink" title="return"></a>return</h2><p>还是以上面的<code>Exception</code>实例代码为例:</p>
-<p>如果<code>Exception</code>异常处理代码这里没有使用<code>return</code>，当出现异常时，程序可能会停止运行，而使用<code>return</code>可以避免这种情况，以下是具体分析：</p>
-<h3 id="无return时异常的影响"><a href="#无return时异常的影响" class="headerlink" title="无return时异常的影响"></a>无<code>return</code>时异常的影响</h3><ul>
-<li><strong>向上传播异常</strong>：当在<code>read_docx</code>函数中发生异常且没有使用<code>return</code>语句来处理时，异常会向上传播到调用<code>read_docx</code>函数的地方。如果调用者没有进一步处理该异常，异常会继续向上传播，直到到达 Python 解释器的顶层，导致整个程序崩溃，并在控制台输出异常信息。</li>
-<li><strong>程序执行中断</strong>：在异常传播的过程中，程序的执行会在抛出异常的位置中断，函数中异常发生点之后的代码将不会被执行。如果<code>read_docx</code>函数是在一个更复杂的程序流程中，比如在一个循环中读取多个文件，那么一旦出现异常，整个循环可能会终止，无法继续处理后续的文件。</li>
-</ul>
-<h3 id="使用return的作用"><a href="#使用return的作用" class="headerlink" title="使用return的作用"></a>使用<code>return</code>的作用</h3><ul>
-<li><strong>捕获并处理异常</strong>：使用<code>return</code>语句在<code>except</code>块中，可以捕获异常并返回一个特定的值（如空字符串），从而阻止异常继续向上传播。这样，程序可以继续执行调用<code>read_docx</code>函数之后的代码，而不会因为异常而中断整个程序的运行。</li>
-<li><strong>提供默认值或占位符</strong>：返回空字符串相当于提供了一个默认值或占位符，表示文件读取操作出现了问题，但程序可以继续执行下去，并根据这个返回值进行相应的处理。这使得程序具有更好的容错性和稳定性，能够在一定程度上处理各种可能出现的错误情况，而不是遇到问题就直接崩溃。</li>
-<li>和php一样,<code>return</code> 语句加空字符串同样会终止它所处的函数代码块的运行.</li>
-</ul>
-<h2 id="try-except-finally之间的联动"><a href="#try-except-finally之间的联动" class="headerlink" title="try-except-finally之间的联动:"></a>try-except-finally之间的联动:</h2><h3 id="try、except、finally-运行机制"><a href="#try、except、finally-运行机制" class="headerlink" title="try、except、finally 运行机制"></a><code>try</code>、<code>except</code>、<code>finally</code> 运行机制</h3><ol>
-<li><strong><code>try</code> 块</strong>：<code>try</code> 块中包含可能会引发异常的代码。当程序执行到 <code>try</code> 块时，会逐行执行其中的代码。如果在执行过程中没有发生异常，<code>try</code> 块中的代码会正常执行完毕，然后跳过 <code>except</code> 块（如果有），继续执行 <code>finally</code> 块（如果有）之后的代码。</li>
-<li><strong><code>except</code> 块</strong>：如果在 <code>try</code> 块中发生了异常，程序会立即停止执行 <code>try</code> 块中剩余的代码，并跳转到与之匹配的 <code>except</code> 块中执行。<code>except</code> 块用于捕获并处理异常，可以在其中进行错误处理，例如打印错误信息、进行数据回滚等。如果有多个 <code>except</code> 块，可以根据异常的类型来选择执行哪个 <code>except</code> 块。</li>
-<li><strong><code>finally</code> 块</strong>：<code>finally</code> 块是可选的，但如果存在，无论 <code>try</code> 块中是否发生异常，也无论 <code>except</code> 块是否被执行，<code>finally</code> 块中的代码都会在 <code>try</code> 和 <code>except</code> 块执行完毕后被执行。<code>finally</code> 块通常用于释放资源，如关闭文件、关闭数据库连接等，确保资源的正确清理和管理。</li>
-</ol>
-<p>通过合理使用 <code>try</code>、<code>except</code>、<code>finally</code>，可以使程序更加健壮，能够更好地处理运行过程中可能出现的异常情况，并保证资源的正确使用和释放。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python异常</tag>
-      </tags>
   </entry>
   <entry>
     <title>python杂项函数/用法积累(持续更新)</title>
@@ -2807,6 +2769,44 @@ for func in functions:
       </tags>
   </entry>
   <entry>
+    <title>python异常捕获及处理</title>
+    <url>/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Python异常捕获与处理"><a href="#Python异常捕获与处理" class="headerlink" title="Python异常捕获与处理"></a>Python异常捕获与处理</h1><h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>例如:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> PyPDF2</span><br><span class="line"><span class="keyword">import</span> docx</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DocumentReader</span>:</span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">read_pdf</span>(<span class="params">file_path</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">                reader = PyPDF2.PdfReader(file)</span><br><span class="line">                text = <span class="string">&quot;&quot;</span></span><br><span class="line">                <span class="keyword">for</span> page <span class="keyword">in</span> reader.pages:</span><br><span class="line">                    text += page.extract_text()</span><br><span class="line">                <span class="keyword">return</span> text</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;读取PDF文件时出错: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在这里的<code>Exception</code>:<ul>
+<li><code>Exception</code> 是 Python 中所有内建异常的基类。当你使用 <code>except Exception as e</code> 时，它意味着捕获任何类型的异常，并将异常对象赋值给变量 <code>e</code>。</li>
+<li>在这个代码块中，<code>try</code> 块尝试打开 PDF文件并读取其段落文本。如果在这个过程中发生任何问题，比如文件不存在、文件损坏或者权限不足等，都会引发异常。<code>except</code> 块捕获这些异常后，会执行其中的代码。</li>
+</ul>
+</li>
+</ul>
+<h2 id="return"><a href="#return" class="headerlink" title="return"></a>return</h2><p>还是以上面的<code>Exception</code>实例代码为例:</p>
+<p>如果<code>Exception</code>异常处理代码这里没有使用<code>return</code>，当出现异常时，程序可能会停止运行，而使用<code>return</code>可以避免这种情况，以下是具体分析：</p>
+<h3 id="无return时异常的影响"><a href="#无return时异常的影响" class="headerlink" title="无return时异常的影响"></a>无<code>return</code>时异常的影响</h3><ul>
+<li><strong>向上传播异常</strong>：当在<code>read_docx</code>函数中发生异常且没有使用<code>return</code>语句来处理时，异常会向上传播到调用<code>read_docx</code>函数的地方。如果调用者没有进一步处理该异常，异常会继续向上传播，直到到达 Python 解释器的顶层，导致整个程序崩溃，并在控制台输出异常信息。</li>
+<li><strong>程序执行中断</strong>：在异常传播的过程中，程序的执行会在抛出异常的位置中断，函数中异常发生点之后的代码将不会被执行。如果<code>read_docx</code>函数是在一个更复杂的程序流程中，比如在一个循环中读取多个文件，那么一旦出现异常，整个循环可能会终止，无法继续处理后续的文件。</li>
+</ul>
+<h3 id="使用return的作用"><a href="#使用return的作用" class="headerlink" title="使用return的作用"></a>使用<code>return</code>的作用</h3><ul>
+<li><strong>捕获并处理异常</strong>：使用<code>return</code>语句在<code>except</code>块中，可以捕获异常并返回一个特定的值（如空字符串），从而阻止异常继续向上传播。这样，程序可以继续执行调用<code>read_docx</code>函数之后的代码，而不会因为异常而中断整个程序的运行。</li>
+<li><strong>提供默认值或占位符</strong>：返回空字符串相当于提供了一个默认值或占位符，表示文件读取操作出现了问题，但程序可以继续执行下去，并根据这个返回值进行相应的处理。这使得程序具有更好的容错性和稳定性，能够在一定程度上处理各种可能出现的错误情况，而不是遇到问题就直接崩溃。</li>
+<li>和php一样,<code>return</code> 语句加空字符串同样会终止它所处的函数代码块的运行.</li>
+</ul>
+<h2 id="try-except-finally之间的联动"><a href="#try-except-finally之间的联动" class="headerlink" title="try-except-finally之间的联动:"></a>try-except-finally之间的联动:</h2><h3 id="try、except、finally-运行机制"><a href="#try、except、finally-运行机制" class="headerlink" title="try、except、finally 运行机制"></a><code>try</code>、<code>except</code>、<code>finally</code> 运行机制</h3><ol>
+<li><strong><code>try</code> 块</strong>：<code>try</code> 块中包含可能会引发异常的代码。当程序执行到 <code>try</code> 块时，会逐行执行其中的代码。如果在执行过程中没有发生异常，<code>try</code> 块中的代码会正常执行完毕，然后跳过 <code>except</code> 块（如果有），继续执行 <code>finally</code> 块（如果有）之后的代码。</li>
+<li><strong><code>except</code> 块</strong>：如果在 <code>try</code> 块中发生了异常，程序会立即停止执行 <code>try</code> 块中剩余的代码，并跳转到与之匹配的 <code>except</code> 块中执行。<code>except</code> 块用于捕获并处理异常，可以在其中进行错误处理，例如打印错误信息、进行数据回滚等。如果有多个 <code>except</code> 块，可以根据异常的类型来选择执行哪个 <code>except</code> 块。</li>
+<li><strong><code>finally</code> 块</strong>：<code>finally</code> 块是可选的，但如果存在，无论 <code>try</code> 块中是否发生异常，也无论 <code>except</code> 块是否被执行，<code>finally</code> 块中的代码都会在 <code>try</code> 和 <code>except</code> 块执行完毕后被执行。<code>finally</code> 块通常用于释放资源，如关闭文件、关闭数据库连接等，确保资源的正确清理和管理。</li>
+</ol>
+<p>通过合理使用 <code>try</code>、<code>except</code>、<code>finally</code>，可以使程序更加健壮，能够更好地处理运行过程中可能出现的异常情况，并保证资源的正确使用和释放。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python异常</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python程序运行启动代码</title>
     <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
     <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
@@ -2837,6 +2837,42 @@ for func in functions:
       </categories>
       <tags>
         <tag>py程序启动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python装饰器</title>
+    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
+<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
+</li>
+<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
+</li>
+<li><p>比如:</p>
+</li>
+<li><pre><code class="language-python">class DateUtils:    
+    @classmethod
+    def get_time(cls):
+        import datetime
+        return datetime.datetime.now()
+ 
+#类调用
+year1 = DateUtils.get_time
+print(year1)
+
+#实例化后调用
+date = DateUtils()
+year2 =n date.get_time
+print(year2)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python装饰器</tag>
       </tags>
   </entry>
   <entry>
@@ -2872,9 +2908,57 @@ for func in functions:
       </tags>
   </entry>
   <entry>
-    <title>sqlite库学习</title>
-    <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
+    <title>re库</title>
+    <url>/2025/03/01/re%E5%BA%93/</url>
+    <content><![CDATA[<h1 id="r前缀"><a href="#r前缀" class="headerlink" title="r前缀"></a>r前缀</h1><h2 id="原始字符串和普通字符串"><a href="#原始字符串和普通字符串" class="headerlink" title="原始字符串和普通字符串"></a>原始字符串和普通字符串</h2><h3 id="普通字符串"><a href="#普通字符串" class="headerlink" title="普通字符串"></a>普通字符串</h3><ul>
+<li><p>简单介绍，普通字符串就是使用单引号和双引号括起来的字符，如:<code>&quot;hello world&quot;</code>,若是需要包含一些特殊的字符,那就需要转义符:</p>
+</li>
+<li><p>比如:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s=<span class="string">&quot;hello\nworld&quot;</span></span><br><span class="line"><span class="built_in">print</span>(s)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这里将会输出:</p>
+</li>
+<li><pre><code class="language-plaintext">hello
+world
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  </span><br><span class="line">* example:\t 表示制表符 \n表示换行 \r表示回车 \&#x27; 表示单引号 \&quot;表示双引号 \\表示一条反斜杠</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">### 原始字符串</span><br><span class="line"></span><br><span class="line">* 简单介绍:原始字符串里面的内容不需要被转义,表示形式为在普通字符串前面加一个r即可。</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```python</span><br><span class="line">  s=r&quot;hello\nworld&quot;</span><br><span class="line">  print(s)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>这里将会输出:</p>
+</li>
+<li><pre><code class="language-plaintext">hello\nworld
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 注意采用原始字符的形式 \n是两个字符\和n，而不是表示换行的意思了</span><br><span class="line"></span><br><span class="line"># `re.match`函数</span><br><span class="line"></span><br><span class="line">* 语法:`re.match(pattern,string,flags=0)`</span><br><span class="line"></span><br><span class="line">* 尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。匹配成功re.match方法返回一个匹配的对象。</span><br><span class="line"></span><br><span class="line">* 对于这个函数，只可以在开头匹配到对应正则表达式所指字符才可以。</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```python</span><br><span class="line">  import re</span><br><span class="line">  </span><br><span class="line">  s = &quot;hello world&quot;</span><br><span class="line">  result = re.match(r&quot;world&quot;, s)#若是将&quot;world&quot;修改为&quot;hello&quot;,该result.group会返回一个具体的hello值。</span><br><span class="line">  if result:</span><br><span class="line">      print(result.group())</span><br><span class="line">  else:</span><br><span class="line">      print(&quot;No match&quot;)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+</li>
+<li><p>这里就会输出<code>No match</code>因为字符串首单词没有匹配到<code>world</code>。</p>
+</li>
+</ul>
+<h1 id="re-search函数"><a href="#re-search函数" class="headerlink" title="re.search函数"></a><code>re.search</code>函数</h1><ul>
+<li><p>re.search 扫描整个字符串并返回第一个成功的匹配，如果没有匹配，就返回一个 None。</p>
+<p>re.match与re.search的区别：re.match只匹配字符串的开始，如果字符串开始不符合正则表达式，则匹配失败，函数返回None；而re.search匹配整个字符串，直到找到一个匹配</p>
+</li>
+<li><p>并且找到第一个匹配的字符后就不再进行匹配。</p>
+</li>
+<li><pre><code class="language-python">import re
+
+&quot;&quot;&quot;关于search()方法的使用&quot;&quot;&quot;
+result = re.search(r&quot;.ar&quot;, &quot;The car parked in the garage.&quot;)
+print(result.group())
+</code></pre>
+</li>
+<li><p>这里只会输出<code>car</code>,即第一个匹配的单词，不会再往后进行匹配。</p>
+</li>
+</ul>
+<h1 id="精品博客"><a href="#精品博客" class="headerlink" title="精品博客"></a>精品博客</h1><p><strong><a href="https://blog.csdn.net/guo_qingxia/article/details/113979135">python——正则表达式(re模块)详解</a></strong></p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python库</tag>
+      </tags>
   </entry>
   <entry>
     <title>sql常规注入</title>
@@ -2886,6 +2970,11 @@ for func in functions:
       <tags>
         <tag>sql注入</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>sqlite库学习</title>
+    <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>toml配置文件</title>
@@ -3176,7 +3265,7 @@ for func in functions:
 <li><strong>定义</strong>：关系模式中的每个属性都不可再分，即属性是原子的。并且主属性（主键）不能为空且不重复 。例如学生选课关系模式中，每个属性如 “学号”“课程号” 等都不能再拆分成更小的子属性 ，这是关系型数据库最基本要求。</li>
 <li>比如:</li>
 </ul>
-<style>.bwbctofpspfp{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="bwbctofpspfp" alt="image-20250324145245672">
+<style>.trqyugmldepg{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="trqyugmldepg" alt="image-20250324145245672">
 
 <ul>
 <li>这里的歌手一列含有两个元素，不符合原子化的规范。比如学习成绩，这一栏就会有如:<code>&#123;&quot;英语&quot;:100,&quot;数学&quot;:100&#125;</code>的情况，这一栏就不符合原子化的原则，即不为1NF的规则。</li>
@@ -3196,9 +3285,9 @@ for func in functions:
 <li>基本介绍</li>
 <li>**定义：**第三范式（3NF）要求关系模式在满足第二范式（2NF）的基础上，不存在非主属性对主键的传递函数依赖 。</li>
 <li>举例：</li>
-<li><style>.lyulnslqfxyr{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="lyulnslqfxyr" alt="image-20250324153727673"></li>
+<li><style>.cnlxwdtihpyb{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="cnlxwdtihpyb" alt="image-20250324153727673"></li>
 <li>相当于横向有依赖。其解决方法也是把表拆开。</li>
-<li><style>.jghfvpcwiewn{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="jghfvpcwiewn" alt="image-20250324153908868"></li>
+<li><style>.cecfkwofvsil{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="cecfkwofvsil" alt="image-20250324153908868"></li>
 <li>解决方法如图所示。</li>
 </ul>
 <h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="例题一"><a href="#例题一" class="headerlink" title="例题一"></a>例题一</h3><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324154755016.png" class="" title="image-20250324154755016">
@@ -3348,6 +3437,27 @@ for func in functions:
 <li>那我们怎么搞呢，这时php:&#x2F;&#x2F;这种可以捕捉数据流的的协议就可以绕过这层障碍直接通过编码的方式获得服务器端源文件的内容,我们输入,<code>/?file=php://filter/read=convert.base64/resource=flag.php</code>这种编码就可以轻易读取到源文件内容，因为它直接捕捉服务器端给客户端的数据流,即可得到编码后的flag内容。</li>
 <li>再说一句,我知道这时候$file这个变量被赋予的值是<code>php;//</code>这一大堆协议,为什么<code>include</code>可以读取它呢?因为这是php的强大之处,include除了可以包含文件之外，还可以对这种协议进行读取，它通过知晓后面的<code>resource=flag.php</code>文件，知道了对象,然后使用<code>php;//filter/convert.base64-encode</code>对其服务器端源码进行处理,就可以把源码呈现。</li>
 </ol>
+<h1 id="关于include以及-GET的格式辨析"><a href="#关于include以及-GET的格式辨析" class="headerlink" title="关于include以及$_GET的格式辨析"></a>关于<code>include</code>以及<code>$_GET</code>的格式辨析</h1><ul>
+<li><p>在web命令执行题目中，有如下<code>payloads</code>:<br><code>/?c=include$_GET[mmk]?&gt;&amp;mmk=data://text/plain,&lt;?php system(&quot;ls&quot;);?&gt;</code></p>
+</li>
+<li><p>这里补充:</p>
+<p>1.<code>include</code>一般格式:</p>
+<ul>
+<li><p>对于具体的字符串:<code>example.php</code>,这种形式的包含对象是需要引号的，毕竟别人为字符串。</p>
+</li>
+<li><p>对于已经被赋值的变量，比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$a</span> = <span class="string">&quot;example.php&quot;</span>;</span><br><span class="line"><span class="keyword">include</span> <span class="variable">$a</span>;</span><br><span class="line"><span class="comment">/*后面代码略*/</span></span><br></pre></td></tr></table></figure>
+</li>
+<li><p>后面直接跟变量，就不用加引号了，加了引号反而变成字符串了。</p>
+</li>
+</ul>
+<p>2.<code>$_GET</code>等超全局变量的格式</p>
+<ul>
+<li>对于<code>$_GET[]</code>超全局变量括号中的参数,可以使用双引号、单引号,也可以不用任何引号。</li>
+<li>比如我的<code>payloads</code>:<code>/?c=include$_GET[mmk]?&gt;&amp;mmk=data://text/plain,&lt;?php system(&quot;ls&quot;);?&gt;</code></li>
+</ul>
+</li>
+</ul>
 ]]></content>
       <categories>
         <category>web安全</category>
@@ -3409,59 +3519,6 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>re库</title>
-    <url>/2025/03/01/re%E5%BA%93/</url>
-    <content><![CDATA[<h1 id="r前缀"><a href="#r前缀" class="headerlink" title="r前缀"></a>r前缀</h1><h2 id="原始字符串和普通字符串"><a href="#原始字符串和普通字符串" class="headerlink" title="原始字符串和普通字符串"></a>原始字符串和普通字符串</h2><h3 id="普通字符串"><a href="#普通字符串" class="headerlink" title="普通字符串"></a>普通字符串</h3><ul>
-<li><p>简单介绍，普通字符串就是使用单引号和双引号括起来的字符，如:<code>&quot;hello world&quot;</code>,若是需要包含一些特殊的字符,那就需要转义符:</p>
-</li>
-<li><p>比如:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">s=<span class="string">&quot;hello\nworld&quot;</span></span><br><span class="line"><span class="built_in">print</span>(s)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>这里将会输出:</p>
-</li>
-<li><pre><code class="language-plaintext">hello
-world
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">  </span><br><span class="line">* example:\t 表示制表符 \n表示换行 \r表示回车 \&#x27; 表示单引号 \&quot;表示双引号 \\表示一条反斜杠</span><br><span class="line">  </span><br><span class="line"></span><br><span class="line">### 原始字符串</span><br><span class="line"></span><br><span class="line">* 简单介绍:原始字符串里面的内容不需要被转义,表示形式为在普通字符串前面加一个r即可。</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```python</span><br><span class="line">  s=r&quot;hello\nworld&quot;</span><br><span class="line">  print(s)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>这里将会输出:</p>
-</li>
-<li><pre><code class="language-plaintext">hello\nworld
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 注意采用原始字符的形式 \n是两个字符\和n，而不是表示换行的意思了</span><br><span class="line"></span><br><span class="line"># `re.match`函数</span><br><span class="line"></span><br><span class="line">* 语法:`re.match(pattern,string,flags=0)`</span><br><span class="line"></span><br><span class="line">* 尝试从字符串的起始位置匹配一个模式，如果不是起始位置匹配成功的话，match()就返回none。匹配成功re.match方法返回一个匹配的对象。</span><br><span class="line"></span><br><span class="line">* 对于这个函数，只可以在开头匹配到对应正则表达式所指字符才可以。</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```python</span><br><span class="line">  import re</span><br><span class="line">  </span><br><span class="line">  s = &quot;hello world&quot;</span><br><span class="line">  result = re.match(r&quot;world&quot;, s)#若是将&quot;world&quot;修改为&quot;hello&quot;,该result.group会返回一个具体的hello值。</span><br><span class="line">  if result:</span><br><span class="line">      print(result.group())</span><br><span class="line">  else:</span><br><span class="line">      print(&quot;No match&quot;)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-</li>
-<li><p>这里就会输出<code>No match</code>因为字符串首单词没有匹配到<code>world</code>。</p>
-</li>
-</ul>
-<h1 id="re-search函数"><a href="#re-search函数" class="headerlink" title="re.search函数"></a><code>re.search</code>函数</h1><ul>
-<li><p>re.search 扫描整个字符串并返回第一个成功的匹配，如果没有匹配，就返回一个 None。</p>
-<p>re.match与re.search的区别：re.match只匹配字符串的开始，如果字符串开始不符合正则表达式，则匹配失败，函数返回None；而re.search匹配整个字符串，直到找到一个匹配</p>
-</li>
-<li><p>并且找到第一个匹配的字符后就不再进行匹配。</p>
-</li>
-<li><pre><code class="language-python">import re
-
-&quot;&quot;&quot;关于search()方法的使用&quot;&quot;&quot;
-result = re.search(r&quot;.ar&quot;, &quot;The car parked in the garage.&quot;)
-print(result.group())
-</code></pre>
-</li>
-<li><p>这里只会输出<code>car</code>,即第一个匹配的单词，不会再往后进行匹配。</p>
-</li>
-</ul>
-<h1 id="精品博客"><a href="#精品博客" class="headerlink" title="精品博客"></a>精品博客</h1><p><strong><a href="https://blog.csdn.net/guo_qingxia/article/details/113979135">python——正则表达式(re模块)详解</a></strong></p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>命令执行绕过符号总结</title>
     <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
@@ -3500,6 +3557,53 @@ print(result.group())
       </tags>
   </entry>
   <entry>
+    <title>数据库基本概念</title>
+    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>新加入的token的初始化相关说明</title>
+    <url>/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/</url>
+    <content><![CDATA[<h1 id="模型嵌入层和权重矩阵关系的理解"><a href="#模型嵌入层和权重矩阵关系的理解" class="headerlink" title="模型嵌入层和权重矩阵关系的理解"></a>模型嵌入层和权重矩阵关系的理解</h1><h2 id="模型的词嵌入层与权重矩阵"><a href="#模型的词嵌入层与权重矩阵" class="headerlink" title="模型的词嵌入层与权重矩阵"></a>模型的词嵌入层与权重矩阵</h2><p>在基于 Transformer 架构的预训练模型（如 BERT、GPT 等）中，词嵌入层（<code>Embedding Layer</code>）是模型处理输入文本的重要组件。它的主要作用是将离散的 token（例如单词、子词等）转换为连续的向量表示，以便模型能够对其进行数值计算。</p>
+<p>词嵌入层有一个权重矩阵（<code>weight</code>），这个矩阵的形状通常是 <code>(V, D)</code>，其中 <code>V</code> 是词汇表的大小，即分词器所能识别的所有 token 的数量；<code>D</code> 是嵌入向量的维度，也就是每个 token 对应的向量的长度。这个权重矩阵的每一行都对应着词汇表中一个特定 token 的嵌入向量。</p>
+<p>通俗理解:<br>每个词嵌入,即word_embedding,都是一个向量,从表现形式来看本质就是向量的坐标表示:<br>如:[0.1, 0.3, 0.96],这些数字储存了每个token的相关语义和性质<br>(V,D)<br>其中的V就是有几行这样的向量数据,即分词器能识别的所有token数量,学名叫做:<strong>词汇表</strong><br>其中的D就是每个向量的维度大小,学名就是:<strong>嵌入向量维度</strong>,比如这上面的这个向量嵌入向量维度就是3</p>
+<p>**注:**嵌入向量维度就是嵌入词</p>
+<h3 id="token-id-的含义"><a href="#token-id-的含义" class="headerlink" title="token_id 的含义"></a><code>token_id</code> 的含义</h3><p><code>token_id</code> 是通过 <code>tokenizer.convert_tokens_to_ids(&#39;entity&#39;)</code> 得到的。分词器（<code>tokenizer</code>）会为词汇表中的每个 token 分配一个唯一的整数 ID，这个 ID 就相当于该 token 在词汇表中的索引。所以，<code>token_id</code> 实际上就是 <code>&#39;entity&#39;</code> 这个 token 在词汇表中的索引值。</p>
+<h3 id="赋值操作的意义"><a href="#赋值操作的意义" class="headerlink" title="赋值操作的意义"></a>赋值操作的意义</h3><p><code>model.embeddings.word_embeddings.weight[token_id]</code> 这一操作就是从词嵌入层的权重矩阵中，根据 <code>token_id</code> 这个索引取出对应的行向量。<br>**这里相当简朴:**这里的id就是一个纯粹的索引值:<br>比如:<br><code>fruits=[&#39;apple&#39;, &#39;banana&#39;, &#39;orange&#39;]</code><br><code>print(fruits[0])</code><br>就会输出<code>apple</code>。</p>
+<p>由于这一行向量就是 <code>&#39;entity&#39;</code> 这个 token 对应的嵌入向量，所以最终 <code>token_embedding</code> 被赋予的值就是 <code>&#39;entity&#39;</code> 的嵌入向量。这个向量包含了模型在预训练过程中学习到的关于 <code>&#39;entity&#39;</code> 这个 token 的语义和语法信息。</p>
+<p>举个简单的例子，假设词嵌入层的权重矩阵如下（这里为了简化，假设词汇表大小为 4，嵌入向量维度为 3）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">weight = [</span><br><span class="line">    [0.1, 0.2, 0.3],  # token_id = 0 的嵌入向量</span><br><span class="line">    [0.4, 0.5, 0.6],  # token_id = 1 的嵌入向量</span><br><span class="line">    [0.7, 0.8, 0.9],  # token_id = 2 的嵌入向量</span><br><span class="line">    [1.0, 1.1, 1.2]   # token_id = 3 的嵌入向量</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>&#39;entity&#39;</code> 对应的 <code>token_id</code> 是 2，那么 <code>token_embedding</code> 就会被赋值为 <code>[0.7, 0.8, 0.9]</code>。</p>
+<p>综上所述，<strong><code>token_embedding</code> 被赋予的是预训练模型中 <code>&#39;entity&#39;</code> 这个 token 对应的嵌入向量，该向量存储了模型学习到的关于这个 token 的语义信息。</strong></p>
+<h2 id="使用原有token-embedding初始化新token的过程详解"><a href="#使用原有token-embedding初始化新token的过程详解" class="headerlink" title="使用原有token embedding初始化新token的过程详解"></a>使用原有token embedding初始化新token的过程详解</h2><p>首先，为什么要用原有token embedding来初始化新token呢,因为让一个语义相近的已经预训练过的token embedding去给new token的embedding赋值的话,可以使得这个new token的embedding初始有比较完善的数据,在后续的数值更新的时候,可以更好的更新</p>
+<h2 id="看源码-手动初始化"><a href="#看源码-手动初始化" class="headerlink" title="看源码:(手动初始化)"></a>看源码:(手动初始化)</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> AutoModel, AutoTokenizer</span><br><span class="line"></span><br><span class="line">token_id = tokenizer.convert_tokens_to_ids(<span class="string">&#x27;entity&#x27;</span>)</span><br><span class="line">token_embedding = model.embeddings.word_embeddings.weight[token_id]</span><br><span class="line"><span class="built_in">print</span>(token_id)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_added_toks+<span class="number">1</span>):</span><br><span class="line">        model.embeddings.word_embeddings.weight[-i:, :] = token_embedding.clone().detach().requires_grad_(<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(model.embeddings.word_embeddings.weight[-<span class="number">2</span>:, :])</span><br></pre></td></tr></table></figure>
+<p>对于token_embedding的赋值我们省略,这里就是把矩阵里面向量坐标给赋值给token_embedding<br>对于<code>with torch.no_grad()</code>后面的代码:</p>
+<h3 id="初始化新添加-token-的嵌入向量"><a href="#初始化新添加-token-的嵌入向量" class="headerlink" title="初始化新添加 token 的嵌入向量"></a>初始化新添加 token 的嵌入向量</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_added_toks+<span class="number">1</span>):</span><br><span class="line">        model.embeddings.word_embeddings.weight[-i:, :] = token_embedding.clone().detach().requires_grad_(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>with torch.no_grad():</code>：这是一个上下文管理器，在其作用域内，PyTorch 不会计算梯度。因为这里只是对词嵌入矩阵进行赋值操作，不需要计算梯度，使用<code>torch.no_grad()</code>可以提高计算效率，并且避免不必要的梯度记录。</p>
+</li>
+<li><p><code>for i in range(1, num_added_toks+1):</code>：假设<code>num_added_toks</code>是之前向分词器中添加新 token 的数量（比如通过<code>tokenizer.add_tokens(...)</code>方法添加新 token 后返回的添加数量）。这个循环从 1 到<code>num_added_toks</code>，用于遍历新添加的 token。</p>
+</li>
+<li><p><code>model.embeddings.word_embeddings.weight[-i:, :]</code>：<code>-i</code>是负索引，用于从词嵌入权重矩阵的末尾开始选取行。<code>[-i:, :]</code>表示从倒数第<code>i</code>行开始，选取所有列，也就是选取新添加的 token 对应的嵌入向量行（因为新添加的 token 的嵌入向量行通常会被添加到权重矩阵的末尾）。</p>
+</li>
+<li><pre><code class="language-python">token_embedding.clone().detach().requires_grad_(True)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  - `clone()`：创建`token_embedding`的一个副本，避免直接修改原始的嵌入向量。</span><br><span class="line">  - `detach()`：将副本从计算图中分离出来，使其不参与梯度计算（因为是从已有的嵌入向量复制）。</span><br><span class="line">  - `requires_grad_(True)`：将分离后的副本设置为需要计算梯度，这样在后续模型训练过程中，新添加 token 的嵌入向量可以随着训练进行更新。</span><br><span class="line"></span><br><span class="line">- 整行赋值语句的作用是将`token_embedding`的副本赋值给新添加 token 对应的嵌入向量行，实现用`&#x27;entity&#x27;`的嵌入向量来初始化新添加 token 的嵌入向量。</span><br><span class="line"></span><br><span class="line">- 关于这里的遍历:</span><br><span class="line"></span><br><span class="line">  最后一行的嵌入向量不会被添加两次，原因如下：</span><br><span class="line"></span><br><span class="line">  在代码 `for i in range(1, num_added_toks + 1):` 的循环中，虽然每次循环都会对 `model.embeddings.word_embeddings.weight[-i:, :]` 进行赋值操作，但本质上是一种覆盖式的赋值。</span><br><span class="line"></span><br><span class="line">  当 `i = 1` 时，`model.embeddings.word_embeddings.weight[-1:, :]` 只选取了权重矩阵的最后一行（即最后一个新添加 token 对应的嵌入向量行），然后将 `token_embedding` 赋值给这一行，此时最后一行的嵌入向量被初始化为 `token_embedding`。</span><br><span class="line"></span><br><span class="line">  当 `i = 2` 时，`model.embeddings.word_embeddings.weight[-2:, :]` 选取了权重矩阵的最后两行，然后再次将 `token_embedding` 赋值给这两行。对于最后一行来说，这并不是又添加了一次嵌入向量，而是对其进行了再次赋值，**用相同的 `token_embedding` 覆盖了之前的值（其实值本身没有变化，因为都是 `token_embedding` ）。**</span><br><span class="line"></span><br><span class="line">  当 `i` 继续增大，直到 `i = num_added_toks` 时，都是类似的覆盖式赋值操作。每一次循环的赋值操作，都是对之前已赋值的行再次用相同的 `token_embedding` 进行覆盖，而不是额外添加新的嵌入向量，所以不会出现最后一行嵌入向量被添加两次的情况。</span><br><span class="line"></span><br><span class="line">### 打印新添加 token 的嵌入向量</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">print(model.embeddings.word_embeddings.weight[-2:, :])</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+<p>这行代码打印词嵌入权重矩阵中最后两行的嵌入向量，也就是新添加的两个 token 的嵌入向量，用于查看初始化后的结果是否符合预期。</p>
+<p>总体而言，这段代码的核心目的是使用已有 token（<code>&#39;entity&#39;</code>）的嵌入向量来初始化新添加 token 的嵌入向量，以便模型在后续训练中能够更好地处理包含这些新 token 的文本。</p>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>transformer基本结构</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>日程表</title>
     <url>/2025/01/16/%E6%97%A5%E7%A8%8B%E8%A1%A8/</url>
     <content><![CDATA[<h2 id="大一寒假安排"><a href="#大一寒假安排" class="headerlink" title="大一寒假安排"></a>大一寒假安排</h2><h3 id="比赛"><a href="#比赛" class="headerlink" title="比赛"></a>比赛</h3><h4 id="1-17"><a href="#1-17" class="headerlink" title="1.17"></a>1.17</h4><p>春秋杯</p>
@@ -3517,11 +3621,6 @@ print(result.group())
       <tags>
         <tag>大一寒假安排</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>数据库基本概念</title>
-    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>朴素贝叶斯分类算法</title>
@@ -3761,11 +3860,11 @@ if(isset($_GET[&#39;file&#39;]))&#123;
 <li><p><strong>1.首先执行恶意脚本</strong>并对其进行抓包</p>
 <p>且记得写入一个名称为<code>PHPSESSID</code>的<code>Cookie</code>,名称为该值的<code>Cookie</code>会在默认会话文件路径下创建一个会话文件。用于文件包含。<br>**疑点:**这里在表单字段中必须需要<code>enctype=multipart/form-data</code>,若无该字段，会呈现出来以下效果:</p>
 </li>
-<li><style>.iojqtgphlwei{zoom:50%;}</style>
+<li><style>.pvbrrnmxakrm{zoom:50%;}</style>
 </li>
 <li><p>如加上该字段的脚本才可以呈现出,恶意代码已被上传成功的回显:</p>
 </li>
-<li><style>.csmlfeeuwstt{zoom:50%;}</style>
+<li><style>.ceblrpcyrpkc{zoom:50%;}</style>
 </li>
 <li><p>所以为什么该字段会呈现出如此不同的效果?</p>
 </li>
@@ -3781,20 +3880,20 @@ if(isset($_GET[&#39;file&#39;]))&#123;
 <li><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/f71f76a40be846d98c3ea66960ff5f05.png" class="" title="img">
 </li>
 <li><p>新建资源池,设置线程为<code>30</code>:</p>
-   <style>.htqmyrfqodhu{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/5ad4d673844747efbd69dc94ed97b5fa.png" class="htqmyrfqodhu" alt="img">
+   <style>.certdfbjntmh{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/5ad4d673844747efbd69dc94ed97b5fa.png" class="certdfbjntmh" alt="img">
 </li>
 <li><p>设置完成后，先不立即开始攻击</p>
 </li>
 <li><p>对于文件访问请求攻击的制造，使用相同的操作流程,唯一不同之处:<br>将线程数设置为<code>80</code>,访问请求比数据传入请求线程更高,更容易访问包含到恶意文件从而执行恶意代码</p>
-<style>.pfwtkgrhkctu{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/9b00846795a148798fc1b19dda9901f7.png" class="pfwtkgrhkctu" alt="img">
+<style>.npbnnoqvfbes{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/9b00846795a148798fc1b19dda9901f7.png" class="npbnnoqvfbes" alt="img">
 </li>
 <li><p>**之后操作一定要快，先启动设置好的文件上传请求后立刻开启设置好的文件访问请求，**观察文件访问请求的字段长度:</p>
-<style>.hchpihtmssbi{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/3e76116f587f22d28f54b3a9ad5c4372.jpg" class="hchpihtmssbi" alt="3e76116f587f22d28f54b3a9ad5c4372">
+<style>.jqsfjsevhrcz{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/3e76116f587f22d28f54b3a9ad5c4372.jpg" class="jqsfjsevhrcz" alt="3e76116f587f22d28f54b3a9ad5c4372">
 </li>
 <li><p>可以发现一个字段长度明显与其他字段长度不同的结果，这张截图是最终结果，即使用<code>cat</code>指令对对于文件进行抓取读取其中的信息。</p>
 </li>
 <li><p>我们正常的流程应该是先设置<code>value</code>为<code>value=&quot;&lt;?php eval(system(&#39;ls&#39;));?&gt;&quot;</code>列出当前服务器下的文件列表:</p>
-<style>.kqaihsnhnpos{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/7103cdbecd2eb2456ffbe9dbef901ce9.jpg" class="kqaihsnhnpos" alt="7103cdbecd2eb2456ffbe9dbef901ce9">
+<style>.kvbkljvyhrxx{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/7103cdbecd2eb2456ffbe9dbef901ce9.jpg" class="kvbkljvyhrxx" alt="7103cdbecd2eb2456ffbe9dbef901ce9">
 </li>
 <li><p>可见,我们要抓取的文件名为:<code>upload_prgress_fl0g.php</code>,所以我们的抓取目标为<code>fl0g.php</code><br>存疑:<strong>为什么是抓取fl0g.php而不是完整的upload_progress_fl0g.php</strong></p>
 </li>
@@ -3912,48 +4011,6 @@ if(isset($_GET[&#39;file&#39;]))&#123;
       </categories>
       <tags>
         <tag>汇编硬件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>新加入的token的初始化相关说明</title>
-    <url>/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/</url>
-    <content><![CDATA[<h1 id="模型嵌入层和权重矩阵关系的理解"><a href="#模型嵌入层和权重矩阵关系的理解" class="headerlink" title="模型嵌入层和权重矩阵关系的理解"></a>模型嵌入层和权重矩阵关系的理解</h1><h2 id="模型的词嵌入层与权重矩阵"><a href="#模型的词嵌入层与权重矩阵" class="headerlink" title="模型的词嵌入层与权重矩阵"></a>模型的词嵌入层与权重矩阵</h2><p>在基于 Transformer 架构的预训练模型（如 BERT、GPT 等）中，词嵌入层（<code>Embedding Layer</code>）是模型处理输入文本的重要组件。它的主要作用是将离散的 token（例如单词、子词等）转换为连续的向量表示，以便模型能够对其进行数值计算。</p>
-<p>词嵌入层有一个权重矩阵（<code>weight</code>），这个矩阵的形状通常是 <code>(V, D)</code>，其中 <code>V</code> 是词汇表的大小，即分词器所能识别的所有 token 的数量；<code>D</code> 是嵌入向量的维度，也就是每个 token 对应的向量的长度。这个权重矩阵的每一行都对应着词汇表中一个特定 token 的嵌入向量。</p>
-<p>通俗理解:<br>每个词嵌入,即word_embedding,都是一个向量,从表现形式来看本质就是向量的坐标表示:<br>如:[0.1, 0.3, 0.96],这些数字储存了每个token的相关语义和性质<br>(V,D)<br>其中的V就是有几行这样的向量数据,即分词器能识别的所有token数量,学名叫做:<strong>词汇表</strong><br>其中的D就是每个向量的维度大小,学名就是:<strong>嵌入向量维度</strong>,比如这上面的这个向量嵌入向量维度就是3</p>
-<p>**注:**嵌入向量维度就是嵌入词</p>
-<h3 id="token-id-的含义"><a href="#token-id-的含义" class="headerlink" title="token_id 的含义"></a><code>token_id</code> 的含义</h3><p><code>token_id</code> 是通过 <code>tokenizer.convert_tokens_to_ids(&#39;entity&#39;)</code> 得到的。分词器（<code>tokenizer</code>）会为词汇表中的每个 token 分配一个唯一的整数 ID，这个 ID 就相当于该 token 在词汇表中的索引。所以，<code>token_id</code> 实际上就是 <code>&#39;entity&#39;</code> 这个 token 在词汇表中的索引值。</p>
-<h3 id="赋值操作的意义"><a href="#赋值操作的意义" class="headerlink" title="赋值操作的意义"></a>赋值操作的意义</h3><p><code>model.embeddings.word_embeddings.weight[token_id]</code> 这一操作就是从词嵌入层的权重矩阵中，根据 <code>token_id</code> 这个索引取出对应的行向量。<br>**这里相当简朴:**这里的id就是一个纯粹的索引值:<br>比如:<br><code>fruits=[&#39;apple&#39;, &#39;banana&#39;, &#39;orange&#39;]</code><br><code>print(fruits[0])</code><br>就会输出<code>apple</code>。</p>
-<p>由于这一行向量就是 <code>&#39;entity&#39;</code> 这个 token 对应的嵌入向量，所以最终 <code>token_embedding</code> 被赋予的值就是 <code>&#39;entity&#39;</code> 的嵌入向量。这个向量包含了模型在预训练过程中学习到的关于 <code>&#39;entity&#39;</code> 这个 token 的语义和语法信息。</p>
-<p>举个简单的例子，假设词嵌入层的权重矩阵如下（这里为了简化，假设词汇表大小为 4，嵌入向量维度为 3）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">weight = [</span><br><span class="line">    [0.1, 0.2, 0.3],  # token_id = 0 的嵌入向量</span><br><span class="line">    [0.4, 0.5, 0.6],  # token_id = 1 的嵌入向量</span><br><span class="line">    [0.7, 0.8, 0.9],  # token_id = 2 的嵌入向量</span><br><span class="line">    [1.0, 1.1, 1.2]   # token_id = 3 的嵌入向量</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>如果 <code>&#39;entity&#39;</code> 对应的 <code>token_id</code> 是 2，那么 <code>token_embedding</code> 就会被赋值为 <code>[0.7, 0.8, 0.9]</code>。</p>
-<p>综上所述，<strong><code>token_embedding</code> 被赋予的是预训练模型中 <code>&#39;entity&#39;</code> 这个 token 对应的嵌入向量，该向量存储了模型学习到的关于这个 token 的语义信息。</strong></p>
-<h2 id="使用原有token-embedding初始化新token的过程详解"><a href="#使用原有token-embedding初始化新token的过程详解" class="headerlink" title="使用原有token embedding初始化新token的过程详解"></a>使用原有token embedding初始化新token的过程详解</h2><p>首先，为什么要用原有token embedding来初始化新token呢,因为让一个语义相近的已经预训练过的token embedding去给new token的embedding赋值的话,可以使得这个new token的embedding初始有比较完善的数据,在后续的数值更新的时候,可以更好的更新</p>
-<h2 id="看源码-手动初始化"><a href="#看源码-手动初始化" class="headerlink" title="看源码:(手动初始化)"></a>看源码:(手动初始化)</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> AutoModel, AutoTokenizer</span><br><span class="line"></span><br><span class="line">token_id = tokenizer.convert_tokens_to_ids(<span class="string">&#x27;entity&#x27;</span>)</span><br><span class="line">token_embedding = model.embeddings.word_embeddings.weight[token_id]</span><br><span class="line"><span class="built_in">print</span>(token_id)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_added_toks+<span class="number">1</span>):</span><br><span class="line">        model.embeddings.word_embeddings.weight[-i:, :] = token_embedding.clone().detach().requires_grad_(<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(model.embeddings.word_embeddings.weight[-<span class="number">2</span>:, :])</span><br></pre></td></tr></table></figure>
-<p>对于token_embedding的赋值我们省略,这里就是把矩阵里面向量坐标给赋值给token_embedding<br>对于<code>with torch.no_grad()</code>后面的代码:</p>
-<h3 id="初始化新添加-token-的嵌入向量"><a href="#初始化新添加-token-的嵌入向量" class="headerlink" title="初始化新添加 token 的嵌入向量"></a>初始化新添加 token 的嵌入向量</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_added_toks+<span class="number">1</span>):</span><br><span class="line">        model.embeddings.word_embeddings.weight[-i:, :] = token_embedding.clone().detach().requires_grad_(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><code>with torch.no_grad():</code>：这是一个上下文管理器，在其作用域内，PyTorch 不会计算梯度。因为这里只是对词嵌入矩阵进行赋值操作，不需要计算梯度，使用<code>torch.no_grad()</code>可以提高计算效率，并且避免不必要的梯度记录。</p>
-</li>
-<li><p><code>for i in range(1, num_added_toks+1):</code>：假设<code>num_added_toks</code>是之前向分词器中添加新 token 的数量（比如通过<code>tokenizer.add_tokens(...)</code>方法添加新 token 后返回的添加数量）。这个循环从 1 到<code>num_added_toks</code>，用于遍历新添加的 token。</p>
-</li>
-<li><p><code>model.embeddings.word_embeddings.weight[-i:, :]</code>：<code>-i</code>是负索引，用于从词嵌入权重矩阵的末尾开始选取行。<code>[-i:, :]</code>表示从倒数第<code>i</code>行开始，选取所有列，也就是选取新添加的 token 对应的嵌入向量行（因为新添加的 token 的嵌入向量行通常会被添加到权重矩阵的末尾）。</p>
-</li>
-<li><pre><code class="language-python">token_embedding.clone().detach().requires_grad_(True)
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  - `clone()`：创建`token_embedding`的一个副本，避免直接修改原始的嵌入向量。</span><br><span class="line">  - `detach()`：将副本从计算图中分离出来，使其不参与梯度计算（因为是从已有的嵌入向量复制）。</span><br><span class="line">  - `requires_grad_(True)`：将分离后的副本设置为需要计算梯度，这样在后续模型训练过程中，新添加 token 的嵌入向量可以随着训练进行更新。</span><br><span class="line"></span><br><span class="line">- 整行赋值语句的作用是将`token_embedding`的副本赋值给新添加 token 对应的嵌入向量行，实现用`&#x27;entity&#x27;`的嵌入向量来初始化新添加 token 的嵌入向量。</span><br><span class="line"></span><br><span class="line">- 关于这里的遍历:</span><br><span class="line"></span><br><span class="line">  最后一行的嵌入向量不会被添加两次，原因如下：</span><br><span class="line"></span><br><span class="line">  在代码 `for i in range(1, num_added_toks + 1):` 的循环中，虽然每次循环都会对 `model.embeddings.word_embeddings.weight[-i:, :]` 进行赋值操作，但本质上是一种覆盖式的赋值。</span><br><span class="line"></span><br><span class="line">  当 `i = 1` 时，`model.embeddings.word_embeddings.weight[-1:, :]` 只选取了权重矩阵的最后一行（即最后一个新添加 token 对应的嵌入向量行），然后将 `token_embedding` 赋值给这一行，此时最后一行的嵌入向量被初始化为 `token_embedding`。</span><br><span class="line"></span><br><span class="line">  当 `i = 2` 时，`model.embeddings.word_embeddings.weight[-2:, :]` 选取了权重矩阵的最后两行，然后再次将 `token_embedding` 赋值给这两行。对于最后一行来说，这并不是又添加了一次嵌入向量，而是对其进行了再次赋值，**用相同的 `token_embedding` 覆盖了之前的值（其实值本身没有变化，因为都是 `token_embedding` ）。**</span><br><span class="line"></span><br><span class="line">  当 `i` 继续增大，直到 `i = num_added_toks` 时，都是类似的覆盖式赋值操作。每一次循环的赋值操作，都是对之前已赋值的行再次用相同的 `token_embedding` 进行覆盖，而不是额外添加新的嵌入向量，所以不会出现最后一行嵌入向量被添加两次的情况。</span><br><span class="line"></span><br><span class="line">### 打印新添加 token 的嵌入向量</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">print(model.embeddings.word_embeddings.weight[-2:, :])</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-<p>这行代码打印词嵌入权重矩阵中最后两行的嵌入向量，也就是新添加的两个 token 的嵌入向量，用于查看初始化后的结果是否符合预期。</p>
-<p>总体而言，这段代码的核心目的是使用已有 token（<code>&#39;entity&#39;</code>）的嵌入向量来初始化新添加 token 的嵌入向量，以便模型在后续训练中能够更好地处理包含这些新 token 的文本。</p>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>transformer基本结构</tag>
       </tags>
   </entry>
   <entry>
@@ -4384,42 +4441,6 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>ai训练</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python装饰器</title>
-    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
-<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
-</li>
-<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
-</li>
-<li><p>比如:</p>
-</li>
-<li><pre><code class="language-python">class DateUtils:    
-    @classmethod
-    def get_time(cls):
-        import datetime
-        return datetime.datetime.now()
- 
-#类调用
-year1 = DateUtils.get_time
-print(year1)
-
-#实例化后调用
-date = DateUtils()
-year2 =n date.get_time
-print(year2)
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python装饰器</tag>
       </tags>
   </entry>
 </search>
