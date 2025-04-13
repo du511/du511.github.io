@@ -1,6 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <search>
   <entry>
+    <title>HCTF2018 WarmUp1代码审计:include分割符</title>
+    <url>/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/</url>
+    <content><![CDATA[<h3 id="HCTF2018-Warmup1-代码审计"><a href="#HCTF2018-Warmup1-代码审计" class="headerlink" title="HCTF2018 Warmup1 代码审计"></a>HCTF2018 Warmup1 代码审计</h3><h4 id="第一步-查看源码"><a href="#第一步-查看源码" class="headerlink" title="第一步:查看源码"></a>第一步:查看源码</h4>
+
+<p>一张大脸,先检查源码：发现:</p>
+<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114210616445.png" class="" title="image-20250114210616445">
+<p>直接访问这个文件,发现一堆代码,需要代码审计:</p>
+<h4 id="第二步-开始审计"><a href="#第二步-开始审计" class="headerlink" title="第二步,开始审计"></a>第二步,开始审计</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>这道题总结出来的经验:<br>先不管前面的类,直接看后面的怎么包含file。<br><strong>因为我们的逻辑很清楚:</strong><br>要想得到下一步的线索,就必须利用输入的payloads得到更多的回显,而要得到回显,就是要成功通过前面checkFile()的检查,使得我们传入的被$_REQUEST参数能够被include包含,从而取得回显。<br><strong>在类后面要被include的条件是:</strong><br>file的内容是非空的,<br>file要是字符串<br>在emm类里面继承过来的file文件需要经过处理之后返回为true<br>关键是checkFile要为true。那我们就来看checkFile里面怎么让file检查为true.</p>
+<h5 id="第一步-参数传入-以获得线索"><a href="#第一步-参数传入-以获得线索" class="headerlink" title="第一步,参数传入,以获得线索"></a>第一步,参数传入,以获得线索</h5><p>这里我们就先看了前几个代码块,先看看要满足他们的条件,我们需要传入怎样的参数。<br>这也算是做题的经验了,因为我们不可能一步到位直接得到flag所在文件的名称，先要对前面的函数进行试探输入payloads得到线索。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
+<p>($page在这里指的是checkFile()这个函数里面的参数)<br>首先定义了一个数组,其中有source.php和hint.php，如果没有检查到page或者page不为字符串,那么就会返回为false:<br>有返回,那这个checkFile函数也就不会再继续下去了,并且也会返回false,导致我们的$file参数无法被include读取。<br><strong>这里有个重要的知识点:</strong><br>即if括号内部的布尔值对程序整体运行的影响,以及return对整体程序的影响,具体见我分类分在php类别里的博客。<br>由于hint.php在白名单中,完全符合整个checkFile()返回true的条件。<br>那我们先试一下hint.php,显示:</p>
+<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114213943745.png" class="" title="image-20250114213943745">
+<h5 id="第二步-思考如何利用后续代码块特性绕过。"><a href="#第二步-思考如何利用后续代码块特性绕过。" class="headerlink" title="第二步,思考如何利用后续代码块特性绕过。"></a>第二步,思考如何利用后续代码块特性绕过。</h5><p>这里我们肯定不方便直接抓取这个文件，(这里的直接抓取就是指直接把ffffllllaaaagggg引入REQUEST里面的file参数内,因为这样肯定会被checkFile过滤掉并且返回false,无法被include读取)<br>并且根据这道题后面的条件来看,我们要读取这个文件就要使用上include函数,所以我们要继续往后看,看还需要绕过哪些条件。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">    <span class="variable">$_page</span>,</span><br><span class="line">    <span class="number">0</span>,</span><br><span class="line">    <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>解读代码:<br>这里进行了一个代码的截取,操作,是我们绕过checkFile()函数的关键<br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
+<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
+<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?</p>
+<h5 id="第三步-配置payloads-开始绕过"><a href="#第三步-配置payloads-开始绕过" class="headerlink" title="第三步,配置payloads,开始绕过"></a>第三步,配置payloads,开始绕过</h5><p>所以利用这里$_page截取?前面的字符,并只将这部分截取的字符给函数检查的特性,我们可以在payloads的?前写为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?</span><br></pre></td></tr></table></figure>
+<p>这样$_page就会只截取到hint.php,并且它确实在白名单内,我们得以成功绕过<br><strong>重点又来了:</strong><br>include有个特性:<br>在它读取的文件部分,我们可以用“&#x2F;”符号把文件分成几个部分:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">include(example1.php\/example2.php)</span><br></pre></td></tr></table></figure>
+<p>include会挨个读取文件,即使第一个文件不存在,它的读取也不会就此停止<br><strong>所以</strong>:我们可以在hint.php?后面先用”&#x2F;“符号进行分&#x3D;分割,再输入我们想读取的文件,flag<br>这里太坑爹了,flag长成:ffffllllaaaagggg,这居然是在暗示我们,flag在上数四级文件夹的目录下,难绷。<br>所以最终的payloads为:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
+<p>?前面是为了绕过checkFile()的检查,后面则是我们的文件目标<br>而include在读取的时候因为前面hint.php?没法读取,就会读取”&#x2F;“后的文件,从而顺利得到flag。<br>大功告成,若有不足,希望dalao指出(</p>
+]]></content>
+      <categories>
+        <category>buuctf</category>
+      </categories>
+      <tags>
+        <tag>代码审计</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>初见文件上传:[极客大挑战 2019]Upload</title>
     <url>/2025/01/19/2019-Upload/</url>
     <content><![CDATA[<h3 id="初见文件上传-极客大挑战-2019-Upload"><a href="#初见文件上传-极客大挑战-2019-Upload" class="headerlink" title="初见文件上传:[极客大挑战 2019] Upload"></a>初见文件上传:[极客大挑战 2019] Upload</h3><h4 id="进入靶机"><a href="#进入靶机" class="headerlink" title="进入靶机"></a>进入靶机</h4><img src="/2025/01/19/2019-Upload/image-20250119233053920.png" class="" title="image-20250119233053920">
@@ -64,39 +100,78 @@
 ]]></content>
   </entry>
   <entry>
-    <title>HCTF2018 WarmUp1代码审计:include分割符</title>
-    <url>/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/</url>
-    <content><![CDATA[<h3 id="HCTF2018-Warmup1-代码审计"><a href="#HCTF2018-Warmup1-代码审计" class="headerlink" title="HCTF2018 Warmup1 代码审计"></a>HCTF2018 Warmup1 代码审计</h3><h4 id="第一步-查看源码"><a href="#第一步-查看源码" class="headerlink" title="第一步:查看源码"></a>第一步:查看源码</h4>
-
-<p>一张大脸,先检查源码：发现:</p>
-<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114210616445.png" class="" title="image-20250114210616445">
-<p>直接访问这个文件,发现一堆代码,需要代码审计:</p>
-<h4 id="第二步-开始审计"><a href="#第二步-开始审计" class="headerlink" title="第二步,开始审计"></a>第二步,开始审计</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">    <span class="class"><span class="keyword">class</span> <span class="title">emmm</span></span></span><br><span class="line"><span class="class">    </span>&#123;</span><br><span class="line">        <span class="keyword">public</span> <span class="built_in">static</span> <span class="function"><span class="keyword">function</span> <span class="title">checkFile</span>(<span class="params">&amp;<span class="variable">$page</span></span>)</span></span><br><span class="line"><span class="function">        </span>&#123;</span><br><span class="line">            <span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">urldecode</span>(<span class="variable">$page</span>);</span><br><span class="line">            <span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">                <span class="variable">$_page</span>,</span><br><span class="line">                <span class="number">0</span>,</span><br><span class="line">                <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">            );</span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br><span class="line">            <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">            <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    <span class="keyword">if</span> (! <span class="keyword">empty</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; <span class="title function_ invoke__">is_string</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">        &amp;&amp; emmm::<span class="title function_ invoke__">checkFile</span>(<span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>])</span><br><span class="line">    ) &#123;</span><br><span class="line">        <span class="keyword">include</span> <span class="variable">$_REQUEST</span>[<span class="string">&#x27;file&#x27;</span>];</span><br><span class="line">        <span class="keyword">exit</span>;</span><br><span class="line">    &#125; <span class="keyword">else</span> &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&lt;img src=\&quot;https://i.loli.net/2018/11/01/5bdb0d93dc794.jpg\&quot; /&gt;&quot;</span>;</span><br><span class="line">    &#125;  </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>这道题总结出来的经验:<br>先不管前面的类,直接看后面的怎么包含file。<br><strong>因为我们的逻辑很清楚:</strong><br>要想得到下一步的线索,就必须利用输入的payloads得到更多的回显,而要得到回显,就是要成功通过前面checkFile()的检查,使得我们传入的被$_REQUEST参数能够被include包含,从而取得回显。<br><strong>在类后面要被include的条件是:</strong><br>file的内容是非空的,<br>file要是字符串<br>在emm类里面继承过来的file文件需要经过处理之后返回为true<br>关键是checkFile要为true。那我们就来看checkFile里面怎么让file检查为true.</p>
-<h5 id="第一步-参数传入-以获得线索"><a href="#第一步-参数传入-以获得线索" class="headerlink" title="第一步,参数传入,以获得线索"></a>第一步,参数传入,以获得线索</h5><p>这里我们就先看了前几个代码块,先看看要满足他们的条件,我们需要传入怎样的参数。<br>这也算是做题的经验了,因为我们不可能一步到位直接得到flag所在文件的名称，先要对前面的函数进行试探输入payloads得到线索。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$whitelist</span> = [<span class="string">&quot;source&quot;</span>=&gt;<span class="string">&quot;source.php&quot;</span>,<span class="string">&quot;hint&quot;</span>=&gt;<span class="string">&quot;hint.php&quot;</span>];</span><br><span class="line">            <span class="keyword">if</span> (! <span class="keyword">isset</span>(<span class="variable">$page</span>) || !<span class="title function_ invoke__">is_string</span>(<span class="variable">$page</span>)) &#123;</span><br><span class="line">                <span class="keyword">echo</span> <span class="string">&quot;you can&#x27;t see it&quot;</span>;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">false</span>;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">            <span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">                <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">            &#125;</span><br></pre></td></tr></table></figure>
-<p>($page在这里指的是checkFile()这个函数里面的参数)<br>首先定义了一个数组,其中有source.php和hint.php，如果没有检查到page或者page不为字符串,那么就会返回为false:<br>有返回,那这个checkFile函数也就不会再继续下去了,并且也会返回false,导致我们的$file参数无法被include读取。<br><strong>这里有个重要的知识点:</strong><br>即if括号内部的布尔值对程序整体运行的影响,以及return对整体程序的影响,具体见我分类分在php类别里的博客。<br>由于hint.php在白名单中,完全符合整个checkFile()返回true的条件。<br>那我们先试一下hint.php,显示:</p>
-<img src="/2025/01/14/2018-WarmUp1%E4%BB%A3%E7%A0%81%E5%AE%A1%E8%AE%A1-include%E5%88%86%E5%89%B2%E7%AC%A6/image-20250114213943745.png" class="" title="image-20250114213943745">
-<h5 id="第二步-思考如何利用后续代码块特性绕过。"><a href="#第二步-思考如何利用后续代码块特性绕过。" class="headerlink" title="第二步,思考如何利用后续代码块特性绕过。"></a>第二步,思考如何利用后续代码块特性绕过。</h5><p>这里我们肯定不方便直接抓取这个文件，(这里的直接抓取就是指直接把ffffllllaaaagggg引入REQUEST里面的file参数内,因为这样肯定会被checkFile过滤掉并且返回false,无法被include读取)<br>并且根据这道题后面的条件来看,我们要读取这个文件就要使用上include函数,所以我们要继续往后看,看还需要绕过哪些条件。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$_page</span> = <span class="title function_ invoke__">mb_substr</span>(</span><br><span class="line">    <span class="variable">$_page</span>,</span><br><span class="line">    <span class="number">0</span>,</span><br><span class="line">    <span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span> . <span class="string">&#x27;?&#x27;</span>, <span class="string">&#x27;?&#x27;</span>)</span><br><span class="line">);</span><br><span class="line"><span class="keyword">if</span> (<span class="title function_ invoke__">in_array</span>(<span class="variable">$_page</span>, <span class="variable">$whitelist</span>)) &#123;</span><br><span class="line">    <span class="keyword">return</span> <span class="literal">true</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>解读代码:<br>这里进行了一个代码的截取,操作,是我们绕过checkFile()函数的关键<br>这里substr截取代码时的第三个参数是截取代码的长度,第二个参数是开始的长度<br>而巧妙之处就在于:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">mb_strpos</span>(<span class="variable">$_page</span>,<span class="string">&#x27;?&#x27;</span>,<span class="string">&#x27;?&#x27;</span>)</span><br></pre></td></tr></table></figure>
-<p>这段代码将page手动加了一个?然后探测?的位置,而在主流编程语言中,字符串位置的参数都是从0开始的,例如我要探测:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">mmk&amp;nina?</span><br></pre></td></tr></table></figure>
-<p>这里?的位置在参数8的位置,而截取的时候,长度是8,所以刚好把?前面的截取走了,并没有包含?</p>
-<h5 id="第三步-配置payloads-开始绕过"><a href="#第三步-配置payloads-开始绕过" class="headerlink" title="第三步,配置payloads,开始绕过"></a>第三步,配置payloads,开始绕过</h5><p>所以利用这里$_page截取?前面的字符,并只将这部分截取的字符给函数检查的特性,我们可以在payloads的?前写为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?</span><br></pre></td></tr></table></figure>
-<p>这样$_page就会只截取到hint.php,并且它确实在白名单内,我们得以成功绕过<br><strong>重点又来了:</strong><br>include有个特性:<br>在它读取的文件部分,我们可以用“&#x2F;”符号把文件分成几个部分:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">include(example1.php\/example2.php)</span><br></pre></td></tr></table></figure>
-<p>include会挨个读取文件,即使第一个文件不存在,它的读取也不会就此停止<br><strong>所以</strong>:我们可以在hint.php?后面先用”&#x2F;“符号进行分&#x3D;分割,再输入我们想读取的文件,flag<br>这里太坑爹了,flag长成:ffffllllaaaagggg,这居然是在暗示我们,flag在上数四级文件夹的目录下,难绷。<br>所以最终的payloads为:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?file=hint.php?/../../../../ffffllllaaaagggg</span><br></pre></td></tr></table></figure>
-<p>?前面是为了绕过checkFile()的检查,后面则是我们的文件目标<br>而include在读取的时候因为前面hint.php?没法读取,就会读取”&#x2F;“后的文件,从而顺利得到flag。<br>大功告成,若有不足,希望dalao指出(</p>
-]]></content>
+    <title>3.30有关川大ctf交流</title>
+    <url>/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/</url>
+    <content><![CDATA[<h1 id="基本培养路线介绍"><a href="#基本培养路线介绍" class="headerlink" title="基本培养路线介绍"></a>基本培养路线介绍</h1><ul>
+<li>Web方向研究</li>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330175602024.png" class="" title="image-20250330175602024"></li>
+<li>深度实战研究，并非科研研究。</li>
+</ul>
+<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><ul>
+<li>buuctf直接针对wp进行解决</li>
+<li>照着题目里面的<code>php</code>问题进行学习</li>
+<li>前端语言只用看懂</li>
+</ul>
+<h2 id="中期"><a href="#中期" class="headerlink" title="中期"></a>中期</h2><ul>
+<li>平时把代码审计作为一个大方向。</li>
+<li>入门SRC漏洞，先挖高校漏洞。</li>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180052195.png" class="" title="image-20250330180052195"></li>
+<li>有关内网渗透</li>
+<li><ul>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180128796.png" class="" title="image-20250330180128796"></li>
+<li>以上为推荐网站</li>
+<li>以及<code>hackthebox</code></li>
+</ul>
+</li>
+<li>国际赛:<code>ctftime</code>根据权重选择难度。</li>
+</ul>
+<h2 id="后期"><a href="#后期" class="headerlink" title="后期"></a>后期</h2><ul>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180254510.png" class="" title="image-20250330180254510"></li>
+<li>主要是个人研究工具</li>
+</ul>
+<h2 id="WP的来源"><a href="#WP的来源" class="headerlink" title="WP的来源"></a>WP的来源</h2><ul>
+<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180517910.png" class="" title="image-20250330180517910"></li>
+</ul>
+<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><ul>
+<li><p>ctfwiki PWN相关内容</p>
+</li>
+<li><p>做题:</p>
+</li>
+<li><ul>
+<li><p>buuctf</p>
+</li>
+<li><p>Linux使用wsl即可</p>
+</li>
+<li><p>直接看X86汇编语言</p>
+</li>
+</ul>
+</li>
+<li><p>打公开赛的赛题,国际赛</p>
+</li>
+</ul>
+<h1 id="师傅的问题"><a href="#师傅的问题" class="headerlink" title="师傅的问题"></a>师傅的问题</h1><ul>
+<li>AWD的Web题一定要快速找到后门,不需要很高的web知识,<strong>比较好去稳定排名</strong></li>
+<li>在赛场上不好一个个处理靶机。</li>
+<li>对框架的定位，快速了解系统框架，得知漏洞点。在<code>github</code>的<code>CMS</code>进行研究。</li>
+<li>团队：</li>
+<li>两个web一个pwn。</li>
+</ul>
+<h1 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h1><ul>
+<li>不要在配置环境花费太多时间</li>
+<li>自己开发工具，实用性是不是会更高?</li>
+<li>主要工具用于渗透方向。</li>
+</ul>
+<h1 id="国安"><a href="#国安" class="headerlink" title="国安"></a>国安</h1><ul>
+<li>运气成分比较大</li>
+<li>老师理解就是，对专业要求不是很高。</li>
+<li>先了解具体时间。</li>
+</ul>
+<h1 id="省厅"><a href="#省厅" class="headerlink" title="省厅"></a>省厅</h1>]]></content>
       <categories>
-        <category>buuctf</category>
+        <category>个人安排</category>
       </categories>
       <tags>
-        <tag>代码审计</tag>
+        <tag>川大ctf交流</tag>
       </tags>
   </entry>
   <entry>
@@ -364,155 +439,6 @@
       </categories>
       <tags>
         <tag>ollama</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>3.30有关川大ctf交流</title>
-    <url>/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/</url>
-    <content><![CDATA[<h1 id="基本培养路线介绍"><a href="#基本培养路线介绍" class="headerlink" title="基本培养路线介绍"></a>基本培养路线介绍</h1><ul>
-<li>Web方向研究</li>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330175602024.png" class="" title="image-20250330175602024"></li>
-<li>深度实战研究，并非科研研究。</li>
-</ul>
-<h1 id="Web"><a href="#Web" class="headerlink" title="Web"></a>Web</h1><h2 id="入门"><a href="#入门" class="headerlink" title="入门"></a>入门</h2><ul>
-<li>buuctf直接针对wp进行解决</li>
-<li>照着题目里面的<code>php</code>问题进行学习</li>
-<li>前端语言只用看懂</li>
-</ul>
-<h2 id="中期"><a href="#中期" class="headerlink" title="中期"></a>中期</h2><ul>
-<li>平时把代码审计作为一个大方向。</li>
-<li>入门SRC漏洞，先挖高校漏洞。</li>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180052195.png" class="" title="image-20250330180052195"></li>
-<li>有关内网渗透</li>
-<li><ul>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180128796.png" class="" title="image-20250330180128796"></li>
-<li>以上为推荐网站</li>
-<li>以及<code>hackthebox</code></li>
-</ul>
-</li>
-<li>国际赛:<code>ctftime</code>根据权重选择难度。</li>
-</ul>
-<h2 id="后期"><a href="#后期" class="headerlink" title="后期"></a>后期</h2><ul>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180254510.png" class="" title="image-20250330180254510"></li>
-<li>主要是个人研究工具</li>
-</ul>
-<h2 id="WP的来源"><a href="#WP的来源" class="headerlink" title="WP的来源"></a>WP的来源</h2><ul>
-<li><img src="/2025/03/30/3-30%E6%9C%89%E5%85%B3%E5%B7%9D%E5%A4%A7ctf%E4%BA%A4%E6%B5%81/image-20250330180517910.png" class="" title="image-20250330180517910"></li>
-</ul>
-<h1 id="PWN"><a href="#PWN" class="headerlink" title="PWN"></a>PWN</h1><h2 id="资源"><a href="#资源" class="headerlink" title="资源"></a>资源</h2><ul>
-<li><p>ctfwiki PWN相关内容</p>
-</li>
-<li><p>做题:</p>
-</li>
-<li><ul>
-<li><p>buuctf</p>
-</li>
-<li><p>Linux使用wsl即可</p>
-</li>
-<li><p>直接看X86汇编语言</p>
-</li>
-</ul>
-</li>
-<li><p>打公开赛的赛题,国际赛</p>
-</li>
-</ul>
-<h1 id="师傅的问题"><a href="#师傅的问题" class="headerlink" title="师傅的问题"></a>师傅的问题</h1><ul>
-<li>AWD的Web题一定要快速找到后门,不需要很高的web知识,<strong>比较好去稳定排名</strong></li>
-<li>在赛场上不好一个个处理靶机。</li>
-<li>对框架的定位，快速了解系统框架，得知漏洞点。在<code>github</code>的<code>CMS</code>进行研究。</li>
-<li>团队：</li>
-<li>两个web一个pwn。</li>
-</ul>
-<h1 id="其他问题"><a href="#其他问题" class="headerlink" title="其他问题"></a>其他问题</h1><ul>
-<li>不要在配置环境花费太多时间</li>
-<li>自己开发工具，实用性是不是会更高?</li>
-<li>主要工具用于渗透方向。</li>
-</ul>
-<h1 id="国安"><a href="#国安" class="headerlink" title="国安"></a>国安</h1><ul>
-<li>运气成分比较大</li>
-<li>老师理解就是，对专业要求不是很高。</li>
-<li>先了解具体时间。</li>
-</ul>
-<h1 id="省厅"><a href="#省厅" class="headerlink" title="省厅"></a>省厅</h1>]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>川大ctf交流</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>bp爆破中的变量赋值</title>
-    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
-    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
-<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
-<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
-</ul>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
-<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
-<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>bp资源池</title>
-    <url>/2025/04/12/bp%E8%B5%84%E6%BA%90%E6%B1%A0/</url>
-    <content><![CDATA[<h1 id="Resource-Pool-参数详解及其在条件竞争漏洞中的作用"><a href="#Resource-Pool-参数详解及其在条件竞争漏洞中的作用" class="headerlink" title="Resource Pool 参数详解及其在条件竞争漏洞中的作用"></a>Resource Pool 参数详解及其在条件竞争漏洞中的作用</h1><h2 id="1-Resource-Pool-的核心参数"><a href="#1-Resource-Pool-的核心参数" class="headerlink" title="1. Resource Pool 的核心参数"></a><strong>1. Resource Pool 的核心参数</strong></h2><p>Resource Pool 用于控制攻击时的资源分配和请求节奏，以下是关键参数及其作用：</p>
-<hr>
-<h5 id="a-最大并发请求数（Maximum-concurrent-requests）"><a href="#a-最大并发请求数（Maximum-concurrent-requests）" class="headerlink" title="a. 最大并发请求数（Maximum concurrent requests）"></a><strong>a. 最大并发请求数（Maximum concurrent requests）</strong></h5><ul>
-<li><strong>功能</strong>：控制同时发送的请求数量。</li>
-<li><strong>条件竞争中的作用</strong>：<ul>
-<li><strong>高并发</strong>：设置较高的并发数（如 50~100），可同时触发大量请求，<strong>增加竞争条件的触发概率</strong>（例如：同时修改同一账户余额）。</li>
-<li><strong>默认值问题</strong>：默认的 10 并发可能不足以触发某些敏感竞争漏洞，需根据目标系统承载能力调整。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h5 id="b-请求延迟（Delay-between-requests）"><a href="#b-请求延迟（Delay-between-requests）" class="headerlink" title="b. 请求延迟（Delay between requests）"></a><strong>b. 请求延迟（Delay between requests）</strong></h5><ul>
-<li><strong>功能</strong>：定义每次请求之间的间隔时间（单位：毫秒）。</li>
-<li><strong>条件竞争中的作用</strong>：<ul>
-<li><strong>零延迟（0ms）</strong>：禁用延迟，请求连续发送，<strong>最大化并发压力</strong>，适合测试服务器在高并发下的异常行为。</li>
-<li><strong>固定延迟（Fixed）</strong>：若必须设置延迟，应尽可能小（如 10ms），避免因间隔过长导致竞争窗口关闭。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h5 id="c-随机延迟（Random-variations）"><a href="#c-随机延迟（Random-variations）" class="headerlink" title="c. 随机延迟（Random variations）"></a><strong>c. 随机延迟（Random variations）</strong></h5><ul>
-<li><strong>功能</strong>：在固定延迟基础上增加随机波动（例如：固定 50ms + 随机 ±20ms）。</li>
-<li><strong>条件竞争中的作用</strong>：<ul>
-<li><strong>规避简单速率限制</strong>：随机化请求间隔，绕过基于固定频率的防御规则（如 WAF 的请求速率检测）。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h5 id="d-延迟增量（Increase-delay-in-increments）"><a href="#d-延迟增量（Increase-delay-in-increments）" class="headerlink" title="d. 延迟增量（Increase delay in increments）"></a><strong>d. 延迟增量（Increase delay in increments）</strong></h5><ul>
-<li><strong>功能</strong>：每次请求后逐步增加延迟（例如：初始 10ms，每次增加 5ms）。</li>
-<li><strong>条件竞争中的作用</strong>：<ul>
-<li><strong>平衡攻击与隐蔽性</strong>：初期高并发快速触发竞争，后续逐步减缓，避免因持续高压被封锁。</li>
-</ul>
-</li>
-</ul>
-<hr>
-<h5 id="e-自动限速（Automatic-throttling）"><a href="#e-自动限速（Automatic-throttling）" class="headerlink" title="e. 自动限速（Automatic throttling）"></a><strong>e. 自动限速（Automatic throttling）</strong></h5><ul>
-<li><strong>功能</strong>：根据服务器响应（如 429&#x2F;503 状态码）自动调整请求速率。</li>
-<li><strong>条件竞争中的作用</strong>：<ul>
-<li><strong>维持攻击持续性</strong>：当服务器返回限速状态码时，自动降低请求频率，避免被彻底封禁，<strong>延长攻击窗口期</strong>。</li>
-<li><strong>自定义状态码（CSV）</strong>：可针对特定错误码（如 504）调整策略，适应目标系统的独特响应。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>web安全</category>
-      </categories>
-      <tags>
-        <tag>bp爆破</tag>
       </tags>
   </entry>
   <entry>
@@ -1196,6 +1122,80 @@
       </tags>
   </entry>
   <entry>
+    <title>bp爆破中的变量赋值</title>
+    <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
+    <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
+<li>密码提交：<br>比如在web容器内部有输入框让你输入admin和密码,这些数据提交进去是在HTTP请求报文或HTTP请求头中的Authorization结构(用于身份验证和授权信息传递),<br>可以发现admin与password之间使用:隔开,并且注意编码格式。</li>
+<li>变量赋值的提醒<br>变量赋值是用$$分开的,两个$符号之间的字符即为变量的值,比如:</li>
+</ul>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic §a§:§password§</span><br></pre></td></tr></table></figure>
+<p><strong>注释</strong>:这里把冒号放在a变量里面:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Authorization: Basic $a:$$password$</span><br></pre></td></tr></table></figure>
+<p>也符合HTTP协议的格式。怎么顺眼怎么来</p>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>bp资源池</title>
+    <url>/2025/04/12/bp%E8%B5%84%E6%BA%90%E6%B1%A0/</url>
+    <content><![CDATA[<h1 id="Resource-Pool-参数详解及其在条件竞争漏洞中的作用"><a href="#Resource-Pool-参数详解及其在条件竞争漏洞中的作用" class="headerlink" title="Resource Pool 参数详解及其在条件竞争漏洞中的作用"></a>Resource Pool 参数详解及其在条件竞争漏洞中的作用</h1><h2 id="1-Resource-Pool-的核心参数"><a href="#1-Resource-Pool-的核心参数" class="headerlink" title="1. Resource Pool 的核心参数"></a><strong>1. Resource Pool 的核心参数</strong></h2><p>Resource Pool 用于控制攻击时的资源分配和请求节奏，以下是关键参数及其作用：</p>
+<hr>
+<h5 id="a-最大并发请求数（Maximum-concurrent-requests）"><a href="#a-最大并发请求数（Maximum-concurrent-requests）" class="headerlink" title="a. 最大并发请求数（Maximum concurrent requests）"></a><strong>a. 最大并发请求数（Maximum concurrent requests）</strong></h5><ul>
+<li><strong>功能</strong>：控制同时发送的请求数量。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>高并发</strong>：设置较高的并发数（如 50~100），可同时触发大量请求，<strong>增加竞争条件的触发概率</strong>（例如：同时修改同一账户余额）。</li>
+<li><strong>默认值问题</strong>：默认的 10 并发可能不足以触发某些敏感竞争漏洞，需根据目标系统承载能力调整。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="b-请求延迟（Delay-between-requests）"><a href="#b-请求延迟（Delay-between-requests）" class="headerlink" title="b. 请求延迟（Delay between requests）"></a><strong>b. 请求延迟（Delay between requests）</strong></h5><ul>
+<li><strong>功能</strong>：定义每次请求之间的间隔时间（单位：毫秒）。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>零延迟（0ms）</strong>：禁用延迟，请求连续发送，<strong>最大化并发压力</strong>，适合测试服务器在高并发下的异常行为。</li>
+<li><strong>固定延迟（Fixed）</strong>：若必须设置延迟，应尽可能小（如 10ms），避免因间隔过长导致竞争窗口关闭。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="c-随机延迟（Random-variations）"><a href="#c-随机延迟（Random-variations）" class="headerlink" title="c. 随机延迟（Random variations）"></a><strong>c. 随机延迟（Random variations）</strong></h5><ul>
+<li><strong>功能</strong>：在固定延迟基础上增加随机波动（例如：固定 50ms + 随机 ±20ms）。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>规避简单速率限制</strong>：随机化请求间隔，绕过基于固定频率的防御规则（如 WAF 的请求速率检测）。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="d-延迟增量（Increase-delay-in-increments）"><a href="#d-延迟增量（Increase-delay-in-increments）" class="headerlink" title="d. 延迟增量（Increase delay in increments）"></a><strong>d. 延迟增量（Increase delay in increments）</strong></h5><ul>
+<li><strong>功能</strong>：每次请求后逐步增加延迟（例如：初始 10ms，每次增加 5ms）。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>平衡攻击与隐蔽性</strong>：初期高并发快速触发竞争，后续逐步减缓，避免因持续高压被封锁。</li>
+</ul>
+</li>
+</ul>
+<hr>
+<h5 id="e-自动限速（Automatic-throttling）"><a href="#e-自动限速（Automatic-throttling）" class="headerlink" title="e. 自动限速（Automatic throttling）"></a><strong>e. 自动限速（Automatic throttling）</strong></h5><ul>
+<li><strong>功能</strong>：根据服务器响应（如 429&#x2F;503 状态码）自动调整请求速率。</li>
+<li><strong>条件竞争中的作用</strong>：<ul>
+<li><strong>维持攻击持续性</strong>：当服务器返回限速状态码时，自动降低请求频率，避免被彻底封禁，<strong>延长攻击窗口期</strong>。</li>
+<li><strong>自定义状态码（CSV）</strong>：可针对特定错误码（如 504）调整策略，适应目标系统的独特响应。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>web安全</category>
+      </categories>
+      <tags>
+        <tag>bp爆破</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>c语言操作题</title>
     <url>/2025/03/02/c%E8%AF%AD%E8%A8%80%E6%93%8D%E4%BD%9C%E9%A2%98/</url>
     <content><![CDATA[<h1 id="大小写的转化"><a href="#大小写的转化" class="headerlink" title="大小写的转化"></a>大小写的转化</h1><h2 id="利用-ASCII-码值的差值进行转换"><a href="#利用-ASCII-码值的差值进行转换" class="headerlink" title="利用 ASCII 码值的差值进行转换"></a>利用 ASCII 码值的差值进行转换</h2><ul>
@@ -1501,42 +1501,31 @@ void main()
     <content><![CDATA[]]></content>
   </entry>
   <entry>
-    <title>json学习</title>
-    <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
-<li>比如有以下python数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#综合数据集</span></span><br><span class="line">        decision_metadata = &#123;</span><br><span class="line">            <span class="string">&quot;model_version&quot;</span>: <span class="string">&quot;xgb_v3.1+bert_v2.4&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;xgb_pred&#x27;</span>: xgb_pred,</span><br><span class="line">            <span class="string">&#x27;bert_pred&#x27;</span>: bert_pred,</span><br><span class="line">            <span class="string">&#x27;xgb_proba&#x27;</span>: xgb_proda,</span><br><span class="line">            <span class="string">&#x27;bert_proba&#x27;</span>: bert_proda,</span><br><span class="line">            <span class="string">&#x27;xgb_detailed_proda&#x27;</span>: xgb_detailed_proda,</span><br><span class="line">            <span class="string">&#x27;bert_detailed_proda&#x27;</span>: bert_detailed_proda,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>进行json格式转码，即，讲该字典格式数据编码为<code>json</code>格式数据</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dc_metadata_json = json.dumps(decision_metadata)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>即采用，<code>json.dumps()</code>方法,当然，你要先使用<code>import json</code>的操作。</li>
-</ul>
-<h2 id="json格式数据写入txt文档"><a href="#json格式数据写入txt文档" class="headerlink" title="json格式数据写入txt文档"></a>json格式数据写入txt文档</h2><h3 id="步骤一：导入必要的模块"><a href="#步骤一：导入必要的模块" class="headerlink" title="步骤一：导入必要的模块"></a>步骤一：导入必要的模块</h3><p>需要导入<code>json</code>模块用于处理 JSON 数据。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤二：准备-JSON-格式的-Python-数据"><a href="#步骤二：准备-JSON-格式的-Python-数据" class="headerlink" title="步骤二：准备 JSON 格式的 Python 数据"></a>步骤二：准备 JSON 格式的 Python 数据</h3><p>JSON 数据在 Python 中通常以字典、列表等数据结构表示。例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">&quot;hobbies&quot;</span>: [<span class="string">&quot;阅读&quot;</span>, <span class="string">&quot;跑步&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤三：将-JSON-数据转换为字符串"><a href="#步骤三：将-JSON-数据转换为字符串" class="headerlink" title="步骤三：将 JSON 数据转换为字符串"></a>步骤三：将 JSON 数据转换为字符串</h3><p>使用<code>json.dumps()</code>方法将 Python 中的 JSON 数据转换为字符串格式，方便写入 txt 文件。<code>json.dumps()</code>方法还可以通过一些参数进行格式化输出，如<code>indent</code>参数指定缩进，<code>ensure_ascii</code>参数设置是否以 ASCII 编码显示字符（<code>False</code>表示按原字符显示，常用于处理中文等非 ASCII 字符）。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="步骤四：打开-txt-文件并写入数据"><a href="#步骤四：打开-txt-文件并写入数据" class="headerlink" title="步骤四：打开 txt 文件并写入数据"></a>步骤四：打开 txt 文件并写入数据</h3><p>使用<code>open()</code>函数以写入（<code>&#39;w&#39;</code>）或追加（<code>&#39;a&#39;</code>）模式打开 txt 文件。<code>&#39;w&#39;</code>模式会覆盖原有文件内容；<code>&#39;a&#39;</code>模式则会在文件末尾添加新内容，若文件不存在会自动创建。使用<code>write()</code>方法将转换后的 JSON 字符串写入文件，操作完成后文件会在<code>with</code>语句块结束时自动关闭。示例代码：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以写入模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str)</span><br><span class="line"><span class="comment"># 以追加模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
-
-<p>如果 JSON 数据原本存储在文件中，先读取该 JSON 文件再写入 txt 文件，示例如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取JSON文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;input.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将JSON数据转换为字符串</span></span><br><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入txt文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> txt_file:</span><br><span class="line">    txt_file.write(json_str) </span><br></pre></td></tr></table></figure>
-
+    <title>if代码执行机制</title>
+    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
+<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
+<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
+<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
+<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
+<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>再在另外一个文件中包含它:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>只会输出:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
+<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
+<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
 ]]></content>
       <categories>
-        <category>python</category>
+        <category>php</category>
       </categories>
       <tags>
-        <tag>json库</tag>
+        <tag>php条件函数</tag>
       </tags>
   </entry>
   <entry>
@@ -1806,7 +1795,7 @@ void swap( int *p,int *q)
 *t=*p; *p=*q; *q=*t;
 &#125;
 //main()略..
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.rnfufgbmvjzu&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img rnfufgbmvjzu image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.ytqlkmbbejol&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img ytqlkmbbejol image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
 <li><p>问:最后输出的值是什么</p>
@@ -2113,31 +2102,42 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
-    <title>if代码执行机制</title>
-    <url>/2025/01/14/if%E4%BB%A3%E7%A0%81%E6%89%A7%E8%A1%8C%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="这里我们总结if代码块中布尔值的多少对程序进程的影响"><a href="#这里我们总结if代码块中布尔值的多少对程序进程的影响" class="headerlink" title="这里我们总结if代码块中布尔值的多少对程序进程的影响"></a>这里我们总结if代码块中布尔值的多少对程序进程的影响</h3><h4 id="if条件小括号内的情况"><a href="#if条件小括号内的情况" class="headerlink" title="if条件小括号内的情况"></a>if条件小括号内的情况</h4><h5 id="if括号内为false"><a href="#if括号内为false" class="headerlink" title="if括号内为false"></a>if括号内为false</h5><p>毫无疑问,if代码块里面的代码不会继续运行,此时整个程序会跳过条件括号里为false的这个if代码块继续往下运行。</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> (<span class="literal">false</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This will be printed because the if condition was false&quot;</span>;</span><br></pre></td></tr></table></figure>
-<p>在上述代码中，因为 if 条件为 false，echo “This will not be printed”; 不会被执行，程序直接执行 echo “This will be printed because the if condition was false”。</p>
-<h5 id="if括号里为true"><a href="#if括号里为true" class="headerlink" title="if括号里为true"></a>if括号里为true</h5><p>当 if 括号内条件为 true 时，if 代码块内的代码会执行。但这并不意味着整个程序会不受影响地继续运行。<br>取决于 if 代码块内的代码：<br>如果 if 代码块内有 return、exit 或 die 等终止程序或函数的语句，程序或函数的执行会被终止。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">echo</span> <span class="string">&quot;This will be printed&quot;</span>;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;This will not be printed because of the return statement&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在这种情况下,if代码块内因为有return,所以在同一函数代码空间的echo语句不会被执行。也就是在这一层代码空间内，程序的运行确实被终止了。<br>这就引出了我们接下来要说的一种情况:</p>
-<h4 id="return的辨析"><a href="#return的辨析" class="headerlink" title="return的辨析"></a>return的辨析</h4><p>其实我们在这里可以把return,die,exit这几个对程序运行都有影响的一起说了。<br>1.首先是return，它在,不管是返回什么布尔值,都会使<strong>同一空间代码</strong>停止运行,<br>如果在函数内,它就会使return之后的代码无法运行,如果在类中,也是一样，而我们不推荐把它放在全局代码空间中,这样会使得整个程序停止运行。<br>例如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="function"><span class="keyword">function</span> <span class="title">exampleFunction</span>(<span class="params"></span>) </span>&#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Before return&lt;br&gt;&quot;</span>;</span><br><span class="line">    <span class="comment">// 这里的条件可以根据需要修改</span></span><br><span class="line">    <span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">        <span class="keyword">return</span>;</span><br><span class="line">    &#125;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;After return&lt;br&gt;&quot;</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="title function_ invoke__">exampleFunction</span>();</span><br></pre></td></tr></table></figure>
-<p>在函数外依然可以调用这个函数,函数外并没有因为前面函数里面有return而被打断,但是这里就只会<br>输出:Before return,不会输出After return<br>在类,即对象class里面情况类似</p>
-<p>在文件包含的情况下:<br>在被包含文件:”included_file.php”内:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Before return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="literal">true</span>) &#123;</span><br><span class="line">    <span class="keyword">return</span>;</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;After return in included file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>再在另外一个文件中包含它:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">include</span> <span class="string">&#x27;included_file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is after including the file&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>只会输出:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">Before return in included file</span><br><span class="line">This is after including the file</span><br></pre></td></tr></table></figure>
-<p>即:在被包含文件自己代码中,return后面的After return in included file没有输出，程序终止。<br>但是并没有影响去包含这个文件的主文件在后方的”This is after including the file”这句话的输出,<br>所以在文件包含的情景下,return也只会终止自己文件后方的代码，对主文件没有影响。</p>
-<p>2.而die,exit则会直接使整个程序不可运行,没有代码空间的说法。</p>
+    <title>json学习</title>
+    <url>/2025/03/07/json%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[<h1 id="json库学习"><a href="#json库学习" class="headerlink" title="json库学习"></a>json库学习</h1><h2 id="转码为dict格式文件"><a href="#转码为dict格式文件" class="headerlink" title="转码为dict格式文件"></a>转码为dict格式文件</h2><ul>
+<li>比如有以下python数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment">#综合数据集</span></span><br><span class="line">        decision_metadata = &#123;</span><br><span class="line">            <span class="string">&quot;model_version&quot;</span>: <span class="string">&quot;xgb_v3.1+bert_v2.4&quot;</span>,</span><br><span class="line">            <span class="string">&#x27;xgb_pred&#x27;</span>: xgb_pred,</span><br><span class="line">            <span class="string">&#x27;bert_pred&#x27;</span>: bert_pred,</span><br><span class="line">            <span class="string">&#x27;xgb_proba&#x27;</span>: xgb_proda,</span><br><span class="line">            <span class="string">&#x27;bert_proba&#x27;</span>: bert_proda,</span><br><span class="line">            <span class="string">&#x27;xgb_detailed_proda&#x27;</span>: xgb_detailed_proda,</span><br><span class="line">            <span class="string">&#x27;bert_detailed_proda&#x27;</span>: bert_detailed_proda,</span><br><span class="line">        &#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>进行json格式转码，即，讲该字典格式数据编码为<code>json</code>格式数据</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">dc_metadata_json = json.dumps(decision_metadata)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>即采用，<code>json.dumps()</code>方法,当然，你要先使用<code>import json</code>的操作。</li>
+</ul>
+<h2 id="json格式数据写入txt文档"><a href="#json格式数据写入txt文档" class="headerlink" title="json格式数据写入txt文档"></a>json格式数据写入txt文档</h2><h3 id="步骤一：导入必要的模块"><a href="#步骤一：导入必要的模块" class="headerlink" title="步骤一：导入必要的模块"></a>步骤一：导入必要的模块</h3><p>需要导入<code>json</code>模块用于处理 JSON 数据。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤二：准备-JSON-格式的-Python-数据"><a href="#步骤二：准备-JSON-格式的-Python-数据" class="headerlink" title="步骤二：准备 JSON 格式的 Python 数据"></a>步骤二：准备 JSON 格式的 Python 数据</h3><p>JSON 数据在 Python 中通常以字典、列表等数据结构表示。例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">data = &#123;</span><br><span class="line">    <span class="string">&quot;name&quot;</span>: <span class="string">&quot;张三&quot;</span>,</span><br><span class="line">    <span class="string">&quot;age&quot;</span>: <span class="number">30</span>,</span><br><span class="line">    <span class="string">&quot;hobbies&quot;</span>: [<span class="string">&quot;阅读&quot;</span>, <span class="string">&quot;跑步&quot;</span>]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤三：将-JSON-数据转换为字符串"><a href="#步骤三：将-JSON-数据转换为字符串" class="headerlink" title="步骤三：将 JSON 数据转换为字符串"></a>步骤三：将 JSON 数据转换为字符串</h3><p>使用<code>json.dumps()</code>方法将 Python 中的 JSON 数据转换为字符串格式，方便写入 txt 文件。<code>json.dumps()</code>方法还可以通过一些参数进行格式化输出，如<code>indent</code>参数指定缩进，<code>ensure_ascii</code>参数设置是否以 ASCII 编码显示字符（<code>False</code>表示按原字符显示，常用于处理中文等非 ASCII 字符）。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="步骤四：打开-txt-文件并写入数据"><a href="#步骤四：打开-txt-文件并写入数据" class="headerlink" title="步骤四：打开 txt 文件并写入数据"></a>步骤四：打开 txt 文件并写入数据</h3><p>使用<code>open()</code>函数以写入（<code>&#39;w&#39;</code>）或追加（<code>&#39;a&#39;</code>）模式打开 txt 文件。<code>&#39;w&#39;</code>模式会覆盖原有文件内容；<code>&#39;a&#39;</code>模式则会在文件末尾添加新内容，若文件不存在会自动创建。使用<code>write()</code>方法将转换后的 JSON 字符串写入文件，操作完成后文件会在<code>with</code>语句块结束时自动关闭。示例代码：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 以写入模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str)</span><br><span class="line"><span class="comment"># 以追加模式打开文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;a&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">    file.write(json_str + <span class="string">&quot;\n&quot;</span>)</span><br></pre></td></tr></table></figure>
+
+<p>如果 JSON 数据原本存储在文件中，先读取该 JSON 文件再写入 txt 文件，示例如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> json</span><br><span class="line"></span><br><span class="line"><span class="comment"># 读取JSON文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;input.json&#x27;</span>, <span class="string">&#x27;r&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> json_file:</span><br><span class="line">    data = json.load(json_file)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 将JSON数据转换为字符串</span></span><br><span class="line">json_str = json.dumps(data, indent=<span class="number">4</span>, ensure_ascii=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 写入txt文件</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;output.txt&#x27;</span>, <span class="string">&#x27;w&#x27;</span>, encoding=<span class="string">&#x27;utf-8&#x27;</span>) <span class="keyword">as</span> txt_file:</span><br><span class="line">    txt_file.write(json_str) </span><br></pre></td></tr></table></figure>
+
 ]]></content>
       <categories>
-        <category>php</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>php条件函数</tag>
+        <tag>json库</tag>
       </tags>
   </entry>
   <entry>
@@ -2185,6 +2185,17 @@ sum += *s - &#39;0&#39;;
       </tags>
   </entry>
   <entry>
+    <title>linux基础</title>
+    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>Linux</category>
+      </categories>
+      <tags>
+        <tag>基本符号</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>langchain的runnables相关学习</title>
     <url>/2025/03/31/langchain%E7%9A%84runnables%E7%9B%B8%E5%85%B3%E5%AD%A6%E4%B9%A0/</url>
     <content><![CDATA[<h1 id="处理链-Pipeline-详细解释"><a href="#处理链-Pipeline-详细解释" class="headerlink" title="处理链(Pipeline)详细解释"></a>处理链(Pipeline)详细解释</h1><ul>
@@ -2229,17 +2240,6 @@ print(new_data)
       </categories>
       <tags>
         <tag>langchian</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>linux基础</title>
-    <url>/2025/01/11/linux%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[]]></content>
-      <categories>
-        <category>Linux</category>
-      </categories>
-      <tags>
-        <tag>基本符号</tag>
       </tags>
   </entry>
   <entry>
@@ -2357,53 +2357,24 @@ print(new_data)
       </tags>
   </entry>
   <entry>
-    <title>php包含代码机制</title>
-    <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
-    <content><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is a text&quot;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;included_file.php&#x27;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>而在文件include_file.php中，内容如下：</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is included text&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
-<p>当执行 included_file.php 时，输出结果为：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">This is a text</span><br><span class="line">This is included text</span><br></pre></td></tr></table></figure>
-<p>可以看到，included_file.php 中的 echo 输出内容在主文件中也显示出来了。</p>
-<h4 id="include括号里面的字符类型设置"><a href="#include括号里面的字符类型设置" class="headerlink" title="include括号里面的字符类型设置"></a>include括号里面的字符类型设置</h4><p>include 函数的括号里面的字符类型设置有以下几种：</p>
-<h5 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;/path/to/file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<h5 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$file</span>);</span><br></pre></td></tr></table></figure>
-<p>包括在其中写入$_GET、$_POST、$_COOKIE、$_SERVER等超全局变量的变量名，也可以包含文件。<br><strong>注意:</strong><br>include和$_GET之间可以没有空格如include$_GET[‘file’]</p>
-<h5 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;http://example.com/remote.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
-<h5 id="php流包装器"><a href="#php流包装器" class="headerlink" title="php流包装器"></a>php流包装器</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;php://filter/read=convert.base64-encode/resource=file.txt&#x27;</span>);</span><br></pre></td></tr></table></figure>
-
-
+    <title>php命令执行函数详解</title>
+    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
+    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
+<ul>
+<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
+<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
+</ul>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
+<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
+<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 ]]></content>
       <categories>
         <category>php</category>
       </categories>
       <tags>
-        <tag>文件包含函数</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php字符串处理函数</title>
-    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
-    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
-<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
-<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
-<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
-<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
-
-<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
-<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php字符串处理函数</tag>
+        <tag>命令执行函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2432,27 +2403,6 @@ fclose($file);
       </tags>
   </entry>
   <entry>
-    <title>php命令执行函数详解</title>
-    <url>/2025/01/13/php%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E5%87%BD%E6%95%B0%E8%AF%A6%E8%A7%A3/</url>
-    <content><![CDATA[<h3 id="首先辨析-system-passthru"><a href="#首先辨析-system-passthru" class="headerlink" title="首先辨析:system,passthru"></a>首先辨析:system,passthru</h3><p>1.对于system和passthru函数.</p>
-<ul>
-<li>共同点:<br>1.都用来执行外部命令<br>2.都会先把命令的执行结果直接输出到标准输出（例如，在网页上显示或者在命令行终端显示）。</li>
-<li>不同点:<br>1.system具有默认返回值,即会返回命令执行结果的最后一行的最后一个字符,<br>2.对于执行命令的状态值,system函数返回的是0表示命令执行成功,其他值表示命令执行失败,<br>3.并且system是必须要写作:</li>
-</ul>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="title function_ invoke__">system</span>(<span class="string">&quot;ls -l&quot;</span>,<span class="variable">$return_var</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;命令执行状态值为: &quot;</span>.<span class="variable">$return_var</span>;</span><br></pre></td></tr></table></figure>
-<p>即必须要在后面加上一个变量作为命令执行状态值的接收变量,然后通过echo输出命令执行状态值.<br>4.而passthru函数则没有这个要在后面多写一个变量接收命令执行状态值的步骤的规定,它的返回值直接就是0表示命令执行成功,其他值表示命令执行失败.<br><strong>小结:</strong><br>它们最大的区别就是默认的返回值,system函数返回的是命令执行结果的最后一行的最后一个字符<br>而passthru函数则是直接返回命令执行状态.</p>
-<h3 id="shell-exec函数"><a href="#shell-exec函数" class="headerlink" title="shell_exec函数"></a>shell_exec函数</h3><p>执行外部命令，并将命令的输出作为字符串返回，不会自动输出到标准输出，需要手动使用 echo 或其他输出函数进行输出。<br>如果命令执行失败或没有输出，将返回 null。<br>比如:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">// 执行 ls 命令，并存储命令输出</span></span><br><span class="line"><span class="variable">$output</span> = <span class="title function_ invoke__">shell_exec</span>(<span class="string">&quot;ls -l&quot;</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;Output from shell_exec function:\n&quot;</span>;</span><br><span class="line"><span class="keyword">if</span> (<span class="variable">$output</span>!== <span class="literal">null</span>) &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$output</span>;</span><br><span class="line">&#125; <span class="keyword">else</span> &#123;</span><br><span class="line">    <span class="keyword">echo</span> <span class="string">&quot;Command failed or no output.\n&quot;</span>;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>命令执行函数</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>php比较字符1</title>
     <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
     <content><![CDATA[]]></content>
@@ -2464,11 +2414,61 @@ fclose($file);
       </tags>
   </entry>
   <entry>
+    <title>php字符串处理函数</title>
+    <url>/2025/01/13/php%E5%AD%97%E7%AC%A6%E4%B8%B2%E5%A4%84%E7%90%86%E5%87%BD%E6%95%B0/</url>
+    <content><![CDATA[<h3 id="php字符串处理函数"><a href="#php字符串处理函数" class="headerlink" title="php字符串处理函数"></a>php字符串处理函数</h3><h4 id="substr-函数"><a href="#substr-函数" class="headerlink" title="substr() 函数"></a>substr() 函数</h4><p>语法: substr(string, start, length)<br>功能: 返回字符串的子串，从 start 位置开始，长度为 length。<br>如；</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;Hello World&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">substr</span>(<span class="variable">$str</span>, <span class="number">0</span>, <span class="number">5</span>); <span class="comment">//输出 &quot;Hello&quot;</span></span><br></pre></td></tr></table></figure>
+<p>如果最后一个参数为1,就是指选中那个位置的字符.<br><strong>补充</strong>: md5_substr() 函数用来处理中文字符串</p>
+<p>特性:<br>1.如果在substr()第一个位置里面写入的值为一个文件名,那么substr是读取&#x2F;截取的这个文件本身名字的一部分,并非文件内部代码的一部分。</p>
+<h4 id="intval-函数"><a href="#intval-函数" class="headerlink" title="intval() 函数"></a>intval() 函数</h4><p>语法: intval(string)<br><strong>机制1</strong>:<br>若前缀为0x，则认为是十六进制数；<br>若前缀为0，则认为是八进制数；<br>若没有前缀，则认为是十进制数。<br>最后都是转化为10进制数整数<br><strong>机制2:</strong><br>对于第二个参数:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&lt;?php</span><br><span class="line">echo intval(123.12,0)</span><br></pre></td></tr></table></figure>
+<p>为0,则自动检测进制,最终都是把第一个参数转换为10进制整数;<br>为2,8,16则为对应进制的数。<br><strong>功能</strong>: 将字符串转换为整数。<br>如:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="variable">$str</span> = <span class="string">&quot;123.456&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">intval</span>(<span class="variable">$str</span>); <span class="comment">//输出 123</span></span><br></pre></td></tr></table></figure>
+
+<h4 id="str-replace-函数"><a href="#str-replace-函数" class="headerlink" title="str_replace() 函数"></a>str_replace() 函数</h4><p>语法: str_replace(search, replace, subject)<br>功能: 在 subject 中搜索 search，并替换为 replace。</p>
+<h4 id="strpos-函数"><a href="#strpos-函数" class="headerlink" title="strpos()函数"></a>strpos()函数</h4><p>语法:strpos(string,find,start)<br>最后的start是可选,规定了开始的位置。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php字符串处理函数</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php包含代码机制</title>
+    <url>/2025/01/13/php%E5%8C%85%E5%90%AB%E4%BB%A3%E7%A0%81%E6%9C%BA%E5%88%B6/</url>
+    <content><![CDATA[<h3 id="包含代码机制"><a href="#包含代码机制" class="headerlink" title="包含代码机制"></a>包含代码机制</h3><h4 id="include与echo"><a href="#include与echo" class="headerlink" title="include与echo"></a>include与echo</h4><p>使用 include（或 require 等类似的文件包含函数）包含一个文件时，如果被包含的文件中有 echo 指令，那么 echo 输出的内容会在包含该文件的主文件中显示出来。<br>例如，假设有一个 included_file.php 文件，内容如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is a text&quot;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;included_file.php&#x27;</span>)</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>而在文件include_file.php中，内容如下：</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;This is included text&quot;</span>;</span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure>
+<p>当执行 included_file.php 时，输出结果为：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">This is a text</span><br><span class="line">This is included text</span><br></pre></td></tr></table></figure>
+<p>可以看到，included_file.php 中的 echo 输出内容在主文件中也显示出来了。</p>
+<h4 id="include括号里面的字符类型设置"><a href="#include括号里面的字符类型设置" class="headerlink" title="include括号里面的字符类型设置"></a>include括号里面的字符类型设置</h4><p>include 函数的括号里面的字符类型设置有以下几种：</p>
+<h5 id="绝对路径"><a href="#绝对路径" class="headerlink" title="绝对路径"></a>绝对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;/path/to/file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="相对路径"><a href="#相对路径" class="headerlink" title="相对路径"></a>相对路径</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;file.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="变量"><a href="#变量" class="headerlink" title="变量"></a>变量</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="variable">$file</span> = <span class="string">&#x27;file.php&#x27;</span>;</span><br><span class="line"><span class="keyword">include</span>(<span class="variable">$file</span>);</span><br></pre></td></tr></table></figure>
+<p>包括在其中写入$_GET、$_POST、$_COOKIE、$_SERVER等超全局变量的变量名，也可以包含文件。<br><strong>注意:</strong><br>include和$_GET之间可以没有空格如include$_GET[‘file’]</p>
+<h5 id="协议"><a href="#协议" class="headerlink" title="协议"></a>协议</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;http://example.com/remote.php&#x27;</span>);</span><br></pre></td></tr></table></figure>
+<h5 id="php流包装器"><a href="#php流包装器" class="headerlink" title="php流包装器"></a>php流包装器</h5><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="keyword">include</span>(<span class="string">&#x27;php://filter/read=convert.base64-encode/resource=file.txt&#x27;</span>);</span><br></pre></td></tr></table></figure>
+
+
+
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>文件包含函数</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php特性入门</title>
     <url>/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h1 id="in-array函数漏洞"><a href="#in-array函数漏洞" class="headerlink" title="in_array函数漏洞"></a>in_array函数漏洞</h1><ul>
 <li>如题:(ctfshow web99)</li>
-<li><style>.ucsmcusrbtyg{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="ucsmcusrbtyg" alt="image-20250405202932475"></li>
+<li><style>.nbthdrrvtklf{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="nbthdrrvtklf" alt="image-20250405202932475"></li>
 <li>这里<code>rand(1,$i)</code>是在从<code>1</code>到<code>$i</code>之间随机选择一个数输出。</li>
 <li><strong>关于in_array</strong>函数的机制:<ul>
 <li>格式:<code>bool in_array ( mixed $needle , array $haystack [, bool $strict = FALSE ] )</code>,即首位参数为需查询的数值，第二个参数为目标数组，<strong>最后一个参数为是否为严格比较</strong>。</li>
@@ -2500,6 +2500,20 @@ fclose($file);
       </categories>
       <tags>
         <tag>php特性</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>php随机数的解释</title>
+    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
+    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
+<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php随机数函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2566,17 +2580,44 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       </tags>
   </entry>
   <entry>
-    <title>php随机数的解释</title>
-    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
-    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
-<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+    <title>python常见bug</title>
+    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python中对模块的引入</title>
+    <url>/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/</url>
+    <content><![CDATA[<h1 id="python中对模块引入的辨析"><a href="#python中对模块引入的辨析" class="headerlink" title="python中对模块引入的辨析"></a>python中对模块引入的辨析</h1><h2 id="import-from和import的差异"><a href="#import-from和import的差异" class="headerlink" title="import..from和import的差异"></a><code>import..from</code>和<code>import</code>的差异</h2><p>首先我们要说明:</p>
+<p>依赖库里面是有很多个,模块的,我在今天学习的tomllib是自带模块的其中之一罢了:</p>
+<h3 id="from-tomllib-import-的情况"><a href="#from-tomllib-import-的情况" class="headerlink" title="from tomllib import * 的情况"></a><code>from tomllib import *</code> 的情况</h3><p>当使用 <code>from tomllib import *</code> 语句时，确实会将 <code>tomllib</code> 模块中所有定义的公共对象（函数、类、变量等）直接导入到当前 <code>.py</code> 文件的命名空间中。导入之后，在当前文件里可以直接使用这些对象，<strong>无需再加上模块名作为前缀</strong>。不过，这种导入方式存在命名<strong>冲突的风险。</strong></p>
+<p>例如，假设 <code>tomllib</code> 模块中有一个 <code>load</code> 函数，同时你的当前文件中也定义了一个名为 <code>load</code> 的函数，使用 <code>from tomllib import *</code> 导入后，<code>tomllib</code> 中的 <code>load</code> 函数可能会覆盖你自己定义的 <code>load</code> 函数，或者反之，从而导致意外的结果。示例如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 假设 tomllib 模块中有 load 函数</span></span><br><span class="line"><span class="keyword">from</span> tomllib <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设当前文件中也定义了一个 load 函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;This is my own load function.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里调用的 load 函数可能会产生混淆</span></span><br><span class="line">load()</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="import-tomllib-的情况"><a href="#import-tomllib-的情况" class="headerlink" title="import tomllib 的情况"></a><code>import tomllib</code> 的情况</h3><p>使用 <code>import tomllib</code> 语句时，Python 会将 <code>tomllib</code> 模块加载到当前程序的命名空间中，并且创建一个指向该模块的引用。虽然不是将模块中的所有函数和对象 “复制” 到当前文件的命名空间，但实际上这些函数和对象已经被加载到内存中，<strong>只是在使用时需要通过 <code>tomllib.函数名</code> 或 <code>tomllib.对象名</code> 的方式来引用。</strong></p>
+<p>这样做的好处是可以明确指出函数或对象的来源，避免命名冲突。例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里明确调用的是 tomllib 模块中的 load 函数</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><code>from tomllib import *</code>：会将 <code>tomllib</code> 模块中的所有公共对象直接导入到当前命名空间，使用时无需加模块名前缀，但容易引发命名冲突，不建议在实际项目中大量使用。</li>
+<li><code>import tomllib</code>：将 <code>tomllib</code> 模块加载到当前程序中，通过 <code>tomllib.对象名</code> 的方式使用模块中的对象，能有效避免命名冲突，提高代码的可读性和可维护性。</li>
+</ul>
+<p>另外，还有一种折中的方式 <code>from tomllib import load</code>，这种方式只导入 <code>tomllib</code> 模块中的 <code>load</code> 函数到当前命名空间，既可以直接使用 <code>load</code> 函数，又能避免导入过多不必要的对象，减少命名冲突的可能性。</p>
+<ul>
+<li><p>除了上述的我们探讨的会引起大量冲突的情况,以下情况是对加不加前缀的最简单的解释:</p>
+<p><code>import</code>后面只要是类或者具体方法名字,由于足够具体,可不用加前缀,只要<code>import</code>后面是库或者模块,都要加前缀,因为范围太大,不管有没有<code>from</code>关键字。</p>
+<p>并且,不可以直接在<code>import</code>后面加上具体方法和类明,<code>import</code>后面只可以加库或者模块名。</p>
+</li>
+</ul>
 ]]></content>
       <categories>
-        <category>php</category>
+        <category>python</category>
       </categories>
       <tags>
-        <tag>php随机数函数</tag>
+        <tag>import辨析</tag>
       </tags>
   </entry>
   <entry>
@@ -2647,47 +2688,6 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       </tags>
   </entry>
   <entry>
-    <title>python中对模块的引入</title>
-    <url>/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/</url>
-    <content><![CDATA[<h1 id="python中对模块引入的辨析"><a href="#python中对模块引入的辨析" class="headerlink" title="python中对模块引入的辨析"></a>python中对模块引入的辨析</h1><h2 id="import-from和import的差异"><a href="#import-from和import的差异" class="headerlink" title="import..from和import的差异"></a><code>import..from</code>和<code>import</code>的差异</h2><p>首先我们要说明:</p>
-<p>依赖库里面是有很多个,模块的,我在今天学习的tomllib是自带模块的其中之一罢了:</p>
-<h3 id="from-tomllib-import-的情况"><a href="#from-tomllib-import-的情况" class="headerlink" title="from tomllib import * 的情况"></a><code>from tomllib import *</code> 的情况</h3><p>当使用 <code>from tomllib import *</code> 语句时，确实会将 <code>tomllib</code> 模块中所有定义的公共对象（函数、类、变量等）直接导入到当前 <code>.py</code> 文件的命名空间中。导入之后，在当前文件里可以直接使用这些对象，<strong>无需再加上模块名作为前缀</strong>。不过，这种导入方式存在命名<strong>冲突的风险。</strong></p>
-<p>例如，假设 <code>tomllib</code> 模块中有一个 <code>load</code> 函数，同时你的当前文件中也定义了一个名为 <code>load</code> 的函数，使用 <code>from tomllib import *</code> 导入后，<code>tomllib</code> 中的 <code>load</code> 函数可能会覆盖你自己定义的 <code>load</code> 函数，或者反之，从而导致意外的结果。示例如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 假设 tomllib 模块中有 load 函数</span></span><br><span class="line"><span class="keyword">from</span> tomllib <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设当前文件中也定义了一个 load 函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;This is my own load function.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里调用的 load 函数可能会产生混淆</span></span><br><span class="line">load()</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="import-tomllib-的情况"><a href="#import-tomllib-的情况" class="headerlink" title="import tomllib 的情况"></a><code>import tomllib</code> 的情况</h3><p>使用 <code>import tomllib</code> 语句时，Python 会将 <code>tomllib</code> 模块加载到当前程序的命名空间中，并且创建一个指向该模块的引用。虽然不是将模块中的所有函数和对象 “复制” 到当前文件的命名空间，但实际上这些函数和对象已经被加载到内存中，<strong>只是在使用时需要通过 <code>tomllib.函数名</code> 或 <code>tomllib.对象名</code> 的方式来引用。</strong></p>
-<p>这样做的好处是可以明确指出函数或对象的来源，避免命名冲突。例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里明确调用的是 tomllib 模块中的 load 函数</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li><code>from tomllib import *</code>：会将 <code>tomllib</code> 模块中的所有公共对象直接导入到当前命名空间，使用时无需加模块名前缀，但容易引发命名冲突，不建议在实际项目中大量使用。</li>
-<li><code>import tomllib</code>：将 <code>tomllib</code> 模块加载到当前程序中，通过 <code>tomllib.对象名</code> 的方式使用模块中的对象，能有效避免命名冲突，提高代码的可读性和可维护性。</li>
-</ul>
-<p>另外，还有一种折中的方式 <code>from tomllib import load</code>，这种方式只导入 <code>tomllib</code> 模块中的 <code>load</code> 函数到当前命名空间，既可以直接使用 <code>load</code> 函数，又能避免导入过多不必要的对象，减少命名冲突的可能性。</p>
-<ul>
-<li><p>除了上述的我们探讨的会引起大量冲突的情况,以下情况是对加不加前缀的最简单的解释:</p>
-<p><code>import</code>后面只要是类或者具体方法名字,由于足够具体,可不用加前缀,只要<code>import</code>后面是库或者模块,都要加前缀,因为范围太大,不管有没有<code>from</code>关键字。</p>
-<p>并且,不可以直接在<code>import</code>后面加上具体方法和类明,<code>import</code>后面只可以加库或者模块名。</p>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>import辨析</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>python常见bug</title>
-    <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
-    <content><![CDATA[]]></content>
-  </entry>
-  <entry>
     <title>python异常捕获及处理</title>
     <url>/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/</url>
     <content><![CDATA[<h1 id="Python异常捕获与处理"><a href="#Python异常捕获与处理" class="headerlink" title="Python异常捕获与处理"></a>Python异常捕获与处理</h1><h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>例如:</p>
@@ -2723,6 +2723,39 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       </categories>
       <tags>
         <tag>python异常</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python程序运行启动代码</title>
+    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
+    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
+
+<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
+<li><p><code>__name__</code> 变量：</p>
+</li>
+<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
+<ul>
+<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
+<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
+</ul>
+</li>
+<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
+</li>
+</ul>
+<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
+<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
+<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
+</ul>
+<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
+<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
+<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>py程序启动</tag>
       </tags>
   </entry>
   <entry>
@@ -2862,39 +2895,6 @@ for func in functions:
       </tags>
   </entry>
   <entry>
-    <title>python程序运行启动代码</title>
-    <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
-    <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
-
-<h3 id="代码逐行解释"><a href="#代码逐行解释" class="headerlink" title="代码逐行解释"></a>代码逐行解释</h3><h4 id="if-name-main"><a href="#if-name-main" class="headerlink" title="if __name__ == &#39;__main__&#39;:"></a><code>if __name__ == &#39;__main__&#39;:</code></h4><ul>
-<li><p><code>__name__</code> 变量：</p>
-</li>
-<li><p>在 Python 中，每个模块（即<code>.py</code>文件）都有一个内置的<code>__name__</code>变量。这个变量的值取决于模块是如何被使用的。</p>
-<ul>
-<li><strong>当一个 Python 脚本作为主程序直接运行时</strong>，例如<strong>在命令行中使用 <code>python script.py</code> 来执行脚本</strong>，该脚本的 <code>__name__</code> 变量会被自动设置为 <code>&#39;__main__&#39;</code>。</li>
-<li><strong>当一个 Python 脚本作为模块被其他脚本导入时</strong>，例如在 <code>another_script.py</code> 中使用 <code>import script</code>，那么 <code>script.py</code> 模块的 <code>__name__</code> 变量会被设置为该模块的名称（即 <code>&#39;script&#39;</code>）。</li>
-</ul>
-</li>
-<li><p><strong>条件判断</strong>：<code>if __name__ == &#39;__main__&#39;:</code> 这行代码的作用是检查当前脚本是否作为主程序直接运行。如果是，则执行下面缩进的代码块；如果脚本是作为模块被导入到其他脚本中，则不会执行该代码块。这种机制允许我们在一个脚本中既定义可复用的函数和类，又可以包含用于测试或直接执行的代码，同时避免在被导入时执行这些测试代码。</p>
-</li>
-</ul>
-<h4 id="data-dict-load-toml"><a href="#data-dict-load-toml" class="headerlink" title="data: dict = load_toml()"></a><code>data: dict = load_toml()</code></h4><ul>
-<li><strong>类型注解</strong>：<code>data: dict</code> 是 Python 的类型注解，它告诉开发者（以及一些静态类型检查工具，如 <code>mypy</code>）变量 <code>data</code> 预期的类型是字典（<code>dict</code>）。类型注解不会影响代码的实际运行，但可以提高代码的可读性和可维护性。</li>
-<li><strong>函数调用</strong>：<code>load_toml()</code> 是之前定义的函数，用于读取并解析 <code>config.toml</code> 文件。调用该函数会返回一个包含解析后 TOML 数据的字典，这个字典会被赋值给变量 <code>data</code>。</li>
-</ul>
-<h4 id="pprint-data-sort-dicts-False"><a href="#pprint-data-sort-dicts-False" class="headerlink" title="pprint(data, sort_dicts=False)"></a><code>pprint(data, sort_dicts=False)</code></h4><ul>
-<li><strong><code>pprint</code> 函数</strong>：<code>pprint</code> 是 Python 标准库 <code>pprint</code> 模块中的一个函数，用于以美观的格式打印复杂的数据结构，如嵌套的字典和列表。相比于普通的 <code>print</code> 函数，<code>pprint</code> 会对数据进行格式化，使其更易于阅读。</li>
-<li><strong><code>sort_dicts=False</code> 参数</strong>：在 Python 3.8 及以上版本中，<code>pprint</code> 函数默认会对字典的键进行排序后再打印。通过设置 <code>sort_dicts=False</code>，我们告诉 <code>pprint</code> 函数不要对字典的键进行排序，**(其实就是对字典的键按照字母顺序排序)**而是按照字典中键的原始顺序进行打印。这样可以保留 TOML 文件中键值对的原始顺序。即没有用字母顺序排序。</li>
-</ul>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>py程序启动</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python装饰器</title>
     <url>/2025/03/20/python%E8%A3%85%E9%A5%B0%E5%99%A8/</url>
     <content><![CDATA[<h1 id="classmethod"><a href="#classmethod" class="headerlink" title="@classmethod"></a>@classmethod</h1><h2 id="基本介绍"><a href="#基本介绍" class="headerlink" title="基本介绍"></a>基本介绍</h2><ul>
@@ -2960,6 +2960,17 @@ print(year2)
       </categories>
       <tags>
         <tag>python读取文件</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>sbdy</title>
+    <url>/2025/04/13/sbdy/</url>
+    <content><![CDATA[<h1 id="嘻嘻"><a href="#嘻嘻" class="headerlink" title="嘻嘻"></a>嘻嘻</h1>]]></content>
+      <categories>
+        <category>dy</category>
+      </categories>
+      <tags>
+        <tag>dy</tag>
       </tags>
   </entry>
   <entry>
@@ -3337,7 +3348,7 @@ print(result.group())
 <li><strong>定义</strong>：关系模式中的每个属性都不可再分，即属性是原子的。并且主属性（主键）不能为空且不重复 。例如学生选课关系模式中，每个属性如 “学号”“课程号” 等都不能再拆分成更小的子属性 ，这是关系型数据库最基本要求。</li>
 <li>比如:</li>
 </ul>
-<style>.hphizjwwyvdf{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="hphizjwwyvdf" alt="image-20250324145245672">
+<style>.aichcjnwbdti{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="aichcjnwbdti" alt="image-20250324145245672">
 
 <ul>
 <li>这里的歌手一列含有两个元素，不符合原子化的规范。比如学习成绩，这一栏就会有如:<code>&#123;&quot;英语&quot;:100,&quot;数学&quot;:100&#125;</code>的情况，这一栏就不符合原子化的原则，即不为1NF的规则。</li>
@@ -3357,9 +3368,9 @@ print(result.group())
 <li>基本介绍</li>
 <li>**定义：**第三范式（3NF）要求关系模式在满足第二范式（2NF）的基础上，不存在非主属性对主键的传递函数依赖 。</li>
 <li>举例：</li>
-<li><style>.kxmtkdrdpgdv{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="kxmtkdrdpgdv" alt="image-20250324153727673"></li>
+<li><style>.cdennodfkdan{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="cdennodfkdan" alt="image-20250324153727673"></li>
 <li>相当于横向有依赖。其解决方法也是把表拆开。</li>
-<li><style>.lhxynkmtgleh{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="lhxynkmtgleh" alt="image-20250324153908868"></li>
+<li><style>.qqbjxxwvhcff{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="qqbjxxwvhcff" alt="image-20250324153908868"></li>
 <li>解决方法如图所示。</li>
 </ul>
 <h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="例题一"><a href="#例题一" class="headerlink" title="例题一"></a>例题一</h3><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324154755016.png" class="" title="image-20250324154755016">
@@ -3664,7 +3675,7 @@ class ContextAwareClassifier:
 <p>该参数对服务器如何解析该文件<strong>没有任何影响</strong>,它只会影响文件保存的后缀名,如以<code>png</code>、<code>jpg</code>格式进行保存。</p>
 </li>
 <li><p>做一个提醒:<br>在buuctf 极客大挑战 [Upload]这道题中,刚开始以在<code>Content-Disposition</code>参数中以<code>png</code>格式名上传文件后在url中使用phtml对文件进行解析，是回显没有找到该文件的，后来在<code>Content-Disposition</code>参数中使用<code>phtml</code>格式名又上传了一次文件，再在url中以<code>phtml</code>形式解析，解析成功，但是我此时又以<code>png</code>的后缀名上传保存文件，在url中以后缀名为<code>phtml</code>解析文件也成功了，为什么第一次不能成功呢?<br>deepseek的解析,看看就得了:</p>
-<style>.bakplpmcjcee{zoom: 50%;}</style><img src="/2025/04/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%96%91%E7%82%B9%E8%A7%A3%E6%9E%90/image-20250412122906502.png" class="bakplpmcjcee" alt="image-20250412122906502">
+<style>.bayilhmiqcfp{zoom: 50%;}</style><img src="/2025/04/12/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0%E7%96%91%E7%82%B9%E8%A7%A3%E6%9E%90/image-20250412122906502.png" class="bayilhmiqcfp" alt="image-20250412122906502">
 
 <p><strong>目前我只能说:</strong><br>自己多尝试几次,修改<code>Content-Disposition</code>和修改<code>url</code>中文件的后缀名，多试试,看是否可以解析成功。</p>
 </li>
@@ -3678,48 +3689,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>文件上传</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>新加入的token的初始化相关说明</title>
-    <url>/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/</url>
-    <content><![CDATA[<h1 id="模型嵌入层和权重矩阵关系的理解"><a href="#模型嵌入层和权重矩阵关系的理解" class="headerlink" title="模型嵌入层和权重矩阵关系的理解"></a>模型嵌入层和权重矩阵关系的理解</h1><h2 id="模型的词嵌入层与权重矩阵"><a href="#模型的词嵌入层与权重矩阵" class="headerlink" title="模型的词嵌入层与权重矩阵"></a>模型的词嵌入层与权重矩阵</h2><p>在基于 Transformer 架构的预训练模型（如 BERT、GPT 等）中，词嵌入层（<code>Embedding Layer</code>）是模型处理输入文本的重要组件。它的主要作用是将离散的 token（例如单词、子词等）转换为连续的向量表示，以便模型能够对其进行数值计算。</p>
-<p>词嵌入层有一个权重矩阵（<code>weight</code>），这个矩阵的形状通常是 <code>(V, D)</code>，其中 <code>V</code> 是词汇表的大小，即分词器所能识别的所有 token 的数量；<code>D</code> 是嵌入向量的维度，也就是每个 token 对应的向量的长度。这个权重矩阵的每一行都对应着词汇表中一个特定 token 的嵌入向量。</p>
-<p>通俗理解:<br>每个词嵌入,即word_embedding,都是一个向量,从表现形式来看本质就是向量的坐标表示:<br>如:[0.1, 0.3, 0.96],这些数字储存了每个token的相关语义和性质<br>(V,D)<br>其中的V就是有几行这样的向量数据,即分词器能识别的所有token数量,学名叫做:<strong>词汇表</strong><br>其中的D就是每个向量的维度大小,学名就是:<strong>嵌入向量维度</strong>,比如这上面的这个向量嵌入向量维度就是3</p>
-<p>**注:**嵌入向量维度就是嵌入词</p>
-<h3 id="token-id-的含义"><a href="#token-id-的含义" class="headerlink" title="token_id 的含义"></a><code>token_id</code> 的含义</h3><p><code>token_id</code> 是通过 <code>tokenizer.convert_tokens_to_ids(&#39;entity&#39;)</code> 得到的。分词器（<code>tokenizer</code>）会为词汇表中的每个 token 分配一个唯一的整数 ID，这个 ID 就相当于该 token 在词汇表中的索引。所以，<code>token_id</code> 实际上就是 <code>&#39;entity&#39;</code> 这个 token 在词汇表中的索引值。</p>
-<h3 id="赋值操作的意义"><a href="#赋值操作的意义" class="headerlink" title="赋值操作的意义"></a>赋值操作的意义</h3><p><code>model.embeddings.word_embeddings.weight[token_id]</code> 这一操作就是从词嵌入层的权重矩阵中，根据 <code>token_id</code> 这个索引取出对应的行向量。<br>**这里相当简朴:**这里的id就是一个纯粹的索引值:<br>比如:<br><code>fruits=[&#39;apple&#39;, &#39;banana&#39;, &#39;orange&#39;]</code><br><code>print(fruits[0])</code><br>就会输出<code>apple</code>。</p>
-<p>由于这一行向量就是 <code>&#39;entity&#39;</code> 这个 token 对应的嵌入向量，所以最终 <code>token_embedding</code> 被赋予的值就是 <code>&#39;entity&#39;</code> 的嵌入向量。这个向量包含了模型在预训练过程中学习到的关于 <code>&#39;entity&#39;</code> 这个 token 的语义和语法信息。</p>
-<p>举个简单的例子，假设词嵌入层的权重矩阵如下（这里为了简化，假设词汇表大小为 4，嵌入向量维度为 3）：</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">weight = [</span><br><span class="line">    [0.1, 0.2, 0.3],  # token_id = 0 的嵌入向量</span><br><span class="line">    [0.4, 0.5, 0.6],  # token_id = 1 的嵌入向量</span><br><span class="line">    [0.7, 0.8, 0.9],  # token_id = 2 的嵌入向量</span><br><span class="line">    [1.0, 1.1, 1.2]   # token_id = 3 的嵌入向量</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
-
-<p>如果 <code>&#39;entity&#39;</code> 对应的 <code>token_id</code> 是 2，那么 <code>token_embedding</code> 就会被赋值为 <code>[0.7, 0.8, 0.9]</code>。</p>
-<p>综上所述，<strong><code>token_embedding</code> 被赋予的是预训练模型中 <code>&#39;entity&#39;</code> 这个 token 对应的嵌入向量，该向量存储了模型学习到的关于这个 token 的语义信息。</strong></p>
-<h2 id="使用原有token-embedding初始化新token的过程详解"><a href="#使用原有token-embedding初始化新token的过程详解" class="headerlink" title="使用原有token embedding初始化新token的过程详解"></a>使用原有token embedding初始化新token的过程详解</h2><p>首先，为什么要用原有token embedding来初始化新token呢,因为让一个语义相近的已经预训练过的token embedding去给new token的embedding赋值的话,可以使得这个new token的embedding初始有比较完善的数据,在后续的数值更新的时候,可以更好的更新</p>
-<h2 id="看源码-手动初始化"><a href="#看源码-手动初始化" class="headerlink" title="看源码:(手动初始化)"></a>看源码:(手动初始化)</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> AutoModel, AutoTokenizer</span><br><span class="line"></span><br><span class="line">token_id = tokenizer.convert_tokens_to_ids(<span class="string">&#x27;entity&#x27;</span>)</span><br><span class="line">token_embedding = model.embeddings.word_embeddings.weight[token_id]</span><br><span class="line"><span class="built_in">print</span>(token_id)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_added_toks+<span class="number">1</span>):</span><br><span class="line">        model.embeddings.word_embeddings.weight[-i:, :] = token_embedding.clone().detach().requires_grad_(<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(model.embeddings.word_embeddings.weight[-<span class="number">2</span>:, :])</span><br></pre></td></tr></table></figure>
-<p>对于token_embedding的赋值我们省略,这里就是把矩阵里面向量坐标给赋值给token_embedding<br>对于<code>with torch.no_grad()</code>后面的代码:</p>
-<h3 id="初始化新添加-token-的嵌入向量"><a href="#初始化新添加-token-的嵌入向量" class="headerlink" title="初始化新添加 token 的嵌入向量"></a>初始化新添加 token 的嵌入向量</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_added_toks+<span class="number">1</span>):</span><br><span class="line">        model.embeddings.word_embeddings.weight[-i:, :] = token_embedding.clone().detach().requires_grad_(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p><code>with torch.no_grad():</code>：这是一个上下文管理器，在其作用域内，PyTorch 不会计算梯度。因为这里只是对词嵌入矩阵进行赋值操作，不需要计算梯度，使用<code>torch.no_grad()</code>可以提高计算效率，并且避免不必要的梯度记录。</p>
-</li>
-<li><p><code>for i in range(1, num_added_toks+1):</code>：假设<code>num_added_toks</code>是之前向分词器中添加新 token 的数量（比如通过<code>tokenizer.add_tokens(...)</code>方法添加新 token 后返回的添加数量）。这个循环从 1 到<code>num_added_toks</code>，用于遍历新添加的 token。</p>
-</li>
-<li><p><code>model.embeddings.word_embeddings.weight[-i:, :]</code>：<code>-i</code>是负索引，用于从词嵌入权重矩阵的末尾开始选取行。<code>[-i:, :]</code>表示从倒数第<code>i</code>行开始，选取所有列，也就是选取新添加的 token 对应的嵌入向量行（因为新添加的 token 的嵌入向量行通常会被添加到权重矩阵的末尾）。</p>
-</li>
-<li><pre><code class="language-python">token_embedding.clone().detach().requires_grad_(True)
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  - `clone()`：创建`token_embedding`的一个副本，避免直接修改原始的嵌入向量。</span><br><span class="line">  - `detach()`：将副本从计算图中分离出来，使其不参与梯度计算（因为是从已有的嵌入向量复制）。</span><br><span class="line">  - `requires_grad_(True)`：将分离后的副本设置为需要计算梯度，这样在后续模型训练过程中，新添加 token 的嵌入向量可以随着训练进行更新。</span><br><span class="line"></span><br><span class="line">- 整行赋值语句的作用是将`token_embedding`的副本赋值给新添加 token 对应的嵌入向量行，实现用`&#x27;entity&#x27;`的嵌入向量来初始化新添加 token 的嵌入向量。</span><br><span class="line"></span><br><span class="line">- 关于这里的遍历:</span><br><span class="line"></span><br><span class="line">  最后一行的嵌入向量不会被添加两次，原因如下：</span><br><span class="line"></span><br><span class="line">  在代码 `for i in range(1, num_added_toks + 1):` 的循环中，虽然每次循环都会对 `model.embeddings.word_embeddings.weight[-i:, :]` 进行赋值操作，但本质上是一种覆盖式的赋值。</span><br><span class="line"></span><br><span class="line">  当 `i = 1` 时，`model.embeddings.word_embeddings.weight[-1:, :]` 只选取了权重矩阵的最后一行（即最后一个新添加 token 对应的嵌入向量行），然后将 `token_embedding` 赋值给这一行，此时最后一行的嵌入向量被初始化为 `token_embedding`。</span><br><span class="line"></span><br><span class="line">  当 `i = 2` 时，`model.embeddings.word_embeddings.weight[-2:, :]` 选取了权重矩阵的最后两行，然后再次将 `token_embedding` 赋值给这两行。对于最后一行来说，这并不是又添加了一次嵌入向量，而是对其进行了再次赋值，**用相同的 `token_embedding` 覆盖了之前的值（其实值本身没有变化，因为都是 `token_embedding` ）。**</span><br><span class="line"></span><br><span class="line">  当 `i` 继续增大，直到 `i = num_added_toks` 时，都是类似的覆盖式赋值操作。每一次循环的赋值操作，都是对之前已赋值的行再次用相同的 `token_embedding` 进行覆盖，而不是额外添加新的嵌入向量，所以不会出现最后一行嵌入向量被添加两次的情况。</span><br><span class="line"></span><br><span class="line">### 打印新添加 token 的嵌入向量</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">print(model.embeddings.word_embeddings.weight[-2:, :])</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-</ul>
-<p>这行代码打印词嵌入权重矩阵中最后两行的嵌入向量，也就是新添加的两个 token 的嵌入向量，用于查看初始化后的结果是否符合预期。</p>
-<p>总体而言，这段代码的核心目的是使用已有 token（<code>&#39;entity&#39;</code>）的嵌入向量来初始化新添加 token 的嵌入向量，以便模型在后续训练中能够更好地处理包含这些新 token 的文本。</p>
-]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>transformer基本结构</tag>
       </tags>
   </entry>
   <entry>
@@ -3993,20 +3962,20 @@ class ContextAwareClassifier:
 <li><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/f71f76a40be846d98c3ea66960ff5f05.png" class="" title="img">
 </li>
 <li><p>新建资源池,设置线程为<code>30</code>:</p>
-   <style>.rebqilubskrr{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/5ad4d673844747efbd69dc94ed97b5fa.png" class="rebqilubskrr" alt="img">
+   <style>.vvvulwipeglr{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/5ad4d673844747efbd69dc94ed97b5fa.png" class="vvvulwipeglr" alt="img">
 </li>
 <li><p>设置完成后，先不立即开始攻击</p>
 </li>
 <li><p>对于文件访问请求攻击的制造，使用相同的操作流程,唯一不同之处:<br>将线程数设置为<code>80</code>,访问请求比数据传入请求线程更高,更容易访问包含到恶意文件从而执行恶意代码</p>
-<style>.hkdwkjgxlywh{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/9b00846795a148798fc1b19dda9901f7.png" class="hkdwkjgxlywh" alt="img">
+<style>.ionwlxwfhego{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/9b00846795a148798fc1b19dda9901f7.png" class="ionwlxwfhego" alt="img">
 </li>
 <li><p>**之后操作一定要快，先启动设置好的文件上传请求后立刻开启设置好的文件访问请求，**观察文件访问请求的字段长度:</p>
-<style>.ctcubukcykrn{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/3e76116f587f22d28f54b3a9ad5c4372.jpg" class="ctcubukcykrn" alt="3e76116f587f22d28f54b3a9ad5c4372">
+<style>.agnwgaivehyc{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/3e76116f587f22d28f54b3a9ad5c4372.jpg" class="agnwgaivehyc" alt="3e76116f587f22d28f54b3a9ad5c4372">
 </li>
 <li><p>可以发现一个字段长度明显与其他字段长度不同的结果，这张截图是最终结果，即使用<code>cat</code>指令对对于文件进行抓取读取其中的信息。</p>
 </li>
 <li><p>我们正常的流程应该是先设置<code>value</code>为<code>value=&quot;&lt;?php eval(system(&#39;ls&#39;));?&gt;&quot;</code>列出当前服务器下的文件列表:</p>
-<style>.lfqgwmyoikcj{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/7103cdbecd2eb2456ffbe9dbef901ce9.jpg" class="lfqgwmyoikcj" alt="7103cdbecd2eb2456ffbe9dbef901ce9">
+<style>.ynudccemmcnh{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/7103cdbecd2eb2456ffbe9dbef901ce9.jpg" class="ynudccemmcnh" alt="7103cdbecd2eb2456ffbe9dbef901ce9">
 </li>
 <li><p>可见,我们要抓取的文件名为:<code>upload_prgress_fl0g.php</code>,所以我们的抓取目标为<code>fl0g.php</code><br>存疑:<strong>为什么是抓取fl0g.php而不是完整的upload_progress_fl0g.php</strong></p>
 </li>
@@ -4019,6 +3988,77 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>条件竞争漏洞</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>新加入的token的初始化相关说明</title>
+    <url>/2025/01/28/%E6%96%B0%E5%8A%A0%E5%85%A5%E7%9A%84token%E7%9A%84%E5%88%9D%E5%A7%8B%E5%8C%96%E7%9B%B8%E5%85%B3%E8%AF%B4%E6%98%8E/</url>
+    <content><![CDATA[<h1 id="模型嵌入层和权重矩阵关系的理解"><a href="#模型嵌入层和权重矩阵关系的理解" class="headerlink" title="模型嵌入层和权重矩阵关系的理解"></a>模型嵌入层和权重矩阵关系的理解</h1><h2 id="模型的词嵌入层与权重矩阵"><a href="#模型的词嵌入层与权重矩阵" class="headerlink" title="模型的词嵌入层与权重矩阵"></a>模型的词嵌入层与权重矩阵</h2><p>在基于 Transformer 架构的预训练模型（如 BERT、GPT 等）中，词嵌入层（<code>Embedding Layer</code>）是模型处理输入文本的重要组件。它的主要作用是将离散的 token（例如单词、子词等）转换为连续的向量表示，以便模型能够对其进行数值计算。</p>
+<p>词嵌入层有一个权重矩阵（<code>weight</code>），这个矩阵的形状通常是 <code>(V, D)</code>，其中 <code>V</code> 是词汇表的大小，即分词器所能识别的所有 token 的数量；<code>D</code> 是嵌入向量的维度，也就是每个 token 对应的向量的长度。这个权重矩阵的每一行都对应着词汇表中一个特定 token 的嵌入向量。</p>
+<p>通俗理解:<br>每个词嵌入,即word_embedding,都是一个向量,从表现形式来看本质就是向量的坐标表示:<br>如:[0.1, 0.3, 0.96],这些数字储存了每个token的相关语义和性质<br>(V,D)<br>其中的V就是有几行这样的向量数据,即分词器能识别的所有token数量,学名叫做:<strong>词汇表</strong><br>其中的D就是每个向量的维度大小,学名就是:<strong>嵌入向量维度</strong>,比如这上面的这个向量嵌入向量维度就是3</p>
+<p>**注:**嵌入向量维度就是嵌入词</p>
+<h3 id="token-id-的含义"><a href="#token-id-的含义" class="headerlink" title="token_id 的含义"></a><code>token_id</code> 的含义</h3><p><code>token_id</code> 是通过 <code>tokenizer.convert_tokens_to_ids(&#39;entity&#39;)</code> 得到的。分词器（<code>tokenizer</code>）会为词汇表中的每个 token 分配一个唯一的整数 ID，这个 ID 就相当于该 token 在词汇表中的索引。所以，<code>token_id</code> 实际上就是 <code>&#39;entity&#39;</code> 这个 token 在词汇表中的索引值。</p>
+<h3 id="赋值操作的意义"><a href="#赋值操作的意义" class="headerlink" title="赋值操作的意义"></a>赋值操作的意义</h3><p><code>model.embeddings.word_embeddings.weight[token_id]</code> 这一操作就是从词嵌入层的权重矩阵中，根据 <code>token_id</code> 这个索引取出对应的行向量。<br>**这里相当简朴:**这里的id就是一个纯粹的索引值:<br>比如:<br><code>fruits=[&#39;apple&#39;, &#39;banana&#39;, &#39;orange&#39;]</code><br><code>print(fruits[0])</code><br>就会输出<code>apple</code>。</p>
+<p>由于这一行向量就是 <code>&#39;entity&#39;</code> 这个 token 对应的嵌入向量，所以最终 <code>token_embedding</code> 被赋予的值就是 <code>&#39;entity&#39;</code> 的嵌入向量。这个向量包含了模型在预训练过程中学习到的关于 <code>&#39;entity&#39;</code> 这个 token 的语义和语法信息。</p>
+<p>举个简单的例子，假设词嵌入层的权重矩阵如下（这里为了简化，假设词汇表大小为 4，嵌入向量维度为 3）：</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">weight = [</span><br><span class="line">    [0.1, 0.2, 0.3],  # token_id = 0 的嵌入向量</span><br><span class="line">    [0.4, 0.5, 0.6],  # token_id = 1 的嵌入向量</span><br><span class="line">    [0.7, 0.8, 0.9],  # token_id = 2 的嵌入向量</span><br><span class="line">    [1.0, 1.1, 1.2]   # token_id = 3 的嵌入向量</span><br><span class="line">]</span><br></pre></td></tr></table></figure>
+
+<p>如果 <code>&#39;entity&#39;</code> 对应的 <code>token_id</code> 是 2，那么 <code>token_embedding</code> 就会被赋值为 <code>[0.7, 0.8, 0.9]</code>。</p>
+<p>综上所述，<strong><code>token_embedding</code> 被赋予的是预训练模型中 <code>&#39;entity&#39;</code> 这个 token 对应的嵌入向量，该向量存储了模型学习到的关于这个 token 的语义信息。</strong></p>
+<h2 id="使用原有token-embedding初始化新token的过程详解"><a href="#使用原有token-embedding初始化新token的过程详解" class="headerlink" title="使用原有token embedding初始化新token的过程详解"></a>使用原有token embedding初始化新token的过程详解</h2><p>首先，为什么要用原有token embedding来初始化新token呢,因为让一个语义相近的已经预训练过的token embedding去给new token的embedding赋值的话,可以使得这个new token的embedding初始有比较完善的数据,在后续的数值更新的时候,可以更好的更新</p>
+<h2 id="看源码-手动初始化"><a href="#看源码-手动初始化" class="headerlink" title="看源码:(手动初始化)"></a>看源码:(手动初始化)</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> torch</span><br><span class="line"><span class="keyword">import</span> AutoModel, AutoTokenizer</span><br><span class="line"></span><br><span class="line">token_id = tokenizer.convert_tokens_to_ids(<span class="string">&#x27;entity&#x27;</span>)</span><br><span class="line">token_embedding = model.embeddings.word_embeddings.weight[token_id]</span><br><span class="line"><span class="built_in">print</span>(token_id)</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_added_toks+<span class="number">1</span>):</span><br><span class="line">        model.embeddings.word_embeddings.weight[-i:, :] = token_embedding.clone().detach().requires_grad_(<span class="literal">True</span>)</span><br><span class="line"><span class="built_in">print</span>(model.embeddings.word_embeddings.weight[-<span class="number">2</span>:, :])</span><br></pre></td></tr></table></figure>
+<p>对于token_embedding的赋值我们省略,这里就是把矩阵里面向量坐标给赋值给token_embedding<br>对于<code>with torch.no_grad()</code>后面的代码:</p>
+<h3 id="初始化新添加-token-的嵌入向量"><a href="#初始化新添加-token-的嵌入向量" class="headerlink" title="初始化新添加 token 的嵌入向量"></a>初始化新添加 token 的嵌入向量</h3><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> torch.no_grad():</span><br><span class="line">    <span class="keyword">for</span> i <span class="keyword">in</span> <span class="built_in">range</span>(<span class="number">1</span>, num_added_toks+<span class="number">1</span>):</span><br><span class="line">        model.embeddings.word_embeddings.weight[-i:, :] = token_embedding.clone().detach().requires_grad_(<span class="literal">True</span>)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p><code>with torch.no_grad():</code>：这是一个上下文管理器，在其作用域内，PyTorch 不会计算梯度。因为这里只是对词嵌入矩阵进行赋值操作，不需要计算梯度，使用<code>torch.no_grad()</code>可以提高计算效率，并且避免不必要的梯度记录。</p>
+</li>
+<li><p><code>for i in range(1, num_added_toks+1):</code>：假设<code>num_added_toks</code>是之前向分词器中添加新 token 的数量（比如通过<code>tokenizer.add_tokens(...)</code>方法添加新 token 后返回的添加数量）。这个循环从 1 到<code>num_added_toks</code>，用于遍历新添加的 token。</p>
+</li>
+<li><p><code>model.embeddings.word_embeddings.weight[-i:, :]</code>：<code>-i</code>是负索引，用于从词嵌入权重矩阵的末尾开始选取行。<code>[-i:, :]</code>表示从倒数第<code>i</code>行开始，选取所有列，也就是选取新添加的 token 对应的嵌入向量行（因为新添加的 token 的嵌入向量行通常会被添加到权重矩阵的末尾）。</p>
+</li>
+<li><pre><code class="language-python">token_embedding.clone().detach().requires_grad_(True)
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">  - `clone()`：创建`token_embedding`的一个副本，避免直接修改原始的嵌入向量。</span><br><span class="line">  - `detach()`：将副本从计算图中分离出来，使其不参与梯度计算（因为是从已有的嵌入向量复制）。</span><br><span class="line">  - `requires_grad_(True)`：将分离后的副本设置为需要计算梯度，这样在后续模型训练过程中，新添加 token 的嵌入向量可以随着训练进行更新。</span><br><span class="line"></span><br><span class="line">- 整行赋值语句的作用是将`token_embedding`的副本赋值给新添加 token 对应的嵌入向量行，实现用`&#x27;entity&#x27;`的嵌入向量来初始化新添加 token 的嵌入向量。</span><br><span class="line"></span><br><span class="line">- 关于这里的遍历:</span><br><span class="line"></span><br><span class="line">  最后一行的嵌入向量不会被添加两次，原因如下：</span><br><span class="line"></span><br><span class="line">  在代码 `for i in range(1, num_added_toks + 1):` 的循环中，虽然每次循环都会对 `model.embeddings.word_embeddings.weight[-i:, :]` 进行赋值操作，但本质上是一种覆盖式的赋值。</span><br><span class="line"></span><br><span class="line">  当 `i = 1` 时，`model.embeddings.word_embeddings.weight[-1:, :]` 只选取了权重矩阵的最后一行（即最后一个新添加 token 对应的嵌入向量行），然后将 `token_embedding` 赋值给这一行，此时最后一行的嵌入向量被初始化为 `token_embedding`。</span><br><span class="line"></span><br><span class="line">  当 `i = 2` 时，`model.embeddings.word_embeddings.weight[-2:, :]` 选取了权重矩阵的最后两行，然后再次将 `token_embedding` 赋值给这两行。对于最后一行来说，这并不是又添加了一次嵌入向量，而是对其进行了再次赋值，**用相同的 `token_embedding` 覆盖了之前的值（其实值本身没有变化，因为都是 `token_embedding` ）。**</span><br><span class="line"></span><br><span class="line">  当 `i` 继续增大，直到 `i = num_added_toks` 时，都是类似的覆盖式赋值操作。每一次循环的赋值操作，都是对之前已赋值的行再次用相同的 `token_embedding` 进行覆盖，而不是额外添加新的嵌入向量，所以不会出现最后一行嵌入向量被添加两次的情况。</span><br><span class="line"></span><br><span class="line">### 打印新添加 token 的嵌入向量</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">print(model.embeddings.word_embeddings.weight[-2:, :])</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+</ul>
+<p>这行代码打印词嵌入权重矩阵中最后两行的嵌入向量，也就是新添加的两个 token 的嵌入向量，用于查看初始化后的结果是否符合预期。</p>
+<p>总体而言，这段代码的核心目的是使用已有 token（<code>&#39;entity&#39;</code>）的嵌入向量来初始化新添加 token 的嵌入向量，以便模型在后续训练中能够更好地处理包含这些新 token 的文本。</p>
+]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>transformer基本结构</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>汇编硬件基础</title>
+    <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
+    <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
+<li><strong>地址</strong>总线的宽度:</li>
+<li><ul>
+<li><strong>原理</strong>：地址总线宽度决定 CPU 的寻址能力，寻址能力的计算公式为 (2^n) （n 为地址总线宽度），单位是字节（Byte）。8bit &#x3D; 1Byte。</li>
+</ul>
+</li>
+<li>储存单元:</li>
+<li><ul>
+<li>**原理：**单位为Byte,存储单元从0开始，n-1结束</li>
+<li><img src="/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/image-20250317185253083.png" class="" title="image-20250317185253083"></li>
+</ul>
+</li>
+<li><strong>数据</strong>总线宽度:</li>
+<li><ul>
+<li>原理:数据总线宽度决定了 CPU 一次能传送的数据位数，单位是位（bit），而 8 bit (&#x3D; 1) Byte ，直接根据数据总线宽度换算成字节（B）。</li>
+</ul>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>汇编语言</category>
+      </categories>
+      <tags>
+        <tag>汇编硬件</tag>
       </tags>
   </entry>
   <entry>
@@ -4095,35 +4135,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>正则匹配</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>汇编硬件基础</title>
-    <url>/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/</url>
-    <content><![CDATA[<h1 id="三线概念"><a href="#三线概念" class="headerlink" title="三线概念"></a>三线概念</h1><h2 id="名词辨析"><a href="#名词辨析" class="headerlink" title="名词辨析"></a>名词辨析</h2><ul>
-<li><strong>地址</strong>总线的宽度:</li>
-<li><ul>
-<li><strong>原理</strong>：地址总线宽度决定 CPU 的寻址能力，寻址能力的计算公式为 (2^n) （n 为地址总线宽度），单位是字节（Byte）。8bit &#x3D; 1Byte。</li>
-</ul>
-</li>
-<li>储存单元:</li>
-<li><ul>
-<li>**原理：**单位为Byte,存储单元从0开始，n-1结束</li>
-<li><img src="/2025/03/17/%E6%B1%87%E7%BC%96%E7%A1%AC%E4%BB%B6%E5%9F%BA%E7%A1%80/image-20250317185253083.png" class="" title="image-20250317185253083"></li>
-</ul>
-</li>
-<li><strong>数据</strong>总线宽度:</li>
-<li><ul>
-<li>原理:数据总线宽度决定了 CPU 一次能传送的数据位数，单位是位（bit），而 8 bit (&#x3D; 1) Byte ，直接根据数据总线宽度换算成字节（B）。</li>
-</ul>
-</li>
-</ul>
-]]></content>
-      <categories>
-        <category>汇编语言</category>
-      </categories>
-      <tags>
-        <tag>汇编硬件</tag>
       </tags>
   </entry>
   <entry>
