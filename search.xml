@@ -37,12 +37,6 @@
       </tags>
   </entry>
   <entry>
-    <title>我的第一篇博客</title>
-    <url>/2025/01/11/25.1.9/</url>
-    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
-]]></content>
-  </entry>
-  <entry>
     <title>初见文件上传:[极客大挑战 2019]Upload</title>
     <url>/2025/01/19/2019-Upload/</url>
     <content><![CDATA[<h3 id="初见文件上传-极客大挑战-2019-Upload"><a href="#初见文件上传-极客大挑战-2019-Upload" class="headerlink" title="初见文件上传:[极客大挑战 2019] Upload"></a>初见文件上传:[极客大挑战 2019] Upload</h3><h4 id="进入靶机"><a href="#进入靶机" class="headerlink" title="进入靶机"></a>进入靶机</h4><img src="/2025/01/19/2019-Upload/image-20250119233053920.png" class="" title="image-20250119233053920">
@@ -98,6 +92,12 @@
       <tags>
         <tag>文件上传</tag>
       </tags>
+  </entry>
+  <entry>
+    <title>我的第一篇博客</title>
+    <url>/2025/01/11/25.1.9/</url>
+    <content><![CDATA[<h3 id="这是我的第一篇博客"><a href="#这是我的第一篇博客" class="headerlink" title="这是我的第一篇博客"></a>这是我的第一篇博客</h3><p>第一次写博客,这是一个测试</p>
+]]></content>
   </entry>
   <entry>
     <title>3.30有关川大ctf交流</title>
@@ -439,41 +439,6 @@
       </categories>
       <tags>
         <tag>ollama</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>base64以及十六进制加密绕过</title>
-    <url>/2025/04/16/base64%E4%BB%A5%E5%8F%8A%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%8A%A0%E5%AF%86%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<ul>
-<li><p>以web102为例,代码如下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$v1</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;v1&#x27;</span>];</span><br><span class="line"><span class="variable">$v2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;v2&#x27;</span>];</span><br><span class="line"><span class="variable">$v3</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;v3&#x27;</span>];</span><br><span class="line"><span class="variable">$v4</span> = <span class="title function_ invoke__">is_numeric</span>(<span class="variable">$v2</span>) <span class="keyword">and</span> <span class="title function_ invoke__">is_numeric</span>(<span class="variable">$v3</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$v4</span>)&#123;</span><br><span class="line">    <span class="variable">$s</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$v2</span>,<span class="number">2</span>);</span><br><span class="line">    <span class="variable">$str</span> = <span class="title function_ invoke__">call_user_func</span>(<span class="variable">$v1</span>,<span class="variable">$s</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$str</span>;</span><br><span class="line">    <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$v3</span>,<span class="variable">$str</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;hacker&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-<h1 id="主要思路-相当新颖"><a href="#主要思路-相当新颖" class="headerlink" title="主要思路(相当新颖):"></a>主要思路(相当新颖):</h1><ul>
-<li>这道题主要使用了这几个点对相关函数进行绕过:<ul>
-<li>使用先<code>base64</code>加密,之后采用<code>bin2hex</code>函数将原始二进制数据转化为16进制数据,该16进制数据最多只会存在一个字母<code>e</code>,会被识别为科学计数法。可以让我们绕过<code>is_numeric</code>函数。</li>
-<li>之后便是使用伪装成科学技术法表示的恶意代码,在首位随便加上两个数字如<code>22</code>,绕过<code>substr</code>函数，题目中该函数的第一和第二位参数分别是要截取的目标字符和起始字符的索引值。</li>
-<li>之后便是使用<code>file_put_contents</code>函数，将我们的密文传入新建的文件，把<code>file_put_content</code>函数的首位参数以<code>php</code>伪协议的方式来写，可以让被写入文件的数据经过这样一个伪协议的处理后再写入，即再反向解码，把恶意代码写入文件。</li>
-</ul>
-</li>
-</ul>
-<h1 id="几个点详细介绍"><a href="#几个点详细介绍" class="headerlink" title="几个点详细介绍"></a>几个点详细介绍</h1><h2 id="双重加密"><a href="#双重加密" class="headerlink" title="双重加密"></a>双重加密</h2><ul>
-<li>我们的原始恶意代码:<code>&lt;?= &#39;cat *&#39;;</code>,注解:<br>这里的**`<code>**符号,如同</code>system<code>和</code>passthru<code>函数,用于执行外部操作环境的指令。 与</code>system<code>和</code>passthru<code>最大的区别就是它不会返回布尔值，它只会返回一个执行后的字符串,可以用变量接收,并用于后续操作。 **这里为什么我们需要使用这个函数?而不是另外两种执行外部操作环境命令的指令?** 因为进行双重加密后，我们需要让加密结果最多只留字母</code>e&#96;,(科学计数法在php中的表示可以不分大小写)。<br>所以要让原命令的组成尽量简单，不要有太多多余字符。</li>
-</ul>
-<h2 id="substr绕过"><a href="#substr绕过" class="headerlink" title="substr绕过"></a><code>substr</code>绕过</h2><ul>
-<li>对于<code>substr</code>的绕过，请牢记,在我们需要的密文前加<code>n</code>位无效数字,让该函数直接截取到我们的恶意代码。</li>
-</ul>
-<h2 id="file-put-contents与php伪协议"><a href="#file-put-contents与php伪协议" class="headerlink" title="file_put_contents与php伪协议"></a><code>file_put_contents</code>与php伪协议</h2><ul>
-<li><p>对于该函数,第一个参数为要写入的目标文件名，第二个参数为要写入文件的字符串内容。</p>
-</li>
-<li><p>若我们在这题构建这样的payloads:<br>题目源码:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$v1</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;v1&#x27;</span>];</span><br><span class="line"><span class="variable">$v2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;v2&#x27;</span>];</span><br><span class="line"><span class="variable">$v3</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;v3&#x27;</span>];</span><br><span class="line"><span class="variable">$v4</span> = <span class="title function_ invoke__">is_numeric</span>(<span class="variable">$v2</span>) <span class="keyword">and</span> <span class="title function_ invoke__">is_numeric</span>(<span class="variable">$v3</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$v4</span>)&#123;</span><br><span class="line">    <span class="variable">$s</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$v2</span>,<span class="number">2</span>);<span class="comment">//v2传入双重加密过后的密文</span></span><br><span class="line">    <span class="variable">$str</span> = <span class="title function_ invoke__">call_user_func</span>(<span class="variable">$v1</span>,<span class="variable">$s</span>);<span class="comment">//v1传入hex2bin</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$str</span>;</span><br><span class="line">    <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$v3</span>,<span class="variable">$str</span>);</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    v3的payloads传入php://filter/write=convert.base64-decode/resource=1.php</span></span><br><span class="line"><span class="comment">    这里在传入v3的payload,放在file_put_contents中首位参数,那么二号参数，即字符串，在传入的时候</span></span><br><span class="line"><span class="comment">    就会通过base64的解码,并且传入resource中的1.php。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;hacker&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
-</ul>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>php特性</tag>
       </tags>
   </entry>
   <entry>
@@ -1157,6 +1122,41 @@
       </tags>
   </entry>
   <entry>
+    <title>base64以及十六进制加密绕过</title>
+    <url>/2025/04/16/base64%E4%BB%A5%E5%8F%8A%E5%8D%81%E5%85%AD%E8%BF%9B%E5%88%B6%E5%8A%A0%E5%AF%86%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<ul>
+<li><p>以web102为例,代码如下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$v1</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;v1&#x27;</span>];</span><br><span class="line"><span class="variable">$v2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;v2&#x27;</span>];</span><br><span class="line"><span class="variable">$v3</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;v3&#x27;</span>];</span><br><span class="line"><span class="variable">$v4</span> = <span class="title function_ invoke__">is_numeric</span>(<span class="variable">$v2</span>) <span class="keyword">and</span> <span class="title function_ invoke__">is_numeric</span>(<span class="variable">$v3</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$v4</span>)&#123;</span><br><span class="line">    <span class="variable">$s</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$v2</span>,<span class="number">2</span>);</span><br><span class="line">    <span class="variable">$str</span> = <span class="title function_ invoke__">call_user_func</span>(<span class="variable">$v1</span>,<span class="variable">$s</span>);</span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$str</span>;</span><br><span class="line">    <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$v3</span>,<span class="variable">$str</span>);</span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;hacker&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="主要思路-相当新颖"><a href="#主要思路-相当新颖" class="headerlink" title="主要思路(相当新颖):"></a>主要思路(相当新颖):</h1><ul>
+<li>这道题主要使用了这几个点对相关函数进行绕过:<ul>
+<li>使用先<code>base64</code>加密,之后采用<code>bin2hex</code>函数将原始二进制数据转化为16进制数据,该16进制数据最多只会存在一个字母<code>e</code>,会被识别为科学计数法。可以让我们绕过<code>is_numeric</code>函数。</li>
+<li>之后便是使用伪装成科学技术法表示的恶意代码,在首位随便加上两个数字如<code>22</code>,绕过<code>substr</code>函数，题目中该函数的第一和第二位参数分别是要截取的目标字符和起始字符的索引值。</li>
+<li>之后便是使用<code>file_put_contents</code>函数，将我们的密文传入新建的文件，把<code>file_put_content</code>函数的首位参数以<code>php</code>伪协议的方式来写，可以让被写入文件的数据经过这样一个伪协议的处理后再写入，即再反向解码，把恶意代码写入文件。</li>
+</ul>
+</li>
+</ul>
+<h1 id="几个点详细介绍"><a href="#几个点详细介绍" class="headerlink" title="几个点详细介绍"></a>几个点详细介绍</h1><h2 id="双重加密"><a href="#双重加密" class="headerlink" title="双重加密"></a>双重加密</h2><ul>
+<li>我们的原始恶意代码:<code>&lt;?= &#39;cat *&#39;;</code>,注解:<br>这里的**`<code>**符号,如同</code>system<code>和</code>passthru<code>函数,用于执行外部操作环境的指令。 与</code>system<code>和</code>passthru<code>最大的区别就是它不会返回布尔值，它只会返回一个执行后的字符串,可以用变量接收,并用于后续操作。 **这里为什么我们需要使用这个函数?而不是另外两种执行外部操作环境命令的指令?** 因为进行双重加密后，我们需要让加密结果最多只留字母</code>e&#96;,(科学计数法在php中的表示可以不分大小写)。<br>所以要让原命令的组成尽量简单，不要有太多多余字符。</li>
+</ul>
+<h2 id="substr绕过"><a href="#substr绕过" class="headerlink" title="substr绕过"></a><code>substr</code>绕过</h2><ul>
+<li>对于<code>substr</code>的绕过，请牢记,在我们需要的密文前加<code>n</code>位无效数字,让该函数直接截取到我们的恶意代码。</li>
+</ul>
+<h2 id="file-put-contents与php伪协议"><a href="#file-put-contents与php伪协议" class="headerlink" title="file_put_contents与php伪协议"></a><code>file_put_contents</code>与php伪协议</h2><ul>
+<li><p>对于该函数,第一个参数为要写入的目标文件名，第二个参数为要写入文件的字符串内容。</p>
+</li>
+<li><p>若我们在这题构建这样的payloads:<br>题目源码:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"> </span><br><span class="line"><span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line"><span class="variable">$v1</span> = <span class="variable">$_POST</span>[<span class="string">&#x27;v1&#x27;</span>];</span><br><span class="line"><span class="variable">$v2</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;v2&#x27;</span>];</span><br><span class="line"><span class="variable">$v3</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;v3&#x27;</span>];</span><br><span class="line"><span class="variable">$v4</span> = <span class="title function_ invoke__">is_numeric</span>(<span class="variable">$v2</span>) <span class="keyword">and</span> <span class="title function_ invoke__">is_numeric</span>(<span class="variable">$v3</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="variable">$v4</span>)&#123;</span><br><span class="line">    <span class="variable">$s</span> = <span class="title function_ invoke__">substr</span>(<span class="variable">$v2</span>,<span class="number">2</span>);<span class="comment">//v2传入双重加密过后的密文</span></span><br><span class="line">    <span class="variable">$str</span> = <span class="title function_ invoke__">call_user_func</span>(<span class="variable">$v1</span>,<span class="variable">$s</span>);<span class="comment">//v1传入hex2bin</span></span><br><span class="line">    <span class="keyword">echo</span> <span class="variable">$str</span>;</span><br><span class="line">    <span class="title function_ invoke__">file_put_contents</span>(<span class="variable">$v3</span>,<span class="variable">$str</span>);</span><br><span class="line">    <span class="comment">/*</span></span><br><span class="line"><span class="comment">    v3的payloads传入php://filter/write=convert.base64-decode/resource=1.php</span></span><br><span class="line"><span class="comment">    这里在传入v3的payload,放在file_put_contents中首位参数,那么二号参数，即字符串，在传入的时候</span></span><br><span class="line"><span class="comment">    就会通过base64的解码,并且传入resource中的1.php。</span></span><br><span class="line"><span class="comment">    */</span></span><br><span class="line">&#125;</span><br><span class="line"><span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="keyword">die</span>(<span class="string">&#x27;hacker&#x27;</span>);</span><br><span class="line">&#125;</span><br><span class="line"> </span><br><span class="line"><span class="meta">?&gt;</span></span><br></pre></td></tr></table></figure></li>
+</ul>
+]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>php特性</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>bp爆破中的变量赋值</title>
     <url>/2025/01/13/bp%E7%88%86%E7%A0%B4%E4%B8%AD%E7%9A%84%E5%8F%98%E9%87%8F%E8%B5%8B%E5%80%BC/</url>
     <content><![CDATA[<h3 id="有关密码用户名的提交"><a href="#有关密码用户名的提交" class="headerlink" title="有关密码用户名的提交"></a>有关密码用户名的提交</h3><ul>
@@ -1429,6 +1429,11 @@
       </tags>
   </entry>
   <entry>
+    <title>c语言细节</title>
+    <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
+    <content><![CDATA[]]></content>
+  </entry>
+  <entry>
     <title>c语言标准库及其函数</title>
     <url>/2025/03/24/c%E8%AF%AD%E8%A8%80%E6%A0%87%E5%87%86%E5%BA%93%E5%8F%8A%E5%85%B6%E5%87%BD%E6%95%B0/</url>
     <content><![CDATA[<h1 id=""><a href="#" class="headerlink" title="&lt;stdio.h&gt;"></a>&lt;stdio.h&gt;</h1><h2 id="scanf-函数"><a href="#scanf-函数" class="headerlink" title="scanf()函数"></a><code>scanf()</code>函数</h2><h3 id="概述"><a href="#概述" class="headerlink" title="概述"></a>概述</h3><ul>
@@ -1529,11 +1534,6 @@ void main()
       <tags>
         <tag>c语言标准库及其函数</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>c语言细节</title>
-    <url>/2025/02/08/c%E8%AF%AD%E8%A8%80%E7%BB%86%E8%8A%82/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>if代码执行机制</title>
@@ -1830,7 +1830,7 @@ void swap( int *p,int *q)
 *t=*p; *p=*q; *q=*t;
 &#125;
 //main()略..
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.qcxkiiizudws&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img qcxkiiizudws image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 这里的指针变量`t`虽然已经声明，但是没有指向任何一个内存地址，不可以用来存放其他变量的值</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int *p,int *q)</span><br><span class="line">  &#123;int *t;</span><br><span class="line">   t = (int *)malloc(sizeof(int));</span><br><span class="line">   *t = *q,*p = *q,*q = *t;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 如该代码，指针变量`t`初始已经指向了一个动态分配的地址，可以用于接收变量。</span><br><span class="line"></span><br><span class="line">#### 指针的赋值</span><br><span class="line"></span><br><span class="line">* C语言中专辑可以把变量地址赋值给同类型的指针变量，**不可以把变量和表达式地址赋值给指针**</span><br><span class="line">* 可以通过类型强制转换把一种类型的指针变量赋值给另外一种类型的指针变量。</span><br><span class="line"></span><br><span class="line">#### 函数中的操作</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int * a,int * b)&#123; //这里的&#x27;*&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = *a;</span><br><span class="line">      *a = *b;</span><br><span class="line">      *b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(&amp;a, &amp;b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 输出的结果为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  3，6</span><br><span class="line"></span><br><span class="line">* 我们可以进一步说明:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  void swap(int  a,int  b)&#123; //这里的&#x27;&#x27;符号，只是代表我们正在定义指针</span><br><span class="line">      int t = a;</span><br><span class="line">      a = b;</span><br><span class="line">      b = t;</span><br><span class="line">  &#125;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a = 6;</span><br><span class="line">      int b = 3;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d，%d\n&quot;, a,b);</span><br><span class="line">      swap(a, b);//此时传入的值是指针</span><br><span class="line">      printf(&quot;%d，%d&quot;, a,b);</span><br><span class="line">      </span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 比如上述代码，就和我们的第一组代码有差异,这里没有使用指针对变量地址进行赋值,所以输出的值为:</span><br><span class="line"></span><br><span class="line">* ```powershell</span><br><span class="line">  6，3</span><br><span class="line">  6，3</span><br><span class="line"></span><br><span class="line">* 你可以发现，它的值并没有进行调换，所以:**只有修改变量地址才是真正的修改变量的值**。</span><br><span class="line"></span><br><span class="line">#### 数组中的操作</span><br><span class="line"></span><br><span class="line">##### 基础概念:</span><br><span class="line"></span><br><span class="line">* * 数组是一个常量：</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        c = &amp;a;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 像这样进行赋值，就会报错。</span><br><span class="line"></span><br><span class="line">* 对于数组的本质</span><br><span class="line"></span><br><span class="line">* * 简单来说，**数组和指针的本质区别就是，前者为常量，不可以赋值，后者为变量，可以被赋值，**其他操作方式其实都大同小异。</span><br><span class="line"></span><br><span class="line">  * 比如我们可以看以下代码:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, *c);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里就是对类似于指针的数组`c`进行了解包,但是默认解包出来的数是数组的第一个数，即`1`,若要对下一位数进行解包,可以这样进行解包:`printf(&quot;%d&quot;, *(c+1))&#x27;;`会输出:`2` 相当于:`+1`是为了移位,`*`是为了解包。</span><br><span class="line"></span><br><span class="line">  * 这里我们可以知道一个规律是怎么来的了:**为什么编程语言的索引都是从0开始?**因为,在c语言中；对于数组`c`,`*(c+1)`和`c[1]`都是一个道理,为了保证形式上的相同，所以这样干。**数组索引不可以使用&#x27;()&#x27;**</span><br><span class="line"></span><br><span class="line">  * 我们这里可以继续说:</span><br><span class="line"></span><br><span class="line">  * ```c</span><br><span class="line">    #include &lt;stdio.h&gt;</span><br><span class="line">    </span><br><span class="line">    int main()&#123;</span><br><span class="line">        int a = 6;</span><br><span class="line">        int b = 3;</span><br><span class="line">        int c[3] = &#123;1,2,3&#125;;</span><br><span class="line">    </span><br><span class="line">        int * p = c;</span><br><span class="line">    </span><br><span class="line">        printf(&quot;%d&quot;, p[1]);</span><br><span class="line">        </span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">  * 这里一样可以把指针`p`当成数组进行索引分配。输出`2`。</span><br><span class="line"></span><br><span class="line">  ##### 指针数组:</span><br><span class="line"></span><br><span class="line">  * &#123;% asset_img image-20250302175735900.png image-20250302175735900 %&#125;</span><br><span class="line"></span><br><span class="line">* 这里我们出现了疑问:为什么我们使用int a = 6;int * p = a就会出错，而使用b = &#123;1,2,3&#125;;int * p = b;就不会出错呢,数组就不出错?</span><br><span class="line"></span><br><span class="line">* 原因如下:</span><br><span class="line"></span><br><span class="line">* `int a = 6; int *p = a;` 出错原因</span><br><span class="line"></span><br><span class="line">  - `int *p` 声明了一个指针变量`p`，指针变量是用来存储内存地址的，它要求赋值给它的应该是一个合法的内存地址。</span><br><span class="line">  - 而`int a = 6;` 定义了一个整型变量`a`并初始化为`6`，`6`只是一个普通的整数值，并非内存地址，所以直接将`a`的值赋给指针变量`p`，会导致类型不匹配错误，编译器会报错。正确的做法应该是将`a`的地址赋给`p`，即`int *p = &amp;a;`，这里`&amp;`是取地址运算符，`&amp;a`表示获取变量`a`在内存中的地址。</span><br><span class="line"></span><br><span class="line">* 数组情况不出错的原因。</span><br><span class="line"></span><br><span class="line">  - 在 C 语言中，数组名在表达式中使用时，会被隐式转换为指向数组首元素的指针。当定义`int b[] = &#123;1,2,3&#125;;` 时，`b` 代表数组`b`的首地址，它的类型本质上是`int *` （指向`int`类型的指针） 。</span><br><span class="line">  - 所以`int *p = b;` 这种写法是将数组`b`的首地址赋值给指针变量`p`，两者类型匹配，因此不会出错，此时`p`就指向了数组`b`的第一个元素，可以通过`p`来操作数组元素，比如`p[0]` 等价于`b[0]` ，都表示访问数组的第一个元素`1`。</span><br><span class="line">  </span><br><span class="line">* **这里我们可以进行一个总结：**</span><br><span class="line"></span><br><span class="line">* * 在 C 语言中对于数组`a[3]` ，在很多情况下数组名`a`会被隐式转换为指向数组首元素的地址：</span><br><span class="line"></span><br><span class="line">    - **赋值场景**：当把数组名赋值给指针变量时，如`int *p = a;` ，这里数组名`a`就被当作指向数组首元素`a[0]`的地址，将该地址赋给指针`p` ，使`p`也指向数组首元素。</span><br><span class="line">    - **表达式场景**：在涉及地址计算和操作的表达式中，例如`a + 1`，这里`a`同样被视为指向数组首元素的地址，`a + 1`表示指向数组第二个元素`a[1]`的地址 。</span><br><span class="line">    - **函数参数传递场景**：当数组作为函数参数时，比如定义函数`void func(int arr[])` ，调用`func(a)` ，实际上传递给函数的是数组`a`首元素的地址，在函数内部`arr`就相当于一个指向传入数组首元素的指针。</span><br><span class="line"></span><br><span class="line">    不过要注意，数组名在`sizeof`运算符中例外，`sizeof(a)`得到的是整个数组占用的字节数，此时`a`不被当作指针，而是代表整个数组 。</span><br><span class="line"></span><br><span class="line">* 对于指针与数组:</span><br><span class="line"></span><br><span class="line">* * 比如:`int *p = a `,这里也是把数组`a`首位元素地址赋值给了新定义的整型指针`p`,然后我们就可以用:`a[i]`以及`*(a+i)`、`*(p+i)`、`p[i]`这些方法对元素进行移动要注意:没有`*a[i]`或`*p[i]`的写法。</span><br><span class="line"></span><br><span class="line">#### 指针数组与高维数组的详细理解</span><br><span class="line"></span><br><span class="line">* 例子:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  </span><br><span class="line">  int main()&#123;</span><br><span class="line">      int a[3][4] = &#123;&#123;1,2,3,4&#125;,&#123;5,6,7,8&#125;,&#123;9,10,11,12&#125;&#125;, *ap[3];</span><br><span class="line">  </span><br><span class="line">      for(int i=0; i&lt;3; i++)&#123;</span><br><span class="line">          ap[i] = a[i];</span><br><span class="line">      &#125;</span><br><span class="line">      </span><br><span class="line">      printf(&quot;%d&quot;, **(ap+1));//这一行可以改为:*(ap+1),ap[1],*ap[1],*(ap[1]+1)</span><br><span class="line">  </span><br><span class="line">      return 0;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">* 首先对于`for(int i=0; i&lt;3; i++)`这行代码:</span><br><span class="line"></span><br><span class="line">* * 在高维数组中(比如这里的二维数组),这里a[i]就是第i行的第一个数字的地址。</span><br><span class="line">  * 而ap[i]是一个指针,(类型:`*int`)在这里,就把就是第i行的第一个数字的**地址**赋值给了`ap[i]`,如果是字符串的话,比如:`str[2][10] = &#123;&quot;aaa&quot;,&quot;bbbbb&quot;&#125;`，这种，要让指针数组(`strp`),指向数组:`strp[i] = str[i]`，那么这里指针代表的是蒂耶戈字符串所有的地址。</span><br><span class="line">  * 而`ap`代表的就是指向元素为指针的数组的首位元素，即指针的指针:类型:`**int`,所以，要进行两次解包才行:`**(ap+1)`</span><br><span class="line">  * 所以ap[1]呈现出来的是一个地址而非具体值，因为数组`ap`的元素是指针，指向了地址,这里就和一维数组不一样，一维数组使用这样的中括号索引就是具体值，而在指针数列里，这里的具体值则是地址，所以，我使用`*ap[1]`就会得到具体值</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### 指针数组以及指针的指针</span><br><span class="line"></span><br><span class="line">##### 指针数组</span><br><span class="line"></span><br><span class="line">* 比如:</span><br><span class="line">* &#123;% asset_img image-20250303075709855.png image-20250303075709855 %&#125;</span><br><span class="line">* 使用语法`char *s[6]`就是定义一个指针数组并且对其初始化,6个指针分别对应6个字符串。</span><br><span class="line"></span><br><span class="line">#### 自定义数据结构里面的指针</span><br><span class="line"></span><br><span class="line">* 有以下例题:</span><br><span class="line">* &lt;style&gt;.slixhokgcglt&#123;zoom:150%;&#125;&lt;/style&gt;&#123;% asset_img slixhokgcglt image-20250305135039466.png &#x27;&quot;&quot;&quot;image-20250305135039466&quot;&#x27; %&#125;</span><br><span class="line">* 要点一:对于`struct st a[3] = &#123;5,&amp;a[0], 6,&amp;a[1], 7,&amp;a[2]&#125;, *p;`这里由于该结构在初始化的时候，需要两个值来初始化，所以`5,&amp;a[0]`就构成了数组`a`的第一个元素`a[0]`的初始化内容 ，`6,&amp;a[1]` 、`7,&amp;a[2]`分别对应`a[1]`和`a[2]`的初始化内容。</span><br><span class="line">* 要点二:这里对`st`数据结构数组的值的导入，比如:`5,&amp;a[0]`,这里第二个值为`&amp;a[0]`，就是对`st *next`的赋值，即指向的下一个元素是它本身。</span><br><span class="line">* 要点三:指针的数据结构必须和要指向的目标元素的类型相同，才可以进行指向。</span><br><span class="line">* 要点四:`p=&amp;a[0]`,这里就是指向数组a的第一个元素的的地址，包含：`(int n ,struct st *next)`,我们对指针进行移动:`(++p)`,再进行指向:`-&gt;`,**其中:`-&gt;`这个方法就已经对数据结构其中的元素进行了解包**,所以不需要`*p`对数据解包了。</span><br><span class="line"></span><br><span class="line">#### 指针在动态内存中的操作</span><br><span class="line"></span><br><span class="line">* 如例题:</span><br><span class="line"></span><br><span class="line">* ```c</span><br><span class="line">  #include &lt;stdio.h&gt;</span><br><span class="line">  #include &lt;string.h&gt;</span><br><span class="line">  #include &lt;stdlib.h&gt;</span><br><span class="line">  void main()</span><br><span class="line">  &#123;</span><br><span class="line">      char *p1,*p2;</span><br><span class="line">      p1=p2=(char *)malloc(sizeof(char)*10);</span><br><span class="line">      strcpy(p1,&quot;malloc&quot;);</span><br><span class="line">      strcpy(p2,p1 + 1);</span><br><span class="line">      printf(&quot;%c%c\n&quot;,p1[0],p2[0]);</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
 </code></pre>
 </li>
 <li><p>问:最后输出的值是什么</p>
@@ -2488,11 +2488,22 @@ fclose($file);
       </tags>
   </entry>
   <entry>
+    <title>php比较字符1</title>
+    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
+    <content><![CDATA[]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>php比较字符</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>php特性入门(持续更新)</title>
     <url>/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/</url>
     <content><![CDATA[<h1 id="持续更新php特性知识"><a href="#持续更新php特性知识" class="headerlink" title="持续更新php特性知识"></a>持续更新php特性知识</h1><h1 id="in-array函数漏洞"><a href="#in-array函数漏洞" class="headerlink" title="in_array函数漏洞"></a>in_array函数漏洞</h1><ul>
 <li>如题:(ctfshow web99)</li>
-<li><style>.lfdwhuwqngwi{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="lfdwhuwqngwi" alt="image-20250405202932475"></li>
+<li><style>.vpokajelndce{zoom: 50%;}</style><img src="/2025/04/05/php%E7%89%B9%E6%80%A7%E5%85%A5%E9%97%A8/image-20250405202932475.png" class="vpokajelndce" alt="image-20250405202932475"></li>
 <li>这里<code>rand(1,$i)</code>是在从<code>1</code>到<code>$i</code>之间随机选择一个数输出。</li>
 <li><strong>关于in_array</strong>函数的机制:<ul>
 <li>格式:<code>bool in_array ( mixed $needle , array $haystack [, bool $strict = FALSE ] )</code>,即首位参数为需查询的数值，第二个参数为目标数组，<strong>最后一个参数为是否为严格比较</strong>。</li>
@@ -2551,14 +2562,17 @@ fclose($file);
       </tags>
   </entry>
   <entry>
-    <title>php比较字符1</title>
-    <url>/2025/01/11/php%E6%AF%94%E8%BE%83%E5%AD%97%E7%AC%A61/</url>
-    <content><![CDATA[]]></content>
+    <title>php随机数的解释</title>
+    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
+    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
+<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
+<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
+]]></content>
       <categories>
         <category>php</category>
       </categories>
       <tags>
-        <tag>php比较字符</tag>
+        <tag>php随机数函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2622,20 +2636,6 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       </categories>
       <tags>
         <tag>php超全局变量</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>php随机数的解释</title>
-    <url>/2025/01/13/php%E9%9A%8F%E6%9C%BA%E6%95%B0%E7%9A%84%E8%A7%A3%E9%87%8A/</url>
-    <content><![CDATA[<h4 id="mt-rand-函数对mt-srand-函数的继承"><a href="#mt-rand-函数对mt-srand-函数的继承" class="headerlink" title="mt_rand()函数对mt_srand()函数的继承"></a>mt_rand()函数对mt_srand()函数的继承</h4><p>如图下:</p>
-<figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 输出另一个随机数</span></span><br><span class="line"><span class="title function_ invoke__">mt_srand</span>(<span class="number">1</span>);</span><br><span class="line"><span class="keyword">echo</span> <span class="string">&quot;&lt;br&gt;&quot;</span>;</span><br><span class="line"><span class="keyword">echo</span> <span class="title function_ invoke__">mt_rand</span>(); <span class="comment">// 会输出与第一次使用 mt_srand(1) 后 mt_rand() 生成的第一个数相同的数</span></span><br></pre></td></tr></table></figure>
-<p>mt_srand()函数是用来设置随机数种子的，在第一个mt_rand函数调用后,会再次生成一个随机数,<br>在第二个mt_rand函数调用后,会根据第一次的随机数再次生成另一个随机数,以此类推。<br>而到了mt_srand(1)后,随机数种子被重置,<br>所以在第二次使用mt_srand播种后在下面那个mt_rand()调用中,会会生成与第一次生成的随机数相同的数。</p>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>php随机数函数</tag>
       </tags>
   </entry>
   <entry>
@@ -2706,9 +2706,83 @@ $temp_file = $_FILES[&#39;upload_file&#39;][&#39;tmp_name&#39;];//要把临时�
       </tags>
   </entry>
   <entry>
+    <title>python中对模块的引入</title>
+    <url>/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/</url>
+    <content><![CDATA[<h1 id="python中对模块引入的辨析"><a href="#python中对模块引入的辨析" class="headerlink" title="python中对模块引入的辨析"></a>python中对模块引入的辨析</h1><h2 id="import-from和import的差异"><a href="#import-from和import的差异" class="headerlink" title="import..from和import的差异"></a><code>import..from</code>和<code>import</code>的差异</h2><p>首先我们要说明:</p>
+<p>依赖库里面是有很多个,模块的,我在今天学习的tomllib是自带模块的其中之一罢了:</p>
+<h3 id="from-tomllib-import-的情况"><a href="#from-tomllib-import-的情况" class="headerlink" title="from tomllib import * 的情况"></a><code>from tomllib import *</code> 的情况</h3><p>当使用 <code>from tomllib import *</code> 语句时，确实会将 <code>tomllib</code> 模块中所有定义的公共对象（函数、类、变量等）直接导入到当前 <code>.py</code> 文件的命名空间中。导入之后，在当前文件里可以直接使用这些对象，<strong>无需再加上模块名作为前缀</strong>。不过，这种导入方式存在命名<strong>冲突的风险。</strong></p>
+<p>例如，假设 <code>tomllib</code> 模块中有一个 <code>load</code> 函数，同时你的当前文件中也定义了一个名为 <code>load</code> 的函数，使用 <code>from tomllib import *</code> 导入后，<code>tomllib</code> 中的 <code>load</code> 函数可能会覆盖你自己定义的 <code>load</code> 函数，或者反之，从而导致意外的结果。示例如下：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 假设 tomllib 模块中有 load 函数</span></span><br><span class="line"><span class="keyword">from</span> tomllib <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设当前文件中也定义了一个 load 函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;This is my own load function.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里调用的 load 函数可能会产生混淆</span></span><br><span class="line">load()</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="import-tomllib-的情况"><a href="#import-tomllib-的情况" class="headerlink" title="import tomllib 的情况"></a><code>import tomllib</code> 的情况</h3><p>使用 <code>import tomllib</code> 语句时，Python 会将 <code>tomllib</code> 模块加载到当前程序的命名空间中，并且创建一个指向该模块的引用。虽然不是将模块中的所有函数和对象 “复制” 到当前文件的命名空间，但实际上这些函数和对象已经被加载到内存中，<strong>只是在使用时需要通过 <code>tomllib.函数名</code> 或 <code>tomllib.对象名</code> 的方式来引用。</strong></p>
+<p>这样做的好处是可以明确指出函数或对象的来源，避免命名冲突。例如：</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里明确调用的是 tomllib 模块中的 load 函数</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
+
+
+
+<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
+<li><code>from tomllib import *</code>：会将 <code>tomllib</code> 模块中的所有公共对象直接导入到当前命名空间，使用时无需加模块名前缀，但容易引发命名冲突，不建议在实际项目中大量使用。</li>
+<li><code>import tomllib</code>：将 <code>tomllib</code> 模块加载到当前程序中，通过 <code>tomllib.对象名</code> 的方式使用模块中的对象，能有效避免命名冲突，提高代码的可读性和可维护性。</li>
+</ul>
+<p>另外，还有一种折中的方式 <code>from tomllib import load</code>，这种方式只导入 <code>tomllib</code> 模块中的 <code>load</code> 函数到当前命名空间，既可以直接使用 <code>load</code> 函数，又能避免导入过多不必要的对象，减少命名冲突的可能性。</p>
+<ul>
+<li><p>除了上述的我们探讨的会引起大量冲突的情况,以下情况是对加不加前缀的最简单的解释:</p>
+<p><code>import</code>后面只要是类或者具体方法名字,由于足够具体,可不用加前缀,只要<code>import</code>后面是库或者模块,都要加前缀,因为范围太大,不管有没有<code>from</code>关键字。</p>
+<p>并且,不可以直接在<code>import</code>后面加上具体方法和类明,<code>import</code>后面只可以加库或者模块名。</p>
+</li>
+</ul>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>import辨析</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>python常见bug</title>
     <url>/2025/03/18/python%E5%B8%B8%E8%A7%81bug/</url>
     <content><![CDATA[]]></content>
+  </entry>
+  <entry>
+    <title>python异常捕获及处理</title>
+    <url>/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/</url>
+    <content><![CDATA[<h1 id="Python异常捕获与处理"><a href="#Python异常捕获与处理" class="headerlink" title="Python异常捕获与处理"></a>Python异常捕获与处理</h1><h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>例如:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> PyPDF2</span><br><span class="line"><span class="keyword">import</span> docx</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DocumentReader</span>:</span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">read_pdf</span>(<span class="params">file_path</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">                reader = PyPDF2.PdfReader(file)</span><br><span class="line">                text = <span class="string">&quot;&quot;</span></span><br><span class="line">                <span class="keyword">for</span> page <span class="keyword">in</span> reader.pages:</span><br><span class="line">                    text += page.extract_text()</span><br><span class="line">                <span class="keyword">return</span> text</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;读取PDF文件时出错: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>在这里的<code>Exception</code>:<ul>
+<li><code>Exception</code> 是 Python 中所有内建异常的基类。当你使用 <code>except Exception as e</code> 时，它意味着捕获任何类型的异常，并将异常对象赋值给变量 <code>e</code>。</li>
+<li>在这个代码块中，<code>try</code> 块尝试打开 PDF文件并读取其段落文本。如果在这个过程中发生任何问题，比如文件不存在、文件损坏或者权限不足等，都会引发异常。<code>except</code> 块捕获这些异常后，会执行其中的代码。</li>
+</ul>
+</li>
+</ul>
+<h2 id="return"><a href="#return" class="headerlink" title="return"></a>return</h2><p>还是以上面的<code>Exception</code>实例代码为例:</p>
+<p>如果<code>Exception</code>异常处理代码这里没有使用<code>return</code>，当出现异常时，程序可能会停止运行，而使用<code>return</code>可以避免这种情况，以下是具体分析：</p>
+<h3 id="无return时异常的影响"><a href="#无return时异常的影响" class="headerlink" title="无return时异常的影响"></a>无<code>return</code>时异常的影响</h3><ul>
+<li><strong>向上传播异常</strong>：当在<code>read_docx</code>函数中发生异常且没有使用<code>return</code>语句来处理时，异常会向上传播到调用<code>read_docx</code>函数的地方。如果调用者没有进一步处理该异常，异常会继续向上传播，直到到达 Python 解释器的顶层，导致整个程序崩溃，并在控制台输出异常信息。</li>
+<li><strong>程序执行中断</strong>：在异常传播的过程中，程序的执行会在抛出异常的位置中断，函数中异常发生点之后的代码将不会被执行。如果<code>read_docx</code>函数是在一个更复杂的程序流程中，比如在一个循环中读取多个文件，那么一旦出现异常，整个循环可能会终止，无法继续处理后续的文件。</li>
+</ul>
+<h3 id="使用return的作用"><a href="#使用return的作用" class="headerlink" title="使用return的作用"></a>使用<code>return</code>的作用</h3><ul>
+<li><strong>捕获并处理异常</strong>：使用<code>return</code>语句在<code>except</code>块中，可以捕获异常并返回一个特定的值（如空字符串），从而阻止异常继续向上传播。这样，程序可以继续执行调用<code>read_docx</code>函数之后的代码，而不会因为异常而中断整个程序的运行。</li>
+<li><strong>提供默认值或占位符</strong>：返回空字符串相当于提供了一个默认值或占位符，表示文件读取操作出现了问题，但程序可以继续执行下去，并根据这个返回值进行相应的处理。这使得程序具有更好的容错性和稳定性，能够在一定程度上处理各种可能出现的错误情况，而不是遇到问题就直接崩溃。</li>
+<li>和php一样,<code>return</code> 语句加空字符串同样会终止它所处的函数代码块的运行.</li>
+</ul>
+<h2 id="try-except-finally之间的联动"><a href="#try-except-finally之间的联动" class="headerlink" title="try-except-finally之间的联动:"></a>try-except-finally之间的联动:</h2><h3 id="try、except、finally-运行机制"><a href="#try、except、finally-运行机制" class="headerlink" title="try、except、finally 运行机制"></a><code>try</code>、<code>except</code>、<code>finally</code> 运行机制</h3><ol>
+<li><strong><code>try</code> 块</strong>：<code>try</code> 块中包含可能会引发异常的代码。当程序执行到 <code>try</code> 块时，会逐行执行其中的代码。如果在执行过程中没有发生异常，<code>try</code> 块中的代码会正常执行完毕，然后跳过 <code>except</code> 块（如果有），继续执行 <code>finally</code> 块（如果有）之后的代码。</li>
+<li><strong><code>except</code> 块</strong>：如果在 <code>try</code> 块中发生了异常，程序会立即停止执行 <code>try</code> 块中剩余的代码，并跳转到与之匹配的 <code>except</code> 块中执行。<code>except</code> 块用于捕获并处理异常，可以在其中进行错误处理，例如打印错误信息、进行数据回滚等。如果有多个 <code>except</code> 块，可以根据异常的类型来选择执行哪个 <code>except</code> 块。</li>
+<li><strong><code>finally</code> 块</strong>：<code>finally</code> 块是可选的，但如果存在，无论 <code>try</code> 块中是否发生异常，也无论 <code>except</code> 块是否被执行，<code>finally</code> 块中的代码都会在 <code>try</code> 和 <code>except</code> 块执行完毕后被执行。<code>finally</code> 块通常用于释放资源，如关闭文件、关闭数据库连接等，确保资源的正确清理和管理。</li>
+</ol>
+<p>通过合理使用 <code>try</code>、<code>except</code>、<code>finally</code>，可以使程序更加健壮，能够更好地处理运行过程中可能出现的异常情况，并保证资源的正确使用和释放。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python异常</tag>
+      </tags>
   </entry>
   <entry>
     <title>python杂项函数/用法积累(持续更新)</title>
@@ -2847,44 +2921,6 @@ for func in functions:
       </tags>
   </entry>
   <entry>
-    <title>python异常捕获及处理</title>
-    <url>/2025/01/29/python%E5%BC%82%E5%B8%B8%E6%8D%95%E8%8E%B7%E5%8F%8A%E5%A4%84%E7%90%86/</url>
-    <content><![CDATA[<h1 id="Python异常捕获与处理"><a href="#Python异常捕获与处理" class="headerlink" title="Python异常捕获与处理"></a>Python异常捕获与处理</h1><h2 id="Exception"><a href="#Exception" class="headerlink" title="Exception"></a>Exception</h2><p>例如:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> os</span><br><span class="line"><span class="keyword">import</span> PyPDF2</span><br><span class="line"><span class="keyword">import</span> docx</span><br><span class="line"></span><br><span class="line"><span class="keyword">class</span> <span class="title class_">DocumentReader</span>:</span><br><span class="line"><span class="meta">    @staticmethod</span></span><br><span class="line">    <span class="keyword">def</span> <span class="title function_">read_pdf</span>(<span class="params">file_path</span>):</span><br><span class="line">        <span class="keyword">try</span>:</span><br><span class="line">            <span class="keyword">with</span> <span class="built_in">open</span>(file_path, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> file:</span><br><span class="line">                reader = PyPDF2.PdfReader(file)</span><br><span class="line">                text = <span class="string">&quot;&quot;</span></span><br><span class="line">                <span class="keyword">for</span> page <span class="keyword">in</span> reader.pages:</span><br><span class="line">                    text += page.extract_text()</span><br><span class="line">                <span class="keyword">return</span> text</span><br><span class="line">        <span class="keyword">except</span> Exception <span class="keyword">as</span> e:</span><br><span class="line">            <span class="built_in">print</span>(<span class="string">f&quot;读取PDF文件时出错: <span class="subst">&#123;e&#125;</span>&quot;</span>)</span><br><span class="line">            <span class="keyword">return</span> <span class="string">&quot;&quot;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>在这里的<code>Exception</code>:<ul>
-<li><code>Exception</code> 是 Python 中所有内建异常的基类。当你使用 <code>except Exception as e</code> 时，它意味着捕获任何类型的异常，并将异常对象赋值给变量 <code>e</code>。</li>
-<li>在这个代码块中，<code>try</code> 块尝试打开 PDF文件并读取其段落文本。如果在这个过程中发生任何问题，比如文件不存在、文件损坏或者权限不足等，都会引发异常。<code>except</code> 块捕获这些异常后，会执行其中的代码。</li>
-</ul>
-</li>
-</ul>
-<h2 id="return"><a href="#return" class="headerlink" title="return"></a>return</h2><p>还是以上面的<code>Exception</code>实例代码为例:</p>
-<p>如果<code>Exception</code>异常处理代码这里没有使用<code>return</code>，当出现异常时，程序可能会停止运行，而使用<code>return</code>可以避免这种情况，以下是具体分析：</p>
-<h3 id="无return时异常的影响"><a href="#无return时异常的影响" class="headerlink" title="无return时异常的影响"></a>无<code>return</code>时异常的影响</h3><ul>
-<li><strong>向上传播异常</strong>：当在<code>read_docx</code>函数中发生异常且没有使用<code>return</code>语句来处理时，异常会向上传播到调用<code>read_docx</code>函数的地方。如果调用者没有进一步处理该异常，异常会继续向上传播，直到到达 Python 解释器的顶层，导致整个程序崩溃，并在控制台输出异常信息。</li>
-<li><strong>程序执行中断</strong>：在异常传播的过程中，程序的执行会在抛出异常的位置中断，函数中异常发生点之后的代码将不会被执行。如果<code>read_docx</code>函数是在一个更复杂的程序流程中，比如在一个循环中读取多个文件，那么一旦出现异常，整个循环可能会终止，无法继续处理后续的文件。</li>
-</ul>
-<h3 id="使用return的作用"><a href="#使用return的作用" class="headerlink" title="使用return的作用"></a>使用<code>return</code>的作用</h3><ul>
-<li><strong>捕获并处理异常</strong>：使用<code>return</code>语句在<code>except</code>块中，可以捕获异常并返回一个特定的值（如空字符串），从而阻止异常继续向上传播。这样，程序可以继续执行调用<code>read_docx</code>函数之后的代码，而不会因为异常而中断整个程序的运行。</li>
-<li><strong>提供默认值或占位符</strong>：返回空字符串相当于提供了一个默认值或占位符，表示文件读取操作出现了问题，但程序可以继续执行下去，并根据这个返回值进行相应的处理。这使得程序具有更好的容错性和稳定性，能够在一定程度上处理各种可能出现的错误情况，而不是遇到问题就直接崩溃。</li>
-<li>和php一样,<code>return</code> 语句加空字符串同样会终止它所处的函数代码块的运行.</li>
-</ul>
-<h2 id="try-except-finally之间的联动"><a href="#try-except-finally之间的联动" class="headerlink" title="try-except-finally之间的联动:"></a>try-except-finally之间的联动:</h2><h3 id="try、except、finally-运行机制"><a href="#try、except、finally-运行机制" class="headerlink" title="try、except、finally 运行机制"></a><code>try</code>、<code>except</code>、<code>finally</code> 运行机制</h3><ol>
-<li><strong><code>try</code> 块</strong>：<code>try</code> 块中包含可能会引发异常的代码。当程序执行到 <code>try</code> 块时，会逐行执行其中的代码。如果在执行过程中没有发生异常，<code>try</code> 块中的代码会正常执行完毕，然后跳过 <code>except</code> 块（如果有），继续执行 <code>finally</code> 块（如果有）之后的代码。</li>
-<li><strong><code>except</code> 块</strong>：如果在 <code>try</code> 块中发生了异常，程序会立即停止执行 <code>try</code> 块中剩余的代码，并跳转到与之匹配的 <code>except</code> 块中执行。<code>except</code> 块用于捕获并处理异常，可以在其中进行错误处理，例如打印错误信息、进行数据回滚等。如果有多个 <code>except</code> 块，可以根据异常的类型来选择执行哪个 <code>except</code> 块。</li>
-<li><strong><code>finally</code> 块</strong>：<code>finally</code> 块是可选的，但如果存在，无论 <code>try</code> 块中是否发生异常，也无论 <code>except</code> 块是否被执行，<code>finally</code> 块中的代码都会在 <code>try</code> 和 <code>except</code> 块执行完毕后被执行。<code>finally</code> 块通常用于释放资源，如关闭文件、关闭数据库连接等，确保资源的正确清理和管理。</li>
-</ol>
-<p>通过合理使用 <code>try</code>、<code>except</code>、<code>finally</code>，可以使程序更加健壮，能够更好地处理运行过程中可能出现的异常情况，并保证资源的正确使用和释放。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python异常</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>python程序运行启动代码</title>
     <url>/2025/01/26/python%E7%A8%8B%E5%BA%8F%E8%BF%90%E8%A1%8C%E5%90%AF%E5%8A%A8%E4%BB%A3%E7%A0%81/</url>
     <content><![CDATA[<h1 id="常规程序启动入口"><a href="#常规程序启动入口" class="headerlink" title="常规程序启动入口"></a>常规程序启动入口</h1><h2 id="name-启动程序"><a href="#name-启动程序" class="headerlink" title="__name__启动程序"></a><code>__name__</code>启动程序</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">if</span> __name__ = <span class="string">&#x27;__main__&#x27;</span> :</span><br><span class="line">    data : <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data,sort_dics=<span class="literal">False</span>)</span><br></pre></td></tr></table></figure>
@@ -2915,6 +2951,38 @@ for func in functions:
       </categories>
       <tags>
         <tag>py程序启动</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>python读取文件</title>
+    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
+
+<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
+<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
+<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
+<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
+<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
+<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
+<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
+</ul>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
+
+<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
+
+<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>python读取文件</tag>
       </tags>
   </entry>
   <entry>
@@ -2952,43 +3020,6 @@ print(year2)
       <tags>
         <tag>python装饰器</tag>
       </tags>
-  </entry>
-  <entry>
-    <title>python读取文件</title>
-    <url>/2025/01/26/python%E8%AF%BB%E5%8F%96%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="读取文件"><a href="#读取文件" class="headerlink" title="读取文件"></a>读取文件</h1><h2 id="使用with方法读取文件"><a href="#使用with方法读取文件" class="headerlink" title="使用with方法读取文件"></a>使用with方法读取文件</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
-
-<p>把打开的文件对象赋值给 <code>f</code>，并不是将以二进制形式只读打开后的文件内容赋值给 <code>f</code>，下面为你详细解释。</p>
-<h3 id="文件对象的概念"><a href="#文件对象的概念" class="headerlink" title="文件对象的概念"></a>文件对象的概念</h3><p>在 Python 里，当使用 <code>open()</code> 函数打开一个文件时，它会返回一个文件对象。文件对象可以理解为是 Python 程序与实际存储在磁盘上的文件之间的一个 “桥梁” 或者 “通道”，借助这个文件对象，我们可以对文件执行各种操作，像读取文件内容、向文件写入内容等。</p>
-<p>**相当于意思就是:**当我们使用open对一个文件打开之后,那就是我们告诉代码,我们已经选中这个文件了哦,把它赋值给f,意思就是:</p>
-<p><strong>f</strong>代表了这个已经被二进制形式打开的文件</p>
-<h3 id="赋值操作的含义"><a href="#赋值操作的含义" class="headerlink" title="赋值操作的含义"></a>赋值操作的含义</h3><p><code>with open(&#39;./config.toml&#39;, &#39;rb&#39;) as f:</code> 这行代码中的 <code>as f</code>，是把 <code>open()</code> 函数返回的文件对象赋值给变量 <code>f</code>。也就是说，变量 <code>f</code> 现在代表着这个打开的文件，通过 <code>f</code> 可以对文件进行相关操作，而不是把文件的内容赋值给 <code>f</code>。</p>
-<h3 id="对比文件对象和文件内容"><a href="#对比文件对象和文件内容" class="headerlink" title="对比文件对象和文件内容"></a>对比文件对象和文件内容</h3><ul>
-<li><strong>文件对象</strong>：它是一个具有多种方法和属性的 Python 对象，能够让我们和文件进行交互。例如，通过文件对象可以调用 <code>read()</code> 方法读取文件内容、<code>write()</code> 方法写入文件内容、<code>close()</code> 方法关闭文件等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    <span class="built_in">print</span>(<span class="built_in">type</span>(f))  <span class="comment"># 输出 &lt;class &#x27;_io.TextIOWrapper&#x27;&gt;</span></span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><strong>文件内容</strong>：指的是存储在文件中的实际数据。要获取文件内容，需要调用文件对象的读取方法，比如 <code>read()</code>、<code>readline()</code> 或者 <code>readlines()</code> 等。</li>
-</ul>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;test.txt&#x27;</span>, <span class="string">&#x27;r&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># 通过文件对象 f 的 read() 方法读取文件内容</span></span><br><span class="line">    content = f.read()</span><br><span class="line">    <span class="built_in">print</span>(content)</span><br></pre></td></tr></table></figure>
-
-<h3 id="结合-tomllib-的例子"><a href="#结合-tomllib-的例子" class="headerlink" title="结合 tomllib 的例子"></a>结合 <code>tomllib</code> 的例子</h3><p>在使用 <code>tomllib.load(f)</code> 时，<code>f</code> 是文件对象，<code>tomllib.load()</code> 函数会通过这个文件对象去读取文件中的内容，并将其解析成 Python 字典。这里传递的是文件对象，而不是文件内容。</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    <span class="comment"># f 是文件对象</span></span><br><span class="line">    data = tomllib.load(f)  <span class="comment"># tomllib.load() 通过文件对象 f 读取并解析文件内容</span></span><br><span class="line"><span class="built_in">print</span>(data)</span><br></pre></td></tr></table></figure>
-
-<p>综上所述，把打开的文件对象赋值给 <code>f</code> 后，<code>f</code> 代表着与文件进行交互的接口，而不是文件的实际内容。要获取文件内容，需要使用文件对象提供的读取方法。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>python读取文件</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>sqlite库学习</title>
-    <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
-    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>re库</title>
@@ -3044,22 +3075,9 @@ print(result.group())
       </tags>
   </entry>
   <entry>
-    <title>toml配置文件</title>
-    <url>/2025/01/26/toml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
-    <content><![CDATA[<h1 id="toml配置文件"><a href="#toml配置文件" class="headerlink" title="toml配置文件"></a>toml配置文件</h1><h2 id="有关输出的简单例子"><a href="#有关输出的简单例子" class="headerlink" title="有关输出的简单例子:"></a>有关输出的简单例子:</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_toml</span>() -&gt; <span class="built_in">dict</span>: </span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f: </span><br><span class="line">        toml_data: <span class="built_in">dict</span> = tomllib.load(f)</span><br><span class="line">    <span class="keyword">return</span> toml_data</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    data: <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data, sort_dicts=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#解析toml文件并且返回一个字典</span></span><br><span class="line"><span class="comment">#打开toml文件,以只读模式,文件对象赋值给变量f</span></span><br><span class="line"><span class="comment">#箭头和冒号都是注解罢了,不会影响实际函数的运行,只是为了让代码更加易读</span></span><br><span class="line"><span class="comment">#调用tomllib.load()函数,传入文件对象f,解析toml文件,并返回一个字典</span></span><br></pre></td></tr></table></figure>
-
-<p>在该main.py目录下还有另外一个config.toml配置文件,</p>
-<h3 id="函数代码块"><a href="#函数代码块" class="headerlink" title="函数代码块:"></a>函数代码块:</h3><p><code>def load_toml() -&gt; dict:</code>这里是使用箭头进行注释,表明这个函数的返回值是字典,因为,在tomllib库里面,tomllib.load()这个函数对二进制文件进行处理后就是以字典的形式返回的,所以我们要进行注释,解释这个函数的返回值是字典<br><code>toml_data: dict = tomllib.load(f)</code>并且在这个地方,就是给变量赋值的地方,也把这个变量标注为字典</p>
-<h3 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h3><p>经过及其简单的启动程序:</p>
-<p><code>if __name__ == &#39;__main__&#39;:</code></p>
-<p>代表程序启动,启动之后就会使用函数,对这个<code>config.toml</code>配置文件进行读取并且以<code>pprint</code>这样美观的方式将其输出。</p>
-]]></content>
-      <categories>
-        <category>python</category>
-      </categories>
-      <tags>
-        <tag>toml配置文件</tag>
-      </tags>
+    <title>sqlite库学习</title>
+    <url>/2025/03/05/sqlite%E5%BA%93%E5%AD%A6%E4%B9%A0/</url>
+    <content><![CDATA[]]></content>
   </entry>
   <entry>
     <title>sql注入(持续更新)</title>
@@ -3075,7 +3093,7 @@ print(result.group())
 </li>
 <li><p>个人思路:</p>
 <ul>
-<li>由于源码后还有<code>limit 1</code>的语句,个人想要注释掉这一部分的代码，已经在<code>phpstorm</code>中测试过，在<code>php</code>语言中的<code>SQL</code>语句中使用<code>sql</code>的注释符,只会注释掉<code>sql</code>语句的符号，对<code>php</code>自身的符号不影响,如:<style>.xeoypokgexnx{zoom:50%;}</style><img src="/2025/01/11/sql%E5%B8%B8%E8%A7%84%E6%B3%A8%E5%85%A5/image-20250415114151085.png" class="xeoypokgexnx" alt="image-20250415114151085">
+<li>由于源码后还有<code>limit 1</code>的语句,个人想要注释掉这一部分的代码，已经在<code>phpstorm</code>中测试过，在<code>php</code>语言中的<code>SQL</code>语句中使用<code>sql</code>的注释符,只会注释掉<code>sql</code>语句的符号，对<code>php</code>自身的符号不影响,如:<style>.opwcwcmgqvcl{zoom:50%;}</style><img src="/2025/01/11/sql%E5%B8%B8%E8%A7%84%E6%B3%A8%E5%85%A5/image-20250415114151085.png" class="opwcwcmgqvcl" alt="image-20250415114151085">
 可见,php的外部引号没有受到sql中的注释符影响</li>
 <li>所以我们构建payloads:<br><code>=flag&#39; or username = &#39;flag&#39; -- </code><br><strong>且一定注意! sql注释符需要在结尾处多加一个空格才可以起效果</strong></li>
 </ul>
@@ -3087,6 +3105,24 @@ print(result.group())
       </categories>
       <tags>
         <tag>sql注入</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>toml配置文件</title>
+    <url>/2025/01/26/toml%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6/</url>
+    <content><![CDATA[<h1 id="toml配置文件"><a href="#toml配置文件" class="headerlink" title="toml配置文件"></a>toml配置文件</h1><h2 id="有关输出的简单例子"><a href="#有关输出的简单例子" class="headerlink" title="有关输出的简单例子:"></a>有关输出的简单例子:</h2><figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"><span class="keyword">from</span> pprint <span class="keyword">import</span> pprint</span><br><span class="line"></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load_toml</span>() -&gt; <span class="built_in">dict</span>: </span><br><span class="line">    <span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;./config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f: </span><br><span class="line">        toml_data: <span class="built_in">dict</span> = tomllib.load(f)</span><br><span class="line">    <span class="keyword">return</span> toml_data</span><br><span class="line"><span class="keyword">if</span> __name__ == <span class="string">&#x27;__main__&#x27;</span>:</span><br><span class="line">    data: <span class="built_in">dict</span> = load_toml()</span><br><span class="line">    pprint(data, sort_dicts=<span class="literal">False</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment">#解析toml文件并且返回一个字典</span></span><br><span class="line"><span class="comment">#打开toml文件,以只读模式,文件对象赋值给变量f</span></span><br><span class="line"><span class="comment">#箭头和冒号都是注解罢了,不会影响实际函数的运行,只是为了让代码更加易读</span></span><br><span class="line"><span class="comment">#调用tomllib.load()函数,传入文件对象f,解析toml文件,并返回一个字典</span></span><br></pre></td></tr></table></figure>
+
+<p>在该main.py目录下还有另外一个config.toml配置文件,</p>
+<h3 id="函数代码块"><a href="#函数代码块" class="headerlink" title="函数代码块:"></a>函数代码块:</h3><p><code>def load_toml() -&gt; dict:</code>这里是使用箭头进行注释,表明这个函数的返回值是字典,因为,在tomllib库里面,tomllib.load()这个函数对二进制文件进行处理后就是以字典的形式返回的,所以我们要进行注释,解释这个函数的返回值是字典<br><code>toml_data: dict = tomllib.load(f)</code>并且在这个地方,就是给变量赋值的地方,也把这个变量标注为字典</p>
+<h3 id="程序入口"><a href="#程序入口" class="headerlink" title="程序入口"></a>程序入口</h3><p>经过及其简单的启动程序:</p>
+<p><code>if __name__ == &#39;__main__&#39;:</code></p>
+<p>代表程序启动,启动之后就会使用函数,对这个<code>config.toml</code>配置文件进行读取并且以<code>pprint</code>这样美观的方式将其输出。</p>
+]]></content>
+      <categories>
+        <category>python</category>
+      </categories>
+      <tags>
+        <tag>toml配置文件</tag>
       </tags>
   </entry>
   <entry>
@@ -3187,20 +3223,6 @@ print(result.group())
       </categories>
       <tags>
         <tag>transformer</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>个人学习感悟</title>
-    <url>/2025/03/30/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/</url>
-    <content><![CDATA[<h1 id="关于python库的学习"><a href="#关于python库的学习" class="headerlink" title="关于python库的学习"></a>关于python库的学习</h1><ul>
-<li>在学习的时候是缺什么学什么，不是一口气把库里面的东西走完，包括<code>re</code>这种自带的小库</li>
-</ul>
-]]></content>
-      <categories>
-        <category>个人安排</category>
-      </categories>
-      <tags>
-        <tag>感悟</tag>
       </tags>
   </entry>
   <entry>
@@ -3377,7 +3399,7 @@ print(result.group())
 <li><strong>定义</strong>：关系模式中的每个属性都不可再分，即属性是原子的。并且主属性（主键）不能为空且不重复 。例如学生选课关系模式中，每个属性如 “学号”“课程号” 等都不能再拆分成更小的子属性 ，这是关系型数据库最基本要求。</li>
 <li>比如:</li>
 </ul>
-<style>.wslplmphqijj{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="wslplmphqijj" alt="image-20250324145245672">
+<style>.lkvxjvigfpwk{zoom:50%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324145245672.png" class="lkvxjvigfpwk" alt="image-20250324145245672">
 
 <ul>
 <li>这里的歌手一列含有两个元素，不符合原子化的规范。比如学习成绩，这一栏就会有如:<code>&#123;&quot;英语&quot;:100,&quot;数学&quot;:100&#125;</code>的情况，这一栏就不符合原子化的原则，即不为1NF的规则。</li>
@@ -3397,9 +3419,9 @@ print(result.group())
 <li>基本介绍</li>
 <li>**定义：**第三范式（3NF）要求关系模式在满足第二范式（2NF）的基础上，不存在非主属性对主键的传递函数依赖 。</li>
 <li>举例：</li>
-<li><style>.kgnpyidrmogp{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="kgnpyidrmogp" alt="image-20250324153727673"></li>
+<li><style>.xcdjbubxlnfr{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153727673.png" class="xcdjbubxlnfr" alt="image-20250324153727673"></li>
 <li>相当于横向有依赖。其解决方法也是把表拆开。</li>
-<li><style>.tfcjqnvgemoh{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="tfcjqnvgemoh" alt="image-20250324153908868"></li>
+<li><style>.utsjjkyubqof{zoom: 25%;}</style><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324153908868.png" class="utsjjkyubqof" alt="image-20250324153908868"></li>
 <li>解决方法如图所示。</li>
 </ul>
 <h3 id="BCNF"><a href="#BCNF" class="headerlink" title="BCNF"></a>BCNF</h3><h2 id="例题"><a href="#例题" class="headerlink" title="例题"></a>例题</h2><h3 id="例题一"><a href="#例题一" class="headerlink" title="例题一"></a>例题一</h3><img src="/2025/03/19/%E4%BA%8C%E7%BA%A7%E9%80%9A%E8%AF%86/image-20250324154755016.png" class="" title="image-20250324154755016">
@@ -3452,6 +3474,20 @@ print(result.group())
       </categories>
       <tags>
         <tag>计算机基础</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>个人学习感悟</title>
+    <url>/2025/03/30/%E4%B8%AA%E4%BA%BA%E5%AD%A6%E4%B9%A0%E6%84%9F%E6%82%9F/</url>
+    <content><![CDATA[<h1 id="关于python库的学习"><a href="#关于python库的学习" class="headerlink" title="关于python库的学习"></a>关于python库的学习</h1><ul>
+<li>在学习的时候是缺什么学什么，不是一口气把库里面的东西走完，包括<code>re</code>这种自带的小库</li>
+</ul>
+]]></content>
+      <categories>
+        <category>个人安排</category>
+      </categories>
+      <tags>
+        <tag>感悟</tag>
       </tags>
   </entry>
   <entry>
@@ -3630,23 +3666,6 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>命令执行:使用文件包含绕过</title>
-    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
-    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
-<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
-<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
-<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
-]]></content>
-      <categories>
-        <category>ctfshow web</category>
-      </categories>
-      <tags>
-        <tag>命令执行</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>命令执行绕过符号总结</title>
     <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C%E7%BB%95%E8%BF%87%E7%AC%A6%E5%8F%B7%E6%80%BB%E7%BB%93/</url>
     <content><![CDATA[<h3 id="命令执行绕过符号总结"><a href="#命令执行绕过符号总结" class="headerlink" title="命令执行绕过符号总结"></a>命令执行绕过符号总结</h3><p>在命令执行这种题目中我们总会遇到正则过滤,不得不使用一些特殊符号来绕过,下面是常见的符号和对应的绕过方法:</p>
@@ -3746,6 +3765,23 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
+    <title>命令执行:使用文件包含绕过</title>
+    <url>/2025/01/13/%E5%91%BD%E4%BB%A4%E6%89%A7%E8%A1%8C-%E4%BD%BF%E7%94%A8%E6%96%87%E4%BB%B6%E5%8C%85%E5%90%AB%E7%BB%95%E8%BF%87/</url>
+    <content><![CDATA[<h3 id="ctfshow-web32"><a href="#ctfshow-web32" class="headerlink" title="ctfshow web32"></a>ctfshow web32</h3><h4 id="读题和简单分析"><a href="#读题和简单分析" class="headerlink" title="读题和简单分析:"></a>读题和简单分析:</h4><figure class="highlight php"><table><tr><td class="code"><pre><span class="line"><span class="meta">&lt;?php</span></span><br><span class="line"><span class="comment">/*</span></span><br><span class="line"><span class="comment"># -*- coding: utf-8 -*-</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Author</span>: h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Date</span>:   2020-09-04 00:12:34</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified by:   h1xa</span></span><br><span class="line"><span class="comment"># <span class="doctag">@Last</span> Modified time: 2020-09-04 00:56:31</span></span><br><span class="line"><span class="comment"># <span class="doctag">@email</span>: h1xa<span class="doctag">@ctfer</span>.com</span></span><br><span class="line"><span class="comment"># <span class="doctag">@link</span>: https://ctfer.com</span></span><br><span class="line"><span class="comment"></span></span><br><span class="line"><span class="comment">*/</span></span><br><span class="line"><span class="title function_ invoke__">error_reporting</span>(<span class="number">0</span>);</span><br><span class="line"><span class="keyword">if</span>(<span class="keyword">isset</span>(<span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>]))&#123;</span><br><span class="line">    <span class="variable">$c</span> = <span class="variable">$_GET</span>[<span class="string">&#x27;c&#x27;</span>];</span><br><span class="line">    <span class="keyword">if</span>(!<span class="title function_ invoke__">preg_match</span>(<span class="string">&quot;/flag|system|php|cat|sort|shell|\.| |\&#x27;|\`|echo|\;|\(/i&quot;</span>, <span class="variable">$c</span>))&#123;</span><br><span class="line">        <span class="keyword">eval</span>(<span class="variable">$c</span>);</span><br><span class="line">    &#125;</span><br><span class="line">    </span><br><span class="line">&#125;<span class="keyword">else</span>&#123;</span><br><span class="line">    <span class="title function_ invoke__">highlight_file</span>(<span class="keyword">__FILE__</span>);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+<p>这里很简单明确:就是把shell flag php 这些关键词全部过滤了,主要是连后引号都过滤了,就不可以使用常规的命令执行了.</p>
+<h4 id="文件包含方法"><a href="#文件包含方法" class="headerlink" title="文件包含方法:"></a>文件包含方法:</h4><p>先说payloads:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“ls”);?&gt;</span><br><span class="line">/?c=include$_GET[1]?&gt;&amp;1=data://text/plain,&lt;?php system(“cat flag.php”);?&gt;</span><br></pre></td></tr></table></figure>
+<h5 id="分割符"><a href="#分割符" class="headerlink" title="分割符"></a>分割符</h5><p><strong>&amp;:</strong><br>这里就把这个指令分成了两部分:<br>前面一部分赋值给超全局变量$_GET[‘c’],后面一部分就是另外一段包含代码的对象,并不会赋值给前面的c变量.这两段是完全分开的。<br><strong>?&gt;绕过(这是我的易错点):</strong><br>有个这样的机制:<br>php默认的机制,php中的?&gt;符号前面的字符会自带分号,就绕过了分号”;”,十分巧妙.</p>
+<h4 id="总结"><a href="#总结" class="headerlink" title="总结:"></a>总结:</h4><p>使用文件包含解决命令执行题目,通法就是先将include函数包含一个参数传递给要被正则表达式检查的变量,然后再在后半部分,再包含php伪协议给前面部分的include函数读取,达到绕过preg_match并且执行命令的目的.</p>
+]]></content>
+      <categories>
+        <category>ctfshow web</category>
+      </categories>
+      <tags>
+        <tag>命令执行</tag>
+      </tags>
+  </entry>
+  <entry>
     <title>技术路径a开发指南</title>
     <url>/2025/04/16/%E6%8A%80%E6%9C%AF%E8%B7%AF%E5%BE%84a%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/</url>
     <content><![CDATA[<h1 id="各阶段数据库构建"><a href="#各阶段数据库构建" class="headerlink" title="各阶段数据库构建"></a>各阶段数据库构建</h1><ul>
@@ -3764,7 +3800,7 @@ class ContextAwareClassifier:
 <li><p>正如我数据集的格式:</p>
 </li>
 </ul>
-  <style>.rpjtbcscufnb{zoom:50%;}</style><img src="/2025/04/16/%E6%8A%80%E6%9C%AF%E8%B7%AF%E5%BE%84a%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/image-20250418084005022.png" class="rpjtbcscufnb" alt="image-20250418084005022"></li>
+  <style>.nucskcfdrlos{zoom:50%;}</style><img src="/2025/04/16/%E6%8A%80%E6%9C%AF%E8%B7%AF%E5%BE%84a%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/image-20250418084005022.png" class="nucskcfdrlos" alt="image-20250418084005022"></li>
 </ul>
 <h1 id="LLM总结各阶段关键词"><a href="#LLM总结各阶段关键词" class="headerlink" title="LLM总结各阶段关键词"></a>LLM总结各阶段关键词</h1><ul>
 <li>首先遍历该csv文件中的各列关键词，对海量数据通过相似性去重，获取相似性最低的一组数据,将这组数据放入对应的数据库中，获取4个分别储存已清洗数据的数据库,使用<code>python</code>脚本分别将四个数据库中的关键词进行提取后通过<code>langchain</code>自带的<code> RunnablePassthrough</code>类导入预设好的<code>LLM</code>提示词中。</li>
@@ -3777,7 +3813,7 @@ class ContextAwareClassifier:
 <li>将两种呈现形式的犯罪脚本分别存于储存图形、文本形式的犯罪脚本数据库中,完成工作。</li>
 </ul>
 <p>该开发路径的流程图:</p>
-<style>.fkpehqymcfsb{zoom:200%;}</style><img src="/2025/04/16/%E6%8A%80%E6%9C%AF%E8%B7%AF%E5%BE%84a%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/image-20250416214021743.png" class="fkpehqymcfsb" alt="image-20250416214021743">
+<style>.tgdomxjfkjbs{zoom:200%;}</style><img src="/2025/04/16/%E6%8A%80%E6%9C%AF%E8%B7%AF%E5%BE%84a%E5%BC%80%E5%8F%91%E6%8C%87%E5%8D%97/image-20250416214021743.png" class="tgdomxjfkjbs" alt="image-20250416214021743">
 
 ]]></content>
       <categories>
@@ -3785,18 +3821,6 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>25年4月公管杯项目</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>挑战杯入门ai</title>
-    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
-    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
-<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>初识ai模型</tag>
       </tags>
   </entry>
   <entry>
@@ -3809,7 +3833,7 @@ class ContextAwareClassifier:
     <url>/2025/04/14/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E5%89%8D%E7%AB%AF%E9%AA%8C%E8%AF%81%E4%B8%8D%E5%8F%AF%E9%9D%A0/</url>
     <content><![CDATA[<h1 id="前端验证指-javascript源码"><a href="#前端验证指-javascript源码" class="headerlink" title="前端验证指:javascript源码"></a>前端验证指:javascript源码</h1><ul>
 <li><p>如ctfshow例题web151:</p>
-<style>.bdnuadmdlfrm{zoom: 50%;}</style><img src="/2025/04/14/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E5%89%8D%E7%AB%AF%E9%AA%8C%E8%AF%81%E4%B8%8D%E5%8F%AF%E9%9D%A0/image-20250414211008251.png" class="bdnuadmdlfrm" alt="image-20250414211008251">
+<style>.utacksmsppkn{zoom: 50%;}</style><img src="/2025/04/14/%E6%96%87%E4%BB%B6%E4%B8%8A%E4%BC%A0-%E5%89%8D%E7%AB%AF%E9%AA%8C%E8%AF%81%E4%B8%8D%E5%8F%AF%E9%9D%A0/image-20250414211008251.png" class="utacksmsppkn" alt="image-20250414211008251">
 
 <p>这里可以使用<code>F12</code>打开源码界面，发现如下代码:</p>
 <figure class="highlight html"><table><tr><td class="code"><pre><span class="line"><span class="tag">&lt;<span class="name">button</span> <span class="attr">type</span>=<span class="string">&quot;button&quot;</span> <span class="attr">class</span>=<span class="string">&quot;layui-btn&quot;</span> <span class="attr">id</span>=<span class="string">&quot;upload&quot;</span> </span></span><br><span class="line"><span class="tag">        <span class="attr">lay-data</span>=<span class="string">&quot;[url: &#x27;upload.php&#x27;, event: &#x27;images&#x27;, exts:&#x27;png&#x27;]&quot;</span>&gt;</span></span><br></pre></td></tr></table></figure>
@@ -3932,6 +3956,18 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>文件上传</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>挑战杯入门ai</title>
+    <url>/2025/01/18/%E6%8C%91%E6%88%98%E6%9D%AF%E5%85%A5%E9%97%A8ai/</url>
+    <content><![CDATA[<h3 id="初次认识ai模型"><a href="#初次认识ai模型" class="headerlink" title="初次认识ai模型"></a>初次认识ai模型</h3><h4 id="rag模型"><a href="#rag模型" class="headerlink" title="rag模型"></a>rag模型</h4><p>1.全称:<br>检索增强生成（Retrieval Augmented Generation），简称 RAG。</p>
+<h4 id="LLM大模型"><a href="#LLM大模型" class="headerlink" title="LLM大模型"></a>LLM大模型</h4>]]></content>
+      <categories>
+        <category>ai</category>
+      </categories>
+      <tags>
+        <tag>初识ai模型</tag>
       </tags>
   </entry>
   <entry>
@@ -4129,82 +4165,6 @@ class ContextAwareClassifier:
       </tags>
   </entry>
   <entry>
-    <title>正则匹配注意点个人笔记</title>
-    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
-    <content><![CDATA[<p><strong>正则匹配个人易忽略点记录</strong></p>
-<h1 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h1><h2 id="多行修饰符-Multline"><a href="#多行修饰符-Multline" class="headerlink" title="多行修饰符(Multline)"></a>多行修饰符(Multline)</h2><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里只匹配mat<br>但是:</p>
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
-<p>这里就会把fat,sat,mat都给匹配上</p>
-<p><strong>总结:</strong></p>
-<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
-<h1 id="关于点运算符"><a href="#关于点运算符" class="headerlink" title="关于点运算符(.)"></a>关于点运算符(.)</h1><ul>
-<li><p><strong>本质:就是随意匹配一个字符，包括空格符但是不匹配换行符</strong>。</p>
-</li>
-<li><p>理解:以下例子:’</p>
-</li>
-<li><p>三者进行对比:</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span></span><br><span class="line">result = re.findall(<span class="string">r&quot;.&quot;</span>, <span class="string">&quot;The car parked in the garage.&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;T&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;c&#39;, &#39;a&#39;, &#39;r&#39;, &#39; &#39;, &#39;p&#39;, &#39;a&#39;, &#39;r&#39;, &#39;k&#39;, &#39;e&#39;, &#39;d&#39;, &#39; &#39;, &#39;i&#39;, &#39;n&#39;, &#39; &#39;, &#39;t&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;g&#39;, &#39;a&#39;, &#39;r&#39;, &#39;a&#39;, &#39;g&#39;, &#39;e&#39;, &#39;.&#39;]
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即匹配所有字符，除了换行符。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.ar&quot;, &quot;The car parked in the garage.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;car&#39;, &#39;par&#39;, &#39;gar&#39;]
-<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即加权对字符进行匹配,匹配后面跟着`ar`字符的单词</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.*&quot;, &quot;The car parked in the garage ar.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
-</code></pre>
-</li>
-<li><p>这时会输出</p>
-</li>
-<li><pre><code class="language-plaintext">[&#39;The car parked in the garage ar.&#39;, &#39;&#39;]
-</code></pre>
-</li>
-<li><p>这里我们就要提到<strong>贪婪匹配了!</strong></p>
-</li>
-</ul>
-</li>
-</ul>
-<h1 id="贪婪匹配和非贪婪匹配的区别"><a href="#贪婪匹配和非贪婪匹配的区别" class="headerlink" title="贪婪匹配和非贪婪匹配的区别"></a>贪婪匹配和非贪婪匹配的区别</h1><h2 id="入门-个人通俗理解"><a href="#入门-个人通俗理解" class="headerlink" title="入门:个人通俗理解"></a>入门:个人通俗理解</h2><ul>
-<li><p>其实贪婪匹配就是尽可能地多匹配字符,而非贪婪匹配就是匹配到第一个符合条件的字符后收手，计为一个匹配的对象，不再匹配。</p>
-</li>
-<li><p>参考网站:<a href="https://regex101.com/r/1paXsy/1">正则匹配模拟器</a></p>
-</li>
-<li><p>比如<code>.* </code>就是对字符进行贪婪匹配,将该表达式写作:<code>.*?</code>就是非贪婪匹配，即懒惰匹配</p>
-<p>详见如下的例子:</p>
-</li>
-<li><p><strong>例一:</strong></p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331003545166.png" class="" title="image-20250331003545166">
-</li>
-<li><p>贪婪匹配的格式就为,表达式<code>.+</code>首尾为匹配的表达式模板，比如这个例子，首位就是<code>a</code>,结尾就为<code>b[空格]a</code>,那就匹配首位格式为这样的字符传，如图所示，就算把中间数个<code>b</code>中该有<code>c</code>字符的话，一样可以匹配,比如:</p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004014691.png" class="" title="image-20250331004014691">
-</li>
-<li><p><strong>例二:</strong></p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004141053.png" class="" title="image-20250331004141053">
-</li>
-<li><p>这里可以发现，当我使用<code>?</code>将贪婪匹配转为懒惰匹配后，在第一个格式为<code>a</code>开头，<code>b</code>结尾的字符串处匹配就结束了</p>
-</li>
-<li><p>不会像如下这样:</p>
-</li>
-<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004253303.png" class="" title="image-20250331004253303"></li>
-</ul>
-]]></content>
-      <categories>
-        <category>php</category>
-      </categories>
-      <tags>
-        <tag>正则匹配</tag>
-      </tags>
-  </entry>
-  <entry>
     <title>条件竞争漏洞</title>
     <url>/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/</url>
     <content><![CDATA[<h1 id="条件竞争漏洞概述"><a href="#条件竞争漏洞概述" class="headerlink" title="条件竞争漏洞概述"></a>条件竞争漏洞概述</h1><h2 id="条件竞争原理"><a href="#条件竞争原理" class="headerlink" title="条件竞争原理"></a>条件竞争原理</h2><ul>
@@ -4326,20 +4286,20 @@ class ContextAwareClassifier:
 <li><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/f71f76a40be846d98c3ea66960ff5f05.png" class="" title="img">
 </li>
 <li><p>新建资源池,设置线程为<code>30</code>:</p>
-   <style>.iwhnrmmvfzgp{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/5ad4d673844747efbd69dc94ed97b5fa.png" class="iwhnrmmvfzgp" alt="img">
+   <style>.xqhdertfaowg{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/5ad4d673844747efbd69dc94ed97b5fa.png" class="xqhdertfaowg" alt="img">
 </li>
 <li><p>设置完成后，先不立即开始攻击</p>
 </li>
 <li><p>对于文件访问请求攻击的制造，使用相同的操作流程,唯一不同之处:<br>将线程数设置为<code>80</code>,访问请求比数据传入请求线程更高,更容易访问包含到恶意文件从而执行恶意代码</p>
-<style>.mglvzwlvqjbe{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/9b00846795a148798fc1b19dda9901f7.png" class="mglvzwlvqjbe" alt="img">
+<style>.cbmeuqwncaav{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/9b00846795a148798fc1b19dda9901f7.png" class="cbmeuqwncaav" alt="img">
 </li>
 <li><p>**之后操作一定要快，先启动设置好的文件上传请求后立刻开启设置好的文件访问请求，**观察文件访问请求的字段长度:</p>
-<style>.qvobfatigwtu{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/3e76116f587f22d28f54b3a9ad5c4372.jpg" class="qvobfatigwtu" alt="3e76116f587f22d28f54b3a9ad5c4372">
+<style>.nabzlebpyjko{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/3e76116f587f22d28f54b3a9ad5c4372.jpg" class="nabzlebpyjko" alt="3e76116f587f22d28f54b3a9ad5c4372">
 </li>
 <li><p>可以发现一个字段长度明显与其他字段长度不同的结果，这张截图是最终结果，即使用<code>cat</code>指令对对于文件进行抓取读取其中的信息。</p>
 </li>
 <li><p>我们正常的流程应该是先设置<code>value</code>为<code>value=&quot;&lt;?php eval(system(&#39;ls&#39;));?&gt;&quot;</code>列出当前服务器下的文件列表:</p>
-<style>.iqcmfipbfwgh{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/7103cdbecd2eb2456ffbe9dbef901ce9.jpg" class="iqcmfipbfwgh" alt="7103cdbecd2eb2456ffbe9dbef901ce9">
+<style>.zpvcwyepqjuz{zoom:50%;}</style><img src="/2025/04/07/%E6%9D%A1%E4%BB%B6%E7%AB%9E%E4%BA%89%E6%BC%8F%E6%B4%9E/7103cdbecd2eb2456ffbe9dbef901ce9.jpg" class="zpvcwyepqjuz" alt="7103cdbecd2eb2456ffbe9dbef901ce9">
 </li>
 <li><p>可见,我们要抓取的文件名为:<code>upload_prgress_fl0g.php</code>,所以我们的抓取目标为<code>fl0g.php</code><br>存疑:<strong>为什么是抓取fl0g.php而不是完整的upload_progress_fl0g.php</strong></p>
 </li>
@@ -4352,6 +4312,82 @@ class ContextAwareClassifier:
       </categories>
       <tags>
         <tag>条件竞争漏洞</tag>
+      </tags>
+  </entry>
+  <entry>
+    <title>正则匹配注意点个人笔记</title>
+    <url>/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/</url>
+    <content><![CDATA[<p><strong>正则匹配个人易忽略点记录</strong></p>
+<h1 id="标志-模式修正符"><a href="#标志-模式修正符" class="headerlink" title="标志&#x2F;模式修正符"></a>标志&#x2F;模式修正符</h1><h2 id="多行修饰符-Multline"><a href="#多行修饰符-Multline" class="headerlink" title="多行修饰符(Multline)"></a>多行修饰符(Multline)</h2><p>与($,^)这两个检查首尾的符号紧密相关,注意点:在默认情况下,它们是默认检查全局，即所有字符的开头和结尾,即使你使用了换行符号,它也不会对首位进行检查。<br>例如表达式: &#x2F;.at(.)?$&#x2F;gm 表示小写字符a后跟小写字符t,末尾可选除换行符外任意字符</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/&quot; =&gt; The fat</span><br><span class="line">                cat sat</span><br><span class="line">                on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里只匹配mat<br>但是:</p>
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line">&quot;/.at(.)?$/gm&quot; =&gt; The fat</span><br><span class="line">                  cat sat</span><br><span class="line">                  on the mat.</span><br></pre></td></tr></table></figure>
+<p>这里就会把fat,sat,mat都给匹配上</p>
+<p><strong>总结:</strong></p>
+<p>重点就是:m加上后会在每排匹配,没有m只会在全局看尾巴或者开头有没有目标字符。</p>
+<h1 id="关于点运算符"><a href="#关于点运算符" class="headerlink" title="关于点运算符(.)"></a>关于点运算符(.)</h1><ul>
+<li><p><strong>本质:就是随意匹配一个字符，包括空格符但是不匹配换行符</strong>。</p>
+</li>
+<li><p>理解:以下例子:’</p>
+</li>
+<li><p>三者进行对比:</p>
+<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> re</span><br><span class="line"></span><br><span class="line"><span class="string">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span></span><br><span class="line">result = re.findall(<span class="string">r&quot;.&quot;</span>, <span class="string">&quot;The car parked in the garage.&quot;</span>)</span><br><span class="line"><span class="built_in">print</span>(result)</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;T&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;c&#39;, &#39;a&#39;, &#39;r&#39;, &#39; &#39;, &#39;p&#39;, &#39;a&#39;, &#39;r&#39;, &#39;k&#39;, &#39;e&#39;, &#39;d&#39;, &#39; &#39;, &#39;i&#39;, &#39;n&#39;, &#39; &#39;, &#39;t&#39;, &#39;h&#39;, &#39;e&#39;, &#39; &#39;, &#39;g&#39;, &#39;a&#39;, &#39;r&#39;, &#39;a&#39;, &#39;g&#39;, &#39;e&#39;, &#39;.&#39;]
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即匹配所有字符，除了换行符。</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.ar&quot;, &quot;The car parked in the garage.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;car&#39;, &#39;par&#39;, &#39;gar&#39;]
+<figure class="highlight plaintext"><table><tr><td class="code"><pre><span class="line"></span><br><span class="line">* 即加权对字符进行匹配,匹配后面跟着`ar`字符的单词</span><br><span class="line"></span><br><span class="line">```python</span><br><span class="line">import re</span><br><span class="line"></span><br><span class="line">&quot;&quot;&quot;关于findall以及点运算符的使用&quot;&quot;&quot;</span><br><span class="line">result = re.findall(r&quot;.*&quot;, &quot;The car parked in the garage ar.&quot;)</span><br><span class="line">print(result)</span><br></pre></td></tr></table></figure>
+</code></pre>
+</li>
+<li><p>这时会输出</p>
+</li>
+<li><pre><code class="language-plaintext">[&#39;The car parked in the garage ar.&#39;, &#39;&#39;]
+</code></pre>
+</li>
+<li><p>这里我们就要提到<strong>贪婪匹配了!</strong></p>
+</li>
+</ul>
+</li>
+</ul>
+<h1 id="贪婪匹配和非贪婪匹配的区别"><a href="#贪婪匹配和非贪婪匹配的区别" class="headerlink" title="贪婪匹配和非贪婪匹配的区别"></a>贪婪匹配和非贪婪匹配的区别</h1><h2 id="入门-个人通俗理解"><a href="#入门-个人通俗理解" class="headerlink" title="入门:个人通俗理解"></a>入门:个人通俗理解</h2><ul>
+<li><p>其实贪婪匹配就是尽可能地多匹配字符,而非贪婪匹配就是匹配到第一个符合条件的字符后收手，计为一个匹配的对象，不再匹配。</p>
+</li>
+<li><p>参考网站:<a href="https://regex101.com/r/1paXsy/1">正则匹配模拟器</a></p>
+</li>
+<li><p>比如<code>.* </code>就是对字符进行贪婪匹配,将该表达式写作:<code>.*?</code>就是非贪婪匹配，即懒惰匹配</p>
+<p>详见如下的例子:</p>
+</li>
+<li><p><strong>例一:</strong></p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331003545166.png" class="" title="image-20250331003545166">
+</li>
+<li><p>贪婪匹配的格式就为,表达式<code>.+</code>首尾为匹配的表达式模板，比如这个例子，首位就是<code>a</code>,结尾就为<code>b[空格]a</code>,那就匹配首位格式为这样的字符传，如图所示，就算把中间数个<code>b</code>中该有<code>c</code>字符的话，一样可以匹配,比如:</p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004014691.png" class="" title="image-20250331004014691">
+</li>
+<li><p><strong>例二:</strong></p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004141053.png" class="" title="image-20250331004141053">
+</li>
+<li><p>这里可以发现，当我使用<code>?</code>将贪婪匹配转为懒惰匹配后，在第一个格式为<code>a</code>开头，<code>b</code>结尾的字符串处匹配就结束了</p>
+</li>
+<li><p>不会像如下这样:</p>
+</li>
+<li><img src="/2025/01/14/%E6%AD%A3%E5%88%99%E5%8C%B9%E9%85%8D%E6%B3%A8%E6%84%8F%E7%82%B9%E4%B8%AA%E4%BA%BA%E7%AC%94%E8%AE%B0/image-20250331004253303.png" class="" title="image-20250331004253303"></li>
+</ul>
+]]></content>
+      <categories>
+        <category>php</category>
+      </categories>
+      <tags>
+        <tag>正则匹配</tag>
       </tags>
   </entry>
   <entry>
@@ -4567,7 +4603,7 @@ if __name__ == &#39;__main__&#39;:
 <p>这里前后的<code>select</code>选取的元素的类型和数量就需要相同。</p>
 </li>
 <li><p>适用环境:</p>
-<style>.opatyibtobrc{zoom:50%;}</style><img src="/2025/04/17/%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/image-20250417135005040.png" class="opatyibtobrc" alt="image-20250417135005040"></li>
+<style>.hjlfiwpwgmpb{zoom:50%;}</style><img src="/2025/04/17/%E8%81%94%E5%90%88%E6%B3%A8%E5%85%A5/image-20250417135005040.png" class="hjlfiwpwgmpb" alt="image-20250417135005040"></li>
 </ul>
 <p>如该题,不可以使用一般的<code>-1&#39; or username = &#39;flag&#39; --+</code><br>因为返回逻辑中还会对<code>username</code>进行过滤。</p>
 <h2 id="information-schema数据库概念"><a href="#information-schema数据库概念" class="headerlink" title="information_schema数据库概念"></a><code>information_schema</code>数据库概念</h2><ul>
@@ -4643,20 +4679,6 @@ if __name__ == &#39;__main__&#39;:
       </categories>
       <tags>
         <tag>sql注入</tag>
-      </tags>
-  </entry>
-  <entry>
-    <title>训练</title>
-    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
-    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
-<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
-
-<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
-      <categories>
-        <category>ai</category>
-      </categories>
-      <tags>
-        <tag>ai训练</tag>
       </tags>
   </entry>
   <entry>
@@ -4930,39 +4952,17 @@ if __name__ == &#39;__main__&#39;:
       </tags>
   </entry>
   <entry>
-    <title>python中对模块的引入</title>
-    <url>/2025/01/26/python%E4%B8%AD%E5%AF%B9%E6%A8%A1%E5%9D%97%E7%9A%84%E5%BC%95%E5%85%A5/</url>
-    <content><![CDATA[<h1 id="python中对模块引入的辨析"><a href="#python中对模块引入的辨析" class="headerlink" title="python中对模块引入的辨析"></a>python中对模块引入的辨析</h1><h2 id="import-from和import的差异"><a href="#import-from和import的差异" class="headerlink" title="import..from和import的差异"></a><code>import..from</code>和<code>import</code>的差异</h2><p>首先我们要说明:</p>
-<p>依赖库里面是有很多个,模块的,我在今天学习的tomllib是自带模块的其中之一罢了:</p>
-<h3 id="from-tomllib-import-的情况"><a href="#from-tomllib-import-的情况" class="headerlink" title="from tomllib import * 的情况"></a><code>from tomllib import *</code> 的情况</h3><p>当使用 <code>from tomllib import *</code> 语句时，确实会将 <code>tomllib</code> 模块中所有定义的公共对象（函数、类、变量等）直接导入到当前 <code>.py</code> 文件的命名空间中。导入之后，在当前文件里可以直接使用这些对象，<strong>无需再加上模块名作为前缀</strong>。不过，这种导入方式存在命名<strong>冲突的风险。</strong></p>
-<p>例如，假设 <code>tomllib</code> 模块中有一个 <code>load</code> 函数，同时你的当前文件中也定义了一个名为 <code>load</code> 的函数，使用 <code>from tomllib import *</code> 导入后，<code>tomllib</code> 中的 <code>load</code> 函数可能会覆盖你自己定义的 <code>load</code> 函数，或者反之，从而导致意外的结果。示例如下：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="comment"># 假设 tomllib 模块中有 load 函数</span></span><br><span class="line"><span class="keyword">from</span> tomllib <span class="keyword">import</span> *</span><br><span class="line"></span><br><span class="line"><span class="comment"># 假设当前文件中也定义了一个 load 函数</span></span><br><span class="line"><span class="keyword">def</span> <span class="title function_">load</span>():</span><br><span class="line">    <span class="built_in">print</span>(<span class="string">&quot;This is my own load function.&quot;</span>)</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里调用的 load 函数可能会产生混淆</span></span><br><span class="line">load()</span><br></pre></td></tr></table></figure>
+    <title>训练</title>
+    <url>/2025/01/22/%E8%AE%AD%E7%BB%83/</url>
+    <content><![CDATA[<h3 id="训练ai"><a href="#训练ai" class="headerlink" title="训练ai"></a>训练ai</h3><h4 id="下载资源"><a href="#下载资源" class="headerlink" title="下载资源"></a>下载资源</h4><p>1.u need to use the google colab<br>2.unsloth notebook:<a href="https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp">https://colab.research.google.com/drive/1Ys44kVvmeZtnICzWz0xgpRnrIOjZAuxp</a></p>
+<h4 id="dataset"><a href="#dataset" class="headerlink" title="dataset"></a>dataset</h4><img src="/2025/01/22/%E8%AE%AD%E7%BB%83/image-20250122153200433.png" class="" title="image-20250122153200433">
 
-
-
-<h3 id="import-tomllib-的情况"><a href="#import-tomllib-的情况" class="headerlink" title="import tomllib 的情况"></a><code>import tomllib</code> 的情况</h3><p>使用 <code>import tomllib</code> 语句时，Python 会将 <code>tomllib</code> 模块加载到当前程序的命名空间中，并且创建一个指向该模块的引用。虽然不是将模块中的所有函数和对象 “复制” 到当前文件的命名空间，但实际上这些函数和对象已经被加载到内存中，<strong>只是在使用时需要通过 <code>tomllib.函数名</code> 或 <code>tomllib.对象名</code> 的方式来引用。</strong></p>
-<p>这样做的好处是可以明确指出函数或对象的来源，避免命名冲突。例如：</p>
-<figure class="highlight python"><table><tr><td class="code"><pre><span class="line"><span class="keyword">import</span> tomllib</span><br><span class="line"></span><br><span class="line"><span class="comment"># 这里明确调用的是 tomllib 模块中的 load 函数</span></span><br><span class="line"><span class="keyword">with</span> <span class="built_in">open</span>(<span class="string">&#x27;config.toml&#x27;</span>, <span class="string">&#x27;rb&#x27;</span>) <span class="keyword">as</span> f:</span><br><span class="line">    data = tomllib.load(f)</span><br></pre></td></tr></table></figure>
-
-
-
-<h3 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h3><ul>
-<li><code>from tomllib import *</code>：会将 <code>tomllib</code> 模块中的所有公共对象直接导入到当前命名空间，使用时无需加模块名前缀，但容易引发命名冲突，不建议在实际项目中大量使用。</li>
-<li><code>import tomllib</code>：将 <code>tomllib</code> 模块加载到当前程序中，通过 <code>tomllib.对象名</code> 的方式使用模块中的对象，能有效避免命名冲突，提高代码的可读性和可维护性。</li>
-</ul>
-<p>另外，还有一种折中的方式 <code>from tomllib import load</code>，这种方式只导入 <code>tomllib</code> 模块中的 <code>load</code> 函数到当前命名空间，既可以直接使用 <code>load</code> 函数，又能避免导入过多不必要的对象，减少命名冲突的可能性。</p>
-<ul>
-<li><p>除了上述的我们探讨的会引起大量冲突的情况,以下情况是对加不加前缀的最简单的解释:</p>
-<p><code>import</code>后面只要是类或者具体方法名字,由于足够具体,可不用加前缀,只要<code>import</code>后面是库或者模块,都要加前缀,因为范围太大,不管有没有<code>from</code>关键字。</p>
-<p>并且,不可以直接在<code>import</code>后面加上具体方法和类明,<code>import</code>后面只可以加库或者模块名。</p>
-</li>
-</ul>
-]]></content>
+<h4 id="unsloth"><a href="#unsloth" class="headerlink" title="unsloth"></a>unsloth</h4><h4 id="weight"><a href="#weight" class="headerlink" title="weight"></a>weight</h4><h4 id="dataset-processing"><a href="#dataset-processing" class="headerlink" title="dataset processing"></a>dataset processing</h4><h4 id="huggface"><a href="#huggface" class="headerlink" title="huggface"></a>huggface</h4>]]></content>
       <categories>
-        <category>python</category>
+        <category>ai</category>
       </categories>
       <tags>
-        <tag>import辨析</tag>
+        <tag>ai训练</tag>
       </tags>
   </entry>
   <entry>
