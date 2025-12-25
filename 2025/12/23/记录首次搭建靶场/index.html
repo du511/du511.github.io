@@ -1,0 +1,295 @@
+<!DOCTYPE html><html lang="zh-CN" data-theme="light"><head><meta charset="UTF-8"><meta http-equiv="X-UA-Compatible" content="IE=edge"><meta name="viewport" content="width=device-width, initial-scale=1.0,viewport-fit=cover"><title>记录首次搭建靶场 | Dedsec的博客</title><meta name="author" content="Dedsec"><meta name="copyright" content="Dedsec"><meta name="format-detection" content="telephone=no"><meta name="theme-color" content="ffffff"><meta name="description" content="引言 目前可以个人手动搭建的本地web靶场都需要源文件中有dockerfile文件，才可使用docker抓取 本博客用”第九届 “强网杯” 全国网络安全挑战赛 线上赛”初赛web赛题”SecretVaulttar”为例  校验文件完整性下载HashMyfiles软件 将题目源码压缩包放入该软件中，获取对应长度的哈希字符，将该哈希字符与自带的校验字符比对，若一致则文件完整。无损坏如:   文件自带哈">
+<meta property="og:type" content="article">
+<meta property="og:title" content="记录首次搭建靶场">
+<meta property="og:url" content="https://www.th-dedsec.top/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/index.html">
+<meta property="og:site_name" content="Dedsec的博客">
+<meta property="og:description" content="引言 目前可以个人手动搭建的本地web靶场都需要源文件中有dockerfile文件，才可使用docker抓取 本博客用”第九届 “强网杯” 全国网络安全挑战赛 线上赛”初赛web赛题”SecretVaulttar”为例  校验文件完整性下载HashMyfiles软件 将题目源码压缩包放入该软件中，获取对应长度的哈希字符，将该哈希字符与自带的校验字符比对，若一致则文件完整。无损坏如:   文件自带哈">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://img.th-dedsec.top/img/gbc1.jpg">
+<meta property="article:published_time" content="2025-12-23T07:31:10.000Z">
+<meta property="article:modified_time" content="2025-12-25T12:38:30.070Z">
+<meta property="article:author" content="Dedsec">
+<meta property="article:tag" content="docker">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://img.th-dedsec.top/img/gbc1.jpg"><link rel="shortcut icon" href="/img/favicon.ico"><link rel="canonical" href="https://www.th-dedsec.top/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/index.html"><link rel="preconnect" href="//cdn.jsdelivr.net"/><link rel="preconnect" href="//busuanzi.ibruce.info"/><link rel="stylesheet" href="/css/index.css"><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free/css/all.min.css"><script>
+    (() => {
+      
+    const saveToLocal = {
+      set: (key, value, ttl) => {
+        if (!ttl) return
+        const expiry = Date.now() + ttl * 86400000
+        localStorage.setItem(key, JSON.stringify({ value, expiry }))
+      },
+      get: key => {
+        const itemStr = localStorage.getItem(key)
+        if (!itemStr) return undefined
+        const { value, expiry } = JSON.parse(itemStr)
+        if (Date.now() > expiry) {
+          localStorage.removeItem(key)
+          return undefined
+        }
+        return value
+      }
+    }
+
+    window.btf = {
+      saveToLocal,
+      getScript: (url, attr = {}) => new Promise((resolve, reject) => {
+        const script = document.createElement('script')
+        script.src = url
+        script.async = true
+        Object.entries(attr).forEach(([key, val]) => script.setAttribute(key, val))
+        script.onload = script.onreadystatechange = () => {
+          if (!script.readyState || /loaded|complete/.test(script.readyState)) resolve()
+        }
+        script.onerror = reject
+        document.head.appendChild(script)
+      }),
+      getCSS: (url, id) => new Promise((resolve, reject) => {
+        const link = document.createElement('link')
+        link.rel = 'stylesheet'
+        link.href = url
+        if (id) link.id = id
+        link.onload = link.onreadystatechange = () => {
+          if (!link.readyState || /loaded|complete/.test(link.readyState)) resolve()
+        }
+        link.onerror = reject
+        document.head.appendChild(link)
+      }),
+      addGlobalFn: (key, fn, name = false, parent = window) => {
+        if (!false && key.startsWith('pjax')) return
+        const globalFn = parent.globalFn || {}
+        globalFn[key] = globalFn[key] || {}
+        globalFn[key][name || Object.keys(globalFn[key]).length] = fn
+        parent.globalFn = globalFn
+      }
+    }
+  
+      
+      const activateDarkMode = () => {
+        document.documentElement.setAttribute('data-theme', 'dark')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', '#0d0d0d')
+        }
+      }
+      const activateLightMode = () => {
+        document.documentElement.setAttribute('data-theme', 'light')
+        if (document.querySelector('meta[name="theme-color"]') !== null) {
+          document.querySelector('meta[name="theme-color"]').setAttribute('content', 'ffffff')
+        }
+      }
+
+      btf.activateDarkMode = activateDarkMode
+      btf.activateLightMode = activateLightMode
+
+      const theme = saveToLocal.get('theme')
+    
+          theme === 'dark' ? activateDarkMode() : theme === 'light' ? activateLightMode() : null
+        
+      
+      const asideStatus = saveToLocal.get('aside-status')
+      if (asideStatus !== undefined) {
+        document.documentElement.classList.toggle('hide-aside', asideStatus === 'hide')
+      }
+    
+      
+    const detectApple = () => {
+      if (/iPad|iPhone|iPod|Macintosh/.test(navigator.userAgent)) {
+        document.documentElement.classList.add('apple')
+      }
+    }
+    detectApple()
+  
+    })()
+  </script><script>const GLOBAL_CONFIG = {
+  root: '/',
+  algolia: undefined,
+  localSearch: undefined,
+  translate: undefined,
+  highlight: {"plugin":"highlight.js","highlightCopy":true,"highlightLang":true,"highlightHeightLimit":false,"highlightFullpage":false,"highlightMacStyle":false},
+  copy: {
+    success: '复制成功',
+    error: '复制失败',
+    noSupport: '浏览器不支持'
+  },
+  relativeDate: {
+    homepage: false,
+    post: false
+  },
+  runtime: '天',
+  dateSuffix: {
+    just: '刚刚',
+    min: '分钟前',
+    hour: '小时前',
+    day: '天前',
+    month: '个月前'
+  },
+  copyright: undefined,
+  lightbox: 'null',
+  Snackbar: undefined,
+  infinitegrid: {
+    js: 'https://cdn.jsdelivr.net/npm/@egjs/infinitegrid/dist/infinitegrid.min.js',
+    buttonText: '加载更多'
+  },
+  isPhotoFigcaption: false,
+  islazyload: false,
+  isAnchor: false,
+  percent: {
+    toc: true,
+    rightside: false,
+  },
+  autoDarkmode: false
+}</script><script id="config-diff">var GLOBAL_CONFIG_SITE = {
+  title: '记录首次搭建靶场',
+  isPost: true,
+  isHome: false,
+  isHighlightShrink: true,
+  isToc: true,
+  isShuoshuo: false
+}</script><link rel="stylesheet" href="/css/universe.css"><link rel="stylesheet" href="/css/custom.css"><link rel="stylesheet" href="/css/cat.css"><div id="myscoll"></div><!-- hexo injector head_end start --><link rel="stylesheet" href="https://npm.elemecdn.com/hexo-butterfly-categories-card@1.0.0/lib/categorybar.css"><!-- hexo injector head_end end --><meta name="generator" content="Hexo 7.3.0"></head><body><div id="web_bg" style="background-image: url(https://img.th-dedsec.top/background/IMG_1560.JPG);"></div><div id="sidebar"><div id="menu-mask"></div><div id="sidebar-menus"><div class="avatar-img text-center"><img src="/img/php.JPG" onerror="onerror=null;src='/img/friend_404.gif'" alt="avatar"/></div><div class="site-data text-center"><a href="/archives/"><div class="headline">文章</div><div class="length-num">105</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">75</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div></div></div><div class="post" id="body-wrap"><header class="post-bg" id="page-header" style="background-image: url(https://img.th-dedsec.top/img/gbc1.jpg);"><nav id="nav"><span id="blog-info"><a class="nav-site-title" href="/"><span class="site-name">Dedsec的博客</span></a><a class="nav-page-title" href="/"><span class="site-name">记录首次搭建靶场</span></a></span><div id="menus"><div class="menus_items"><div class="menus_item"><a class="site-page" href="/"><i class="fa-fw fas fa-home"></i><span> 首页</span></a></div><div class="menus_item"><a class="site-page" href="/archives/"><i class="fa-fw fas fa-archive"></i><span> 时间轴</span></a></div><div class="menus_item"><a class="site-page" href="/tags/"><i class="fa-fw fas fa-tags"></i><span> 标签</span></a></div><div class="menus_item"><a class="site-page" href="/categories/"><i class="fa-fw fas fa-folder-open"></i><span> 分类</span></a></div><div class="menus_item"><a class="site-page" href="/comments/"><i class="fa-fw fas fa-envelope-open"></i><span> 留言板</span></a></div><div class="menus_item"><span class="site-page group"><i class="fa-fw fas fa-list"></i><span> 清单</span><i class="fas fa-chevron-down"></i></span><ul class="menus_item_child"><li><a class="site-page child" href="/music/"><i class="fa-fw fas fa-music"></i><span> 音乐</span></a></li><li><a class="site-page child" href="/Gallery/"><i class="fa-fw fas fa-images"></i><span> 照片</span></a></li><li><a class="site-page child" href="/movies/"><i class="fa-fw fas fa-video"></i><span> 电影</span></a></li><li><a class="site-page child" href="/link/"><i class="fa-fw fas fa-link"></i><span> 友链</span></a></li><li><a class="site-page child" href="/about/"><i class="fa-fw fas fa-heart"></i><span> 关于</span></a></li></ul></div></div><div id="toggle-menu"><span class="site-page"><i class="fas fa-bars fa-fw"></i></span></div></div></nav><div id="post-info"><h1 class="post-title">记录首次搭建靶场</h1><div id="post-meta"><div class="meta-firstline"><span class="post-meta-date"><i class="far fa-calendar-alt fa-fw post-meta-icon"></i><span class="post-meta-label">发表于</span><time class="post-meta-date-created" datetime="2025-12-23T07:31:10.000Z" title="发表于 2025-12-23 15:31:10">2025-12-23</time><span class="post-meta-separator">|</span><i class="fas fa-history fa-fw post-meta-icon"></i><span class="post-meta-label">更新于</span><time class="post-meta-date-updated" datetime="2025-12-25T12:38:30.070Z" title="更新于 2025-12-25 20:38:30">2025-12-25</time></span><span class="post-meta-categories"><span class="post-meta-separator">|</span><i class="fas fa-inbox fa-fw post-meta-icon"></i><a class="post-meta-categories" href="/categories/Linux/">Linux</a></span></div><div class="meta-secondline"><span class="post-meta-separator">|</span><span class="post-meta-pv-cv" id="" data-flag-title=""><i class="far fa-eye fa-fw post-meta-icon"></i><span class="post-meta-label">浏览量:</span><span id="busuanzi_value_page_pv"><i class="fa-solid fa-spinner fa-spin"></i></span></span></div></div></div></header><main class="layout" id="content-inner"><div id="post"><article class="container post-content" id="article-container"><h1 id="引言"><a href="#引言" class="headerlink" title="引言"></a>引言</h1><ul>
+<li>目前可以个人手动搭建的本地web靶场都需要源文件中有<code>dockerfile</code>文件，才可使用docker抓取</li>
+<li>本博客用”第九届 “强网杯” 全国网络安全挑战赛 线上赛”初赛web赛题”SecretVaulttar”为例</li>
+</ul>
+<h1 id="校验文件完整性"><a href="#校验文件完整性" class="headerlink" title="校验文件完整性"></a>校验文件完整性</h1><h2 id="下载HashMyfiles软件"><a href="#下载HashMyfiles软件" class="headerlink" title="下载HashMyfiles软件"></a>下载<code>HashMyfiles</code>软件</h2><ul>
+<li><p>将题目源码压缩包放入该软件中，获取对应长度的哈希字符，将该哈希字符与自带的校验字符比对，若一致则文件完整。无损坏<br>如:</p>
+<img src="/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/image-20251223153952602.png" class="" title="image-20251223153952602">
+</li>
+<li><p>文件自带哈希:</p>
+<img src="/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/image-20251223154018149.png" class="" title="image-20251223154018149"></li>
+<li><p>比对后发现一致，文件完整性良好</p>
+</li>
+</ul>
+<h1 id="获取docker环境"><a href="#获取docker环境" class="headerlink" title="获取docker环境"></a>获取docker环境</h1><h2 id="准备虚拟机"><a href="#准备虚拟机" class="headerlink" title="准备虚拟机"></a>准备虚拟机</h2><ul>
+<li>自己在VMware中准备一台虚拟机，我就直接使用kail,并且要安装docker及其相关配置。</li>
+</ul>
+<h1 id="布置环境"><a href="#布置环境" class="headerlink" title="布置环境"></a>布置环境</h1><ul>
+<li><p>我就懒得写了，具体指令参考该博客:<br><a target="_blank" rel="noopener" href="https://blog.csdn.net/wyj_1216/article/details/107855122?ops_request_misc=&request_id=&biz_id=102&utm_term=docker%E5%A4%8D%E7%8E%B0web%E9%A2%98%E7%9B%AE%E7%8E%AF%E5%A2%83&utm_medium=distribute.pc_search_result.none-task-blog-2~all~sobaiduweb~default-1-107855122.142%5Ev102%5Epc_search_result_base2&spm=1018.2226.3001.4187">利用GitHub、docker部署CTF-web题目复现</a><br>我们可以跳过git拉取文件的那个步奏。因为我们已经有文件源码</p>
+</li>
+<li><p>大概步奏可以简化为:</p>
+<ul>
+<li><p>在题目文件夹内打开终端</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">service docker start</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>搭建环境(我推荐用我写的这个更稳定的来搭建)</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DOCKER_BUILDKIT=0 docker compose build --pull --no-cache</span><br></pre></td></tr></table></figure>
+
+<p>一般命令为:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose build</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>然后启动环境</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/image-20251225203617024.png" class="" title="image-20251225203617024">
+</li>
+<li><p>最后查看靶场端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure>
+
+<img src="/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/image-20251225203600764.png" class="" title="image-20251225203600764">
+
+<p>直接进入本地网页:<code>http://127.0.0.1:5555</code>启动靶场</p>
+<img src="/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/image-20251225203703183.png" class="" title="image-20251225203703183"></li>
+</ul>
+</li>
+<li><p>容器过期怎么办?<br>使用以下两条命令重启并进入即可:</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker-compose up -d</span><br></pre></td></tr></table></figure>
+
+<p>查看端口</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker ps</span><br></pre></td></tr></table></figure></li>
+</ul>
+<h1 id="个人遇到的一些问题汇总-chatgpt总结"><a href="#个人遇到的一些问题汇总-chatgpt总结" class="headerlink" title="个人遇到的一些问题汇总(chatgpt总结)"></a>个人遇到的一些问题汇总(chatgpt总结)</h1><h2 id="关于VPN宿主机和虚拟机的通用"><a href="#关于VPN宿主机和虚拟机的通用" class="headerlink" title="关于VPN宿主机和虚拟机的通用"></a>关于VPN宿主机和虚拟机的通用</h2><ul>
+<li>需要在vpn插件中关闭直接连接，打开虚拟网卡连接，才可以虚拟机也获得翻墙效果。否则虚拟机无vpn连接</li>
+</ul>
+<h4 id=""><a href="#" class="headerlink" title=""></a></h4><h2 id="关于docker-compose-build"><a href="#关于docker-compose-build" class="headerlink" title="关于docker compose build"></a>关于docker compose build</h2><p><code>docker compose build</code> <strong>默认用 BuildKit</strong></p>
+<p>BuildKit 在拉 <strong>镜像元数据（config &#x2F; metadata）</strong> 时：</p>
+<ul>
+<li>之前网络不稳定 &#x2F; 被拦 &#x2F; 中途断过</li>
+<li>本地留下 <strong>不一致的缓存记录</strong></li>
+</ul>
+<p>于是触发：</p>
+<figure class="highlight bash"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">failed size validation</span><br><span class="line">failed precondition</span><br></pre></td></tr></table></figure>
+
+<p><strong>镜像其实是存在的，网络后来也是通的</strong></p>
+<p>但 <strong>BuildKit 非常严格，一旦发现不一致直接拒绝构建</strong></p>
+<h3 id="为什么-docker-pull-能成功，但-compose-build-不行"><a href="#为什么-docker-pull-能成功，但-compose-build-不行" class="headerlink" title="为什么 docker pull 能成功，但 compose build 不行"></a>为什么 <code>docker pull</code> 能成功，但 <code>compose build</code> 不行</h3><ul>
+<li><code>docker pull</code>：<br> 👉 只管把镜像拉下来，流程简单</li>
+<li><code>docker compose build + BuildKit</code>：<br> 👉 先解析、缓存、校验 metadata<br> 👉 校验失败 → 直接报错</li>
+</ul>
+<p><strong>两条路径，不是同一个系统。</strong></p>
+<hr>
+<h3 id="最终怎么解决（关键一步）"><a href="#最终怎么解决（关键一步）" class="headerlink" title="最终怎么解决（关键一步）"></a>最终怎么解决（关键一步）</h3><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DOCKER_BUILDKIT=0 docker compose build --pull</span><br></pre></td></tr></table></figure>
+
+<h3 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h3><ul>
+<li>强制使用 <strong>classic builder</strong></li>
+<li><strong>绕开 BuildKit 的元数据缓存和严格校验</strong></li>
+<li>构建流程变直线 → 直接成功</li>
+</ul>
+<hr>
+<h3 id="核心总结（记住这-3-句话就够）"><a href="#核心总结（记住这-3-句话就够）" class="headerlink" title="核心总结（记住这 3 句话就够）"></a>核心总结（记住这 3 句话就够）</h3><ol>
+<li><strong>BuildKit 报 <code>size validation / failed precondition</code> ≠ 镜像不存在</strong></li>
+<li><strong>能 <code>docker pull</code>，却 <code>compose build</code> 失败，优先怀疑 BuildKit</strong></li>
+<li><strong>关 BuildKit：<code>DOCKER_BUILDKIT=0</code>，90% 立刻解决</strong></li>
+</ol>
+<h2 id="排查方法"><a href="#排查方法" class="headerlink" title="排查方法"></a>排查方法</h2><blockquote>
+<p><strong>能 pull 但 build 报 size validation &#x2F; precondition，99% 不是网络本身，而是 BuildKit 的“记账缓存”在作怪。</strong></p>
+</blockquote>
+<h3 id="快速决策树"><a href="#快速决策树" class="headerlink" title="快速决策树"></a>快速决策树</h3><ul>
+<li>pull 都失败 → 网络问题</li>
+<li>pull 成功，build 失败 → <strong>关 BuildKit</strong></li>
+</ul>
+<h3 id="一、测试-pull-能不能成功（只测拉镜像）"><a href="#一、测试-pull-能不能成功（只测拉镜像）" class="headerlink" title="一、测试 pull 能不能成功（只测拉镜像）"></a>一、测试 <strong>pull 能不能成功</strong>（只测拉镜像）</h3><h4 id="1️⃣-最小网络-Registry-测试（不拉大镜像）"><a href="#1️⃣-最小网络-Registry-测试（不拉大镜像）" class="headerlink" title="1️⃣ 最小网络&#x2F;Registry 测试（不拉大镜像）"></a>1️⃣ 最小网络&#x2F;Registry 测试（不拉大镜像）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker pull hello-world</span><br></pre></td></tr></table></figure>
+
+<p><strong>判断：</strong></p>
+<ul>
+<li>✅ 成功 → Docker 到 registry 基本没问题</li>
+<li>❌ 失败 → 网络 &#x2F; 代理 &#x2F; 镜像源问题</li>
+</ul>
+<hr>
+<h4 id="2️⃣-测试具体基础镜像（与你-build-用的一致）"><a href="#2️⃣-测试具体基础镜像（与你-build-用的一致）" class="headerlink" title="2️⃣ 测试具体基础镜像（与你 build 用的一致）"></a>2️⃣ 测试具体基础镜像（与你 build 用的一致）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker pull python:3.13-alpine</span><br><span class="line">docker pull golang:1.25.2-alpine</span><br></pre></td></tr></table></figure>
+
+<p><strong>判断：</strong></p>
+<ul>
+<li>✅ 都成功 → 镜像存在 + registry 链路 OK</li>
+<li>❌ 某个失败 → 镜像 tag &#x2F; 网络 &#x2F; 镜像源问题<br> （此时 <strong>不用看 build</strong>，先修 pull）</li>
+</ul>
+<hr>
+<h4 id="3️⃣-只测试-Registry-API-是否可达（判“是不是没网”）"><a href="#3️⃣-只测试-Registry-API-是否可达（判“是不是没网”）" class="headerlink" title="3️⃣ 只测试 Registry API 是否可达（判“是不是没网”）"></a>3️⃣ 只测试 Registry API 是否可达（判“是不是没网”）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">curl -I https://registry-1.docker.io/v2/</span><br></pre></td></tr></table></figure>
+
+<p><strong>判断：</strong></p>
+<ul>
+<li>返回 <code>401 Unauthorized</code> → ✅ 正常（这是“通了”的标志）</li>
+<li>超时 &#x2F; refused → ❌ 网络层问题</li>
+</ul>
+<hr>
+<h3 id="二、测试-build-能不能成功（BuildKit-路径）"><a href="#二、测试-build-能不能成功（BuildKit-路径）" class="headerlink" title="二、测试 build 能不能成功（BuildKit 路径）"></a>二、测试 <strong>build 能不能成功（BuildKit 路径）</strong></h3><h4 id="4️⃣-默认-build（使用-BuildKit）"><a href="#4️⃣-默认-build（使用-BuildKit）" class="headerlink" title="4️⃣ 默认 build（使用 BuildKit）"></a>4️⃣ 默认 build（使用 BuildKit）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">docker compose build --pull</span><br></pre></td></tr></table></figure>
+
+<p><strong>判断：</strong></p>
+<ul>
+<li>✅ 成功 → 一切正常</li>
+<li>❌ 报错：<ul>
+<li><code>failed size validation</code></li>
+<li><code>failed precondition</code></li>
+<li><code>failed commit on ref</code></li>
+</ul>
+</li>
+</ul>
+<p>👉 <strong>高度怀疑 BuildKit 缓存&#x2F;元数据问题</strong></p>
+<hr>
+<h3 id="三、测试-build（classic-builder，对照用）"><a href="#三、测试-build（classic-builder，对照用）" class="headerlink" title="三、测试 build（classic builder，对照用）"></a>三、测试 <strong>build（classic builder，对照用）</strong></h3><h4 id="5️⃣-关闭-BuildKit-再-build（关键对照）"><a href="#5️⃣-关闭-BuildKit-再-build（关键对照）" class="headerlink" title="5️⃣ 关闭 BuildKit 再 build（关键对照）"></a>5️⃣ 关闭 BuildKit 再 build（关键对照）</h4><figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DOCKER_BUILDKIT=0 docker compose build --pull --no-cache</span><br></pre></td></tr></table></figure>
+
+<p><strong>判断：</strong></p>
+<ul>
+<li>❌ 默认 build 失败</li>
+<li>✅ 这条成功<br> ➡️ <strong>结论 100%：BuildKit 是拦路虎（不是网络、不是镜像、不是 Dockerfile）</strong></li>
+</ul>
+<p>这一步就是你这次的<strong>决定性证据</strong>。</p>
+</article><div class="post-copyright"><div class="post-copyright__author"><span class="post-copyright-meta"><i class="fas fa-circle-user fa-fw"></i>文章作者: </span><span class="post-copyright-info"><a href="https://www.th-dedsec.top">Dedsec</a></span></div><div class="post-copyright__type"><span class="post-copyright-meta"><i class="fas fa-square-arrow-up-right fa-fw"></i>文章链接: </span><span class="post-copyright-info"><a href="https://www.th-dedsec.top/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/">https://www.th-dedsec.top/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/</a></span></div><div class="post-copyright__notice"><span class="post-copyright-meta"><i class="fas fa-circle-exclamation fa-fw"></i>版权声明: </span><span class="post-copyright-info">本博客所有文章除特别声明外，均采用 <a href="https://creativecommons.org/licenses/by-nc-sa/4.0/" target="_blank">CC BY-NC-SA 4.0</a> 许可协议。转载请注明来源 <a href="https://www.th-dedsec.top" target="_blank">Dedsec的博客</a>！</span></div></div><div class="tag_share"><div class="post-meta__tag-list"><a class="post-meta__tags" href="/tags/docker/">docker</a></div><div class="post-share"><div class="social-share" data-image="https://img.th-dedsec.top/img/gbc1.jpg" data-sites="facebook,twitter,wechat,weibo,qq"></div><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/css/share.min.css" media="print" onload="this.media='all'"><script src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/sharejs/dist/js/social-share.min.js" defer></script></div></div><nav class="pagination-post" id="pagination"><a class="pagination-related" href="/2025/12/24/2025%E5%BC%BA%E7%BD%91%E6%9D%AFweb/" title="2025强网杯web"><img class="cover" src="https://img.th-dedsec.top/img/cp1.png" onerror="onerror=null;src='/img/404.jpg'" alt="cover of previous post"><div class="info"><div class="info-1"><div class="info-item-1">上一篇</div><div class="info-item-2">2025强网杯web</div></div><div class="info-2"><div class="info-item-1">SecretVault基础知识补充 了解SQLAlchemy库的一个关键用法:db.relationship  比如以下题目代码: 1234567891011121314151617181920212223242526db = SQLAlchemy()#这是进行了继承吗,是的进行了继承。class User(db.Model):#定义模型，每个模型类代表数据库中的一张表。    &quot;&quot;&quot;类里面的变量都叫元素&quot;&quot;&quot;    id = db.Column(db.Integer, primary_key=True)    username = db.Column(db.String(80), unique=True, nullable=False)    password_hash = db.Column(db.String(128), nullable=False)#盐和密码    salt = db.Column(db.String(64), nullable=False)    created_at =...</div></div></div></a><a class="pagination-related" href="/2025/12/23/docker%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="docker使用指南"><img class="cover" src="https://img.th-dedsec.top/img/gbc4.jpg" onerror="onerror=null;src='/img/404.jpg'" alt="cover of next post"><div class="info text-right"><div class="info-1"><div class="info-item-1">下一篇</div><div class="info-item-2">docker使用指南</div></div><div class="info-2"><div class="info-item-1">换源 首先打开数据源网址所在JSON文件: 1cat /etc/docker/daemon.json  这里以kail Linux系统为例  修改其中源为: 1234567&#123;  &quot;registry-mirrors&quot;:     [    &quot;https://registry.docker-cn.com&quot;,     &quot;https://docker.mirrors.ustc.edu.cn&quot;    ]&#125;  之后保存，重启并检测docker是否在运行：重启: 1systemctl restart docker  检测: 1systemctl status docker  启动 Docker（开机未启动时）： 1systemctl start docker  设置 Docker 开机自启： 1systemctl enable docker  </div></div></div></a></nav><div class="relatedPosts"><div class="headline"><i class="fas fa-thumbs-up fa-fw"></i><span>相关推荐</span></div><div class="relatedPosts-list"><a class="pagination-related" href="/2025/12/23/docker%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="docker使用指南"><img class="cover" src="https://img.th-dedsec.top/img/gbc4.jpg" alt="cover"><div class="info text-center"><div class="info-1"><div class="info-item-1"><i class="far fa-calendar-alt fa-fw"></i> 2025-12-23</div><div class="info-item-2">docker使用指南</div></div><div class="info-2"><div class="info-item-1">换源 首先打开数据源网址所在JSON文件: 1cat /etc/docker/daemon.json  这里以kail Linux系统为例  修改其中源为: 1234567&#123;  &quot;registry-mirrors&quot;:     [    &quot;https://registry.docker-cn.com&quot;,     &quot;https://docker.mirrors.ustc.edu.cn&quot;    ]&#125;  之后保存，重启并检测docker是否在运行：重启: 1systemctl restart docker  检测: 1systemctl status docker  启动 Docker（开机未启动时）： 1systemctl start docker  设置 Docker 开机自启： 1systemctl enable docker  </div></div></div></a></div></div></div><div class="aside-content" id="aside-content"><div class="card-widget card-info text-center"><div class="avatar-img"><img src="/img/php.JPG" onerror="this.onerror=null;this.src='/img/friend_404.gif'" alt="avatar"/></div><div class="author-info-name">Dedsec</div><div class="author-info-description">车万木柜子的日常。成分:车万,网安人,音乐爱好者</div><div class="site-data"><a href="/archives/"><div class="headline">文章</div><div class="length-num">105</div></a><a href="/tags/"><div class="headline">标签</div><div class="length-num">75</div></a><a href="/categories/"><div class="headline">分类</div><div class="length-num">17</div></a></div><a id="card-info-btn" target="_blank" rel="noopener" href="https://github.com/u511"><i class="fab fa-github"></i><span>github仓库</span></a><div class="card-info-social-icons"><a class="social-icon" href="https://github.com/du511" target="_blank" title="Github"><i class="fab fa-github" style="color: #24292e;"></i></a><a class="social-icon" href="mailto:2665790854@qq.com" target="_blank" title="Email"><i class="fas fa-envelope" style="color: #4a7dbe;"></i></a></div></div><div class="card-widget card-announcement"><div class="item-headline"><i class="fas fa-bullhorn fa-shake"></i><span>公告</span></div><div class="announcement_content">苦逼学习web中。温馨提示,放大页面背景更自然(</div></div><div class="sticky_layout"><div class="card-widget" id="card-toc"><div class="item-headline"><i class="fas fa-stream"></i><span>目录</span><span class="toc-percentage"></span></div><div class="toc-content"><ol class="toc"><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%BC%95%E8%A8%80"><span class="toc-number">1.</span> <span class="toc-text">引言</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E6%A0%A1%E9%AA%8C%E6%96%87%E4%BB%B6%E5%AE%8C%E6%95%B4%E6%80%A7"><span class="toc-number">2.</span> <span class="toc-text">校验文件完整性</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E4%B8%8B%E8%BD%BDHashMyfiles%E8%BD%AF%E4%BB%B6"><span class="toc-number">2.1.</span> <span class="toc-text">下载HashMyfiles软件</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E8%8E%B7%E5%8F%96docker%E7%8E%AF%E5%A2%83"><span class="toc-number">3.</span> <span class="toc-text">获取docker环境</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%87%86%E5%A4%87%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="toc-number">3.1.</span> <span class="toc-text">准备虚拟机</span></a></li></ol></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E5%B8%83%E7%BD%AE%E7%8E%AF%E5%A2%83"><span class="toc-number">4.</span> <span class="toc-text">布置环境</span></a></li><li class="toc-item toc-level-1"><a class="toc-link" href="#%E4%B8%AA%E4%BA%BA%E9%81%87%E5%88%B0%E7%9A%84%E4%B8%80%E4%BA%9B%E9%97%AE%E9%A2%98%E6%B1%87%E6%80%BB-chatgpt%E6%80%BB%E7%BB%93"><span class="toc-number">5.</span> <span class="toc-text">个人遇到的一些问题汇总(chatgpt总结)</span></a><ol class="toc-child"><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8EVPN%E5%AE%BF%E4%B8%BB%E6%9C%BA%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E9%80%9A%E7%94%A8"><span class="toc-number">5.1.</span> <span class="toc-text">关于VPN宿主机和虚拟机的通用</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link"><span class="toc-number">5.1.0.1.</span> <span class="toc-text"></span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E5%85%B3%E4%BA%8Edocker-compose-build"><span class="toc-number">5.2.</span> <span class="toc-text">关于docker compose build</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%BA%E4%BB%80%E4%B9%88-docker-pull-%E8%83%BD%E6%88%90%E5%8A%9F%EF%BC%8C%E4%BD%86-compose-build-%E4%B8%8D%E8%A1%8C"><span class="toc-number">5.2.1.</span> <span class="toc-text">为什么 docker pull 能成功，但 compose build 不行</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%9C%80%E7%BB%88%E6%80%8E%E4%B9%88%E8%A7%A3%E5%86%B3%EF%BC%88%E5%85%B3%E9%94%AE%E4%B8%80%E6%AD%A5%EF%BC%89"><span class="toc-number">5.2.2.</span> <span class="toc-text">最终怎么解决（关键一步）</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%8E%9F%E7%90%86"><span class="toc-number">5.2.3.</span> <span class="toc-text">原理</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E6%A0%B8%E5%BF%83%E6%80%BB%E7%BB%93%EF%BC%88%E8%AE%B0%E4%BD%8F%E8%BF%99-3-%E5%8F%A5%E8%AF%9D%E5%B0%B1%E5%A4%9F%EF%BC%89"><span class="toc-number">5.2.4.</span> <span class="toc-text">核心总结（记住这 3 句话就够）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#%E6%8E%92%E6%9F%A5%E6%96%B9%E6%B3%95"><span class="toc-number">5.3.</span> <span class="toc-text">排查方法</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#%E5%BF%AB%E9%80%9F%E5%86%B3%E7%AD%96%E6%A0%91"><span class="toc-number">5.3.1.</span> <span class="toc-text">快速决策树</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%80%E3%80%81%E6%B5%8B%E8%AF%95-pull-%E8%83%BD%E4%B8%8D%E8%83%BD%E6%88%90%E5%8A%9F%EF%BC%88%E5%8F%AA%E6%B5%8B%E6%8B%89%E9%95%9C%E5%83%8F%EF%BC%89"><span class="toc-number">5.3.2.</span> <span class="toc-text">一、测试 pull 能不能成功（只测拉镜像）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#1%EF%B8%8F%E2%83%A3-%E6%9C%80%E5%B0%8F%E7%BD%91%E7%BB%9C-Registry-%E6%B5%8B%E8%AF%95%EF%BC%88%E4%B8%8D%E6%8B%89%E5%A4%A7%E9%95%9C%E5%83%8F%EF%BC%89"><span class="toc-number">5.3.2.1.</span> <span class="toc-text">1️⃣ 最小网络&#x2F;Registry 测试（不拉大镜像）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2%EF%B8%8F%E2%83%A3-%E6%B5%8B%E8%AF%95%E5%85%B7%E4%BD%93%E5%9F%BA%E7%A1%80%E9%95%9C%E5%83%8F%EF%BC%88%E4%B8%8E%E4%BD%A0-build-%E7%94%A8%E7%9A%84%E4%B8%80%E8%87%B4%EF%BC%89"><span class="toc-number">5.3.2.2.</span> <span class="toc-text">2️⃣ 测试具体基础镜像（与你 build 用的一致）</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3%EF%B8%8F%E2%83%A3-%E5%8F%AA%E6%B5%8B%E8%AF%95-Registry-API-%E6%98%AF%E5%90%A6%E5%8F%AF%E8%BE%BE%EF%BC%88%E5%88%A4%E2%80%9C%E6%98%AF%E4%B8%8D%E6%98%AF%E6%B2%A1%E7%BD%91%E2%80%9D%EF%BC%89"><span class="toc-number">5.3.2.3.</span> <span class="toc-text">3️⃣ 只测试 Registry API 是否可达（判“是不是没网”）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%BA%8C%E3%80%81%E6%B5%8B%E8%AF%95-build-%E8%83%BD%E4%B8%8D%E8%83%BD%E6%88%90%E5%8A%9F%EF%BC%88BuildKit-%E8%B7%AF%E5%BE%84%EF%BC%89"><span class="toc-number">5.3.3.</span> <span class="toc-text">二、测试 build 能不能成功（BuildKit 路径）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#4%EF%B8%8F%E2%83%A3-%E9%BB%98%E8%AE%A4-build%EF%BC%88%E4%BD%BF%E7%94%A8-BuildKit%EF%BC%89"><span class="toc-number">5.3.3.1.</span> <span class="toc-text">4️⃣ 默认 build（使用 BuildKit）</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#%E4%B8%89%E3%80%81%E6%B5%8B%E8%AF%95-build%EF%BC%88classic-builder%EF%BC%8C%E5%AF%B9%E7%85%A7%E7%94%A8%EF%BC%89"><span class="toc-number">5.3.4.</span> <span class="toc-text">三、测试 build（classic builder，对照用）</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#5%EF%B8%8F%E2%83%A3-%E5%85%B3%E9%97%AD-BuildKit-%E5%86%8D-build%EF%BC%88%E5%85%B3%E9%94%AE%E5%AF%B9%E7%85%A7%EF%BC%89"><span class="toc-number">5.3.4.1.</span> <span class="toc-text">5️⃣ 关闭 BuildKit 再 build（关键对照）</span></a></li></ol></li></ol></li></ol></li></ol></div></div><div class="card-widget card-recent-post"><div class="item-headline"><i class="fas fa-history"></i><span>最新文章</span></div><div class="aside-list"><div class="aside-list-item"><a class="thumbnail" href="/2025/12/24/2025%E5%BC%BA%E7%BD%91%E6%9D%AFweb/" title="2025强网杯web"><img src="https://img.th-dedsec.top/img/cp1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="2025强网杯web"/></a><div class="content"><a class="title" href="/2025/12/24/2025%E5%BC%BA%E7%BD%91%E6%9D%AFweb/" title="2025强网杯web">2025强网杯web</a><time datetime="2025-12-24T07:27:42.000Z" title="发表于 2025-12-24 15:27:42">2025-12-24</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/" title="记录首次搭建靶场"><img src="https://img.th-dedsec.top/img/gbc1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="记录首次搭建靶场"/></a><div class="content"><a class="title" href="/2025/12/23/%E8%AE%B0%E5%BD%95%E9%A6%96%E6%AC%A1%E6%90%AD%E5%BB%BA%E9%9D%B6%E5%9C%BA/" title="记录首次搭建靶场">记录首次搭建靶场</a><time datetime="2025-12-23T07:31:10.000Z" title="发表于 2025-12-23 15:31:10">2025-12-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/12/23/docker%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="docker使用指南"><img src="https://img.th-dedsec.top/img/gbc4.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="docker使用指南"/></a><div class="content"><a class="title" href="/2025/12/23/docker%E4%BD%BF%E7%94%A8%E6%8C%87%E5%8D%97/" title="docker使用指南">docker使用指南</a><time datetime="2025-12-23T02:23:21.000Z" title="发表于 2025-12-23 10:23:21">2025-12-23</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/14/python%E5%BE%AA%E7%8E%AF/" title="python循环"><img src="https://img.th-dedsec.top/img/cp1.png" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="python循环"/></a><div class="content"><a class="title" href="/2025/11/14/python%E5%BE%AA%E7%8E%AF/" title="python循环">python循环</a><time datetime="2025-11-14T06:54:23.000Z" title="发表于 2025-11-14 14:54:23">2025-11-14</time></div></div><div class="aside-list-item"><a class="thumbnail" href="/2025/11/13/2024%E6%9C%80%E5%90%8E%E4%B8%80%E6%88%98-const-python/" title="dasctf 2024最后一战:const_python"><img src="https://img.th-dedsec.top/img/mygo1.jpg" onerror="this.onerror=null;this.src='/img/404.jpg'" alt="dasctf 2024最后一战:const_python"/></a><div class="content"><a class="title" href="/2025/11/13/2024%E6%9C%80%E5%90%8E%E4%B8%80%E6%88%98-const-python/" title="dasctf 2024最后一战:const_python">dasctf 2024最后一战:const_python</a><time datetime="2025-11-13T11:25:56.000Z" title="发表于 2025-11-13 19:25:56">2025-11-13</time></div></div></div></div></div></div></main><footer id="footer" style="background-image: url(true - https://img.th-dedsec.top/background/footer.jpg);"><div id="footer-wrap"><div class="copyright">&copy;2024 - 2025 By Dedsec</div><div class="footer_custom_text">I wish everyone can have a goal to chase !</div></div></footer></div><div id="rightside"><div id="rightside-config-hide"><button id="readmode" type="button" title="阅读模式"><i class="fas fa-book-open"></i></button><button id="darkmode" type="button" title="日间和夜间模式切换"><i class="fas fa-adjust"></i></button><button id="hide-aside-btn" type="button" title="单栏和双栏切换"><i class="fas fa-arrows-alt-h"></i></button></div><div id="rightside-config-show"><button id="rightside-config" type="button" title="设置"><i class="fas fa-cog fa-spin"></i></button><button class="close" id="mobile-toc-button" type="button" title="目录"><i class="fas fa-list-ul"></i></button><button id="go-up" type="button" title="回到顶部"><span class="scroll-percent"></span><i class="fas fa-arrow-up"></i></button></div></div><div><script src="/js/utils.js"></script><script src="/js/main.js"></script><div class="js-pjax"></div><canvas id="universe"></canvas><script defer src="/js/universe.js"></script><script defer src="https://npm.elemecdn.com/jquery@latest/dist/jquery.min.js"></script><script defer data-pjax src="/js/cat.js"></script><script defer="defer" id="fluttering_ribbon" mobile="false" src="https://cdn.jsdelivr.net/npm/butterfly-extsrc/dist/canvas-fluttering-ribbon.min.js"></script><script async data-pjax src="//busuanzi.ibruce.info/busuanzi/2.3/busuanzi.pure.mini.js"></script></div><!-- hexo injector body_end start --><script data-pjax>
+    function butterfly_categories_card_injector_config(){
+      var parent_div_git = document.getElementById('recent-posts');
+      var item_html = '<style>li.categoryBar-list-item{width:32.3%;}.categoryBar-list{max-height: 190px;overflow:auto;}.categoryBar-list::-webkit-scrollbar{width:0!important}@media screen and (max-width: 650px){.categoryBar-list{max-height: 160px;}}</style><div class="recent-post-item" style="height:auto;width:100%;padding:0px;"><div id="categoryBar"><ul class="categoryBar-list"><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover1.webp);"> <a class="categoryBar-list-link" href="categories/buuctf/">buuctf</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr">Linux</span></li><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover2.webp);"> <a class="categoryBar-list-link" href="categories/取证/">取证</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">php语言</span></li><li class="categoryBar-list-item" style="background:url(https://assets.akilar.top/image/cover6.webp);"> <a class="categoryBar-list-link" href="categories/ctfshow/">ctfshow</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr">web安全</span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/Linux/">Linux</a><span class="categoryBar-list-count">4</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/ai/">ai</a><span class="categoryBar-list-count">14</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/ctfshow-web/">ctfshow web</a><span class="categoryBar-list-count">17</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/个人安排/">个人安排</a><span class="categoryBar-list-count">5</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/工具使用/">工具使用</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/c语言/">c语言</a><span class="categoryBar-list-count">6</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/python/">python</a><span class="categoryBar-list-count">17</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/php/">php</a><span class="categoryBar-list-count">9</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/javascript/">javascript</a><span class="categoryBar-list-count">3</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/计算机基础/">计算机基础</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/竞赛/">竞赛</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/web安全/">web安全</a><span class="categoryBar-list-count">2</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/密码学/">密码学</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr"></span></li><li class="categoryBar-list-item" style="background:url(undefined);"> <a class="categoryBar-list-link" href="categories/汇编语言/">汇编语言</a><span class="categoryBar-list-count">1</span><span class="categoryBar-list-descr"></span></li></ul></div></div>';
+      console.log('已挂载butterfly_categories_card')
+      parent_div_git.insertAdjacentHTML("afterbegin",item_html)
+      }
+    if( document.getElementById('recent-posts') && (location.pathname ==='/'|| '/' ==='all')){
+    butterfly_categories_card_injector_config()
+    }
+  </script><!-- hexo injector body_end end --></body></html>
